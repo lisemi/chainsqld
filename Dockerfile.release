@@ -1,0 +1,23 @@
+# ChainSQL 
+
+# Use the alpine baseimage
+FROM alpine:3.7
+MAINTAINER HenryLu <luxiaoming@peersafe.cn>
+
+# install the dependencies
+#RUN apk add build-base
+
+WORKDIR /opt/chainsql
+
+COPY ./deps/ld-musl-x86_64.so.1 /lib/
+COPY ./deps/libz.so.1.2.11 /lib/
+COPY ./deps/libgcc_s.so.1 /usr/lib/
+
+RUN ln -sf /lib/libz.so.1.2.11 /lib/libz.so.1
+
+COPY ./deps/chainsqld ./
+COPY ./doc/chainsqld-example.cfg chainsqld.cfg
+
+# launch chainsqld when launching the container
+ENTRYPOINT ./chainsqld
+#ENTRYPOINT sleep 1000

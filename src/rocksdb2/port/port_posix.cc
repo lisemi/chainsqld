@@ -29,7 +29,7 @@ static int PthreadCall(const char* label, int result) {
 }
 
 Mutex::Mutex(bool adaptive) {
-#ifdef OS_LINUX
+#ifdef ROCKSDB_PTHREAD_ADAPTIVE_MUTEX
   if (!adaptive) {
     PthreadCall("init mutex", pthread_mutex_init(&mu_, nullptr));
   } else {

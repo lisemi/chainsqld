@@ -114,7 +114,7 @@
  #include <sys/ioctl.h>
 
  #if ! BEAST_ANDROID && ! BEAST_BSD
-  #include <execinfo.h>
+  //#include <execinfo.h>
  #endif
 #endif
 

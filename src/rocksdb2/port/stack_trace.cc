@@ -8,7 +8,7 @@
 namespace rocksdb {
 namespace port {
 
-#if defined(ROCKSDB_LITE) || !(defined(OS_LINUX) || defined(OS_MACOSX))
+#if defined(ROCKSDB_LITE) || !(defined(ROCKSDB_BACKTRACE) || defined(OS_MACOSX))
 
 // noop
 

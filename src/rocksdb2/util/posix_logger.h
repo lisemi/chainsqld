@@ -14,7 +14,6 @@
 #include <algorithm>
 #include <stdio.h>
 #include <sys/time.h>
-#include <time.h>
 #include <fcntl.h>
 #include <unistd.h>
 #ifdef OS_LINUX

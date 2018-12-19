@@ -25,7 +25,6 @@
 #endif
 #include <sys/time.h>
 #include <sys/types.h>
-#include <time.h>
 #include <unistd.h>
 #if defined(OS_LINUX)
 #include <linux/fs.h>

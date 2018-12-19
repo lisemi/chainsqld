@@ -31,6 +31,8 @@
 #include <sys/endian.h>
 #elif defined(__OpenBSD__)
 #include <sys/types.h>
+#else
+#include <endian.h>
 #endif
 #include <cstdint>
 

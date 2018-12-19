@@ -582,13 +582,11 @@ def config_env(toolchain, variant, env):
         env.Append(CCFLAGS=[
             '-Wno-sign-compare',
             '-Wno-char-subscripts',
-            '-Wno-format',
-            '-g'                        # generate debug symbols
+            '-Wno-format'
             ])
 
         env.Append(LINKFLAGS=[
-            '-rdynamic',
-            '-g',
+            '-rdynamic'
             ])
 
         if variant == 'profile':
@@ -667,15 +665,15 @@ def config_env(toolchain, variant, env):
         boost_libs = [
             # resist the temptation to alphabetize these. coroutine
             # must come before context.
-            'boost_chrono',
-            'boost_coroutine',
-            'boost_context',
-            'boost_date_time',
-            'boost_filesystem',
-            'boost_program_options',
-            'boost_regex',
-            'boost_system',
-            'boost_thread'
+            'boost_chrono-mt',
+            'boost_coroutine-mt',
+            'boost_context-mt',
+            'boost_date_time-mt',
+            'boost_filesystem-mt',
+            'boost_program_options-mt',
+            'boost_regex-mt',
+            'boost_system-mt',
+            'boost_thread-mt'
         ]
         if Beast.system.osx:
             boost_libs = [

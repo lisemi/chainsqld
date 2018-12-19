@@ -1,0 +1,18 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '2'
+services:
+  peer-base:
+    image: peersafes/chainsql:v0.20.4
+    working_dir: /opt/chainsql
+    command: /opt/chainsql/chainsqld
+    ports:
+      - 5006:5006
+      - 5126:5126
+      - 6006:6006
+#    volumes: 
+#      - ./data/db:/opt/chainsql/db
+#      - ./data/NuDB:/opt/chainsql/NuDB

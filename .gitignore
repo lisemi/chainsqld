@@ -96,6 +96,8 @@ Builds/VisualStudio2015/*.user
 Builds/VisualStudio2015/*.opendb
 Builds/VisualStudio2015/*.sdf
 
+deps/
+
 # ignore
 third_party/
 deps*/
