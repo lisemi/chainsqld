@@ -10,32 +10,32 @@ MAINTAINER HenryLu <luxiaoming@peersafe.cn>
 
 # install the dependencies
 RUN apk add build-base  \
+			protobuf  \
 			protobuf-dev  \
 			boost-dev  \
-			llvm5-dev  \
-			llvm5-static  \
-			clang  \
-			cmake  \
+			scons  \
 			mariadb-dev  \
 			libressl-dev
+
 
 #ENV CC /usr/bin/gcc
 #ENV CXX /usr/bin/g++ 
 
+#RUN mkdir -p /opt/chainsql
 WORKDIR /opt/chainsql
 
 COPY ./src ./src
-COPY ./Builds/CMake ./Builds/CMake
+COPY ./SConstruct ./
 COPY ./doc/chainsqld-example.cfg chainsqld.cfg
 COPY ./mysqlclient.pc /usr/lib/pkgconfig/
-COPY ./CMakeLists.txt CMakeLists.txt
-COPY ./LLVMConfig.cmake /usr/lib/cmake/llvm5/LLVMConfig.cmake
 
-RUN cd Builds; cmake -Dtarget=clang.release.unity -DLLVM_DIR=/usr/lib/cmake/llvm5 ../; make chainsqld -j2
+#RUN ls -l chainsql
+# compile
+RUN scons --static --enable-mysql
 
 # move to root directory and strip
-RUN cp ./build/clang.release.unity/chainsqld chainsqld
-RUN strip chainsqld
+#RUN cp build/chainsqld chainsqld; strip chainsqld
+RUN cp ./build/chainsqld chainsqld
 
 RUN ldd chainsqld
 
