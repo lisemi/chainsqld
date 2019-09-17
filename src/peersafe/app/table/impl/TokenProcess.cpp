@@ -11,6 +11,7 @@ namespace ripple {
 	}
 	bool TokenProcess::setSymmertryKey(const Blob& cipherBlob, const SecretKey& secret_key)
 	{
+		DebugPrint("In setSymmertryKey");
 		HardEncrypt* hEObj = HardEncryptObj::getInstance();
 		if (nullptr == hEObj)
 		{
