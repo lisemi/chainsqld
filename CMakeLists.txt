@@ -163,7 +163,7 @@ use_boost(
   # must come before context.
   chrono
   coroutine
-  context
+  #context
   date_time
   filesystem
   program_options
@@ -177,7 +177,7 @@ use_openssl(${openssl_min})
 
 use_protobuf()
 
-use_mysql()
+#use_mysql()
 
 setup_build_boilerplate()
 
@@ -299,7 +299,7 @@ add_with_props(chainsqld_src_nonunity "${core_srcs}"
 
 set(non_unity_srcs ${core_srcs})
 
-add_subdirectory(src/evmjit)
+#add_subdirectory(src/evmjit)
 
 foreach(curdir
         beast/clock
