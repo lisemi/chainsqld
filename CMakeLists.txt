@@ -163,7 +163,7 @@ use_boost(
   # must come before context.
   chrono
   coroutine
-  #context
+  context
   date_time
   filesystem
   program_options
