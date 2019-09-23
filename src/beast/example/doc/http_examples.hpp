@@ -1,11 +1,13 @@
 //
-// Copyright (c) 2013-2017 Vinnie Falco (vinnie dot falco at gmail dot com)
+// Copyright (c) 2016-2017 Vinnie Falco (vinnie dot falco at gmail dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
+// Official repository: https://github.com/boostorg/beast
+//
 
-#include <beast.hpp>
+#include <boost/beast.hpp>
 #include <iostream>
 
 /*  This file contains the functions and classes found in the documentation
@@ -15,7 +17,8 @@
     building a network application.
 */
 
-// The documentation assumes the beast::http namespace
+// The documentation assumes the boost::beast::http namespace
+namespace boost {
 namespace beast {
 namespace http {
 
@@ -59,7 +62,8 @@ send_expect_100_continue(
     static_assert(is_sync_stream<SyncStream>::value,
         "SyncStream requirements not met");
 
-    static_assert(is_dynamic_buffer<DynamicBuffer>::value,
+    static_assert(
+        boost::asio::is_dynamic_buffer<DynamicBuffer>::value,
         "DynamicBuffer requirements not met");
 
     // Insert or replace the Expect field
@@ -120,7 +124,8 @@ receive_expect_100_continue(
     static_assert(is_sync_stream<SyncStream>::value,
         "SyncStream requirements not met");
 
-    static_assert(is_dynamic_buffer<DynamicBuffer>::value,
+    static_assert(
+        boost::asio::is_dynamic_buffer<DynamicBuffer>::value,
         "DynamicBuffer requirements not met");
 
     // Declare a parser for a request with a string body
@@ -136,7 +141,7 @@ receive_expect_100_continue(
     {
         // send 100 response
         response<empty_body> res;
-        res.version = 11;
+        res.version(11);
         res.result(status::continue_);
         res.set(field::server, "test");
         write(stream, res, ec);
@@ -146,11 +151,7 @@ receive_expect_100_continue(
 
     // Read the rest of the message.
     //
-    // We use parser.base() to return a basic_parser&, to avoid an
-    // ambiguous function error (from boost::asio::read). Another
-    // solution is to qualify the call, e.g. `beast::http::read`
-    //
-    read(stream, buffer, parser.base(), ec);
+    read(stream, buffer, parser, ec);
 }
 
 //]
@@ -191,15 +192,12 @@ send_cgi_response(
     static_assert(is_sync_write_stream<SyncWriteStream>::value,
         "SyncWriteStream requirements not met");
 
-    using boost::asio::buffer_cast;
-    using boost::asio::buffer_size;
-
     // Set up the response. We use the buffer_body type,
     // allowing serialization to use manually provided buffers.
     response<buffer_body> res;
 
     res.result(status::ok);
-    res.version = 11;
+    res.version(11);
     res.set(field::server, "Beast");
     res.set(field::transfer_encoding, "chunked");
 
@@ -207,8 +205,8 @@ send_cgi_response(
     // that it might be coming later. Otherwise the
     // serializer::is_done would return true right after
     // sending the header.
-    res.body.data = nullptr;
-    res.body.more = true;
+    res.body().data = nullptr;
+    res.body().more = true;
 
     // Create the serializer.
     response_serializer<buffer_body, fields> sr{res};
@@ -232,10 +230,10 @@ send_cgi_response(
             ec = {};
 
             // `nullptr` indicates there is no buffer
-            res.body.data = nullptr;
+            res.body().data = nullptr;
 
             // `false` means no more data is coming
-            res.body.more = false;
+            res.body().more = false;
         }
         else
         {
@@ -245,9 +243,9 @@ send_cgi_response(
             // Point to our buffer with the bytes that
             // we received, and indicate that there may
             // be some more data coming
-            res.body.data = buffer;
-            res.body.size = bytes_transferred;
-            res.body.more = true;
+            res.body().data = buffer;
+            res.body().size = bytes_transferred;
+            res.body().more = true;
         }
             
         // Write everything in the body buffer
@@ -290,8 +288,9 @@ void do_server_head(
 {
     static_assert(is_sync_stream<SyncStream>::value,
         "SyncStream requirements not met");
-    static_assert(is_dynamic_buffer<DynamicBuffer>::value,
-        "DynamicBuffer requirments not met");
+    static_assert(
+        boost::asio::is_dynamic_buffer<DynamicBuffer>::value,
+        "DynamicBuffer requirements not met");
 
     // We deliver this payload for all GET requests
     static std::string const payload = "Hello, world!";
@@ -304,7 +303,7 @@ void do_server_head(
 
     // Set up the response, starting with the common fields
     response<string_body> res;
-    res.version = 11;
+    res.version(11);
     res.set(field::server, "test");
 
     // Now handle request-specific fields
@@ -325,7 +324,7 @@ void do_server_head(
             // We deliver the same payload for GET requests
             // regardless of the target. A real server might
             // deliver a file based on the target.
-            res.body = payload;
+            res.body() = payload;
         }
         break;
     }
@@ -336,7 +335,7 @@ void do_server_head(
         // we do not recognize the request method.
         res.result(status::bad_request);
         res.set(field::content_type, "text/plain");
-        res.body = "Invalid request-method '" + req.method_string().to_string() + "'";
+        res.body() = "Invalid request-method '" + std::string(req.method_string()) + "'";
         res.prepare_payload();
         break;
     }
@@ -383,8 +382,9 @@ do_head_request(
     // Do some type checking to be a good citizen
     static_assert(is_sync_stream<SyncStream>::value,
         "SyncStream requirements not met");
-    static_assert(is_dynamic_buffer<DynamicBuffer>::value,
-        "DynamicBuffer requirments not met");
+    static_assert(
+        boost::asio::is_dynamic_buffer<DynamicBuffer>::value,
+        "DynamicBuffer requirements not met");
 
     // The interfaces we are using are low level and do not
     // perform any checking of arguments; so we do it here.
@@ -393,7 +393,7 @@ do_head_request(
 
     // Build the HEAD request for the target
     request<empty_body> req;
-    req.version = 11;
+    req.version(11);
     req.method(verb::head);
     req.target(target);
     req.set(field::user_agent, "test");
@@ -408,11 +408,18 @@ do_head_request(
         return {};
 
     // Create a parser to read the response.
-    // Responses to HEAD requests MUST NOT include
-    // a body, so we use the `empty_body` type and
-    // only attempt to read the header.
-    parser<false, empty_body> p;
-    read_header(stream, buffer, p, ec);
+    // We use the `empty_body` type since
+    // a response to a HEAD request MUST NOT
+    // include a body.
+    response_parser<empty_body> p;
+
+    // Inform the parser that there will be no body.
+    p.skip(true);
+
+    // Read the message. Even though fields like
+    // Content-Length or Transfer-Encoding may be
+    // set, the message will not contain a body.
+    read(stream, buffer, p, ec);
     if(ec)
         return {};
 
@@ -494,7 +501,7 @@ relay(
     if(ec)
         return;
 
-    // Apply the caller's header tranformation
+    // Apply the caller's header transformation
     transform(p.get(), ec);
     if(ec)
         return;
@@ -510,8 +517,8 @@ relay(
         if(! p.is_done())
         {
             // Set up the body for writing into our small buffer
-            p.get().body.data = buf;
-            p.get().body.size = sizeof(buf);
+            p.get().body().data = buf;
+            p.get().body().size = sizeof(buf);
 
             // Read as much as we can
             read(input, buffer, p, ec);
@@ -524,14 +531,14 @@ relay(
 
             // Set up the body for reading.
             // This is how much was parsed:
-            p.get().body.size = sizeof(buf) - p.get().body.size;
-            p.get().body.data = buf;
-            p.get().body.more = ! p.is_done();
+            p.get().body().size = sizeof(buf) - p.get().body().size;
+            p.get().body().data = buf;
+            p.get().body().more = ! p.is_done();
         }
         else
         {
-            p.get().body.data = nullptr;
-            p.get().body.size = 0;
+            p.get().body().data = nullptr;
+            p.get().body().size = 0;
         }
 
         // Write everything in the buffer (which might be empty)
@@ -579,10 +586,6 @@ public:
     void
     operator()(error_code& ec, ConstBufferSequence const& buffers) const
     {
-        // These asio functions are needed to access a buffer's contents
-        using boost::asio::buffer_cast;
-        using boost::asio::buffer_size;
-
         // Error codes must be cleared on success
         ec = {};
 
@@ -590,15 +593,16 @@ public:
         std::size_t bytes_transferred = 0;
 
         // Loop over the buffer sequence
-        for(auto it = buffers.begin(); it != buffers.end(); ++ it)
+        for(auto it = boost::asio::buffer_sequence_begin(buffers);
+            it != boost::asio::buffer_sequence_end(buffers); ++it)
         {
             // This is the next buffer in the sequence
             boost::asio::const_buffer const buffer = *it;
 
             // Write it to the std::ostream
             os_.write(
-                buffer_cast<char const*>(buffer),
-                buffer_size(buffer));
+                reinterpret_cast<char const*>(buffer.data()),
+                buffer.size());
 
             // If the std::ostream fails, convert it to an error code
             if(os_.fail())
@@ -704,13 +708,12 @@ read_istream(
         if(is.rdbuf()->in_avail() > 0)
         {
             // Get a mutable buffer sequence for writing
-            auto const mb = buffer.prepare(
+            auto const b = buffer.prepare(
                 static_cast<std::size_t>(is.rdbuf()->in_avail()));
 
             // Now get everything we can from the istream
             buffer.commit(static_cast<std::size_t>(is.readsome(
-                boost::asio::buffer_cast<char*>(mb),
-                boost::asio::buffer_size(mb))));
+                reinterpret_cast<char*>(b.data()), b.size())));
         }
         else if(buffer.size() == 0)
         {
@@ -719,12 +722,10 @@ read_istream(
             if(! is.eof())
             {
                 // Get a mutable buffer sequence for writing
-                auto const mb = buffer.prepare(1024);
+                auto const b = buffer.prepare(1024);
 
                 // Try to get more from the istream. This might block.
-                is.read(
-                    boost::asio::buffer_cast<char*>(mb),
-                    boost::asio::buffer_size(mb));
+                is.read(reinterpret_cast<char*>(b.data()), b.size());
 
                 // If an error occurs on the istream then return it to the caller.
                 if(is.fail() && ! is.eof())
@@ -775,7 +776,7 @@ read_istream(
 
 //[example_http_defer_body
 
-/** Handle a form PUT request, choosing a body type depending on the Content-Type.
+/** Handle a form POST request, choosing a body type depending on the Content-Type.
 
     This reads a request from the input stream. If the method is POST, and
     the Content-Type is "application/x-www-form-urlencoded  " or
@@ -822,7 +823,7 @@ do_form_request(
         // If this is not a form upload then use a string_body
         if( req0.get()[field::content_type] != "application/x-www-form-urlencoded" &&
             req0.get()[field::content_type] != "multipart/form-data")
-            goto do_string_body;
+            goto do_dynamic_body;
 
         // Commit to string_body as the body type.
         // As long as there are no body octets in the parser
@@ -838,7 +839,7 @@ do_form_request(
         break;
     }
 
-    do_string_body:
+    do_dynamic_body:
     default:
     {
         // Commit to dynamic_body as the body type.
@@ -858,161 +859,6 @@ do_form_request(
 }
 
 //]
-
-
-
-//------------------------------------------------------------------------------
-//
-// Example: Custom Parser
-//
-//------------------------------------------------------------------------------
-
-//[example_http_custom_parser
-
-template<bool isRequest>
-class custom_parser
-    : public basic_parser<isRequest, custom_parser<isRequest>>
-{
-    // The friend declaration is needed,
-    // otherwise the callbacks must be made public.
-    friend class basic_parser<isRequest, custom_parser>;
-
-    /// Called after receiving the request-line (isRequest == true).
-    void
-    on_request(
-        verb method,            // The method verb, verb::unknown if no match
-        string_view method_str, // The method as a string
-        string_view target,     // The request-target
-        int version,            // The HTTP-version
-        error_code& ec);        // The error returned to the caller, if any
-
-    /// Called after receiving the start-line (isRequest == false).
-    void
-    on_response(
-        int code,               // The status-code
-        string_view reason,     // The obsolete reason-phrase
-        int version,            // The HTTP-version
-        error_code& ec);        // The error returned to the caller, if any
-
-    /// Called after receiving a header field.
-    void
-    on_field(
-        field f,                // The known-field enumeration constant
-        string_view name,       // The field name string.
-        string_view value,      // The field value
-        error_code& ec);        // The error returned to the caller, if any
-
-    /// Called after the complete header is received.
-    void
-    on_header(
-        error_code& ec);        // The error returned to the caller, if any
-
-    /// Called just before processing the body, if a body exists.
-    void
-    on_body(boost::optional<
-            std::uint64_t> const&
-        content_length,         // Content length if known, else `boost::none`
-        error_code& ec);        // The error returned to the caller, if any
-
-    /** Called for each piece of the body, if a body exists.
-      
-        If present, the chunked Transfer-Encoding will be removed
-        before this callback is invoked. The function returns
-        the number of bytes consumed from the input buffer.
-        Any input octets not consumed will be will be presented
-        on subsequent calls.
-    */
-    std::size_t
-    on_data(
-        string_view s,          // A portion of the body
-        error_code& ec);        // The error returned to the caller, if any
-
-    /// Called for each chunk header.
-    void
-    on_chunk(
-        std::uint64_t size,     // The size of the upcoming chunk
-        string_view extension,  // The chunk-extension (may be empty)
-        error_code& ec);        // The error returned to the caller, if any
-
-    /// Called when the complete message is parsed.
-    void
-    on_complete(error_code& ec);
-
-public:
-    custom_parser() = default;
-};
-
-//]
-
-// Definitions are not part of the docs but necessary to link
-
-template<bool isRequest>
-void custom_parser<isRequest>::
-on_request(verb method, string_view method_str,
-    string_view path, int version, error_code& ec)
-{
-    boost::ignore_unused(method, method_str, path, version);
-    ec = {};
-}
-
-template<bool isRequest>
-void custom_parser<isRequest>::
-on_response(int status, string_view reason,
-    int version, error_code& ec)
-{
-    boost::ignore_unused(status, reason, version);
-    ec = {};
-}
-
-template<bool isRequest>
-void custom_parser<isRequest>::
-on_field(field f, string_view name,
-    string_view value, error_code& ec)
-{
-    boost::ignore_unused(f, name, value);
-    ec = {};
-}
-
-template<bool isRequest>
-void custom_parser<isRequest>::
-on_header(error_code& ec)
-{
-    ec = {};
-}
-
-template<bool isRequest>
-void custom_parser<isRequest>::
-on_body(boost::optional<std::uint64_t> const& content_length,
-    error_code& ec)
-{
-    boost::ignore_unused(content_length);
-    ec = {};
-}
-
-template<bool isRequest>
-std::size_t custom_parser<isRequest>::
-on_data(string_view s, error_code& ec)
-{
-    boost::ignore_unused(s);
-    ec = {};
-    return s.size();
-}
-
-template<bool isRequest>
-void custom_parser<isRequest>::
-on_chunk(std::uint64_t size,
-    string_view extension, error_code& ec)
-{
-    boost::ignore_unused(size, extension);
-    ec = {};
-}
-
-template<bool isRequest>
-void custom_parser<isRequest>::
-on_complete(error_code& ec)
-{
-    ec = {};
-}
 
 //------------------------------------------------------------------------------
 //
@@ -1043,14 +889,148 @@ read_and_print_body(
     while(! p.is_done())
     {
         char buf[512];
-        p.get().body.data = buf;
-        p.get().body.size = sizeof(buf);
+        p.get().body().data = buf;
+        p.get().body().size = sizeof(buf);
         read(stream, buffer, p, ec);
         if(ec == error::need_buffer)
-            ec.assign(0, ec.category());
+            ec = {};
         if(ec)
             return;
-        os.write(buf, sizeof(buf) - p.get().body.size);
+        os.write(buf, sizeof(buf) - p.get().body().size);
+    }
+}
+
+//]
+
+
+//------------------------------------------------------------------------------
+//
+// Example: Expect 100-continue
+//
+//------------------------------------------------------------------------------
+
+//[example_chunk_parsing
+
+/** Read a message with a chunked body and print the chunks and extensions
+*/
+template<
+    bool isRequest,
+    class SyncReadStream,
+    class DynamicBuffer>
+void
+print_chunked_body(
+    std::ostream& os,
+    SyncReadStream& stream,
+    DynamicBuffer& buffer,
+    error_code& ec)
+{
+    // Declare the parser with an empty body since
+    // we plan on capturing the chunks ourselves.
+    parser<isRequest, empty_body> p;
+
+    // First read the complete header
+    read_header(stream, buffer, p, ec);
+    if(ec)
+        return;
+
+    // This container will hold the extensions for each chunk
+    chunk_extensions ce;
+
+    // This string will hold the body of each chunk
+    std::string chunk;
+
+    // Declare our chunk header callback  This is invoked
+    // after each chunk header and also after the last chunk.
+    auto header_cb =
+    [&](std::uint64_t size,         // Size of the chunk, or zero for the last chunk
+        string_view extensions,     // The raw chunk-extensions string. Already validated.
+        error_code& ev)             // We can set this to indicate an error
+    {
+        // Parse the chunk extensions so we can access them easily
+        ce.parse(extensions, ev);
+        if(ev)
+            return;
+
+        // See if the chunk is too big
+        if(size > (std::numeric_limits<std::size_t>::max)())
+        {
+            ev = error::body_limit;
+            return;
+        }
+
+        // Make sure we have enough storage, and
+        // reset the container for the upcoming chunk
+        chunk.reserve(static_cast<std::size_t>(size));
+        chunk.clear();
+    };
+
+    // Set the callback. The function requires a non-const reference so we
+    // use a local variable, since temporaries can only bind to const refs.
+    p.on_chunk_header(header_cb);
+
+    // Declare the chunk body callback. This is called one or
+    // more times for each piece of a chunk body.
+    auto body_cb =            
+    [&](std::uint64_t remain,   // The number of bytes left in this chunk
+        string_view body,       // A buffer holding chunk body data
+        error_code& ec)         // We can set this to indicate an error
+    {
+        // If this is the last piece of the chunk body,
+        // set the error so that the call to `read` returns
+        // and we can process the chunk.
+        if(remain == body.size())
+            ec = error::end_of_chunk;
+
+        // Append this piece to our container
+        chunk.append(body.data(), body.size());
+
+        // The return value informs the parser of how much of the body we
+        // consumed. We will indicate that we consumed everything passed in.
+        return body.size();
+    };
+    p.on_chunk_body(body_cb);
+
+    while(! p.is_done())
+    {   
+        // Read as much as we can. When we reach the end of the chunk, the chunk
+        // body callback will make the read return with the end_of_chunk error.
+        read(stream, buffer, p, ec);
+        if(! ec)
+            continue;
+        else if(ec != error::end_of_chunk)
+            return;
+        else
+            ec = {};
+
+        // We got a whole chunk, print the extensions:
+        for(auto const& extension : ce)
+        {
+            os << "Extension: " << extension.first;
+            if(! extension.second.empty())
+                os << " = " << extension.second << std::endl;
+            else
+                os << std::endl;
+        }
+
+        // Now print the chunk body
+        os << "Chunk Body: " << chunk << std::endl;
+    }
+
+    // Get a reference to the parsed message, this is for convenience
+    auto const& msg = p.get();
+
+    // Check each field promised in the "Trailer" header and output it
+    for(auto const& name : token_list{msg[field::trailer]})
+    {
+        // Find the trailer field
+        auto it = msg.find(name);
+        if(it == msg.end())
+        {
+            // Oops! They promised the field but failed to deliver it
+            os << "Missing Trailer: " << name << std::endl;
+            continue;
+        }
+        os << it->name() << ": " << it->value() << std::endl;
     }
 }
 
@@ -1058,3 +1038,4 @@ read_and_print_body(
 
 } // http
 } // beast
+} // boost

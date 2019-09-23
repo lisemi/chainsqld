@@ -34,7 +34,7 @@ void terminateHandler()
     if (std::current_exception())
     {
         auto const thName =
-            beast::getCurrentThreadName().value_or("Unknown");
+            boost::beast::getCurrentThreadName().value_or("Unknown");
         try
         {
             throw;

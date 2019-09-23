@@ -28,7 +28,7 @@ namespace ripple {
 
 std::pair<std::vector<SignerEntries::SignerEntry>, TER>
 SignerEntries::deserialize (
-    STObject const& obj, beast::Journal journal, std::string const& annotation)
+    STObject const& obj, boost::beast::Journal journal, std::string const& annotation)
 {
     std::pair<std::vector<SignerEntry>, TER> s;
 

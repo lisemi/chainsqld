@@ -34,6 +34,6 @@ doApplyDirect(PreclaimResult const& preclaimResult,
 	Application& app, ApplyView& view);
 
 TER
-applyDirect(Application& app, ApplyView& view, STTx const& tx, beast::Journal j);
+applyDirect(Application& app, ApplyView& view, STTx const& tx, boost::beast::Journal j);
 }
 #endif

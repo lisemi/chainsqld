@@ -31,7 +31,7 @@ class Transactor;
 class TableStorage
 {
 public:
-    TableStorage(Application& app, Config& cfg, beast::Journal journal);
+    TableStorage(Application& app, Config& cfg, boost::beast::Journal journal);
     virtual ~TableStorage();
 
     std::shared_ptr<TableStorageItem> GetItem(uint160 nameInDB);
@@ -50,7 +50,7 @@ private:
 
 private:
     Application&                                                                app_;
-    beast::Journal                                                              journal_;
+    boost::beast::Journal                                                              journal_;
     Config&                                                                     cfg_;
 
     std::mutex                                                                  mutexMap_;

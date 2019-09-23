@@ -24,6 +24,7 @@
 #include <iterator>
 #include <type_traits>
 
+namespace boost {
 namespace beast {
 
 //------------------------------------------------------------------------------
@@ -289,6 +290,7 @@ private:
     std::atomic <Node*> m_head;
 };
 
+}
 }
 
 #endif

@@ -33,7 +33,7 @@ namespace Resource {
 class ManagerImp : public Manager
 {
 private:
-    beast::Journal journal_;
+    boost::beast::Journal journal_;
     Logic logic_;
     std::thread thread_;
     bool stop_ = false;
@@ -42,7 +42,7 @@ private:
 
 public:
     ManagerImp (beast::insight::Collector::ptr const& collector,
-        beast::Journal journal)
+        boost::beast::Journal journal)
         : journal_ (journal)
         , logic_ (collector, stopwatch(), journal)
     {
@@ -113,7 +113,7 @@ public:
 private:
     void run ()
     {
-        beast::setCurrentThreadName ("Resource::Manager");
+        boost::beast::setCurrentThreadName ("Resource::Manager");
         for(;;)
         {
             logic_.periodicActivity();
@@ -140,7 +140,7 @@ Manager::~Manager ()
 
 std::unique_ptr <Manager> make_Manager (
     beast::insight::Collector::ptr const& collector,
-        beast::Journal journal)
+        boost::beast::Journal journal)
 {
     return std::make_unique <ManagerImp> (collector, journal);
 }

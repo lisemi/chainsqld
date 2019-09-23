@@ -35,7 +35,7 @@ shouldCloseLedger(
     std::chrono::milliseconds openTime,  // Time waiting to close this ledger
     std::chrono::milliseconds idleInterval,
     ConsensusParms const& parms,
-    beast::Journal j)
+    boost::beast::Journal j)
 {
     using namespace std::chrono_literals;
     if ((prevRoundTime < -1s) || (prevRoundTime > 10min) ||
@@ -111,7 +111,7 @@ checkConsensusReached(
     std::size_t total,
     bool count_self,
     std::size_t minConsensusPct,
-	beast::Journal j)
+	boost::beast::Journal j)
 {
     // If we are alone, we have a consensus
     if (total == 0)
@@ -140,7 +140,7 @@ checkConsensus(
     std::chrono::milliseconds currentAgreeTime,
     ConsensusParms const& parms,
     bool proposing,
-    beast::Journal j)
+    boost::beast::Journal j)
 {
     JLOG(j.custom()) << "checkConsensus: prop(currentProposers/prevProposers)=" << currentProposers << "/"
                     << prevProposers << " agree=" << currentAgree

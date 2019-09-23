@@ -26,6 +26,7 @@
 
 #include <boost/asio.hpp>
 
+namespace boost {
 namespace beast {
 namespace IP {
 
@@ -47,7 +48,9 @@ boost::asio::ip::tcp::endpoint to_asio_endpoint (Endpoint const& endpoint);
 
 }
 }
+}
 
+namespace boost {
 namespace beast {
 
 // DEPRECATED
@@ -63,6 +66,7 @@ struct IPAddressConversion
         { return IP::to_asio_endpoint (address); }
 };
 
+}
 }
 
 #endif

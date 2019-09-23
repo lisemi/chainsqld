@@ -161,7 +161,7 @@ class DatabaseCon;
 class ManifestCache
 {
 private:
-    beast::Journal mutable j_;
+    boost::beast::Journal mutable j_;
     std::mutex apply_mutex_;
     std::mutex mutable read_mutex_;
 
@@ -173,7 +173,7 @@ private:
 
 public:
     explicit
-    ManifestCache (beast::Journal j = beast::Journal())
+    ManifestCache (boost::beast::Journal j = boost::beast::Journal())
         : j_ (j)
     {
     };

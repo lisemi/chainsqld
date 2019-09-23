@@ -72,7 +72,7 @@ public:
     void
     run() override
     {
-        beast::Journal j;
+        boost::beast::Journal j;
 
         // Keys when using [validation_seed]
         auto const seedSecretKey =

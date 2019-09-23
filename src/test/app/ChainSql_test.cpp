@@ -29,7 +29,7 @@
 namespace ripple {
 namespace test {
 
-class SuiteSink : public beast::Journal::Sink
+class SuiteSink : public boost::beast::Journal::Sink
     {
         std::string partition_;
         beast::unit_test::suite& suite_;
@@ -87,7 +87,7 @@ class SuiteLogs : public Logs
 
         ~SuiteLogs() override = default;
 
-        std::unique_ptr<beast::Journal::Sink>
+        std::unique_ptr<boost::beast::Journal::Sink>
             makeSink(std::string const& partition,
                 beast::severities::Severity threshold) override
         {

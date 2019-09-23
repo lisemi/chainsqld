@@ -70,10 +70,10 @@ private:
 
     std::set<ClusterNode, Comparator> nodes_;
     std::mutex mutable mutex_;
-    beast::Journal mutable j_;
+    boost::beast::Journal mutable j_;
 
 public:
-    Cluster (beast::Journal j);
+    Cluster (boost::beast::Journal j);
 
     /** Determines whether a node belongs in the cluster
         @return boost::none if the node isn't a member,

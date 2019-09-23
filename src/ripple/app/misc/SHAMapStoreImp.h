@@ -54,7 +54,7 @@ private:
     public:
         soci::session session_;
         std::mutex mutex_;
-        beast::Journal journal_;
+        boost::beast::Journal journal_;
 
         // Just instantiate without any logic in case online delete is not
         // configured
@@ -85,8 +85,8 @@ private:
 
     Setup setup_;
     NodeStore::Scheduler& scheduler_;
-    beast::Journal journal_;
-    beast::Journal nodeStoreJournal_;
+    boost::beast::Journal journal_;
+    boost::beast::Journal nodeStoreJournal_;
     NodeStore::DatabaseRotating* database_ = nullptr;
     SavedStateDB state_db_;
     std::thread thread_;
@@ -114,8 +114,8 @@ public:
             Setup const& setup,
             Stoppable& parent,
             NodeStore::Scheduler& scheduler,
-            beast::Journal journal,
-            beast::Journal nodeStoreJournal,
+            boost::beast::Journal journal,
+            boost::beast::Journal nodeStoreJournal,
             TransactionMaster& transactionMaster,
             BasicConfig const& config);
 

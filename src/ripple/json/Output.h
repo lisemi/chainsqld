@@ -20,7 +20,7 @@
 #ifndef RIPPLE_JSON_OUTPUT_H_INCLUDED
 #define RIPPLE_JSON_OUTPUT_H_INCLUDED
 
-#include <beast/core/string.hpp>
+#include <beast/include/boost/beast/core/string.hpp>
 #include <functional>
 
 namespace Json {

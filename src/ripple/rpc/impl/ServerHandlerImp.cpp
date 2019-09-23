@@ -135,7 +135,7 @@ ServerHandlerImp::~ServerHandlerImp()
 }
 
 void
-ServerHandlerImp::setup (Setup const& setup, beast::Journal journal)
+ServerHandlerImp::setup (Setup const& setup, boost::beast::Journal journal)
 {
     setup_ = setup;
     m_server->ports (setup.ports);

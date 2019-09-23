@@ -37,7 +37,7 @@ format_amount (STAmount const& amount)
 BasicTaker::BasicTaker (
         CrossType cross_type, AccountID const& account, Amounts const& amount,
         Quality const& quality, std::uint32_t flags, Rate const& rate_in,
-        Rate const& rate_out, beast::Journal journal)
+        Rate const& rate_out, boost::beast::Journal journal)
     : account_ (account)
     , quality_ (quality)
     , threshold_ (quality_)
@@ -510,7 +510,7 @@ BasicTaker::do_cross (
 Taker::Taker (CrossType cross_type, ApplyView& view,
     AccountID const& account, Amounts const& offer,
         std::uint32_t flags,
-            beast::Journal journal)
+            boost::beast::Journal journal)
     : BasicTaker (cross_type, account, offer, Quality(offer), flags,
         calculateRate(view, offer.in.getIssuer(), account),
         calculateRate(view, offer.out.getIssuer(), account), journal)

@@ -130,7 +130,7 @@ private:
     {
         testcase ("Genesis Quorum");
 
-        beast::Journal journal;
+        boost::beast::Journal journal;
         ManifestCache manifests;
         jtx::Env env (*this);
         {
@@ -151,7 +151,7 @@ private:
     {
         testcase ("Config Load");
 
-        beast::Journal journal;
+        boost::beast::Journal journal;
         jtx::Env env (*this);
         PublicKey emptyLocalKey;
         std::vector<std::string> emptyCfgKeys;
@@ -354,7 +354,7 @@ private:
     {
         testcase ("Apply list");
 
-        beast::Journal journal;
+        boost::beast::Journal journal;
         ManifestCache manifests;
         jtx::Env env (*this);
         auto trustedKeys = std::make_unique<ValidatorList> (
@@ -517,7 +517,7 @@ private:
         ManifestCache manifests;
         jtx::Env env (*this);
         auto trustedKeys = std::make_unique <ValidatorList> (
-            manifests, manifests, env.timeKeeper(), beast::Journal ());
+            manifests, manifests, env.timeKeeper(), boost::beast::Journal ());
 
         std::vector<std::string> cfgPublishers;
         hash_set<PublicKey> activeValidators;
@@ -658,7 +658,7 @@ private:
         {
             // Make quorum unattainable if lists from any publishers are unavailable
             auto trustedKeys = std::make_unique <ValidatorList> (
-                manifests, manifests, env.timeKeeper(), beast::Journal ());
+                manifests, manifests, env.timeKeeper(), boost::beast::Journal ());
             auto const publisherSecret = randomSecretKey();
             auto const publisherPublic =
                 derivePublicKey(KeyType::ed25519, publisherSecret);
@@ -677,7 +677,7 @@ private:
         {
             // Trust all listed validators if none are active
             auto trustedKeys = std::make_unique <ValidatorList> (
-                manifests, manifests, env.timeKeeper(), beast::Journal ());
+                manifests, manifests, env.timeKeeper(), boost::beast::Journal ());
 
             std::vector<PublicKey> keys ({ randomNode (), randomNode () });
             hash_set<PublicKey> activeValidators;
@@ -699,7 +699,7 @@ private:
             std::size_t const minQuorum = 1;
             ManifestCache manifests;
             auto trustedKeys = std::make_unique <ValidatorList> (
-                manifests, manifests, env.timeKeeper(), beast::Journal (), minQuorum);
+                manifests, manifests, env.timeKeeper(), boost::beast::Journal (), minQuorum);
 
             auto const node = randomNode ();
             std::vector<std::string> cfgKeys ({
@@ -719,7 +719,7 @@ private:
         {
             // Increase quorum when running as an unlisted validator
             auto trustedKeys = std::make_unique <ValidatorList> (
-                manifests, manifests, env.timeKeeper(), beast::Journal ());
+                manifests, manifests, env.timeKeeper(), boost::beast::Journal ());
 
             std::vector<PublicKey> keys ({ randomNode (), randomNode () });
             hash_set<PublicKey> activeValidators ({ keys[0] });
@@ -740,7 +740,7 @@ private:
         {
             // Remove expired published list
             auto trustedKeys = std::make_unique<ValidatorList> (
-                manifests, manifests, env.app().timeKeeper(), beast::Journal ());
+                manifests, manifests, env.app().timeKeeper(), boost::beast::Journal ());
 
             PublicKey emptyLocalKey;
             std::vector<std::string> emptyCfgKeys;
@@ -815,7 +815,7 @@ private:
         {
             // Test 1-9 configured validators
             auto trustedKeys = std::make_unique <ValidatorList> (
-                manifests, manifests, env.timeKeeper(), beast::Journal ());
+                manifests, manifests, env.timeKeeper(), boost::beast::Journal ());
 
             std::vector<std::string> cfgPublishers;
             hash_set<PublicKey> activeValidators;
@@ -843,7 +843,7 @@ private:
         {
             // Test 2-9 configured validators as validator
             auto trustedKeys = std::make_unique <ValidatorList> (
-                manifests, manifests, env.timeKeeper(), beast::Journal ());
+                manifests, manifests, env.timeKeeper(), boost::beast::Journal ());
 
             auto const localKey = randomNode();
             std::vector<std::string> cfgPublishers;
@@ -876,7 +876,7 @@ private:
             // Trusted set should be trimmed with multiple validator lists
             ManifestCache manifests;
             auto trustedKeys = std::make_unique <ValidatorList> (
-                manifests, manifests, env.timeKeeper(), beast::Journal ());
+                manifests, manifests, env.timeKeeper(), boost::beast::Journal ());
 
             hash_set<PublicKey> activeValidators;
 
@@ -946,7 +946,7 @@ private:
     {
         testcase("Expires");
 
-        beast::Journal journal;
+        boost::beast::Journal journal;
         jtx::Env env(*this);
 
         auto toStr = [](PublicKey const& publicKey) {

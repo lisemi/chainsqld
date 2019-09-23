@@ -52,7 +52,7 @@ std::unique_ptr <Backend>
 ManagerImp::make_Backend (
     Section const& parameters,
     Scheduler& scheduler,
-    beast::Journal journal)
+    boost::beast::Journal journal)
 {
     std::unique_ptr <Backend> backend;
 
@@ -87,7 +87,7 @@ ManagerImp::make_Database (
     int readThreads,
     Stoppable& parent,
     Section const& backendParameters,
-    beast::Journal journal)
+    boost::beast::Journal journal)
 {
     return std::make_unique <DatabaseImp> (
         name,
@@ -109,7 +109,7 @@ ManagerImp::make_DatabaseRotating (
         Stoppable& parent,
         std::shared_ptr <Backend> writableBackend,
         std::shared_ptr <Backend> archiveBackend,
-        beast::Journal journal)
+        boost::beast::Journal journal)
 {
     return std::make_unique <DatabaseRotatingImp> (
         name,
@@ -128,7 +128,7 @@ ManagerImp::find (std::string const& name)
     auto const iter = std::find_if(list_.begin(), list_.end(),
         [&name](Factory* other)
         {
-            return beast::detail::iequals(name, other->getName());
+            return boost::beast::iequals(name, other->getName());
         } );
     if (iter == list_.end())
         return nullptr;
@@ -165,7 +165,7 @@ Manager::instance()
 
 std::unique_ptr <Backend>
 make_Backend (Section const& config,
-    Scheduler& scheduler, beast::Journal journal)
+    Scheduler& scheduler, boost::beast::Journal journal)
 {
     return Manager::instance().make_Backend (
         config, scheduler, journal);

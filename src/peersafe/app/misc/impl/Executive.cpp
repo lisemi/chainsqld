@@ -341,7 +341,7 @@ void Executive::accrueSubState(SubState& _parentContext)
         _parentContext += m_ext->sub;
 }
 
-beast::Journal Executive::getJ()
+boost::beast::Journal Executive::getJ()
 {
 	return m_s.ctx().app.journal("Executive");
 }

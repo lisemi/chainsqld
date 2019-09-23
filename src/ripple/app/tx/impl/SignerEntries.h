@@ -23,7 +23,7 @@
 #include <ripple/protocol/STTx.h>      // STTx::maxMultiSigners
 #include <ripple/protocol/UintTypes.h> // AccountID
 #include <ripple/protocol/TER.h>       // temMALFORMED
-#include <ripple/beast/utility/Journal.h>     // beast::Journal
+#include <ripple/beast/utility/Journal.h>     // boost::beast::Journal
 
 namespace ripple {
 
@@ -61,7 +61,7 @@ public:
     std::pair<std::vector<SignerEntry>, TER>
     deserialize (
         STObject const& obj,
-        beast::Journal journal,
+        boost::beast::Journal journal,
         std::string const& annotation);
 };
 

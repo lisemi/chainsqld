@@ -80,7 +80,7 @@ class View_test
     wipe (OpenLedger& openLedger)
     {
         openLedger.modify(
-            [](OpenView& view, beast::Journal)
+            [](OpenView& view, boost::beast::Journal)
         {
             // HACK!
             boost::optional<uint256> next;

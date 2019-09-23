@@ -133,7 +133,7 @@ public:
     createInstance (
         size_t,
         Section const&,
-        Scheduler&, beast::Journal)
+        Scheduler&, boost::beast::Journal)
     {
         return std::make_unique <NullBackend> ();
     }

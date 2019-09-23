@@ -22,6 +22,7 @@
 
 #include <ripple/beast/utility/Journal.h>
 
+namespace boost {
 namespace beast {
 
 /** Wraps a Journal::Sink to prefix its output with a string. */
@@ -30,15 +31,15 @@ namespace beast {
 //   o It inherits from Sink so it has the correct interface.
 //   o It has a sink (reference) so it preserves the passed write() behavior.
 // The data inherited from the base class is ignored.
-class WrappedSink : public beast::Journal::Sink
+class WrappedSink : public boost::beast::Journal::Sink
 {
 private:
-    beast::Journal::Sink& sink_;
+    boost::beast::Journal::Sink& sink_;
     std::string prefix_;
 
 public:
     explicit
-    WrappedSink (beast::Journal::Sink& sink, std::string const& prefix = "")
+    WrappedSink (boost::beast::Journal::Sink& sink, std::string const& prefix = "")
         : Sink (sink)
         , sink_(sink)
         , prefix_(prefix)
@@ -46,7 +47,7 @@ public:
     }
 
     explicit
-    WrappedSink (beast::Journal const& journal, std::string const& prefix = "")
+    WrappedSink (boost::beast::Journal const& journal, std::string const& prefix = "")
         : WrappedSink (journal.sink(), prefix)
     {
     }
@@ -86,11 +87,12 @@ public:
 
     void write (beast::severities::Severity level, std::string const& text) override
     {
-        using beast::Journal;
+        using boost::beast::Journal;
         sink_.write (level, prefix_ + text);
     }
 };
 
+}
 }
 
 #endif

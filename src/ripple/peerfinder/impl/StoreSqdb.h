@@ -33,7 +33,7 @@ class StoreSqdb
     : public Store
 {
 private:
-    beast::Journal m_journal;
+    boost::beast::Journal m_journal;
     soci::session m_session;
 public:
     enum
@@ -42,7 +42,7 @@ public:
         currentSchemaVersion = 4
     };
 
-    explicit StoreSqdb (beast::Journal journal = beast::Journal())
+    explicit StoreSqdb (boost::beast::Journal journal = boost::beast::Journal())
         : m_journal (journal)
     {
     }

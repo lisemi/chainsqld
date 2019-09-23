@@ -40,6 +40,7 @@
 #define BEAST_STATSDCOLLECTOR_TRACING_ENABLED 0
 #endif
 
+namespace boost {
 namespace beast {
 namespace insight {
 
@@ -714,5 +715,6 @@ std::shared_ptr <StatsDCollector> StatsDCollector::New (
         address, prefix, journal);
 }
 
+}
 }
 }

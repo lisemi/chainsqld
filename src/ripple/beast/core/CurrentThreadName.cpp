@@ -24,6 +24,7 @@
 #include <ripple/beast/core/CurrentThreadName.h>
 #include <boost/thread/tss.hpp>
 
+namespace boost {
 namespace beast {
 namespace detail {
 
@@ -44,6 +45,7 @@ boost::optional<std::string> getCurrentThreadName ()
 }
 
 } // beast
+}
 
 //------------------------------------------------------------------------------
 
@@ -134,6 +136,7 @@ void setCurrentThreadNameImpl (std::string const& name)
 
 #endif
 
+namespace boost {
 namespace beast {
 
 void setCurrentThreadName (std::string name)
@@ -143,3 +146,4 @@ void setCurrentThreadName (std::string name)
 }
 
 } // beast
+}

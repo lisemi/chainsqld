@@ -72,7 +72,7 @@ public:
 public:
     // VFALCO TODO Change expiration_seconds to clock_type::duration
     TaggedCache (std::string const& name, int size,
-        clock_type::rep expiration_seconds, clock_type& clock, beast::Journal journal,
+        clock_type::rep expiration_seconds, clock_type& clock, boost::beast::Journal journal,
             beast::insight::Collector::ptr const& collector = beast::insight::NullCollector::New ())
         : m_journal (journal)
         , m_clock (clock)
@@ -559,7 +559,7 @@ protected:
     using cache_type = hardened_hash_map <key_type, Entry, Hash, KeyEqual>;
     using cache_iterator = typename cache_type::iterator;
 
-    beast::Journal m_journal;
+    boost::beast::Journal m_journal;
     clock_type& m_clock;
     Stats m_stats;
 

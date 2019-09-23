@@ -71,8 +71,8 @@ struct Key
         }
 
     private:
-        beast::uhash <> m_addr_hash;
-        beast::uhash <> m_name_hash;
+        boost::beast::uhash <> m_addr_hash;
+        boost::beast::uhash <> m_name_hash;
     };
 
     struct key_equal

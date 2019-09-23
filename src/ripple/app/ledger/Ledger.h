@@ -114,7 +114,7 @@ public:
         bool& loaded,
         Config const& config,
         Family& family,
-        beast::Journal j);
+        boost::beast::Journal j);
 
     /** Create a new ledger following a previous ledger
 
@@ -301,9 +301,9 @@ public:
 
     void updateSkipList ();
 
-    bool walkLedger (beast::Journal j) const;
+    bool walkLedger (boost::beast::Journal j) const;
 
-    bool assertSane (beast::Journal ledgerJ) const;
+    bool assertSane (boost::beast::Journal ledgerJ) const;
 
     void make_v2();
 	void make_v1();

@@ -33,7 +33,7 @@ namespace ripple {
 	};
 class TableStatusDB {
 public:
-    TableStatusDB(DatabaseCon* dbconn, Application*  app,beast::Journal& journal);
+    TableStatusDB(DatabaseCon* dbconn, Application*  app,boost::beast::Journal& journal);
     virtual ~TableStatusDB();
 
     virtual bool InitDB(DatabaseCon::Setup setup) = 0;
@@ -77,7 +77,7 @@ public:
 protected:
     DatabaseCon*                                                 databasecon_;
     Application*                                                 app_;
-    beast::Journal&                                              journal_;
+    boost::beast::Journal&                                              journal_;
 }; // class TxStoreStatus
 
 }

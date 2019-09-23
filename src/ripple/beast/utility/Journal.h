@@ -23,6 +23,7 @@
 #include <cassert>
 #include <sstream>
 
+namespace boost {
 namespace beast {
 
 /** A namespace for easy access to logging severity values. */
@@ -375,7 +376,7 @@ template<class CharT, class Traits = std::char_traits<CharT>>
 class logstream_buf
     : public std::basic_stringbuf<CharT, Traits>
 {
-    beast::Journal::Stream strm_;
+    boost::beast::Journal::Stream strm_;
 
     template<class T>
     void write(T const*) = delete;
@@ -394,7 +395,7 @@ class logstream_buf
 
 public:
     explicit
-    logstream_buf(beast::Journal::Stream const& strm)
+    logstream_buf(boost::beast::Journal::Stream const& strm)
         : strm_(strm)
     {
     }
@@ -431,7 +432,7 @@ class basic_logstream
     detail::logstream_buf<CharT, Traits> buf_;
 public:
     explicit
-    basic_logstream(beast::Journal::Stream const& strm)
+    basic_logstream(boost::beast::Journal::Stream const& strm)
         : std::basic_ostream<CharT, Traits>(&buf_)
         , buf_(strm)
     {
@@ -442,5 +443,6 @@ using logstream = basic_logstream<char>;
 using logwstream = basic_logstream<wchar_t>;
 
 } // beast
+}
 
 #endif

@@ -36,7 +36,7 @@
 #include <ripple/rpc/ServerHandler.h>
 #include <ripple/beast/core/LexicalCast.h>
 #include <peersafe/basics/characterUtilities.h>
-#include <beast/core/string.hpp>
+#include <beast/include/boost/beast/core/string.hpp>
 #include <boost/asio/streambuf.hpp>
 #include <boost/regex.hpp>
 #include <array>
@@ -86,7 +86,7 @@ std::string createHTTPPost (
 class RPCParser
 {
 private:
-    beast::Journal j_;
+    boost::beast::Journal j_;
 
     // TODO New routine for parsing ledger parameters, other routines should standardize on this.
     static bool jvParseLedger (Json::Value& jvRequest, std::string const& strLedger)
@@ -424,9 +424,9 @@ private:
             // This may look reversed, but it's intentional: jss::vetoed
             // determines whether an amendment is vetoed - so "reject" means
             // that jss::vetoed is true.
-            if (beast::detail::iequals(action, "reject"))
+            if (boost::beast::iequals(action, "reject"))
                 jvRequest[jss::vetoed] = Json::Value (true);
-            else if (beast::detail::iequals(action, "accept"))
+            else if (boost::beast::iequals(action, "accept"))
                 jvRequest[jss::vetoed] = Json::Value (false);
             else
                 return rpcError (rpcINVALID_PARAMS);
@@ -1139,7 +1139,7 @@ public:
     //--------------------------------------------------------------------------
 
     explicit
-    RPCParser (beast::Journal j)
+    RPCParser (boost::beast::Journal j)
             :j_ (j){}
 
     //--------------------------------------------------------------------------
@@ -1313,7 +1313,7 @@ struct RPCCallImp
     static bool onResponse (
         std::function<void (Json::Value const& jvInput)> callbackFuncP,
             const boost::system::error_code& ecResult, int iStatus,
-                std::string const& strData, beast::Journal j)
+                std::string const& strData, boost::beast::Journal j)
     {
         if (callbackFuncP)
         {
@@ -1355,7 +1355,7 @@ struct RPCCallImp
     // Build the request.
     static void onRequest (std::string const& strMethod, Json::Value const& jvParams,
         const std::map<std::string, std::string>& mHeaders, std::string const& strPath,
-            boost::asio::streambuf& sb, std::string const& strHost, beast::Journal j)
+            boost::asio::streambuf& sb, std::string const& strHost, boost::beast::Journal j)
     {
         JLOG (j.debug()) << "requestRPC: strPath='" << strPath << "'";
 
@@ -1374,7 +1374,7 @@ struct RPCCallImp
 // Used internally by rpcClient.
 static Json::Value
 rpcCmdLineToJson (std::vector<std::string> const& args,
-    Json::Value& retParams, beast::Journal j)
+    Json::Value& retParams, boost::beast::Journal j)
 {
     Json::Value jvRequest (Json::objectValue);
 
@@ -1397,7 +1397,7 @@ rpcCmdLineToJson (std::vector<std::string> const& args,
 }
 
 Json::Value
-cmdLineToJSONRPC (std::vector<std::string> const& args, beast::Journal j)
+cmdLineToJSONRPC (std::vector<std::string> const& args, boost::beast::Journal j)
 {
     Json::Value jv = Json::Value (Json::objectValue);
     auto const paramsObj = rpcCmdLineToJson (args, jv, j);

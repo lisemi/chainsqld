@@ -24,7 +24,7 @@
 #include <ripple/basics/base_uint.h>
 #include <ripple/protocol/SystemParameters.h> // VFALCO Breaks levelization
 #include <ripple/beast/net/IPEndpoint.h>
-#include <beast/core/string.hpp>
+#include <beast/include/boost/beast/core/string.hpp>
 #include <ripple/beast/utility/Journal.h>
 #include <boost/asio/ip/tcp.hpp> // VFALCO FIX: This include should not be here
 #include <boost/filesystem.hpp> // VFALCO FIX: This include should not be here
@@ -93,7 +93,7 @@ private:
     boost::filesystem::path DEBUG_LOGFILE;
 
     void load ();
-    beast::Journal j_;
+    boost::beast::Journal j_;
 
     bool QUIET = false;          // Minimize logging verbosity.
     bool SILENT = false;         // No output to console after startup.
@@ -177,7 +177,7 @@ public:
     boost::optional<boost::asio::ip::address_v4> rpc_ip;
     boost::optional<std::uint16_t> rpc_port;
 
-    std::unordered_set<uint256, beast::uhash<>> features;
+    std::unordered_set<uint256, boost::beast::uhash<>> features;
 
 public:
     Config() = default;

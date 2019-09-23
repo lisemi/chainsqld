@@ -29,7 +29,7 @@ namespace ripple {
 class TimeKeeperImpl : public TimeKeeper
 {
 private:
-    beast::Journal j_;
+    boost::beast::Journal j_;
     std::mutex mutable mutex_;
     std::chrono::duration<std::int32_t> closeOffset_;
     std::unique_ptr<SNTPClock> clock_;
@@ -47,7 +47,7 @@ private:
 
 public:
     explicit
-    TimeKeeperImpl (beast::Journal j)
+    TimeKeeperImpl (boost::beast::Journal j)
         : j_ (j)
         , closeOffset_ {}
         , clock_ (make_SNTPClock(j))
@@ -127,7 +127,7 @@ public:
 //------------------------------------------------------------------------------
 
 std::unique_ptr<TimeKeeper>
-make_TimeKeeper (beast::Journal j)
+make_TimeKeeper (boost::beast::Journal j)
 {
     return std::make_unique<TimeKeeperImpl>(j);
 }

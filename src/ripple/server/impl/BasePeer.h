@@ -46,7 +46,7 @@ protected:
     Handler& handler_;
     endpoint_type remote_address_;
     beast::WrappedSink sink_;
-    beast::Journal j_;
+    boost::beast::Journal j_;
 
     boost::asio::io_service::work work_;
     boost::asio::io_service::strand strand_;
@@ -55,7 +55,7 @@ public:
     BasePeer(Port const& port, Handler& handler,
         endpoint_type remote_address,
             boost::asio::io_service& io_service,
-                beast::Journal journal);
+                boost::beast::Journal journal);
 
     void
     close() override;
@@ -75,7 +75,7 @@ BasePeer<Handler, Impl>::
 BasePeer(Port const& port, Handler& handler,
     endpoint_type remote_address,
         boost::asio::io_service& io_service,
-            beast::Journal journal)
+            boost::beast::Journal journal)
     : port_(port)
     , handler_(handler)
     , remote_address_(remote_address)

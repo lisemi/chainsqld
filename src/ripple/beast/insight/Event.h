@@ -28,6 +28,7 @@
 #include <chrono>
 #include <memory>
 
+namespace boost {
 namespace beast {
 namespace insight {
 
@@ -79,6 +80,7 @@ private:
     std::shared_ptr <EventImpl> m_impl;
 };
 
+}
 }
 }
 

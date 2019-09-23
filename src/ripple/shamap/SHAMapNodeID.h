@@ -57,7 +57,7 @@ public:
     bool operator>= (const SHAMapNodeID& n) const;
 
     std::string getString () const;
-    void dump (beast::Journal journal) const;
+    void dump (boost::beast::Journal journal) const;
 
 // Only used by SHAMap and SHAMapTreeNode
 

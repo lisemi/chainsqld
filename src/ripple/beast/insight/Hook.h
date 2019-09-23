@@ -25,6 +25,7 @@
 
 #include <memory>
 
+namespace boost {
 namespace beast {
 namespace insight {
 
@@ -56,6 +57,7 @@ private:
     std::shared_ptr <HookImpl> m_impl;
 };
 
+}
 }
 }
 

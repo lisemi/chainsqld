@@ -272,7 +272,7 @@ public:
     void
     do_insert (Section const& config, Params const& params)
     {
-        beast::Journal journal;
+        boost::beast::Journal journal;
         DummyScheduler scheduler;
         auto backend = make_Backend (config, scheduler, journal);
         BEAST_EXPECT(backend != nullptr);
@@ -326,7 +326,7 @@ public:
     void
     do_fetch (Section const& config, Params const& params)
     {
-        beast::Journal journal;
+        boost::beast::Journal journal;
         DummyScheduler scheduler;
         auto backend = make_Backend (config, scheduler, journal);
         BEAST_EXPECT(backend != nullptr);
@@ -387,7 +387,7 @@ public:
     void
     do_missing (Section const& config, Params const& params)
     {
-        beast::Journal journal;
+        boost::beast::Journal journal;
         DummyScheduler scheduler;
         auto backend = make_Backend (config, scheduler, journal);
         BEAST_EXPECT(backend != nullptr);
@@ -450,7 +450,7 @@ public:
     void
     do_mixed (Section const& config, Params const& params)
     {
-        beast::Journal journal;
+        boost::beast::Journal journal;
         DummyScheduler scheduler;
         auto backend = make_Backend (config, scheduler, journal);
         BEAST_EXPECT(backend != nullptr);
@@ -532,7 +532,7 @@ public:
     void
     do_work (Section const& config, Params const& params)
     {
-        beast::Journal journal;
+        boost::beast::Journal journal;
         DummyScheduler scheduler;
         auto backend = make_Backend (config, scheduler, journal);
         backend->setDeletePath();

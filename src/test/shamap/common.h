@@ -38,10 +38,10 @@ private:
     FullBelowCache fullbelow_;
     RootStoppable parent_;
     std::unique_ptr<NodeStore::Database> db_;
-    beast::Journal j_;
+    boost::beast::Journal j_;
 
 public:
-    TestFamily (beast::Journal j)
+    TestFamily (boost::beast::Journal j)
         : treecache_ ("TreeNodeCache", 65536, 60, clock_, j)
         , fullbelow_ ("full_below", clock_)
         , parent_ ("TestRootStoppable")
@@ -60,7 +60,7 @@ public:
         return clock_;
     }
 
-    beast::Journal const&
+    boost::beast::Journal const&
     journal() override
     {
         return j_;

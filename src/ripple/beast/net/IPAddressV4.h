@@ -28,6 +28,7 @@
 #include <string>
 #include <utility>
 
+namespace boost {
 namespace beast {
 namespace IP {
 
@@ -185,15 +186,16 @@ struct is_contiguously_hashable<IP::AddressV4, HashAlgorithm>
 };
 
 }
+}
 
 //------------------------------------------------------------------------------
 
 namespace std {
 /** std::hash support. */
 template <>
-struct hash <beast::IP::AddressV4>
+struct hash <boost::beast::IP::AddressV4>
 {
-    std::size_t operator() (beast::IP::AddressV4 const& addr) const
+    std::size_t operator() (boost::beast::IP::AddressV4 const& addr) const
         { return addr.value; }
 };
 }

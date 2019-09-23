@@ -42,7 +42,7 @@ public:
         RippleCalc& rippleCalc,
         PathState& pathState,
         bool multiQuality,
-        beast::Journal j,
+        boost::beast::Journal j,
         NodeIndex nodeIndex = 0)
             : rippleCalc_(rippleCalc),
               pathState_(pathState),
@@ -142,7 +142,7 @@ private:
     PathState& pathState_;
     bool multiQuality_;
     NodeIndex nodeIndex_;
-    beast::Journal j_;
+    boost::beast::Journal j_;
 };
 
 } // path

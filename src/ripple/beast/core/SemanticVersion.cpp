@@ -22,6 +22,7 @@
 #include <algorithm>
 #include <cassert>
 
+namespace boost {
 namespace beast {
 
 std::string print_identifiers (SemanticVersion::identifier_list const& list)
@@ -319,3 +320,4 @@ int compare (SemanticVersion const& lhs, SemanticVersion const& rhs)
 }
 
 } // beast
+}

@@ -249,7 +249,7 @@ namespace ripple {
 			bool standalone, std::size_t network_quorum, bool start_valid,
 			JobQueue& job_queue, LedgerMaster& ledgerMaster, Stoppable& parent,
 			ValidatorKeys const & validatorKeys, boost::asio::io_service& io_svc,
-			beast::Journal journal);
+			boost::beast::Journal journal);
 
 } // ripple
 

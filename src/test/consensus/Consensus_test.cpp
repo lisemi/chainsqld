@@ -38,7 +38,7 @@ public:
 
         // Use default parameters
         ConsensusParms p;
-        beast::Journal j;
+        boost::beast::Journal j;
 
         // Bizarre times forcibly close
         BEAST_EXPECT(
@@ -77,7 +77,7 @@ public:
 
         // Use default parameterss
         ConsensusParms p;
-        beast::Journal j;
+        boost::beast::Journal j;
 
 
         // Not enough time has elapsed

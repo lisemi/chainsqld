@@ -27,6 +27,7 @@
 #include <ios>
 #include <string>
 
+namespace boost {
 namespace beast {
 namespace IP {
 
@@ -149,16 +150,17 @@ std::istream& operator>> (std::istream& is, Endpoint& endpoint);
 
 }
 }
+}
 
 //------------------------------------------------------------------------------
 
 namespace std {
 /** std::hash support. */
 template <>
-struct hash <beast::IP::Endpoint>
+struct hash <boost::beast::IP::Endpoint>
 {
-    std::size_t operator() (beast::IP::Endpoint const& endpoint) const
-        { return beast::uhash<>{} (endpoint); }
+    std::size_t operator() (boost::beast::IP::Endpoint const& endpoint) const
+        { return boost::beast::uhash<>{} (endpoint); }
 };
 }
 
@@ -168,7 +170,7 @@ template <>
 struct hash <beast::IP::Endpoint>
 {
     std::size_t operator() (beast::IP::Endpoint const& endpoint) const
-        { return beast::uhash<>{} (endpoint); }
+        { return boost::beast::uhash<>{} (endpoint); }
 };
 }
 

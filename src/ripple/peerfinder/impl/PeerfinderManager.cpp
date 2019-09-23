@@ -40,7 +40,7 @@ public:
     boost::asio::io_service &io_service_;
     boost::optional <boost::asio::io_service::work> work_;
     clock_type& m_clock;
-    beast::Journal m_journal;
+    boost::beast::Journal m_journal;
     StoreSqdb m_store;
     Checker<boost::asio::ip::tcp> checker_;
     Logic <decltype(checker_)> m_logic;
@@ -52,7 +52,7 @@ public:
         Stoppable& stoppable,
         boost::asio::io_service& io_service,
         clock_type& clock,
-        beast::Journal journal,
+        boost::beast::Journal journal,
         BasicConfig const& config)
         : Manager (stoppable)
         , io_service_(io_service)
@@ -252,7 +252,7 @@ Manager::Manager (Stoppable& parent)
 
 std::unique_ptr<Manager>
 make_Manager (Stoppable& parent, boost::asio::io_service& io_service,
-        clock_type& clock, beast::Journal journal, BasicConfig const& config)
+        clock_type& clock, boost::beast::Journal journal, BasicConfig const& config)
 {
     return std::make_unique<ManagerImp> (
         parent, io_service, clock, journal, config);

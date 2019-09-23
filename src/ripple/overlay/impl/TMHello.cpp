@@ -63,7 +63,7 @@ hashLastMessage (SSL const* ssl,
 }
 
 boost::optional<uint256>
-makeSharedValue (SSL* ssl, beast::Journal journal)
+makeSharedValue (SSL* ssl, boost::beast::Journal journal)
 {
     auto const cookie1 = hashLastMessage(ssl, SSL_get_finished);
     if (!cookie1)
@@ -219,7 +219,7 @@ parse_ProtocolVersions(beast::string_view const& value)
 }
 
 boost::optional<protocol::TMHello>
-parseHello (bool request, beast::http::fields const& h, beast::Journal journal)
+parseHello (bool request, beast::http::fields const& h, boost::beast::Journal journal)
 {
     // protocol version in TMHello is obsolete,
     // it is supplanted by the values in the headers.
@@ -341,7 +341,7 @@ verifyHello (protocol::TMHello const& h,
     uint256 const& sharedValue,
     beast::IP::Address public_ip,
     beast::IP::Endpoint remote,
-    beast::Journal journal,
+    boost::beast::Journal journal,
     Application& app)
 {
     if (h.has_nettime ())

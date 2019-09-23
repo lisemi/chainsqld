@@ -50,7 +50,7 @@ public:
 private:
     Application& app_;
     NodeCache& m_nodeCache;
-    beast::Journal j_;
+    boost::beast::Journal j_;
 };
 
 } // ripple

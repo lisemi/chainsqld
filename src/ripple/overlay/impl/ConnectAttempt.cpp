@@ -29,7 +29,7 @@ ConnectAttempt::ConnectAttempt (Application& app, boost::asio::io_service& io_se
     endpoint_type const& remote_endpoint, Resource::Consumer usage,
         beast::asio::ssl_bundle::shared_context const& context,
             std::uint32_t id, PeerFinder::Slot::ptr const& slot,
-                beast::Journal journal, OverlayImpl& overlay)
+                boost::beast::Journal journal, OverlayImpl& overlay)
     : Child (overlay)
     , app_ (app)
     , id_ (id)

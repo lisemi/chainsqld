@@ -99,7 +99,7 @@ SHAMapTreeNode::SHAMapTreeNode (std::shared_ptr<SHAMapItem const> const& item,
 
 std::shared_ptr<SHAMapAbstractNode>
 SHAMapAbstractNode::make(Slice const& rawNode, std::uint32_t seq, SHANodeFormat format,
-                         SHAMapHash const& hash, bool hashValid, beast::Journal j,
+                         SHAMapHash const& hash, bool hashValid, boost::beast::Journal j,
                          SHAMapNodeID const& id)
 {
     if (format == snfWIRE)
@@ -604,7 +604,7 @@ int SHAMapInnerNode::getBranchCount () const
 #ifdef BEAST_DEBUG
 
 void
-SHAMapAbstractNode::dump(const SHAMapNodeID & id, beast::Journal journal)
+SHAMapAbstractNode::dump(const SHAMapNodeID & id, boost::beast::Journal journal)
 {
     JLOG(journal.debug()) <<
         "SHAMapTreeNode(" << id.getNodeID () << ")";
@@ -616,7 +616,7 @@ std::string
 SHAMapAbstractNode::getString(const SHAMapNodeID & id) const
 {
     std::string ret = "NodeID(";
-    ret += beast::lexicalCastThrow <std::string> (id.getDepth ());
+    ret += boost::beast::lexicalCastThrow <std::string> (id.getDepth ());
     ret += ",";
     ret += to_string (id.getNodeID ());
     ret += ")";
@@ -632,7 +632,7 @@ SHAMapInnerNode::getString(const SHAMapNodeID & id) const
         if (!isEmptyBranch (i))
         {
             ret += "\nb";
-            ret += beast::lexicalCastThrow <std::string> (i);
+            ret += boost::beast::lexicalCastThrow <std::string> (i);
             ret += " = ";
             ret += to_string (mHashes[i]);
         }

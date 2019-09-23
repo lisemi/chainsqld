@@ -33,7 +33,7 @@ struct nonhash
 {
     static constexpr std::size_t WIDTH = Bits / 8;
     std::array<std::uint8_t, WIDTH> data_;
-    static beast::endian const endian = beast::endian::big;
+    static boost::beast::endian const endian = boost::beast::endian::big;
 
     nonhash() = default;
 
@@ -103,7 +103,7 @@ struct base_uint_test : beast::unit_test::suite
         v = u;
         BEAST_EXPECT(v == u);
 
-        test96 z { beast::zero };
+        test96 z { boost::beast::zero };
         uset.insert(z);
         BEAST_EXPECT(to_string(z) == "000000000000000000000000");
         BEAST_EXPECT(*z.data() == 0);
@@ -122,11 +122,11 @@ struct base_uint_test : beast::unit_test::suite
         n++;
         BEAST_EXPECT(n == test96(1));
         n--;
-        BEAST_EXPECT(n == beast::zero);
+        BEAST_EXPECT(n == boost::beast::zero);
         BEAST_EXPECT(n == z);
         n--;
         BEAST_EXPECT(to_string(n) == "FFFFFFFFFFFFFFFFFFFFFFFF");
-        n = beast::zero;
+        n = boost::beast::zero;
         BEAST_EXPECT(n == z);
 
         test96 zp1 { z };

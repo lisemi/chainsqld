@@ -219,13 +219,13 @@ class Validations
         LedgerID,
         hash_map<NodeKey, Validation>,
         std::chrono::steady_clock,
-        beast::uhash<>>
+        boost::beast::uhash<>>
         byLedger_;
 
     //! Parameters to determine validation staleness
     ValidationParms const parms_;
 
-    beast::Journal j_;
+    boost::beast::Journal j_;
 
     //! StalePolicy details providing now(), onStale() and flush() callbacks
     //! Is NOT managed by the mutex_ above
@@ -316,7 +316,7 @@ public:
     Validations(
         ValidationParms const& p,
         beast::abstract_clock<std::chrono::steady_clock>& c,
-        beast::Journal j,
+        boost::beast::Journal j,
         Ts&&... ts)
         : byLedger_(c), parms_(p), j_(j), stalePolicy_(std::forward<Ts>(ts)...)
     {
@@ -332,7 +332,7 @@ public:
 
     /** Return the journal
      */
-    beast::Journal
+    boost::beast::Journal
     journal() const
     {
         return j_;
@@ -502,8 +502,8 @@ public:
         LedgerID const& priorLedger,
         std::uint32_t cutoffBefore)
     {
-        bool const valCurrentLedger = currentLedger != beast::zero;
-        bool const valPriorLedger = priorLedger != beast::zero;
+        bool const valCurrentLedger = currentLedger != boost::beast::zero;
+        bool const valPriorLedger = priorLedger != boost::beast::zero;
 
         hash_map<LedgerID, std::uint32_t> ret;
 

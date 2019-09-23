@@ -21,6 +21,7 @@
 */
 //==============================================================================
 
+namespace boost {
 namespace beast
 {
 
@@ -74,3 +75,4 @@ std::string getComputerName()
 }
 
 } // beast
+}

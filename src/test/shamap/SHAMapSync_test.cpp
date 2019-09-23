@@ -93,7 +93,7 @@ public:
 
     void run(SHAMap::version v)
     {
-        beast::Journal const j; // debug journal
+        boost::beast::Journal const j; // debug journal
         TestFamily f(j), f2(j);
         SHAMap source (SHAMapType::FREE, f, v);
         SHAMap destination (SHAMapType::FREE, f2, v);

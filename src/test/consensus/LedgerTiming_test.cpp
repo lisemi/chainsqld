@@ -25,7 +25,7 @@ namespace test {
 
 class LedgerTiming_test : public beast::unit_test::suite
 {
-    beast::Journal j;
+    boost::beast::Journal j;
 
     void testGetNextLedgerTimeResolution()
     {

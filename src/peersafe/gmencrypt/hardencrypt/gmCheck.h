@@ -42,7 +42,7 @@ public:
 	int getDataSM3(int dataSetCnt, unsigned int plainLen);
 	int getDataSMALL(int dataSetCnt, unsigned int plainLen);
 	std::pair<bool, std::string> getAlgTypeData(int algType, int dataSetCnt, unsigned int plainDataLen);
-	//void setLogJournal(beast::Journal* journal);
+	//void setLogJournal(boost::beast::Journal* journal);
 public:
 	static GMCheck* getInstance();
 	
@@ -89,7 +89,7 @@ private:
 	bool isRandomCycleCheckThread;
 	bool isRandomGenerateThread;
 	unsigned int parentTid;
-	//beast::Journal*	journal_;
+	//boost::beast::Journal*	journal_;
 };
 
 #endif

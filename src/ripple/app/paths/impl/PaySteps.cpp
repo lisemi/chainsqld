@@ -146,7 +146,7 @@ toStrandV1 (
     STPath const& path,
     bool ownerPaysTransferFee,
     bool offerCrossing,
-    beast::Journal j)
+    boost::beast::Journal j)
 {
     if (isZXC (src))
     {
@@ -394,7 +394,7 @@ toStrandV2 (
     STPath const& path,
     bool ownerPaysTransferFee,
     bool offerCrossing,
-    beast::Journal j)
+    boost::beast::Journal j)
 {
     if (isZXC(src) || isZXC(dst) ||
         !isConsistent(deliver) || (sendMaxIssue && !isConsistent(*sendMaxIssue)))
@@ -703,7 +703,7 @@ toStrand (
     STPath const& path,
     bool ownerPaysTransferFee,
     bool offerCrossing,
-    beast::Journal j)
+    boost::beast::Journal j)
 {
     if (view.rules().enabled(fix1373))
         return toStrandV2(view, src, dst, deliver, limitQuality,
@@ -725,7 +725,7 @@ toStrands (
     bool addDefaultPath,
     bool ownerPaysTransferFee,
     bool offerCrossing,
-    beast::Journal j)
+    boost::beast::Journal j)
 {
     std::vector<Strand> result;
     result.reserve (1 + paths.size ());
@@ -817,7 +817,7 @@ StrandContext::StrandContext (
     bool isDefaultPath_,
     std::array<boost::container::flat_set<Issue>, 2>& seenDirectIssues_,
     boost::container::flat_set<Issue>& seenBookOuts_,
-    beast::Journal j_)
+    boost::beast::Journal j_)
         : view (view_)
         , strandSrc (strandSrc_)
         , strandDst (strandDst_)

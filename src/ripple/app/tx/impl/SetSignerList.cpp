@@ -40,7 +40,7 @@ std::tuple<TER, std::uint32_t,
     std::vector<SignerEntries::SignerEntry>,
         SetSignerList::Operation>
 SetSignerList::determineOperation(STTx const& tx,
-    ApplyFlags flags, beast::Journal j)
+    ApplyFlags flags, boost::beast::Journal j)
 {
     // Check the quorum.  A non-zero quorum means we're creating or replacing
     // the list.  A zero quorum means we're destroying the list.
@@ -147,7 +147,7 @@ SetSignerList::validateQuorumAndSignerEntries (
     std::uint32_t quorum,
         std::vector<SignerEntries::SignerEntry> const& signers,
             AccountID const& account,
-                beast::Journal j)
+                boost::beast::Journal j)
 {
     // Reject if there are too many or too few entries in the list.
     {

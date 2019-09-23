@@ -27,6 +27,7 @@
 #include <string>
 #include <vector>
 
+namespace boost {
 namespace beast
 {
 
@@ -43,5 +44,6 @@ std::vector <std::string>
 getStackBacktrace();
 
 } // beast
+}
 
 #endif   // BEAST_SYSTEMSTATS_H_INCLUDED

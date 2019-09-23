@@ -90,8 +90,8 @@ make_SHAMapStore(
     SHAMapStore::Setup const& s,
     Stoppable& parent,
     NodeStore::Scheduler& scheduler,
-    beast::Journal journal,
-    beast::Journal nodeStoreJournal,
+    boost::beast::Journal journal,
+    boost::beast::Journal nodeStoreJournal,
     TransactionMaster& transactionMaster,
     BasicConfig const& conf);
 }

@@ -23,6 +23,7 @@
 
 #include <ripple/beast/net/IPAddressV6.h>
 
+namespace boost {
 namespace beast {
 namespace IP {
 
@@ -79,5 +80,6 @@ std::istream& operator>> (std::istream& is, AddressV6&)
     return is;
 }
 
+}
 }
 }

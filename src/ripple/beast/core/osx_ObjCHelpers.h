@@ -27,6 +27,7 @@
 #include <cassert>
 #include <string>
 
+namespace boost {
 namespace beast
 {
 
@@ -50,5 +51,6 @@ namespace
 }
 
 } // beast
+}
 
 #endif   // BEAST_OSX_OBJCHELPERS_H_INCLUDED

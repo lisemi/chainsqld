@@ -324,7 +324,7 @@ Json::Value checkForSelect(RPC::Context&  context, uint160 nameInDB, std::vector
 
 Json::Value doGetRecord(RPC::Context&  context)
 {
-	uint160 nameInDB = beast::zero;
+	uint160 nameInDB = boost::beast::zero;
 	std::vector<ripple::uint160> vecNameInDB;
 	Json::Value ret = checkForSelect(context,nameInDB,vecNameInDB);
 	if (ret.isMember(jss::error))
@@ -352,7 +352,7 @@ Json::Value doGetRecord(RPC::Context&  context)
 std::pair<std::vector<std::vector<Json::Value>>,std::string> doGetRecord2D(RPC::Context&  context)
 {
 	std::vector<std::vector<Json::Value>> result;
-	uint160 nameInDB = beast::zero;
+	uint160 nameInDB = boost::beast::zero;
 	std::vector<ripple::uint160> vecNameInDB;
 	Json::Value ret = checkForSelect(context, nameInDB, vecNameInDB);
 	if (ret.isMember(jss::error))

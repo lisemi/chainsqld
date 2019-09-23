@@ -43,7 +43,7 @@ TxPrepareBase::TxPrepareBase(Application& app, const std::string& secret, const 
 {
 	m_bConfidential = false;
 	sTableName_ = "";
-	u160NameInDB_ = beast::zero;
+	u160NameInDB_ = boost::beast::zero;
 }
 
 TxPrepareBase::~TxPrepareBase()
@@ -238,7 +238,7 @@ void TxPrepareBase::preparePressData()
 
 uint256 TxPrepareBase::getCheckHashOld(const std::string& sAccount, const std::string& sTableName)
 {
-	return beast::zero;
+	return boost::beast::zero;
 }
 
 Blob TxPrepareBase::getPassblobExtra(const std::string& sAccount, const std::string& sTableName)
@@ -257,7 +257,7 @@ void TxPrepareBase::updateInfo(const std::string& sAccount, const std::string& s
 
 std::string TxPrepareBase::getNameInDB(const std::string& sAccount, const std::string& sTableName)
 {
-    if (u160NameInDB_ == beast::zero)
+    if (u160NameInDB_ == boost::beast::zero)
         return "";
 	return to_string(u160NameInDB_);
 }
@@ -306,10 +306,10 @@ Json::Value TxPrepareBase::prepareStrictMode()
 std::pair<uint256, Json::Value> TxPrepareBase::getCheckHash(const std::string& sAccountId, const std::string& sTableName)
 {	
 	Json::Value jvRet;
-	uint256 checkHash = beast::zero;
+	uint256 checkHash = boost::beast::zero;
 
 	checkHash = getCheckHashOld(sAccountId, sTableName);
-	if (checkHash == beast::zero)
+	if (checkHash == boost::beast::zero)
 	{		
 		checkHash = getCheckHashFunc_(u160NameInDB_);
 
@@ -365,7 +365,7 @@ Json::Value TxPrepareBase::prepareDBName()
 			sNameInDB = getNameInDB(accountId, sTableName);
 			if (sNameInDB.size() > 0)
 				json[jss::Table][jss::NameInDB] = sNameInDB;
-			else if (nameInDBInLedger != beast::zero)
+			else if (nameInDBInLedger != boost::beast::zero)
 			{
 				sNameInDB = to_string(nameInDBInLedger);
 				json[jss::Table][jss::NameInDB] = sNameInDB;

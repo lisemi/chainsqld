@@ -33,7 +33,7 @@ ApplyViewImpl::ApplyViewImpl(
 void
 ApplyViewImpl::apply (OpenView& to,
     STTx const& tx, TER ter,
-        beast::Journal j)
+        boost::beast::Journal j)
 {
     items_.apply(to, tx, ter, deliver_, j);
 }

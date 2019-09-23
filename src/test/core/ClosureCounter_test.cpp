@@ -34,7 +34,7 @@ class ClosureCounter_test : public beast::unit_test::suite
 {
     // We're only using Env for its Journal.
     jtx::Env env {*this};
-    beast::Journal j {env.app().journal ("ClosureCounter_test")};
+    boost::beast::Journal j {env.app().journal ("ClosureCounter_test")};
 
     void testConstruction()
     {

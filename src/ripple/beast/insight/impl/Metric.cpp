@@ -24,6 +24,7 @@
 #include <ripple/beast/insight/GaugeImpl.h>
 #include <ripple/beast/insight/MeterImpl.h>
 
+namespace boost {
 namespace beast {
 namespace insight {
 
@@ -51,5 +52,6 @@ MeterImpl::~MeterImpl ()
 {
 }
 
+}
 }
 }

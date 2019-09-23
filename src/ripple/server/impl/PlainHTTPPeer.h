@@ -42,7 +42,7 @@ private:
 public:
     template<class ConstBufferSequence>
     PlainHTTPPeer(Port const& port, Handler& handler,
-        beast::Journal journal, endpoint_type remote_address,
+        boost::beast::Journal journal, endpoint_type remote_address,
             ConstBufferSequence const& buffers, socket_type&& socket);
 
     void
@@ -65,7 +65,7 @@ template<class Handler>
 template<class ConstBufferSequence>
 PlainHTTPPeer<Handler>::
 PlainHTTPPeer(Port const& port, Handler& handler,
-    beast::Journal journal, endpoint_type remote_endpoint,
+    boost::beast::Journal journal, endpoint_type remote_endpoint,
         ConstBufferSequence const& buffers, socket_type&& socket)
     : BaseHTTPPeer<Handler, PlainHTTPPeer>(port, handler,
         socket.get_io_service(), journal, remote_endpoint, buffers)

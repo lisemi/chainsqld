@@ -49,7 +49,7 @@ using OrderedTxs = CanonicalTXSet;
 class OpenLedger
 {
 private:
-    beast::Journal j_;
+    boost::beast::Journal j_;
     CachedSLEs& cache_;
     std::mutex mutable modify_mutex_;
     std::mutex mutable current_mutex_;
@@ -68,7 +68,7 @@ public:
         sub-optimal.
     */
     using modify_type = std::function<
-        bool(OpenView&, beast::Journal)>;
+        bool(OpenView&, boost::beast::Journal)>;
 
     OpenLedger() = delete;
     OpenLedger (OpenLedger const&) = delete;
@@ -82,7 +82,7 @@ public:
     OpenLedger(std::shared_ptr<
         Ledger const> const& ledger,
             CachedSLEs& cache,
-                beast::Journal journal);
+                boost::beast::Journal journal);
 
     /** Returns `true` if there are no transactions.
 
@@ -180,7 +180,7 @@ private:
         ReadView const& check, FwdRange const& txs,
             OrderedTxs& retries, ApplyFlags flags,
                 std::map<uint256, bool>& shouldRecover,
-                    beast::Journal j);
+                    boost::beast::Journal j);
 
     enum Result
     {
@@ -198,7 +198,7 @@ private:
     apply_one (Application& app, OpenView& view,
         std::shared_ptr< STTx const> const& tx,
             bool retry, ApplyFlags flags,
-                bool shouldRecover, beast::Journal j);
+                bool shouldRecover, boost::beast::Journal j);
 };
 
 //------------------------------------------------------------------------------
@@ -209,7 +209,7 @@ OpenLedger::apply (Application& app, OpenView& view,
     ReadView const& check, FwdRange const& txs,
         OrderedTxs& retries, ApplyFlags flags,
             std::map<uint256, bool>& shouldRecover,
-                beast::Journal j)
+                boost::beast::Journal j)
 {
     for (auto iter = txs.begin();
         iter != txs.end(); ++iter)

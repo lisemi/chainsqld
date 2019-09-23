@@ -35,7 +35,7 @@ class PathRequests
 public:
     /** A collection of all PathRequest instances. */
     PathRequests (Application& app,
-            beast::Journal journal, beast::insight::Collector::ptr const& collector)
+            boost::beast::Journal journal, beast::insight::Collector::ptr const& collector)
         : app_ (app)
         , mJournal (journal)
         , mLastIdentifier (0)
@@ -93,7 +93,7 @@ private:
     void insertPathRequest (PathRequest::pointer const&);
 
     Application& app_;
-    beast::Journal                   mJournal;
+    boost::beast::Journal                   mJournal;
 
     beast::insight::Event            mFast;
     beast::insight::Event            mFull;

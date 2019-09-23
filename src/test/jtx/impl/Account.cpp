@@ -29,7 +29,7 @@ namespace jtx {
 
 std::unordered_map<
     std::pair<std::string, KeyType>,
-        Account, beast::uhash<>> Account::cache_;
+        Account, boost::beast::uhash<>> Account::cache_;
 
 Account const Account::master("master",
     generateKeyPair(HardEncryptObj::getInstance() ? KeyType::gmalg : KeyType::secp256k1,

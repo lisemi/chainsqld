@@ -22,6 +22,7 @@
 
 #include <ripple/beast/insight/Collector.h>
 
+namespace boost {
 namespace beast {
 namespace insight {
 
@@ -32,6 +33,7 @@ public:
     static std::shared_ptr <Collector> New ();
 };
 
+}
 }
 }
 

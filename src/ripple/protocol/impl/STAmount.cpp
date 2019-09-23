@@ -772,13 +772,13 @@ amountFromString (Issue const& issue, std::string const& amount)
 
     if (!match[4].matched) // integer only
     {
-        mantissa = beast::lexicalCastThrow <std::uint64_t> (std::string (match[2]));
+        mantissa = boost::beast::lexicalCastThrow <std::uint64_t> (std::string (match[2]));
         exponent = 0;
     }
     else
     {
         // integer and fraction
-        mantissa = beast::lexicalCastThrow <std::uint64_t> (match[2] + match[4]);
+        mantissa = boost::beast::lexicalCastThrow <std::uint64_t> (match[2] + match[4]);
         exponent = -(match[4].length ());
     }
 
@@ -786,9 +786,9 @@ amountFromString (Issue const& issue, std::string const& amount)
     {
         // we have an exponent
         if (match[6].matched && (match[6] == "-"))
-            exponent -= beast::lexicalCastThrow <int> (std::string (match[7]));
+            exponent -= boost::beast::lexicalCastThrow <int> (std::string (match[7]));
         else
-            exponent += beast::lexicalCastThrow <int> (std::string (match[7]));
+            exponent += boost::beast::lexicalCastThrow <int> (std::string (match[7]));
     }
 
     return { issue, mantissa, exponent, negative };

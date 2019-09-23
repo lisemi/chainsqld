@@ -72,7 +72,7 @@ getEntropyFile(Config const& config)
 }
 
 bool
-adjustDescriptorLimit(int needed, beast::Journal j)
+adjustDescriptorLimit(int needed, boost::beast::Journal j)
 {
 #ifdef RLIMIT_NOFILE
     // Get the current limit, then adjust it to what we need.
@@ -230,7 +230,7 @@ int run (int argc, char** argv)
 
     using namespace std;
 
-    beast::setCurrentThreadName ("chainsqld: main");
+    boost::beast::setCurrentThreadName ("chainsqld: main");
 
     po::variables_map vm;
 
@@ -466,7 +466,7 @@ int run (int argc, char** argv)
 		{
 			bool checkResult = false;
 			GMCheck *gmCheckObj = GMCheck::getInstance();
-			//beast::Journal checkJournal(logs->journal("GMAlgorithmCheck"));
+			//boost::beast::Journal checkJournal(logs->journal("GMAlgorithmCheck"));
 			//gmCheckObj->setLogJournal(&checkJournal);
 			if (gmCheckObj != nullptr)
 			{
@@ -549,7 +549,7 @@ int run (int argc, char** argv)
     }
 
     // We have an RPC command to process:
-    beast::setCurrentThreadName ("chainsqld: rpc");
+    boost::beast::setCurrentThreadName ("chainsqld: rpc");
     return RPCCall::fromCommandLine (
         *config,
         vm["parameters"].as<std::vector<std::string>>(),

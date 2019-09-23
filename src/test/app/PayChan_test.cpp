@@ -42,7 +42,7 @@ struct PayChan_test : public beast::unit_test::suite
     {
         auto const sle = view.read (keylet::account (account));
         if (!sle)
-            return beast::zero;
+            return boost::beast::zero;
         auto const k = keylet::payChan (account, dst, (*sle)[sfSequence] - 1);
         return k.key;
     }
@@ -329,7 +329,7 @@ struct PayChan_test : public beast::unit_test::suite
             BEAST_EXPECT (!channelExists (*env.current (), chan));
             auto const feeDrops = env.current ()->fees ().base;
             auto const delta = chanAmt - chanBal;
-            assert (delta > beast::zero);
+            assert (delta > boost::beast::zero);
             BEAST_EXPECT (env.balance (alice) == preAlice + delta);
             BEAST_EXPECT (env.balance (bob) == preBob - feeDrops);
         }

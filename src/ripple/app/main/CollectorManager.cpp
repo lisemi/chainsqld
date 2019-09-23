@@ -27,12 +27,12 @@ class CollectorManagerImp
     : public CollectorManager
 {
 public:
-    beast::Journal m_journal;
+    boost::beast::Journal m_journal;
     beast::insight::Collector::ptr m_collector;
     std::unique_ptr <beast::insight::Groups> m_groups;
 
     CollectorManagerImp (Section const& params,
-        beast::Journal journal)
+        boost::beast::Journal journal)
         : m_journal (journal)
     {
         std::string const& server  = get<std::string> (params, "server");
@@ -75,7 +75,7 @@ CollectorManager::~CollectorManager ()
 }
 
 std::unique_ptr<CollectorManager> CollectorManager::New(Section const& params,
-    beast::Journal journal)
+    boost::beast::Journal journal)
 {
     return std::make_unique<CollectorManagerImp>(params, journal);
 }

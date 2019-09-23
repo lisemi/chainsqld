@@ -23,6 +23,7 @@
 #include <vector>
 #include <string>
 
+namespace boost {
 namespace beast {
 
 /** A Semantic Version number.
@@ -109,5 +110,6 @@ operator<  (SemanticVersion const& lhs, SemanticVersion const& rhs)
 }
 
 } // beast
+}
 
 #endif

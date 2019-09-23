@@ -108,7 +108,7 @@ public:
     };
 
     TxQ(Setup const& setup,
-        beast::Journal j);
+        boost::beast::Journal j);
 
     virtual ~TxQ();
 
@@ -124,7 +124,7 @@ public:
     std::pair<STer, bool>
     apply(Application& app, OpenView& view,
         std::shared_ptr<STTx const> const& tx,
-            ApplyFlags flags, beast::Journal j);
+            ApplyFlags flags, boost::beast::Journal j);
 
     /**
         Fill the new open ledger with transactions from the queue.
@@ -203,10 +203,10 @@ private:
         // Based on the median fee of the LCL. Used
         // when fee escalation kicks in.
         std::uint64_t escalationMultiplier_;
-        beast::Journal j_;
+        boost::beast::Journal j_;
 
     public:
-        FeeMetrics(Setup const& setup, beast::Journal j)
+        FeeMetrics(Setup const& setup, boost::beast::Journal j)
             : minimumTxnCount_(setup.standAlone ?
                 setup.minimumTxnInLedgerSA :
                 setup.minimumTxnInLedger)
@@ -396,7 +396,7 @@ private:
     using AccountMap = std::map <AccountID, TxQAccount>;
 
     Setup const setup_;
-    beast::Journal j_;
+    boost::beast::Journal j_;
 
     // These members must always and only be accessed under
     // locked mutex_
@@ -440,7 +440,7 @@ private:
                 PreflightResult const& pfresult,
                     std::size_t const txExtraCount, ApplyFlags flags,
                         FeeMetrics::Snapshot const& metricsSnapshot,
-                            beast::Journal j);
+                            boost::beast::Journal j);
 
 };
 
@@ -448,7 +448,7 @@ TxQ::Setup
 setup_TxQ(Config const&);
 
 std::unique_ptr<TxQ>
-make_TxQ(TxQ::Setup const&, beast::Journal);
+make_TxQ(TxQ::Setup const&, boost::beast::Journal);
 
 } // ripple
 

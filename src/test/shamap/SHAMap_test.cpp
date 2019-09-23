@@ -133,7 +133,7 @@ public:
         else
             testcase ("add/traverse unbacked");
 
-        beast::Journal const j;                            // debug journal
+        boost::beast::Journal const j;                            // debug journal
         tests::TestFamily f(j);
 
         // h3 and h4 differ only in the leaf, same terminal node (level 19)
@@ -302,7 +302,7 @@ public:
             keys[6].SetHex ("b91891fe4ef6cee585fdc6fda1e09eb4d386363158ec3321b8123e5a772c6ca8");
             keys[7].SetHex ("292891fe4ef6cee585fdc6fda1e09eb4d386363158ec3321b8123e5a772c6ca8");
 
-            tests::TestFamily tf{beast::Journal{}};
+            tests::TestFamily tf{boost::beast::Journal{}};
             SHAMap map{SHAMapType::FREE, tf, v};
             if (! backed)
                 map.setUnbacked ();

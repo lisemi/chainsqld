@@ -46,7 +46,7 @@ preflight0(PreflightContext const& ctx)
 {
     auto const txID = ctx.tx.getTransactionID();
 
-    if (txID == beast::zero)
+    if (txID == boost::beast::zero)
     {
         JLOG(ctx.j.warn()) <<
             "applyTransaction: transaction id may not be zero";
@@ -121,7 +121,7 @@ calculateFee(Application& app, std::uint64_t const baseFee,
 
 PreflightContext::PreflightContext(Application& app_, STTx const& tx_,
     Rules const& rules_, ApplyFlags flags_,
-        beast::Journal j_)
+        boost::beast::Journal j_)
     : app(app_)
     , tx(tx_)
     , rules(rules_)
@@ -167,14 +167,14 @@ Transactor::calculateFeePaid(STTx const& tx)
 ZXCAmount
 Transactor::calculateMaxSpend(STTx const& tx)
 {
-    return beast::zero;
+    return boost::beast::zero;
 }
 
 TER
 Transactor::checkFee (PreclaimContext const& ctx, std::uint64_t baseFee)
 {
     auto const feePaid = calculateFeePaid(ctx.tx);
-    if (!isLegalAmount (feePaid) || feePaid < beast::zero)
+    if (!isLegalAmount (feePaid) || feePaid < boost::beast::zero)
         return temBAD_FEE;
 
     auto feeDue = ripple::calculateFee(ctx.app,
@@ -635,7 +635,7 @@ TER Transactor::checkMultiSign (PreclaimContext const& ctx)
 //------------------------------------------------------------------------------
 
 static
-void removeUnfundedOffers (ApplyView& view, std::vector<uint256> const& offers, beast::Journal viewJ)
+void removeUnfundedOffers (ApplyView& view, std::vector<uint256> const& offers, boost::beast::Journal viewJ)
 {
     int removed = 0;
 

@@ -52,7 +52,7 @@ using boost::multiprecision::cpp_dec_float_50;
 
 namespace ripple {
 
-class SuiteSink : public beast::Journal::Sink
+class SuiteSink : public boost::beast::Journal::Sink
 {
 	std::string partition_;
 	beast::unit_test::suite& suite_;
@@ -112,7 +112,7 @@ public:
 
 	~SuiteLogs() override = default;
 
-	std::unique_ptr<beast::Journal::Sink>
+	std::unique_ptr<boost::beast::Journal::Sink>
 		makeSink(std::string const& partition,
 			beast::severities::Severity threshold) override
 	{
@@ -745,7 +745,7 @@ public:
 		auto& app = env.app();
 		Resource::Charge loadType = Resource::feeReferenceRPC;
 		Resource::Consumer c;
-		RPC::Context context{ beast::Journal(),{}, app, loadType,
+		RPC::Context context{ boost::beast::Journal(),{}, app, loadType,
 			app.getOPs(), app.getLedgerMaster(), c, Role::USER,{} };
 
 		Json::Value obj;
@@ -797,7 +797,7 @@ public:
 			auto& app = env.app();
 			Resource::Charge loadType = Resource::feeReferenceRPC;
 			Resource::Consumer c;
-			RPC::Context context{ beast::Journal(),{}, app, loadType,
+			RPC::Context context{ boost::beast::Journal(),{}, app, loadType,
 				app.getOPs(), app.getLedgerMaster(), c, Role::USER,{} };
 
 			Json::Value obj;
@@ -848,7 +848,7 @@ public:
 			auto& app = env.app();
 			Resource::Charge loadType = Resource::feeReferenceRPC;
 			Resource::Consumer c;
-			RPC::Context context{ beast::Journal(),{}, app, loadType,
+			RPC::Context context{ boost::beast::Journal(),{}, app, loadType,
 				app.getOPs(), app.getLedgerMaster(), c, Role::USER,{} };
 
 			Json::Value obj;
@@ -899,7 +899,7 @@ public:
 			auto& app = env.app();
 			Resource::Charge loadType = Resource::feeReferenceRPC;
 			Resource::Consumer c;
-			RPC::Context context{ beast::Journal(),{}, app, loadType,
+			RPC::Context context{ boost::beast::Journal(),{}, app, loadType,
 				app.getOPs(), app.getLedgerMaster(), c, Role::USER,{} };
 
 			Json::Value obj;
@@ -950,7 +950,7 @@ public:
 			auto& app = env.app();
 			Resource::Charge loadType = Resource::feeReferenceRPC;
 			Resource::Consumer c;
-			RPC::Context context{ beast::Journal(),{}, app, loadType,
+			RPC::Context context{ boost::beast::Journal(),{}, app, loadType,
 				app.getOPs(), app.getLedgerMaster(), c, Role::USER,{} };
 
 			Json::Value obj;
@@ -988,7 +988,7 @@ public:
 			auto& app = env.app();
 			Resource::Charge loadType = Resource::feeReferenceRPC;
 			Resource::Consumer c;
-			RPC::Context context{ beast::Journal(),{}, app, loadType,
+			RPC::Context context{ boost::beast::Journal(),{}, app, loadType,
 				app.getOPs(), app.getLedgerMaster(), c, Role::USER,{} };
 
 			Json::Value obj;
@@ -2685,7 +2685,7 @@ private:
 		auto& app = env.app();
 		Resource::Charge loadType = Resource::feeReferenceRPC;
 		Resource::Consumer c;
-		RPC::Context context{ beast::Journal(),{}, app, loadType,
+		RPC::Context context{ boost::beast::Journal(),{}, app, loadType,
 			app.getOPs(), app.getLedgerMaster(), c, Role::USER,{} };
 
 		Json::Value obj;

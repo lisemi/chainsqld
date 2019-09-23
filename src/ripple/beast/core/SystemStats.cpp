@@ -42,6 +42,7 @@ static_assert (sizeof (std::uint32_t) == 4, "std::uint32_t must be exactly 4 byt
 static_assert (sizeof (std::uint64_t) == 8, "std::uint64_t must be exactly 8 bytes!");
 #endif
 
+namespace boost {
 namespace beast
 {
 //==============================================================================
@@ -121,3 +122,4 @@ getStackBacktrace()
 }
 
 } // beast
+}

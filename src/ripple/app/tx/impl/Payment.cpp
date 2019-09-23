@@ -36,12 +36,12 @@ Payment::calculateMaxSpend(STTx const& tx)
     if (tx.isFieldPresent(sfSendMax))
     {
         auto const& sendMax = tx[sfSendMax];
-        return sendMax.native() ? sendMax.zxc() : beast::zero;
+        return sendMax.native() ? sendMax.zxc() : boost::beast::zero;
     }
     /* If there's no sfSendMax in ZXC, and the sfAmount isn't
     in ZXC, then the transaction can not send ZXC. */
     auto const& saDstAmount = tx.getFieldAmount(sfAmount);
-    return saDstAmount.native() ? saDstAmount.zxc() : beast::zero;
+    return saDstAmount.native() ? saDstAmount.zxc() : boost::beast::zero;
 }
 
 TER

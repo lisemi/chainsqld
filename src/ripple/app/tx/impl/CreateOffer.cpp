@@ -36,7 +36,7 @@ CreateOffer::calculateMaxSpend(STTx const& tx)
     auto const& saTakerGets = tx[sfTakerGets];
 
     return saTakerGets.native() ?
-        saTakerGets.zxc() : beast::zero;
+        saTakerGets.zxc() : boost::beast::zero;
 }
 
 TER
@@ -215,7 +215,7 @@ CreateOffer::preclaim(PreclaimContext const& ctx)
 TER
 CreateOffer::checkAcceptAsset(ReadView const& view,
     ApplyFlags const flags, AccountID const id,
-        beast::Journal const j, Issue const& issue)
+        boost::beast::Journal const j, Issue const& issue)
 {
     // Only valid for custom currencies
     assert (!isZXC (issue.currency));
@@ -603,7 +603,7 @@ CreateOffer::takerCross (
     beast::WrappedSink takerSink (j_, "Taker ");
 
     Taker taker (cross_type_, sb, account_, takerAmount,
-        ctx_.tx.getFlags(), beast::Journal (takerSink));
+        ctx_.tx.getFlags(), boost::beast::Journal (takerSink));
 
     // If the taker is unfunded before we begin crossing
     // there's nothing to do - just return an error.
@@ -833,7 +833,7 @@ static std::string to_string (SBoxCmp c)
 
 static SBoxCmp compareSandboxes (char const* name, ApplyContext const& ctx,
     detail::ApplyViewBase const& viewTaker, detail::ApplyViewBase const& viewFlow,
-    beast::Journal j)
+    boost::beast::Journal j)
 {
     SBoxCmp c = SBoxCmp::same;
     CashDiff diff = cashFlowDiff (

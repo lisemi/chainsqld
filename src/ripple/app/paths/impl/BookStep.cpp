@@ -50,7 +50,7 @@ protected:
     // Charge transfer fees when the prev step redeems
     Step const* const prevStep_ = nullptr;
     bool const ownerPaysTransferFee_;
-    beast::Journal j_;
+    boost::beast::Journal j_;
 
     struct Cache
     {
@@ -634,7 +634,7 @@ auto sum (TCollection const& col)
 {
     using TResult = std::decay_t<decltype (*col.begin ())>;
     if (col.empty ())
-        return TResult{beast::zero};
+        return TResult{boost::beast::zero};
     return std::accumulate (col.begin () + 1, col.end (), *col.begin ());
 };
 
@@ -648,7 +648,7 @@ BookStep<TIn, TOut, TDerived>::revImp (
 {
     cache_.reset ();
 
-    TAmounts<TIn, TOut> result (beast::zero, beast::zero);
+    TAmounts<TIn, TOut> result (boost::beast::zero, boost::beast::zero);
 
     auto remainingOut = out;
 
@@ -669,7 +669,7 @@ BookStep<TIn, TOut, TDerived>::revImp (
             std::uint32_t transferRateIn,
             std::uint32_t transferRateOut) mutable -> bool
     {
-        if (remainingOut <= beast::zero)
+        if (remainingOut <= boost::beast::zero)
             return false;
 
         if (stpAmt.out <= remainingOut)
@@ -690,7 +690,7 @@ BookStep<TIn, TOut, TDerived>::revImp (
             auto ownerGivesAdj = ownerGives;
             limitStepOut (offer.quality (), ofrAdjAmt, stpAdjAmt, ownerGivesAdj,
                 transferRateIn, transferRateOut, remainingOut);
-            remainingOut = beast::zero;
+            remainingOut = boost::beast::zero;
             savedIns.insert (stpAdjAmt.in);
             savedOuts.insert (remainingOut);
             result.in = sum(savedIns);
@@ -719,8 +719,8 @@ BookStep<TIn, TOut, TDerived>::revImp (
         if (offersConsumed >= maxOffersToConsume_)
         {
             // Too many iterations, mark this strand as dry
-            cache_.emplace (beast::zero, beast::zero);
-            return {beast::zero, beast::zero};
+            cache_.emplace (boost::beast::zero, boost::beast::zero);
+            return {boost::beast::zero, boost::beast::zero};
         }
     }
 
@@ -732,8 +732,8 @@ BookStep<TIn, TOut, TDerived>::revImp (
             JLOG (j_.error ())
                 << "BookStep remainingOut < 0 " << to_string (remainingOut);
             assert (0);
-            cache_.emplace (beast::zero, beast::zero);
-            return {beast::zero, beast::zero};
+            cache_.emplace (boost::beast::zero, boost::beast::zero);
+            return {boost::beast::zero, boost::beast::zero};
         }
         case 0:
         {
@@ -757,7 +757,7 @@ BookStep<TIn, TOut, TDerived>::fwdImp (
 {
     assert(cache_);
 
-    TAmounts<TIn, TOut> result (beast::zero, beast::zero);
+    TAmounts<TIn, TOut> result (boost::beast::zero, boost::beast::zero);
 
     auto remainingIn = in;
 
@@ -778,7 +778,7 @@ BookStep<TIn, TOut, TDerived>::fwdImp (
     {
         assert(cache_);
 
-        if (remainingIn <= beast::zero)
+        if (remainingIn <= boost::beast::zero)
             return false;
 
         bool processMore = true;
@@ -873,8 +873,8 @@ BookStep<TIn, TOut, TDerived>::fwdImp (
         if (offersConsumed >= maxOffersToConsume_)
         {
             // Too many iterations, mark this strand as dry
-            cache_.emplace (beast::zero, beast::zero);
-            return {beast::zero, beast::zero};
+            cache_.emplace (boost::beast::zero, boost::beast::zero);
+            return {boost::beast::zero, boost::beast::zero};
         }
     }
 
@@ -886,8 +886,8 @@ BookStep<TIn, TOut, TDerived>::fwdImp (
             JLOG (j_.error ())
                 << "BookStep remainingIn < 0 " << to_string (remainingIn);
             assert (0);
-            cache_.emplace (beast::zero, beast::zero);
-            return {beast::zero, beast::zero};
+            cache_.emplace (boost::beast::zero, boost::beast::zero);
+            return {boost::beast::zero, boost::beast::zero};
         }
         case 0:
         {
@@ -911,7 +911,7 @@ BookStep<TIn, TOut, TDerived>::validFwd (
     if (!cache_)
     {
         JLOG (j_.trace()) << "Expected valid cache in validFwd";
-        return {false, EitherAmount (TOut (beast::zero))};
+        return {false, EitherAmount (TOut (boost::beast::zero))};
     }
 
     auto const savCache = *cache_;
@@ -923,7 +923,7 @@ BookStep<TIn, TOut, TDerived>::validFwd (
     }
     catch (FlowException const&)
     {
-        return {false, EitherAmount (TOut (beast::zero))};
+        return {false, EitherAmount (TOut (boost::beast::zero))};
     }
 
     if (!(checkNear (savCache.in, cache_->in) &&

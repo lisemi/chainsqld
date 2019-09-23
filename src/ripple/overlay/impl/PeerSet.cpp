@@ -38,7 +38,7 @@ class InboundLedger;
 //
 PeerSet::PeerSet (Application& app, uint256 const& hash,
     std::chrono::milliseconds interval, clock_type& clock,
-    beast::Journal journal)
+    boost::beast::Journal journal)
     : app_ (app)
     , m_journal (journal)
     , m_clock (clock)

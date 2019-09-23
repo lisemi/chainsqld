@@ -34,7 +34,7 @@ BookDirs::BookDirs(ReadView const& view, Book const& book)
     if (key_ != zero)
     {
         if (! cdirFirst(*view_, key_, sle_, entry_, index_,
-            beast::Journal()))
+            boost::beast::Journal()))
         {
             assert(false);            
         }
@@ -64,7 +64,7 @@ BookDirs::end() const  ->
 }
 
 
-beast::Journal BookDirs::const_iterator::j_ = beast::Journal();
+boost::beast::Journal BookDirs::const_iterator::j_ = boost::beast::Journal();
 
 bool
 BookDirs::const_iterator::operator==

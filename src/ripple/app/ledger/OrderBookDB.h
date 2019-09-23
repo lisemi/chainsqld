@@ -82,7 +82,7 @@ private:
 
     std::uint32_t mSeq;
 
-    beast::Journal j_;
+    boost::beast::Journal j_;
 };
 
 } // ripple

@@ -25,7 +25,7 @@
 #include <ripple/core/Config.h>
 #include <memory>
 #include <soci/sqlite3/soci-sqlite3.h>
-#include <soci/mysql/soci-mysql.h>
+// #include <soci/mysql/soci-mysql.h>
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 
@@ -105,8 +105,8 @@ void open (soci::session& s,
 {
     if (boost::iequals(beName, "sqlite"))
 		s.open(soci::sqlite3, connectionString);	
-	else if (boost::iequals(beName, "mycat") || boost::iequals(beName, "mysql"))
-		s.open(soci::mysql, connectionString);
+	// else if (boost::iequals(beName, "mycat") || boost::iequals(beName, "mysql"))
+	//	s.open(soci::mysql, connectionString);
     else
         Throw<std::runtime_error> ("Unsupported soci backend: " + beName);
 }
@@ -205,7 +205,7 @@ private:
     JobQueue& jobQueue_;
 
     bool running_ = false;
-    beast::Journal j_;
+    boost::beast::Journal j_;
 
     static
     int sqliteWALHook (

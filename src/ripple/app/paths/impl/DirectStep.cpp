@@ -44,7 +44,7 @@ protected:
     // Charge transfer fees when the prev step redeems
     Step const* const prevStep_ = nullptr;
     bool const isLast_;
-    beast::Journal j_;
+    boost::beast::Journal j_;
 
     struct Cache
     {
@@ -520,11 +520,11 @@ DirectStepI<TDerived>::revImp (
     {
         JLOG (j_.trace()) << "DirectStepI::rev: dry";
         cache_.emplace (
-            IOUAmount (beast::zero),
-            IOUAmount (beast::zero),
-            IOUAmount (beast::zero),
+            IOUAmount (boost::beast::zero),
+            IOUAmount (boost::beast::zero),
+            IOUAmount (boost::beast::zero),
             srcRedeems);
-        return {beast::zero, beast::zero};
+        return {boost::beast::zero, boost::beast::zero};
     }
 
     IOUAmount const srcToDst = mulRatio (
@@ -642,11 +642,11 @@ DirectStepI<TDerived>::fwdImp (
     {
         JLOG (j_.trace()) << "DirectStepI::fwd: dry";
         cache_.emplace (
-            IOUAmount (beast::zero),
-            IOUAmount (beast::zero),
-            IOUAmount (beast::zero),
+            IOUAmount (boost::beast::zero),
+            IOUAmount (boost::beast::zero),
+            IOUAmount (boost::beast::zero),
             srcRedeems);
-        return {beast::zero, beast::zero};
+        return {boost::beast::zero, boost::beast::zero};
     }
 
     IOUAmount const srcToDst = mulRatio (
@@ -698,7 +698,7 @@ DirectStepI<TDerived>::validFwd (
     if (!cache_)
     {
         JLOG (j_.trace()) << "Expected valid cache in validFwd";
-        return {false, EitherAmount (IOUAmount (beast::zero))};
+        return {false, EitherAmount (IOUAmount (boost::beast::zero))};
     }
 
 
@@ -718,7 +718,7 @@ DirectStepI<TDerived>::validFwd (
     }
     catch (FlowException const&)
     {
-        return {false, EitherAmount (IOUAmount (beast::zero))};
+        return {false, EitherAmount (IOUAmount (boost::beast::zero))};
     }
 
     if (maxSrcToDst < cache_->srcToDst)

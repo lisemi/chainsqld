@@ -29,7 +29,7 @@
 #include <string>
 #include <type_traits>
 
-using beast::zero;
+using boost::beast::zero;
 
 namespace ripple {
 
@@ -45,13 +45,13 @@ public:
     ZXCAmount (ZXCAmount const& other) = default;
     ZXCAmount& operator= (ZXCAmount const& other) = default;
 
-    ZXCAmount (beast::Zero)
+    ZXCAmount (boost::beast::Zero)
         : drops_ (0)
     {
     }
 
     ZXCAmount&
-    operator= (beast::Zero)
+    operator= (boost::beast::Zero)
     {
         drops_ = 0;
         return *this;

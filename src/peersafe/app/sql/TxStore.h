@@ -73,7 +73,7 @@ private:
 class TxStore {
 public:
 	//TxStore(const Config& cfg);
-	TxStore(DatabaseCon* dbconn, const Config& cfg, const beast::Journal& journal);
+	TxStore(DatabaseCon* dbconn, const Config& cfg, const boost::beast::Journal& journal);
 	~TxStore();
 
 	// dispose one transaction
@@ -91,7 +91,7 @@ private:
 	const Config& cfg_;
 	std::string db_type_;
 	DatabaseCon* databasecon_;
-	beast::Journal journal_;
+	boost::beast::Journal journal_;
 };	// class TxStore
 
 }	// namespace ripple

@@ -218,7 +218,7 @@ invoke_calculateConsequences(STTx const& tx)
     default:
         assert(false);
         return { TxConsequences::blocker, Transactor::calculateFeePaid(tx),
-            beast::zero };
+            boost::beast::zero };
     }
 }
 
@@ -258,7 +258,7 @@ invoke_apply (ApplyContext& ctx)
 PreflightResult
 preflight(Application& app, Rules const& rules,
     STTx const& tx, ApplyFlags flags,
-        beast::Journal j)
+        boost::beast::Journal j)
 {
     PreflightContext const pfctx(app, tx,
         rules, flags, j);
@@ -309,7 +309,7 @@ preclaim (PreflightResult const& preflightResult,
 
 std::uint64_t
 calculateBaseFee(Application& app, ReadView const& view,
-    STTx const& tx, beast::Journal j)
+    STTx const& tx, boost::beast::Journal j)
 {
     PreclaimContext const ctx(
         app, view, tesSUCCESS, tx,
@@ -325,7 +325,7 @@ calculateConsequences(PreflightResult const& preflightResult)
     if (preflightResult.ter != tesSUCCESS)
         return{ TxConsequences::blocker,
             Transactor::calculateFeePaid(preflightResult.tx),
-                beast::zero };
+                boost::beast::zero };
     return invoke_calculateConsequences(preflightResult.tx);
 }
 

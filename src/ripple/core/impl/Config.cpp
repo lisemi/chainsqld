@@ -27,7 +27,7 @@
 #include <ripple/protocol/SystemParameters.h>
 #include <ripple/net/HTTPClient.h>
 #include <ripple/beast/core/LexicalCast.h>
-#include <beast/core/string.hpp>
+#include <beast/include/boost/beast/core/string.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
 #include <boost/regex.hpp>
@@ -106,7 +106,7 @@ getIniFileSection (IniFileSections& secSource, std::string const& strSection)
 }
 
 bool getSingleSection (IniFileSections& secSource,
-    std::string const& strSection, std::string& strValue, beast::Journal j)
+    std::string const& strSection, std::string& strValue, boost::beast::Journal j)
 {
     IniFileSections::mapped_type* pmtEntries =
         getIniFileSection (secSource, strSection);
@@ -318,29 +318,29 @@ void Config::loadFromString (std::string const& fileContents)
     std::string strTemp;
 	
 	if (getSingleSection(secConfig, SECTION_GM_SELF_CHECK, strTemp, j_))
-		GM_SELF_CHECK = beast::lexicalCastThrow <bool>(strTemp);
+		GM_SELF_CHECK = boost::beast::lexicalCastThrow <bool>(strTemp);
 
     if (getSingleSection (secConfig, SECTION_PEER_PRIVATE, strTemp, j_))
-        PEER_PRIVATE = beast::lexicalCastThrow <bool> (strTemp);
+        PEER_PRIVATE = boost::beast::lexicalCastThrow <bool> (strTemp);
 
     if (getSingleSection (secConfig, SECTION_PEERS_MAX, strTemp, j_))
-        PEERS_MAX = std::max (0, beast::lexicalCastThrow <int> (strTemp));
+        PEERS_MAX = std::max (0, boost::beast::lexicalCastThrow <int> (strTemp));
 
     if (getSingleSection (secConfig, SECTION_NODE_SIZE, strTemp, j_))
     {
-        if (beast::detail::iequals(strTemp, "tiny"))
+        if (boost::beast::iequals(strTemp, "tiny"))
             NODE_SIZE = 0;
-        else if (beast::detail::iequals(strTemp, "small"))
+        else if (boost::beast::iequals(strTemp, "small"))
             NODE_SIZE = 1;
-        else if (beast::detail::iequals(strTemp, "medium"))
+        else if (boost::beast::iequals(strTemp, "medium"))
             NODE_SIZE = 2;
-        else if (beast::detail::iequals(strTemp, "large"))
+        else if (boost::beast::iequals(strTemp, "large"))
             NODE_SIZE = 3;
-        else if (beast::detail::iequals(strTemp, "huge"))
+        else if (boost::beast::iequals(strTemp, "huge"))
             NODE_SIZE = 4;
         else
         {
-            NODE_SIZE = beast::lexicalCastThrow <int> (strTemp);
+            NODE_SIZE = boost::beast::lexicalCastThrow <int> (strTemp);
 
             if (NODE_SIZE < 0)
                 NODE_SIZE = 0;
@@ -350,16 +350,16 @@ void Config::loadFromString (std::string const& fileContents)
     }
 
     if (getSingleSection (secConfig, SECTION_ELB_SUPPORT, strTemp, j_))
-        ELB_SUPPORT         = beast::lexicalCastThrow <bool> (strTemp);
+        ELB_SUPPORT         = boost::beast::lexicalCastThrow <bool> (strTemp);
 
     if (getSingleSection (secConfig, SECTION_WEBSOCKET_PING_FREQ, strTemp, j_))
-        WEBSOCKET_PING_FREQ = std::chrono::seconds{beast::lexicalCastThrow <int>(strTemp)};
+        WEBSOCKET_PING_FREQ = std::chrono::seconds{boost::beast::lexicalCastThrow <int>(strTemp)};
 
     getSingleSection (secConfig, SECTION_SSL_VERIFY_FILE, SSL_VERIFY_FILE, j_);
     getSingleSection (secConfig, SECTION_SSL_VERIFY_DIR, SSL_VERIFY_DIR, j_);
 
     if (getSingleSection (secConfig, SECTION_SSL_VERIFY, strTemp, j_))
-        SSL_VERIFY          = beast::lexicalCastThrow <bool> (strTemp);
+        SSL_VERIFY          = boost::beast::lexicalCastThrow <bool> (strTemp);
 
     if (exists(SECTION_VALIDATION_SEED) && exists(SECTION_VALIDATOR_TOKEN))
         Throw<std::runtime_error> (
@@ -367,57 +367,57 @@ void Config::loadFromString (std::string const& fileContents)
             "and [" SECTION_VALIDATOR_TOKEN "] config sections");
 
     if (getSingleSection (secConfig, SECTION_NETWORK_QUORUM, strTemp, j_))
-        NETWORK_QUORUM      = beast::lexicalCastThrow <std::size_t> (strTemp);
+        NETWORK_QUORUM      = boost::beast::lexicalCastThrow <std::size_t> (strTemp);
 
     if (getSingleSection (secConfig, SECTION_FEE_ACCOUNT_RESERVE, strTemp, j_))
-        FEE_ACCOUNT_RESERVE = beast::lexicalCastThrow <std::uint64_t> (strTemp);
+        FEE_ACCOUNT_RESERVE = boost::beast::lexicalCastThrow <std::uint64_t> (strTemp);
 
     if (getSingleSection (secConfig, SECTION_FEE_OWNER_RESERVE, strTemp, j_))
-        FEE_OWNER_RESERVE   = beast::lexicalCastThrow <std::uint64_t> (strTemp);
+        FEE_OWNER_RESERVE   = boost::beast::lexicalCastThrow <std::uint64_t> (strTemp);
 
     if (getSingleSection (secConfig, SECTION_FEE_OFFER, strTemp, j_))
-        FEE_OFFER           = beast::lexicalCastThrow <int> (strTemp);
+        FEE_OFFER           = boost::beast::lexicalCastThrow <int> (strTemp);
 
     if (getSingleSection (secConfig, SECTION_FEE_DEFAULT, strTemp, j_))
-        FEE_DEFAULT         = beast::lexicalCastThrow <int> (strTemp);
+        FEE_DEFAULT         = boost::beast::lexicalCastThrow <int> (strTemp);
 
     if (getSingleSection (secConfig, SECTION_LEDGER_HISTORY, strTemp, j_))
     {
-        if (beast::detail::iequals(strTemp, "full"))
+        if (boost::beast::iequals(strTemp, "full"))
             LEDGER_HISTORY = 1000000000u;
-        else if (beast::detail::iequals(strTemp, "none"))
+        else if (boost::beast::iequals(strTemp, "none"))
             LEDGER_HISTORY = 0;
         else
-            LEDGER_HISTORY = beast::lexicalCastThrow <std::uint32_t> (strTemp);
+            LEDGER_HISTORY = boost::beast::lexicalCastThrow <std::uint32_t> (strTemp);
     }
 
     if (getSingleSection (secConfig, SECTION_FETCH_DEPTH, strTemp, j_))
     {
-        if (beast::detail::iequals(strTemp, "none"))
+        if (boost::beast::iequals(strTemp, "none"))
             FETCH_DEPTH = 0;
-        else if (beast::detail::iequals(strTemp, "full"))
+        else if (boost::beast::iequals(strTemp, "full"))
             FETCH_DEPTH = 1000000000u;
         else
-            FETCH_DEPTH = beast::lexicalCastThrow <std::uint32_t> (strTemp);
+            FETCH_DEPTH = boost::beast::lexicalCastThrow <std::uint32_t> (strTemp);
 
         if (FETCH_DEPTH < 10)
             FETCH_DEPTH = 10;
     }
 
     if (getSingleSection (secConfig, SECTION_PATH_SEARCH_OLD, strTemp, j_))
-        PATH_SEARCH_OLD     = beast::lexicalCastThrow <int> (strTemp);
+        PATH_SEARCH_OLD     = boost::beast::lexicalCastThrow <int> (strTemp);
     if (getSingleSection (secConfig, SECTION_PATH_SEARCH, strTemp, j_))
-        PATH_SEARCH         = beast::lexicalCastThrow <int> (strTemp);
+        PATH_SEARCH         = boost::beast::lexicalCastThrow <int> (strTemp);
     if (getSingleSection (secConfig, SECTION_PATH_SEARCH_FAST, strTemp, j_))
-        PATH_SEARCH_FAST    = beast::lexicalCastThrow <int> (strTemp);
+        PATH_SEARCH_FAST    = boost::beast::lexicalCastThrow <int> (strTemp);
     if (getSingleSection (secConfig, SECTION_PATH_SEARCH_MAX, strTemp, j_))
-        PATH_SEARCH_MAX     = beast::lexicalCastThrow <int> (strTemp);
+        PATH_SEARCH_MAX     = boost::beast::lexicalCastThrow <int> (strTemp);
 
     if (getSingleSection (secConfig, SECTION_DEBUG_LOGFILE, strTemp, j_))
         DEBUG_LOGFILE       = strTemp;
 
     if (getSingleSection (secConfig, SECTION_WORKERS, strTemp, j_))
-        WORKERS      = beast::lexicalCastThrow <std::size_t> (strTemp);
+        WORKERS      = boost::beast::lexicalCastThrow <std::size_t> (strTemp);
 
     // Do not load trusted validator configuration for standalone mode
     if (! RUN_STANDALONE)

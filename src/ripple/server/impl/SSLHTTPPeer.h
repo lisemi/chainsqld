@@ -46,7 +46,7 @@ private:
 public:
     template<class ConstBufferSequence>
     SSLHTTPPeer(Port const& port, Handler& handler,
-        beast::Journal journal, endpoint_type remote_address,
+        boost::beast::Journal journal, endpoint_type remote_address,
             ConstBufferSequence const& buffers, socket_type&& socket);
 
     void
@@ -75,7 +75,7 @@ template<class Handler>
 template<class ConstBufferSequence>
 SSLHTTPPeer<Handler>::
 SSLHTTPPeer(Port const& port, Handler& handler,
-    beast::Journal journal, endpoint_type remote_address,
+    boost::beast::Journal journal, endpoint_type remote_address,
         ConstBufferSequence const& buffers, socket_type&& socket)
     : BaseHTTPPeer<Handler, SSLHTTPPeer>(port, handler,
         socket.get_io_service(), journal, remote_address, buffers)

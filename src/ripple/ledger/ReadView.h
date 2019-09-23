@@ -132,7 +132,7 @@ public:
         These are the rules reflected by
         the genesis ledger.
     */
-    explicit Rules(std::unordered_set<uint256, beast::uhash<>> const& presets);
+    explicit Rules(std::unordered_set<uint256, boost::beast::uhash<>> const& presets);
 
     /** Construct rules from a ledger.
 
@@ -141,7 +141,7 @@ public:
     */
     explicit Rules(
         DigestAwareReadView const& ledger,
-            std::unordered_set<uint256, beast::uhash<>> const& presets);
+            std::unordered_set<uint256, boost::beast::uhash<>> const& presets);
 
     /** Returns `true` if a feature is enabled. */
     bool

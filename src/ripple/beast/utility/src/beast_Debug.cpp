@@ -20,6 +20,7 @@
 #include <ripple/beast/utility/Debug.h>
 #include <ripple/beast/core/SystemStats.h>
 
+namespace boost { 
 namespace beast {
 
 namespace Debug {
@@ -110,4 +111,5 @@ void checkHeap ()
 
 }
 
+}
 }

@@ -53,7 +53,7 @@ public:
         auto batch = createPredictableBatch (
             numObjectsToTest, rng());
 
-        beast::Journal j;
+        boost::beast::Journal j;
 
         {
             // Open the backend

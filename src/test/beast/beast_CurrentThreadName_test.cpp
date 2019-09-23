@@ -33,10 +33,10 @@ private:
         std::string myName, std::atomic<bool>* stop, std::atomic<int>* state)
     {
         // Verify that upon creation a thread has no name.
-        auto const initialThreadName = beast::getCurrentThreadName();
+        auto const initialThreadName = boost::beast::getCurrentThreadName();
 
         // Set the new name.
-        beast::setCurrentThreadName (myName);
+        boost::beast::setCurrentThreadName (myName);
 
         // Indicate to caller that the name is set.
         *state = 1;
@@ -50,7 +50,7 @@ private:
 
         // Make sure the thread name that we set before is still there
         // (not overwritten by, for instance, another thread).
-        if (beast::getCurrentThreadName() == myName)
+        if (boost::beast::getCurrentThreadName() == myName)
             *state = 2;
     }
 

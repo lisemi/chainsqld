@@ -122,7 +122,7 @@ public:
 
 
     static bool rfc2818_verify (std::string const& domain, bool preverified,
-                                boost::asio::ssl::verify_context& ctx, beast::Journal j)
+                                boost::asio::ssl::verify_context& ctx, boost::beast::Journal j)
     {
         using namespace ripple;
 
@@ -351,7 +351,7 @@ private:
     socket_ptr          mSocket;
     bool                mSecure;
     std::vector<char>   mBuffer;
-    beast::Journal      j_;
+    boost::beast::Journal      j_;
 };
 
 #endif

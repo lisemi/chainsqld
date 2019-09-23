@@ -32,7 +32,7 @@
 
 namespace ripple {
 
-Cluster::Cluster (beast::Journal j)
+Cluster::Cluster (boost::beast::Journal j)
     : j_ (j)
 {
 }

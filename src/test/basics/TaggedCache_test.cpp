@@ -40,7 +40,7 @@ class TaggedCache_test : public beast::unit_test::suite
 public:
     void run ()
     {
-        beast::Journal const j;
+        boost::beast::Journal const j;
 
         TestStopwatch clock;
         clock.set (0);

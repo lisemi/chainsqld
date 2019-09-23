@@ -95,7 +95,7 @@ public:
 
 extern
 std::unique_ptr<TimeKeeper>
-make_TimeKeeper(beast::Journal j);
+make_TimeKeeper(boost::beast::Journal j);
 
 } // ripple
 

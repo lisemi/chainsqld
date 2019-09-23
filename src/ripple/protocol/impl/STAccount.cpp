@@ -24,14 +24,14 @@ namespace ripple {
 
 STAccount::STAccount ()
     : STBase ()
-    , value_ (beast::zero)
+    , value_ (boost::beast::zero)
     , default_ (true)
 {
 }
 
 STAccount::STAccount (SField const& n)
     : STBase (n)
-    , value_ (beast::zero)
+    , value_ (boost::beast::zero)
     , default_ (true)
 {
 }

@@ -24,6 +24,7 @@
 #include <ripple/beast/hash/hash_append.h>
 #include <ripple/beast/hash/spooky.h>
 
+namespace boost {
 namespace beast {
 
 // Universal hash function
@@ -43,5 +44,6 @@ struct uhash
 };
 
 } // beast
+} // boost
 
 #endif

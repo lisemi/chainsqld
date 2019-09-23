@@ -34,6 +34,7 @@
 
 //------------------------------------------------------------------------------
 
+namespace boost {
 namespace beast {
 namespace IP {
 
@@ -328,17 +329,18 @@ Address::from_string (std::string const& s)
 
 }
 }
+}
 
 //------------------------------------------------------------------------------
 
 namespace std {
 template <>
-struct hash <beast::IP::Address>
+struct hash <boost::beast::IP::Address>
 {
     std::size_t
-    operator() (beast::IP::Address const& addr) const
+    operator() (boost::beast::IP::Address const& addr) const
     {
-        return beast::uhash<>{} (addr);
+        return boost::beast::uhash<>{} (addr);
     }
 };
 }
@@ -350,7 +352,7 @@ struct hash <beast::IP::Address>
     std::size_t
     operator() (beast::IP::Address const& addr) const
     {
-        return beast::uhash<>{} (addr);
+        return boost::beast::uhash<>{} (addr);
     }
 };
 }

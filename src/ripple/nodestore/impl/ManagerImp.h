@@ -57,7 +57,7 @@ public:
     make_Backend (
         Section const& parameters,
         Scheduler& scheduler,
-        beast::Journal journal) override;
+        boost::beast::Journal journal) override;
 
     std::unique_ptr <Database>
     make_Database (
@@ -66,7 +66,7 @@ public:
         int readThreads,
         Stoppable& parent,
         Section const& backendParameters,
-        beast::Journal journal) override;
+        boost::beast::Journal journal) override;
 
     std::unique_ptr <DatabaseRotating>
     make_DatabaseRotating (
@@ -76,7 +76,7 @@ public:
         Stoppable& parent,
         std::shared_ptr <Backend> writableBackend,
         std::shared_ptr <Backend> archiveBackend,
-        beast::Journal journal) override;
+        boost::beast::Journal journal) override;
 };
 
 }

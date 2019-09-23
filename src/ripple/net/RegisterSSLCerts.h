@@ -35,7 +35,7 @@ void
 registerSSLCerts(
     boost::asio::ssl::context&,
     boost::system::error_code&,
-    beast::Journal j);
+    boost::beast::Journal j);
 
 }  // namespace ripple
 

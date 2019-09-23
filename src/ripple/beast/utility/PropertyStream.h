@@ -28,6 +28,7 @@
 #include <string>
 #include <utility>
 
+namespace boost {
 namespace beast {
 
 //------------------------------------------------------------------------------
@@ -355,6 +356,7 @@ public:
     virtual void onWrite (Map&);
 };
 
+}
 }
 
 #endif

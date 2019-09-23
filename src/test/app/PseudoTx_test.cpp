@@ -80,7 +80,7 @@ struct PseudoTx_test : public beast::unit_test::suite
             BEAST_EXPECT(!passesLocalChecks(stx, reason));
             BEAST_EXPECT(reason == "Cannot submit pseudo transactions.");
             env.app().openLedger().modify(
-                [&](OpenView& view, beast::Journal j) {
+                [&](OpenView& view, boost::beast::Journal j) {
                     auto const result =
                         ripple::apply(env.app(), view, stx, tapNONE, j);
                     BEAST_EXPECT(!result.second && result.first == temINVALID);

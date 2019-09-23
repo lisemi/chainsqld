@@ -42,7 +42,7 @@ private:
     std::mutex fetchRateMutex_;
     // measures ledgers per second, constants are important
     DecayWindow<30, clock_type> fetchRate_;
-    beast::Journal j_;
+    boost::beast::Journal j_;
 
 public:
     using u256_acq_pair = std::pair<
@@ -307,7 +307,7 @@ public:
             for (auto const& it : mRecentFailures)
             {
                 if (it.second > 1)
-                    ret[beast::lexicalCastThrow <std::string>(
+                    ret[boost::beast::lexicalCastThrow <std::string>(
                         it.second)][jss::failed] = true;
                 else
                     ret[to_string (it.first)][jss::failed] = true;

@@ -21,6 +21,7 @@
 #ifndef BEAST_HASH_ENDIAN_H_INCLUDED
 #define BEAST_HASH_ENDIAN_H_INCLUDED
 
+namespace boost {
 namespace beast {
 
 // endian provides answers to the following questions:
@@ -50,5 +51,6 @@ static_assert(endian::big != endian::little,
 #endif
 
 } // beast
+} // boost
 
 #endif

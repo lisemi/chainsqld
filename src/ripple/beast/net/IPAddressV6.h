@@ -27,6 +27,7 @@
 #include <string>
 #include <utility>
 
+namespace boost {
 namespace beast {
 namespace IP {
 
@@ -92,15 +93,16 @@ std::istream& operator>> (std::istream& is, AddressV6& addr);
 
 }
 }
+}
 
 //------------------------------------------------------------------------------
 
 namespace std {
 /** std::hash support. */
 template <>
-struct hash <beast::IP::AddressV6>
+struct hash <boost::beast::IP::AddressV6>
 {
-    std::size_t operator() (beast::IP::AddressV6 const& addr) const
+    std::size_t operator() (boost::beast::IP::AddressV6 const& addr) const
         { assert(false); return 0; }
 };
 }

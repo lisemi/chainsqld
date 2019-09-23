@@ -681,7 +681,7 @@ public:
             TER ter;
 
             env.app().openLedger().modify(
-                [&](OpenView& view, beast::Journal j)
+                [&](OpenView& view, boost::beast::Journal j)
                 {
                     std::tie(ter, didApply) =
                         ripple::apply(env.app(),

@@ -128,7 +128,7 @@ closeChannel (
     std::shared_ptr<SLE> const& slep,
     ApplyView& view,
     uint256 const& key,
-    beast::Journal j)
+    boost::beast::Journal j)
 {
     AccountID const src = (*slep)[sfAccount];
     // Remove PayChan from owner directory
@@ -165,7 +165,7 @@ PayChanCreate::preflight (PreflightContext const& ctx)
     if (!isTesSuccess (ret))
         return ret;
 
-    if (!isZXC (ctx.tx[sfAmount]) || (ctx.tx[sfAmount] <= beast::zero))
+    if (!isZXC (ctx.tx[sfAmount]) || (ctx.tx[sfAmount] <= boost::beast::zero))
         return temBAD_AMOUNT;
 
     if (ctx.tx[sfAccount] == ctx.tx[sfDestination])
@@ -266,7 +266,7 @@ PayChanFund::preflight (PreflightContext const& ctx)
     if (!isTesSuccess (ret))
         return ret;
 
-    if (!isZXC (ctx.tx[sfAmount]) || (ctx.tx[sfAmount] <= beast::zero))
+    if (!isZXC (ctx.tx[sfAmount]) || (ctx.tx[sfAmount] <= boost::beast::zero))
         return temBAD_AMOUNT;
 
     return preflight2 (ctx);
@@ -352,11 +352,11 @@ PayChanClaim::preflight (PreflightContext const& ctx)
         return ret;
 
     auto const bal = ctx.tx[~sfBalance];
-    if (bal && (!isZXC (*bal) || *bal <= beast::zero))
+    if (bal && (!isZXC (*bal) || *bal <= boost::beast::zero))
         return temBAD_AMOUNT;
 
     auto const amt = ctx.tx[~sfAmount];
-    if (amt && (!isZXC (*amt) || *amt <= beast::zero))
+    if (amt && (!isZXC (*amt) || *amt <= boost::beast::zero))
         return temBAD_AMOUNT;
 
     if (bal && amt && *bal > *amt)
@@ -462,7 +462,7 @@ PayChanClaim::doApply()
 
         (*slep)[sfBalance] = ctx_.tx[sfBalance];
         ZXCAmount const reqDelta = reqBalance - chanBalance;
-        assert (reqDelta >= beast::zero);
+        assert (reqDelta >= boost::beast::zero);
         (*sled)[sfBalance] = (*sled)[sfBalance] + reqDelta;
         ctx_.view ().update (sled);
         ctx_.view ().update (slep);

@@ -60,7 +60,7 @@ class RandCheck
 {
 public:
 	static RandCheck* getInstance();
-	//void setLogJournal(beast::Journal* journal);
+	//void setLogJournal(boost::beast::Journal* journal);
 
 	int RandTest(HardEncrypt* hEObj, int randomTestSetCnt, int randomLen, bool isCycleCheck = false);
 	int RandomnessTest(unsigned char* pbBuffer, int nBufferLen, int index);
@@ -69,7 +69,7 @@ public:
 private:
 	static RandCheck* rcInstance;
 	bool isCycleCheck_;
-	//beast::Journal*	journal_;
+	//boost::beast::Journal*	journal_;
 
 private:
 	RandCheck();

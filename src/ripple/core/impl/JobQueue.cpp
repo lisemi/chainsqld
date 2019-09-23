@@ -23,8 +23,8 @@
 
 namespace ripple {
 
-JobQueue::JobQueue (beast::insight::Collector::ptr const& collector,
-    Stoppable& parent, beast::Journal journal, Logs& logs)
+JobQueue::JobQueue (boost::beast::insight::Collector::ptr const& collector,
+    Stoppable& parent, boost::beast::Journal journal, Logs& logs)
     : Stoppable ("JobQueue", parent)
     , m_journal (journal)
     , m_lastJob (0)
@@ -57,7 +57,7 @@ JobQueue::JobQueue (beast::insight::Collector::ptr const& collector,
 JobQueue::~JobQueue ()
 {
     // Must unhook before destroying
-    hook = beast::insight::Hook ();
+    hook = boost::beast::insight::Hook ();
 }
 
 void

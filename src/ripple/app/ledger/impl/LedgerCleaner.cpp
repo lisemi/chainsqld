@@ -45,7 +45,7 @@ Cleans up the ledger. Specifically, resolves these issues:
 class LedgerCleanerImp : public LedgerCleaner
 {
     Application& app_;
-    beast::Journal j_;
+    boost::beast::Journal j_;
     mutable std::mutex mutex_;
 
     mutable std::condition_variable wakeup_;
@@ -80,7 +80,7 @@ public:
     LedgerCleanerImp (
         Application& app,
         Stoppable& stoppable,
-        beast::Journal journal)
+        boost::beast::Journal journal)
         : LedgerCleaner (stoppable)
         , app_ (app)
         , j_ (journal)
@@ -242,7 +242,7 @@ private:
 
     void run ()
     {
-        beast::setCurrentThreadName ("LedgerCleaner");
+        boost::beast::setCurrentThreadName ("LedgerCleaner");
         JLOG (j_.debug()) << "Started";
 
         init();
@@ -499,7 +499,7 @@ LedgerCleaner::~LedgerCleaner ()
 
 std::unique_ptr<LedgerCleaner>
 make_LedgerCleaner (Application& app,
-    Stoppable& parent, beast::Journal journal)
+    Stoppable& parent, boost::beast::Journal journal)
 {
     return std::make_unique<LedgerCleanerImp>(app, parent, journal);
 }

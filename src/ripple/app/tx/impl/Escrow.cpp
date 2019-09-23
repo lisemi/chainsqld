@@ -155,7 +155,7 @@ EscrowCreate::preflight (PreflightContext const& ctx)
     //if (! isZXC(ctx.tx[sfAmount]))
     //    return temBAD_AMOUNT;
 
-    if (ctx.tx[sfAmount] <= beast::zero)
+    if (ctx.tx[sfAmount] <= boost::beast::zero)
         return temBAD_AMOUNT;
 
     if (! ctx.tx[~sfCancelAfter] &&

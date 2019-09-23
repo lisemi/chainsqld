@@ -119,8 +119,8 @@ private:
         Paused: Blocked waiting to exit or become active.
     */
     class Worker
-        : public beast::LockFreeStack <Worker>::Node
-        , public beast::LockFreeStack <Worker, PausedTag>::Node
+        : public boost::beast::LockFreeStack <Worker>::Node
+        , public boost::beast::LockFreeStack <Worker, PausedTag>::Node
     {
     public:
         Worker (Workers& workers, std::string const& threadName);
@@ -144,19 +144,19 @@ private:
     };
 
 private:
-    static void deleteWorkers (beast::LockFreeStack <Worker>& stack);
+    static void deleteWorkers (boost::beast::LockFreeStack <Worker>& stack);
 
 private:
     Callback& m_callback;
     std::string m_threadNames;                   // The name to give each thread
-    beast::WaitableEvent m_allPaused;            // signaled when all threads paused
+    boost::beast::WaitableEvent m_allPaused;            // signaled when all threads paused
     semaphore m_semaphore;                       // each pending task is 1 resource
     int m_numberOfThreads;                       // how many we want active now
     std::atomic <int> m_activeCount;             // to know when all are paused
     std::atomic <int> m_pauseCount;              // how many threads need to pause now
     std::atomic <int> m_runningTaskCount;        // how many calls to processTask() active
-    beast::LockFreeStack <Worker> m_everyone;           // holds all created workers
-    beast::LockFreeStack <Worker, PausedTag> m_paused;  // holds just paused workers
+    boost::beast::LockFreeStack <Worker> m_everyone;           // holds all created workers
+    boost::beast::LockFreeStack <Worker, PausedTag> m_paused;  // holds just paused workers
 };
 
 } // beast

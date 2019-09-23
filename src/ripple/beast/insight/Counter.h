@@ -25,6 +25,7 @@
 
 #include <memory>
 
+namespace boost {
 namespace beast {
 namespace insight {
 
@@ -120,6 +121,7 @@ private:
     std::shared_ptr <CounterImpl> m_impl;
 };
 
+}
 }
 }
 

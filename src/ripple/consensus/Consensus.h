@@ -62,7 +62,7 @@ shouldCloseLedger(
     std::chrono::milliseconds openTime,
     std::chrono::milliseconds idleInterval,
     ConsensusParms const & parms,
-    beast::Journal j);
+    boost::beast::Journal j);
 
 /** Determine whether the network reached consensus and whether we joined.
 
@@ -88,7 +88,7 @@ checkConsensus(
     std::chrono::milliseconds currentAgreeTime,
     ConsensusParms const & parms,
     bool proposing,
-    beast::Journal j);
+    boost::beast::Journal j);
 
 /** Generic implementation of consensus algorithm.
 
@@ -325,7 +325,7 @@ public:
         @param adaptor The instance of the adaptor class
         @param j The journal to log debug output
     */
-    Consensus(clock_type const& clock, Adaptor& adaptor, beast::Journal j);
+    Consensus(clock_type const& clock, Adaptor& adaptor, boost::beast::Journal j);
 
     /** Kick-off the next round of consensus.
 
@@ -559,14 +559,14 @@ private:
     hash_set<NodeID_t> deadNodes_;
 
     // Journal for debugging
-    beast::Journal j_;
+    boost::beast::Journal j_;
 };
 
 template <class Adaptor>
 Consensus<Adaptor>::Consensus(
     clock_type const& clock,
     Adaptor& adaptor,
-    beast::Journal journal)
+    boost::beast::Journal journal)
     : adaptor_(adaptor)
     , clock_(clock)
     , j_{journal}

@@ -44,7 +44,7 @@ public:
             boost::base_from_member<TestStopwatch>;
 
     public:
-        explicit TestLogic (beast::Journal journal)
+        explicit TestLogic (boost::beast::Journal journal)
             : Logic (beast::insight::NullCollector::New(), member, journal)
         {
         }
@@ -79,7 +79,7 @@ public:
 
     //--------------------------------------------------------------------------
 
-    void testDrop (beast::Journal j)
+    void testDrop (boost::beast::Journal j)
     {
         testcase ("Warn/drop");
 
@@ -167,7 +167,7 @@ public:
         pass();
     }
 
-    void testImports (beast::Journal j)
+    void testImports (boost::beast::Journal j)
     {
         testcase ("Imports");
 
@@ -184,7 +184,7 @@ public:
         pass();
     }
 
-    void testImport (beast::Journal j)
+    void testImport (boost::beast::Journal j)
     {
         testcase ("Import");
 
@@ -202,7 +202,7 @@ public:
         pass();
     }
 
-    void testCharges (beast::Journal j)
+    void testCharges (boost::beast::Journal j)
     {
         testcase ("Charge");
 
@@ -245,7 +245,7 @@ public:
 
     void run()
     {
-        beast::Journal j;
+        boost::beast::Journal j;
 
         testDrop (j);
         testCharges (j);

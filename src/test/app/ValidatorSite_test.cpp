@@ -92,7 +92,7 @@ private:
 
         Env env (*this);
         auto trustedSites = std::make_unique<ValidatorSite> (
-            env.app().getIOService(), env.app().validators(), beast::Journal());
+            env.app().getIOService(), env.app().validators(), boost::beast::Journal());
 
         // load should accept empty sites list
         std::vector<std::string> emptyCfgSites;
@@ -131,7 +131,7 @@ private:
         Env env (*this);
         auto& trustedKeys = env.app ().validators ();
 
-        beast::Journal journal;
+        boost::beast::Journal journal;
 
         PublicKey emptyLocalKey;
         std::vector<std::string> emptyCfgKeys;

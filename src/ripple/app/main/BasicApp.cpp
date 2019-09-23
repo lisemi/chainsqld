@@ -29,7 +29,7 @@ BasicApp::BasicApp(std::size_t numberOfThreads)
         threads_.emplace_back(
             [this, numberOfThreads]()
             {
-                beast::setCurrentThreadName(
+                boost::beast::setCurrentThreadName(
                     std::string("io_service #") +
                         std::to_string(numberOfThreads));
                 this->io_service_.run();

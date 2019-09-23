@@ -162,7 +162,7 @@ SHAMapNodeID::has_common_prefix(SHAMapNodeID const& other) const
     return true;
 }
 
-void SHAMapNodeID::dump (beast::Journal journal) const
+void SHAMapNodeID::dump (boost::beast::Journal journal) const
 {
     JLOG(journal.debug()) <<
         getString ();

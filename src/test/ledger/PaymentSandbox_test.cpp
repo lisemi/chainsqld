@@ -298,7 +298,7 @@ class PaymentSandbox_test : public beast::unit_test::suite
         testcase ("Reserve");
         using namespace jtx;
 
-        beast::Journal dj;
+        boost::beast::Journal dj;
 
         auto accountFundsZXC = [&dj](
             ReadView const& view, AccountID const& id) -> ZXCAmount
@@ -329,7 +329,7 @@ class PaymentSandbox_test : public beast::unit_test::suite
 
             accountSend (sb, zxcAccount (), alice, ZXC(100), dj);
             accountSend (sb, alice, zxcAccount (), ZXC(100), dj);
-            BEAST_EXPECT(accountFundsZXC (sb, alice) == beast::zero);
+            BEAST_EXPECT(accountFundsZXC (sb, alice) == boost::beast::zero);
         }
     }
 

@@ -21,7 +21,7 @@
 #include <ripple/basics/contract.h>
 #include <ripple/nodestore/Factory.h>
 #include <ripple/nodestore/Manager.h>
-#include <beast/core/string.hpp>
+#include <beast/include/boost/beast/core/string.hpp>
 #include <map>
 #include <memory>
 #include <mutex>
@@ -40,7 +40,7 @@ class MemoryFactory : public Factory
 {
 private:
     std::mutex mutex_;
-    std::map <std::string, MemoryDB, beast::iless> map_;
+    std::map <std::string, MemoryDB, boost::beast::iless> map_;
 
 public:
     MemoryFactory();
@@ -54,7 +54,7 @@ public:
         size_t keyBytes,
         Section const& keyValues,
         Scheduler& scheduler,
-        beast::Journal journal);
+        boost::beast::Journal journal);
 
     MemoryDB&
     open (std::string const& path)
@@ -79,12 +79,12 @@ private:
     using Map = std::map <uint256 const, std::shared_ptr<NodeObject>>;
 
     std::string name_;
-    beast::Journal journal_;
+    boost::beast::Journal journal_;
     MemoryDB* db_;
 
 public:
     MemoryBackend (size_t keyBytes, Section const& keyValues,
-        Scheduler& scheduler, beast::Journal journal)
+        Scheduler& scheduler, boost::beast::Journal journal)
         : name_ (get<std::string>(keyValues, "path"))
         , journal_ (journal)
     {
@@ -209,7 +209,7 @@ MemoryFactory::createInstance (
     size_t keyBytes,
     Section const& keyValues,
     Scheduler& scheduler,
-    beast::Journal journal)
+    boost::beast::Journal journal)
 {
     return std::make_unique <MemoryBackend> (
         keyBytes, keyValues, scheduler, journal);

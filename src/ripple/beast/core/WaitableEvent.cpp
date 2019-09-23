@@ -32,6 +32,7 @@
 #undef min
 #undef TYPE_BOOL
 
+namespace boost {
 namespace beast {
 
 WaitableEvent::WaitableEvent (const bool manualReset, bool initiallySignaled)
@@ -67,6 +68,7 @@ bool WaitableEvent::wait (const int timeOutMs) const
     return wait ();
 }
 
+}
 }
 
 #else

@@ -24,7 +24,7 @@
 
 namespace ripple {
 
-    TableStatusDBSQLite::TableStatusDBSQLite(DatabaseCon* dbconn, Application * app, beast::Journal& journal) : TableStatusDB(dbconn,app,journal)
+    TableStatusDBSQLite::TableStatusDBSQLite(DatabaseCon* dbconn, Application * app, boost::beast::Journal& journal) : TableStatusDB(dbconn,app,journal)
     {
     }
 

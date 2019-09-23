@@ -19,6 +19,7 @@
 
 #include <ripple/beast/net/IPAddressConversion.h>
 
+namespace boost {
 namespace beast {
 namespace IP {
 
@@ -63,5 +64,6 @@ boost::asio::ip::tcp::endpoint to_asio_endpoint (Endpoint const& endpoint)
         to_asio_address (endpoint), endpoint.port());
 }
 
+}
 }
 }

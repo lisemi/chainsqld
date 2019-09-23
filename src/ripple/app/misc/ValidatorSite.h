@@ -84,7 +84,7 @@ private:
 
     boost::asio::io_service& ios_;
     ValidatorList& validators_;
-    beast::Journal j_;
+    boost::beast::Journal j_;
     std::mutex mutable sites_mutex_;
     std::mutex mutable state_mutex_;
 
@@ -106,7 +106,7 @@ public:
     ValidatorSite (
         boost::asio::io_service& ios,
         ValidatorList& validators,
-        beast::Journal j);
+        boost::beast::Journal j);
     ~ValidatorSite ();
 
     /** Load configured site URIs.

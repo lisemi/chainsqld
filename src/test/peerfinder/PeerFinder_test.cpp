@@ -75,7 +75,7 @@ public:
         TestStore store;
         TestChecker checker;
         TestStopwatch clock;
-        Logic<TestChecker> logic (clock, store, checker, beast::Journal{});
+        Logic<TestChecker> logic (clock, store, checker, boost::beast::Journal{});
         logic.addFixedPeer ("test",
             beast::IP::Endpoint::from_string("65.0.0.1:5"));
         {
@@ -113,7 +113,7 @@ public:
         TestStore store;
         TestChecker checker;
         TestStopwatch clock;
-        Logic<TestChecker> logic (clock, store, checker, beast::Journal{});
+        Logic<TestChecker> logic (clock, store, checker, boost::beast::Journal{});
         logic.addFixedPeer ("test",
             beast::IP::Endpoint::from_string("65.0.0.1:5"));
         {

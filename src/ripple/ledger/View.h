@@ -67,12 +67,12 @@ STAmount
 accountHolds (ReadView const& view,
     AccountID const& account, Currency const& currency,
         AccountID const& issuer, FreezeHandling zeroIfFrozen,
-              beast::Journal j);
+              boost::beast::Journal j);
 
 STAmount
 accountFunds (ReadView const& view, AccountID const& id,
     STAmount const& saDefault, FreezeHandling freezeHandling,
-        beast::Journal j);
+        boost::beast::Journal j);
 
 // Return the account's liquid (not reserved) ZXC.  Generally prefer
 // calling accountHolds() over this interface.  However this interface
@@ -82,7 +82,7 @@ accountFunds (ReadView const& view, AccountID const& id,
 // @param ownerCountAdj positive to add to count, negative to reduce count.
 ZXCAmount
 zxcLiquid (ReadView const& view, AccountID const& id,
-    std::int32_t ownerCountAdj, beast::Journal j);
+    std::int32_t ownerCountAdj, boost::beast::Journal j);
 
 /** Iterate all items in an account's owner directory. */
 void
@@ -129,7 +129,7 @@ cdirFirst (ReadView const& view,
     std::shared_ptr<SLE const>& sleNode,      // <-> current node
     unsigned int& uDirEntry,    // <-- next entry
     uint256& uEntryIndex,       // <-- The entry, if available. Otherwise, zero.
-    beast::Journal j);
+    boost::beast::Journal j);
 
 // Return the current entry and advance uDirEntry.
 // <-- true, if had a next entry.
@@ -140,7 +140,7 @@ cdirNext (ReadView const& view,
     std::shared_ptr<SLE const>& sleNode,      // <-> current node
     unsigned int& uDirEntry,    // <-> next entry
     uint256& uEntryIndex,       // <-- The entry, if available. Otherwise, zero.
-    beast::Journal j);
+    boost::beast::Journal j);
 
 // Return the list of enabled amendments
 std::set <uint256>
@@ -162,7 +162,7 @@ getMajorityAmendments (ReadView const& view);
 */
 boost::optional<uint256>
 hashOfSeq (ReadView const& ledger, LedgerIndex seq,
-    beast::Journal journal);
+    boost::beast::Journal journal);
 
 /** Find a ledger index from which we could easily get the requested ledger
 
@@ -189,10 +189,10 @@ getCandidateLedger (LedgerIndex requested)
     use the second form if you have not acquired the valid ledger yet
 */
 bool areCompatible (ReadView const& validLedger, ReadView const& testLedger,
-    beast::Journal::Stream& s, const char* reason);
+    boost::beast::Journal::Stream& s, const char* reason);
 
 bool areCompatible (uint256 const& validHash, LedgerIndex validIndex,
-    ReadView const& testLedger, beast::Journal::Stream& s, const char* reason);
+    ReadView const& testLedger, boost::beast::Journal::Stream& s, const char* reason);
 
 //------------------------------------------------------------------------------
 //
@@ -204,7 +204,7 @@ bool areCompatible (uint256 const& validHash, LedgerIndex validIndex,
 void
 adjustOwnerCount (ApplyView& view,
     std::shared_ptr<SLE> const& sle,
-        std::int32_t amount, beast::Journal j);
+        std::int32_t amount, boost::beast::Journal j);
 
 // Return the first entry and advance uDirEntry.
 // <-- true, if had a next entry.
@@ -215,7 +215,7 @@ dirFirst (ApplyView& view,
     std::shared_ptr<SLE>& sleNode,      // <-> current node
     unsigned int& uDirEntry,    // <-- next entry
     uint256& uEntryIndex,       // <-- The entry, if available. Otherwise, zero.
-    beast::Journal j);
+    boost::beast::Journal j);
 
 // Return the current entry and advance uDirEntry.
 // <-- true, if had a next entry.
@@ -226,7 +226,7 @@ dirNext (ApplyView& view,
     std::shared_ptr<SLE>& sleNode,      // <-> current node
     unsigned int& uDirEntry,    // <-> next entry
     uint256& uEntryIndex,       // <-- The entry, if available. Otherwise, zero.
-    beast::Journal j);
+    boost::beast::Journal j);
 
 std::function<void (SLE::ref)>
 describeOwnerDir(AccountID const& account);
@@ -238,7 +238,7 @@ dirAdd (ApplyView& view,
     uint256 const&                      uLedgerIndex,
     bool                                strictOrder,
     std::function<void (SLE::ref)>      fDescriber,
-    beast::Journal j);
+    boost::beast::Journal j);
 
 // deprecated
 TER
@@ -249,7 +249,7 @@ dirDelete (ApplyView& view,
     uint256 const&       uLedgerIndex,  // Item being deleted
     const bool           bStable,
     const bool           bSoft,
-    beast::Journal j);
+    boost::beast::Journal j);
 
 // VFALCO NOTE Both STAmount parameters should just
 //             be "Amount", a unit-less number.
@@ -274,14 +274,14 @@ trustCreate (ApplyView& view,
                                         // Issuer should be the account being set.
     std::uint32_t uSrcQualityIn,
     std::uint32_t uSrcQualityOut,
-    beast::Journal j);
+    boost::beast::Journal j);
 
 TER
 trustDelete (ApplyView& view,
     std::shared_ptr<SLE> const& sleRippleState,
         AccountID const& uLowAccountID,
             AccountID const& uHighAccountID,
-                beast::Journal j);
+                boost::beast::Journal j);
 
 /** Delete an offer.
 
@@ -292,7 +292,7 @@ trustDelete (ApplyView& view,
 TER
 offerDelete (ApplyView& view,
     std::shared_ptr<SLE> const& sle,
-        beast::Journal j);
+        boost::beast::Journal j);
 
 //------------------------------------------------------------------------------
 
@@ -308,35 +308,35 @@ TER
 rippleCredit (ApplyView& view,
     AccountID const& uSenderID, AccountID const& uReceiverID,
     const STAmount & saAmount, bool bCheckIssuer,
-    beast::Journal j);
+    boost::beast::Journal j);
 
 TER
 accountSend (ApplyView& view,
     AccountID const& from,
         AccountID const& to,
             const STAmount & saAmount,
-                 beast::Journal j);
+                 boost::beast::Journal j);
 
 TER
 issueIOU (ApplyView& view,
     AccountID const& account,
         STAmount const& amount,
             Issue const& issue,
-                beast::Journal j);
+                boost::beast::Journal j);
 
 TER
 redeemIOU (ApplyView& view,
     AccountID const& account,
         STAmount const& amount,
             Issue const& issue,
-                beast::Journal j);
+                boost::beast::Journal j);
 
 TER
 transferZXC (ApplyView& view,
     AccountID const& from,
         AccountID const& to,
             STAmount const& amount,
-                beast::Journal j);
+                boost::beast::Journal j);
 
 NetClock::time_point const& fix1141Time ();
 bool fix1141 (NetClock::time_point const closeTime);

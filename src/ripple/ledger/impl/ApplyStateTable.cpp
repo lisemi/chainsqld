@@ -108,7 +108,7 @@ void
 ApplyStateTable::apply (OpenView& to,
     STTx const& tx, TER ter,
         boost::optional<STAmount> const& deliver,
-            beast::Journal j)
+            boost::beast::Journal j)
 {
     // Build metadata and insert
     auto const sTx =
@@ -547,7 +547,7 @@ ApplyStateTable::threadItem (TxMeta& meta,
 
 std::shared_ptr<SLE>
 ApplyStateTable::getForMod (ReadView const& base,
-    key_type const& key, Mods& mods, beast::Journal j)
+    key_type const& key, Mods& mods, boost::beast::Journal j)
 {
     {
         auto miter = mods.find (key);
@@ -594,7 +594,7 @@ ApplyStateTable::getForMod (ReadView const& base,
 void
 ApplyStateTable::threadTx (ReadView const& base,
     TxMeta& meta, AccountID const& to,
-        Mods& mods, beast::Journal j)
+        Mods& mods, boost::beast::Journal j)
 {
     auto const sle = getForMod(base,
         keylet::account(to).key, mods, j);
@@ -615,7 +615,7 @@ void
 ApplyStateTable::threadOwners (ReadView const& base,
     TxMeta& meta, std::shared_ptr<
         SLE const> const& sle, Mods& mods,
-            beast::Journal j)
+            boost::beast::Journal j)
 {
     switch(sle->getType())
     {

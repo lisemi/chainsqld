@@ -55,7 +55,7 @@ public:
         beast::http::request<Body, Headers>&& request,
         std::unique_ptr<
             beast::asio::ssl_bundle>&& ssl_bundle,
-        beast::Journal journal);
+        boost::beast::Journal journal);
 };
 
 //------------------------------------------------------------------------------
@@ -70,7 +70,7 @@ SSLWSPeer(
     beast::http::request<Body, Headers>&& request,
     std::unique_ptr<
         beast::asio::ssl_bundle>&& ssl_bundle,
-    beast::Journal journal)
+    boost::beast::Journal journal)
     : BaseWSPeer<Handler, SSLWSPeer>(port, handler,
         remote_endpoint, std::move(request),
             ssl_bundle->socket.get_io_service(), journal)

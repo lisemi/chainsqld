@@ -61,7 +61,7 @@ namespace ripple {
 		}checkInfo;
 
 	public:
-		TableAssistant(Application& app, Config& cfg, beast::Journal journal);
+		TableAssistant(Application& app, Config& cfg, boost::beast::Journal journal);
 		~TableAssistant() {}
 
 		//prepare json
@@ -82,7 +82,7 @@ namespace ripple {
 
 	private:
 		Application&										app_;
-		beast::Journal										journal_;
+		boost::beast::Journal										journal_;
 		Config&												cfg_;
 
 		//key:nameInDB

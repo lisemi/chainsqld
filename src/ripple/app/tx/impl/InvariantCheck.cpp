@@ -72,7 +72,7 @@ ZXCNotCreated::visitEntry(
 }
 
 bool
-ZXCNotCreated::finalize(STTx const& tx, TER /*tec*/, beast::Journal const& j)
+ZXCNotCreated::finalize(STTx const& tx, TER /*tec*/, boost::beast::Journal const& j)
 {
 	auto fee = tx.getFieldAmount(sfFee).zxc().drops();
 	// contract have extra fee
@@ -128,7 +128,7 @@ ZXCBalanceChecks::visitEntry(
 }
 
 bool
-ZXCBalanceChecks::finalize(STTx const&, TER, beast::Journal const& j)
+ZXCBalanceChecks::finalize(STTx const&, TER, boost::beast::Journal const& j)
 {
     if (bad_)
     {
@@ -151,10 +151,10 @@ NoBadOffers::visitEntry(
     auto isBad = [](STAmount const& pays, STAmount const& gets)
     {
         // An offer should never be negative
-        if (pays < beast::zero)
+        if (pays < boost::beast::zero)
             return true;
 
-        if (gets < beast::zero)
+        if (gets < boost::beast::zero)
             return true;
 
         // Can't have an ZXC to ZXC offer:
@@ -169,7 +169,7 @@ NoBadOffers::visitEntry(
 }
 
 bool
-NoBadOffers::finalize(STTx const& tx, TER, beast::Journal const& j)
+NoBadOffers::finalize(STTx const& tx, TER, boost::beast::Journal const& j)
 {
     if (bad_)
     {
@@ -214,7 +214,7 @@ NoZeroEscrow::visitEntry(
 }
 
 bool
-NoZeroEscrow::finalize(STTx const& tx, TER, beast::Journal const& j)
+NoZeroEscrow::finalize(STTx const& tx, TER, boost::beast::Journal const& j)
 {
     if (bad_)
     {
@@ -239,7 +239,7 @@ AccountRootsNotDeleted::visitEntry(
 }
 
 bool
-AccountRootsNotDeleted::finalize(STTx const& tx, TER, beast::Journal const& j)
+AccountRootsNotDeleted::finalize(STTx const& tx, TER, boost::beast::Journal const& j)
 {
     if (! accountDeleted_)
         return true;
@@ -290,7 +290,7 @@ LedgerEntryTypesMatch::visitEntry(
 }
 
 bool
-LedgerEntryTypesMatch::finalize(STTx const&, TER, beast::Journal const& j)
+LedgerEntryTypesMatch::finalize(STTx const&, TER, boost::beast::Journal const& j)
 {
     if ((! typeMismatch_) && (! invalidTypeAdded_))
         return true;
@@ -329,7 +329,7 @@ NoZXCTrustLines::visitEntry(
 }
 
 bool
-NoZXCTrustLines::finalize(STTx const&, TER, beast::Journal const& j)
+NoZXCTrustLines::finalize(STTx const&, TER, boost::beast::Journal const& j)
 {
     if (! zxcTrustLine_)
         return true;

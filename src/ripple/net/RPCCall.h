@@ -57,7 +57,7 @@ void fromNetwork (
 /** Given a rippled command line, return the corresponding JSON.
 */
 Json::Value
-cmdLineToJSONRPC (std::vector<std::string> const& args, beast::Journal j);
+cmdLineToJSONRPC (std::vector<std::string> const& args, boost::beast::Journal j);
 
 /** Internal invocation of RPC client.
 */

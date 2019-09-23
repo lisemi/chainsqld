@@ -47,7 +47,7 @@ struct Context
         std::string forwardedFor;
     };
 
-    beast::Journal j;
+    boost::beast::Journal j;
     Json::Value params;
     Application& app;
     Resource::Charge& loadType;

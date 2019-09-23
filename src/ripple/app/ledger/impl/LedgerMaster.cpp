@@ -70,7 +70,7 @@ auto constexpr MAX_LEDGER_AGE_ACQUIRE = 1min;
 
 LedgerMaster::LedgerMaster (Application& app, Stopwatch& stopwatch,
     Stoppable& parent,
-    beast::insight::Collector::ptr const& collector, beast::Journal journal)
+    beast::insight::Collector::ptr const& collector, boost::beast::Journal journal)
     : Stoppable ("LedgerMaster", parent)
     , app_ (app)
     , m_journal (journal)
@@ -102,7 +102,7 @@ LedgerMaster::getValidLedgerIndex ()
 bool
 LedgerMaster::isCompatible (
     ReadView const& view,
-    beast::Journal::Stream s,
+    boost::beast::Journal::Stream s,
     char const* reason)
 {
     auto validLedger = getValidatedLedger();
@@ -315,7 +315,7 @@ LedgerMaster::applyHeldTransactions ()
     ScopedLockType sl (m_mutex);
 
     app_.openLedger().modify(
-        [&](OpenView& view, beast::Journal j)
+        [&](OpenView& view, boost::beast::Journal j)
         {
             bool any = false;
             for (auto const& it : mHeldTransactions)
@@ -1097,7 +1097,7 @@ bool LedgerMaster::isConfidentialUnit(const STTx& tx)
 	}
 	else
 	{
-		AccountID  owner = beast::zero;
+		AccountID  owner = boost::beast::zero;
 		if (isSqlStatementOpType((TableOpType)opType))
 		{
 			owner = tx.getAccountID(sfOwner);
@@ -1755,7 +1755,7 @@ LedgerMaster::getHashBySeqEx(std::uint32_t index)
     if (auto referenceLedger = mValidLedger.get())
         ledgerHash = walkHashBySeq(index, referenceLedger);
 
-    if (ledgerHash == boost::none)  return beast::zero;
+    if (ledgerHash == boost::none)  return boost::beast::zero;
     return ledgerHash.value();
 }
 
@@ -1905,7 +1905,7 @@ LedgerMaster::getCacheHitRate ()
     return mLedgerHistory.getCacheHitRate ();
 }
 
-beast::PropertyStream::Source&
+boost::beast::PropertyStream::Source&
 LedgerMaster::getPropertySource ()
 {
     return *mLedgerCleaner;

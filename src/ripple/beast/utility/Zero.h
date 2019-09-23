@@ -25,6 +25,7 @@
 // VS2013 SP1 fails with decltype return
 #define BEAST_NO_ZERO_AUTO_RETURN 1
 
+namespace boost {
 namespace beast {
 
 /** Zero allows classes to offer efficient comparisons to zero.
@@ -159,5 +160,6 @@ bool operator<=(Zero, T const& t)
 }
 
 } // beast
+}
 
 #endif

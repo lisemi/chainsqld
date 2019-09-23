@@ -194,7 +194,7 @@ public:
     STAmount& operator+= (STAmount const&);
     STAmount& operator-= (STAmount const&);
 
-    STAmount& operator= (beast::Zero)
+    STAmount& operator= (boost::beast::Zero)
     {
         clear();
         return *this;

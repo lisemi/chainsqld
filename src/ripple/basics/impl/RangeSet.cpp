@@ -206,10 +206,10 @@ std::string RangeSet::toString () const
             ret += ",";
 
         if (it.first == it.second)
-            ret += beast::lexicalCastThrow <std::string> ((it.first));
+            ret += boost::beast::lexicalCastThrow <std::string> ((it.first));
         else
-            ret += beast::lexicalCastThrow <std::string> (it.first) + "-"
-                   + beast::lexicalCastThrow <std::string> (it.second);
+            ret += boost::beast::lexicalCastThrow <std::string> (it.first) + "-"
+                   + boost::beast::lexicalCastThrow <std::string> (it.second);
     }
 
     if (ret.empty ())

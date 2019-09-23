@@ -25,6 +25,7 @@
 #include <cstring>
 #include <type_traits>
 
+namespace boost {
 namespace beast {
 
 template <class Generator>
@@ -65,5 +66,6 @@ rngfill (std::array<std::uint8_t, N>& a, Generator& g)
 }
 
 } // beast
+}
 
 #endif

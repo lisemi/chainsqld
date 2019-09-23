@@ -34,8 +34,8 @@ class SqlTransaction
 {
 private:
     ripple::TER handleEachTx(ApplyContext& ctx);
-    std::pair<TER, std::string> transactionImpl(ApplyContext& ctx_,ripple::TxStoreDBConn &txStoreDBConn, ripple::TxStore& txStore, beast::Journal journal, const STTx &tx);
-	std::pair<TER, bool> transactionImpl_FstStorage(ApplyContext& ctx_, ripple::TxStore& txStore, TxID txID, beast::Journal journal, const std::vector<STTx> &txs);
+    std::pair<TER, std::string> transactionImpl(ApplyContext& ctx_,ripple::TxStoreDBConn &txStoreDBConn, ripple::TxStore& txStore, boost::beast::Journal journal, const STTx &tx);
+	std::pair<TER, bool> transactionImpl_FstStorage(ApplyContext& ctx_, ripple::TxStore& txStore, TxID txID, boost::beast::Journal journal, const std::vector<STTx> &txs);
 
 public:
     SqlTransaction(ApplyContext& ctx)

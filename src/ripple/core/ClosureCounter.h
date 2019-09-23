@@ -145,7 +145,7 @@ public:
         @param j Journal written to if wait is exceeded.
      */
     void join (char const* name,
-        std::chrono::milliseconds wait, beast::Journal j)
+        std::chrono::milliseconds wait, boost::beast::Journal j)
     {
         std::unique_lock<std::mutex> lock {mutex_};
         waitForClosures_ = true;

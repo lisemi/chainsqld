@@ -56,7 +56,7 @@ public:
 
     struct TestFilter : SHAMapSyncFilter
     {
-        TestFilter (Map& map, beast::Journal journal) : mMap (map), mJournal (journal)
+        TestFilter (Map& map, boost::beast::Journal journal) : mMap (map), mJournal (journal)
         {
         }
 
@@ -79,7 +79,7 @@ public:
         }
 
         Map& mMap;
-        beast::Journal mJournal;
+        boost::beast::Journal mJournal;
     };
 
     std::shared_ptr <Item>
@@ -116,7 +116,7 @@ public:
 
     void run ()
     {
-        beast::Journal const j;                            // debug journal
+        boost::beast::Journal const j;                            // debug journal
         TestFamily f(j);
         std::shared_ptr <Table> t1 (std::make_shared <Table> (
             SHAMapType::FREE, f, SHAMap::version{2}));
@@ -141,7 +141,7 @@ public:
 //         std::shared_ptr <Table> t3;
 //         try
 //         {
-//             TestFilter filter (map, beast::Journal());
+//             TestFilter filter (map, boost::beast::Journal());
 //
 //             t3 = std::make_shared <Table> (SHAMapType::FREE, t2->getHash (),
 //                 fullBelowCache);

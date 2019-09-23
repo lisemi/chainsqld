@@ -69,12 +69,12 @@ private:
         timer_type timer_;
         endpoint_type remote_address_;
         boost::asio::io_service::strand strand_;
-        beast::Journal j_;
+        boost::beast::Journal j_;
 
     public:
         Detector (Port const& port, Handler& handler,
             socket_type&& socket, endpoint_type remote_address,
-                beast::Journal j);
+                boost::beast::Journal j);
         void run();
         void close() override;
 
@@ -83,7 +83,7 @@ private:
         void do_detect (yield_context yield);
     };
 
-    beast::Journal j_;
+    boost::beast::Journal j_;
     Port const& port_;
     Handler& handler_;
     acceptor_type acceptor_;
@@ -93,7 +93,7 @@ private:
 
 public:
     Door(Handler& handler, boost::asio::io_service& io_service,
-        Port const& port, beast::Journal j);
+        Port const& port, boost::beast::Journal j);
 
     // Work-around because we can't call shared_from_this in ctor
     void run();
@@ -168,7 +168,7 @@ template<class Handler>
 Door<Handler>::Detector::
 Detector(Port const& port,
     Handler& handler, socket_type&& socket,
-        endpoint_type remote_address, beast::Journal j)
+        endpoint_type remote_address, boost::beast::Journal j)
     : port_(port)
     , handler_(handler)
     , socket_(std::move(socket))
@@ -258,7 +258,7 @@ do_detect(boost::asio::yield_context do_yield)
 template<class Handler>
 Door<Handler>::
 Door(Handler& handler, boost::asio::io_service& io_service,
-        Port const& port, beast::Journal j)
+        Port const& port, boost::beast::Journal j)
     : j_(j)
     , port_(port)
     , handler_(handler)

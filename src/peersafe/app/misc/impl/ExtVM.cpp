@@ -52,7 +52,7 @@ namespace ripple
             boost::rethrow_exception(exception);
     }
 
-    void go(unsigned _depth, Executive& _e, beast::Journal &j)
+    void go(unsigned _depth, Executive& _e, boost::beast::Journal &j)
     {
         // If in the offloading point we need to switch to additional separated stack space.
         // Current stack is too small to handle more CALL/CREATE executions.
@@ -381,7 +381,7 @@ namespace ripple
 
     evmc_uint256be ExtVM::blockHash(int64_t  const& iSeq)
     {
-        uint256 uHash = beast::zero;
+        uint256 uHash = boost::beast::zero;
 
         ApplyContext const& ctx = oSle_.ctx();
         auto ledger = ctx.app.getLedgerMaster().getLedgerBySeq(iSeq);

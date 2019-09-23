@@ -43,7 +43,7 @@ PathRequest::PathRequest (
     const std::shared_ptr<InfoSub>& subscriber,
     int id,
     PathRequests& owner,
-    beast::Journal journal)
+    boost::beast::Journal journal)
         : app_ (app)
         , m_journal (journal)
         , mOwner (owner)
@@ -67,7 +67,7 @@ PathRequest::PathRequest (
     Resource::Consumer& consumer,
     int id,
     PathRequests& owner,
-    beast::Journal journal)
+    boost::beast::Journal journal)
         : app_ (app)
         , m_journal (journal)
         , mOwner (owner)

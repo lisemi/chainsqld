@@ -28,6 +28,7 @@
 
 #include <ripple/beast/core/Config.h>
 
+namespace boost {
 namespace beast {
 
 //==============================================================================
@@ -75,6 +76,7 @@ void zerostruct (Type& structure) noexcept
  #define BEAST_AUTORELEASEPOOL
 #endif
 
+}
 }
 
 #endif

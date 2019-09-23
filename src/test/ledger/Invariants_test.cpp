@@ -32,7 +32,7 @@ namespace ripple {
 class Invariants_test : public beast::unit_test::suite
 {
 
-    class TestSink : public beast::Journal::Sink
+    class TestSink : public boost::beast::Journal::Sink
     {
     public:
         std::stringstream strm_;
@@ -82,7 +82,7 @@ class Invariants_test : public beast::unit_test::suite
         auto tx = STTx {ttACCOUNT_SET, [](STObject&){  } };
         OpenView ov {*env.current()};
         TestSink sink;
-        beast::Journal jlog {sink};
+        boost::beast::Journal jlog {sink};
         ApplyContext ac {
             env.app(),
             ov,

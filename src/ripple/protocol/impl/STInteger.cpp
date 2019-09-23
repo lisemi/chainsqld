@@ -56,7 +56,7 @@ STUInt8::getText () const
             << "Unknown result code in metadata: " << value_;
     }
 
-    return beast::lexicalCastThrow <std::string> (value_);
+    return boost::beast::lexicalCastThrow <std::string> (value_);
 }
 
 template <>
@@ -114,7 +114,7 @@ STUInt16::getText () const
             return item->getName ();
     }
 
-    return beast::lexicalCastThrow <std::string> (value_);
+    return boost::beast::lexicalCastThrow <std::string> (value_);
 }
 
 template <>
@@ -161,7 +161,7 @@ template <>
 std::string
 STUInt32::getText () const
 {
-    return beast::lexicalCastThrow <std::string> (value_);
+    return boost::beast::lexicalCastThrow <std::string> (value_);
 }
 
 template <>
@@ -190,7 +190,7 @@ template <>
 std::string
 STUInt64::getText () const
 {
-    return beast::lexicalCastThrow <std::string> (value_);
+    return boost::beast::lexicalCastThrow <std::string> (value_);
 }
 
 template <>

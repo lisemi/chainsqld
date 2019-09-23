@@ -47,7 +47,7 @@ RandCheck * RandCheck::getInstance()
 	return rcInstance;
 }
 
-//void RandCheck::setLogJournal(beast::Journal * journal)
+//void RandCheck::setLogJournal(boost::beast::Journal * journal)
 //{
 //	if (journal != nullptr && journal_ == nullptr)
 //	{

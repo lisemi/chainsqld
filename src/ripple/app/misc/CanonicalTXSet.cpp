@@ -77,7 +77,7 @@ bool CanonicalTXSet::Key::operator>= (Key const& rhs)const
 
 uint256 CanonicalTXSet::accountKey (AccountID const& account)
 {
-    uint256 ret = beast::zero;
+    uint256 ret = boost::beast::zero;
     memcpy (
         ret.begin (),
         account.begin (),

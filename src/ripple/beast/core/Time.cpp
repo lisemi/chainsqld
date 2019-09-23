@@ -23,6 +23,7 @@
 
 #include <ripple/beast/core/Time.h>
 
+namespace boost {
 namespace beast
 {
 
@@ -44,3 +45,4 @@ std::int64_t currentTimeMillis()
 }
 
 } // beast
+}

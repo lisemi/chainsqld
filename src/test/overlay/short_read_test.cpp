@@ -551,7 +551,7 @@ public:
         : work_(boost::in_place(std::ref(io_service_)))
         , thread_(std::thread([this]()
             {
-                beast::setCurrentThreadName("io_service");
+                boost::beast::setCurrentThreadName("io_service");
                 this->io_service_.run();
             }))
         , context_(make_SSLContext(""))

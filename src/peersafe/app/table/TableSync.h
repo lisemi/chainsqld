@@ -43,7 +43,7 @@ class TableSync
 public:
     using clock_type = beast::abstract_clock <std::chrono::steady_clock>;
 
-    TableSync(Application& app, Config& cfg, beast::Journal journal);
+    TableSync(Application& app, Config& cfg, boost::beast::Journal journal);
     virtual ~TableSync();
 
     //receiver find the ledger which includes the tableNode TX
@@ -120,7 +120,7 @@ private:
 
 private:
     Application&                                app_;
-    beast::Journal                              journal_;
+    boost::beast::Journal                              journal_;
     Config&                                     cfg_;
 
     std::mutex                                  mutexlistTable_;

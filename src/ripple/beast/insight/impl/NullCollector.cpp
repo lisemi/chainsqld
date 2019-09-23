@@ -19,6 +19,7 @@
 
 #include <ripple/beast/insight/NullCollector.h>
 
+namespace boost {
 namespace beast {
 namespace insight {
 
@@ -135,5 +136,6 @@ std::shared_ptr <Collector> NullCollector::New ()
     return std::make_shared <detail::NullCollectorImp> ();
 }
 
+}
 }
 }

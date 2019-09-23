@@ -58,7 +58,7 @@ private:
 
     std::shared_ptr<SHAMap> mMap;
     bool                    mHaveRoot;
-    beast::Journal          j_;
+    boost::beast::Journal          j_;
 
     void execute () override;
 

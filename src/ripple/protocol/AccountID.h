@@ -179,7 +179,7 @@ public:
 namespace std {
 
 // DEPRECATED
-// VFALCO Use beast::uhash or a hardened container
+// VFALCO Use boost::beast::uhash or a hardened container
 template <>
 struct hash <ripple::AccountID> : ripple::AccountID::hasher
 {

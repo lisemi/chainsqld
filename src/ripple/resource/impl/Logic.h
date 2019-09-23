@@ -59,7 +59,7 @@ private:
 
     Stats m_stats;
     Stopwatch& m_clock;
-    beast::Journal m_journal;
+    boost::beast::Journal m_journal;
 
     std::recursive_mutex lock_;
 
@@ -89,7 +89,7 @@ private:
 public:
 
     Logic (beast::insight::Collector::ptr const& collector,
-        clock_type& clock, beast::Journal journal)
+        clock_type& clock, boost::beast::Journal journal)
         : m_stats (collector)
         , m_clock (clock)
         , m_journal (journal)

@@ -133,12 +133,12 @@ public:
 
     static std::shared_ptr<SHAMapAbstractNode>
         make(Slice const& rawNode, std::uint32_t seq, SHANodeFormat format,
-             SHAMapHash const& hash, bool hashValid, beast::Journal j,
+             SHAMapHash const& hash, bool hashValid, boost::beast::Journal j,
              SHAMapNodeID const& id = SHAMapNodeID{});
 
     // debugging
 #ifdef BEAST_DEBUG
-    static void dump (SHAMapNodeID const&, beast::Journal journal);
+    static void dump (SHAMapNodeID const&, boost::beast::Journal journal);
 #endif
 };
 
@@ -183,7 +183,7 @@ public:
     friend std::shared_ptr<SHAMapAbstractNode>
         SHAMapAbstractNode::make(Slice const& rawNode, std::uint32_t seq,
              SHANodeFormat format, SHAMapHash const& hash, bool hashValid,
-                 beast::Journal j, SHAMapNodeID const& id);
+                 boost::beast::Journal j, SHAMapNodeID const& id);
 
     friend class SHAMapInnerNodeV2;
 };
@@ -220,7 +220,7 @@ public:
     friend std::shared_ptr<SHAMapAbstractNode>
         SHAMapAbstractNode::make(Slice const& rawNode, std::uint32_t seq,
              SHANodeFormat format, SHAMapHash const& hash, bool hashValid,
-                 beast::Journal j, SHAMapNodeID const& id);
+                 boost::beast::Journal j, SHAMapNodeID const& id);
 };
 
 // SHAMapTreeNode represents a leaf, and may eventually be renamed to reflect that.

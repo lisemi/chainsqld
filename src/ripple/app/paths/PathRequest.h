@@ -67,7 +67,7 @@ public:
         std::shared_ptr <InfoSub> const& subscriber,
         int id,
         PathRequests&,
-        beast::Journal journal);
+        boost::beast::Journal journal);
 
     // ripple_path_find semantics
     // Completion function is called after path update is complete
@@ -77,7 +77,7 @@ public:
         Resource::Consumer& consumer,
         int id,
         PathRequests&,
-        beast::Journal journal);
+        boost::beast::Journal journal);
 
     ~PathRequest ();
 
@@ -121,7 +121,7 @@ private:
     int parseJson (Json::Value const&);
 
     Application& app_;
-    beast::Journal m_journal;
+    boost::beast::Journal m_journal;
 
     std::recursive_mutex mLock;
 

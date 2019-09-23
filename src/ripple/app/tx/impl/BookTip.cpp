@@ -32,7 +32,7 @@ BookTip::BookTip (ApplyView& view, Book const& book)
 }
 
 bool
-BookTip::step (beast::Journal j)
+BookTip::step (boost::beast::Journal j)
 {
     if (m_valid)
     {

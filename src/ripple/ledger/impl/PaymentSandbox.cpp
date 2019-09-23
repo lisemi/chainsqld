@@ -221,7 +221,7 @@ PaymentSandbox::balanceHook (AccountID const& account,
         }
     }
 
-    if (isZXC(issuer) && adjustedAmt < beast::zero)
+    if (isZXC(issuer) && adjustedAmt < boost::beast::zero)
         // A calculated negative ZXC balance is not an error case. Consider a
         // payment snippet that credits a large ZXC amount and then debits the
         // same amount. The credit can't be used but we subtract the debit and

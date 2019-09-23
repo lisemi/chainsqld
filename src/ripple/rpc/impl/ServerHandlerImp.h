@@ -79,7 +79,7 @@ private:
 
     Application& app_;
     Resource::Manager& m_resourceManager;
-    beast::Journal m_journal;
+    boost::beast::Journal m_journal;
     NetworkOPs& m_networkOPs;
     std::unique_ptr<Server> m_server;
     Setup setup_;
@@ -101,7 +101,7 @@ public:
     using Output = Json::Output;
 
     void
-    setup (Setup const& setup, beast::Journal journal);
+    setup (Setup const& setup, boost::beast::Journal journal);
 
     Setup const&
     setup() const

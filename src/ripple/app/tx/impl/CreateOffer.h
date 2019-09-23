@@ -74,7 +74,7 @@ private:
     TER
     checkAcceptAsset(ReadView const& view,
         ApplyFlags const flags, AccountID const id,
-            beast::Journal const j, Issue const& issue);
+            boost::beast::Journal const j, Issue const& issue);
 
     bool
     dry_offer (ApplyView& view, Offer const& offer);

@@ -22,6 +22,7 @@
 
 #include <ripple/beast/insight/BaseImpl.h>
 
+namespace boost {
 namespace beast {
 namespace insight {
 
@@ -40,6 +41,7 @@ public:
     virtual void increment (difference_type amount) = 0;
 };
 
+}
 }
 }
 

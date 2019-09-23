@@ -42,7 +42,7 @@ class ZXCEndpointStep : public StepImp<
 private:
     AccountID acc_;
     bool const isLast_;
-    beast::Journal j_;
+    boost::beast::Journal j_;
 
     // Since this step will always be an endpoint in a strand
     // (either the first or last step) the same cache is used
@@ -261,7 +261,7 @@ ZXCEndpointStep<TDerived>::revImp (
     auto& receiver = isLast_ ? acc_ : zxcAccount();
     auto ter   = accountSend (sb, sender, receiver, toSTAmount (result), j_);
     if (ter != tesSUCCESS)
-        return {ZXCAmount{beast::zero}, ZXCAmount{beast::zero}};
+        return {ZXCAmount{boost::beast::zero}, ZXCAmount{boost::beast::zero}};
 
     cache_.emplace (result);
     return {result, result};
@@ -284,7 +284,7 @@ ZXCEndpointStep<TDerived>::fwdImp (
     auto& receiver = isLast_ ? acc_ : zxcAccount();
     auto ter   = accountSend (sb, sender, receiver, toSTAmount (result), j_);
     if (ter != tesSUCCESS)
-        return {ZXCAmount{beast::zero}, ZXCAmount{beast::zero}};
+        return {ZXCAmount{boost::beast::zero}, ZXCAmount{boost::beast::zero}};
 
     cache_.emplace (result);
     return {result, result};
@@ -300,7 +300,7 @@ ZXCEndpointStep<TDerived>::validFwd (
     if (!cache_)
     {
         JLOG (j_.error()) << "Expected valid cache in validFwd";
-        return {false, EitherAmount (ZXCAmount (beast::zero))};
+        return {false, EitherAmount (ZXCAmount (boost::beast::zero))};
     }
 
     assert (in.native);

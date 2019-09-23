@@ -35,7 +35,7 @@ public:
     virtual ~Family() = default;
 
     virtual
-    beast::Journal const&
+    boost::beast::Journal const&
     journal() = 0;
 
     virtual

@@ -22,6 +22,7 @@
 
 #include <ripple/beast/insight/BaseImpl.h>
 
+namespace boost {
 namespace beast {
 namespace insight {
 
@@ -35,6 +36,7 @@ public:
     virtual ~HookImpl () = 0;
 };
 
+}
 }
 }
 

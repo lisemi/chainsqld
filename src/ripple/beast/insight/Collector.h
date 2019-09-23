@@ -28,6 +28,7 @@
 
 #include <string>
 
+namespace boost {
 namespace beast {
 namespace insight {
 
@@ -127,6 +128,7 @@ public:
     /** @} */
 };
 
+}
 }
 }
 

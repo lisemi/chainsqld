@@ -168,7 +168,7 @@ OverlayImpl::onHandoff (std::unique_ptr <beast::asio::ssl_bundle>&& ssl_bundle,
 {
     auto const id = next_id_++;
     beast::WrappedSink sink (app_.logs()["Peer"], makePrefix(id));
-    beast::Journal journal (sink);
+    boost::beast::Journal journal (sink);
 
     Handoff handoff;
     if (processRequest(request, handoff))
@@ -212,7 +212,7 @@ OverlayImpl::onHandoff (std::unique_ptr <beast::asio::ssl_bundle>&& ssl_bundle,
         if (std::find_if(types.begin(), types.end(),
                 [](std::string const& s)
                 {
-                    return beast::detail::iequals(s, "peer");
+                    return boost::beast::iequals(s, "peer");
                 }) == types.end())
         {
             handoff.moved = false;

@@ -46,7 +46,7 @@ public:
 
 extern
 std::unique_ptr<SNTPClock>
-make_SNTPClock (beast::Journal);
+make_SNTPClock (boost::beast::Journal);
 
 } // ripple
 

@@ -92,10 +92,10 @@ class FeeVoteImpl : public FeeVote
 {
 private:
     Setup target_;
-    beast::Journal journal_;
+    boost::beast::Journal journal_;
 
 public:
-    FeeVoteImpl (Setup const& setup, beast::Journal journal);
+    FeeVoteImpl (Setup const& setup, boost::beast::Journal journal);
 
     void
     doValidation (std::shared_ptr<ReadView const> const& lastClosedLedger,
@@ -109,7 +109,7 @@ public:
 
 //--------------------------------------------------------------------------
 
-FeeVoteImpl::FeeVoteImpl (Setup const& setup, beast::Journal journal)
+FeeVoteImpl::FeeVoteImpl (Setup const& setup, boost::beast::Journal journal)
     : target_ (setup)
     , journal_ (journal)
 {
@@ -256,7 +256,7 @@ setup_FeeVote (Section const& section)
 }
 
 std::unique_ptr<FeeVote>
-make_FeeVote (FeeVote::Setup const& setup, beast::Journal journal)
+make_FeeVote (FeeVote::Setup const& setup, boost::beast::Journal journal)
 {
     return std::make_unique<FeeVoteImpl> (setup, journal);
 }

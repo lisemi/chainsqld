@@ -37,6 +37,7 @@
 // http://www.boost.org/LICENSE_1_0.txt)
 //
 
+namespace boost {
 namespace beast {
 
 // Policy throws if weak pointer is expired
@@ -171,5 +172,6 @@ weak_fn (R (T::*member)(Args...), std::shared_ptr<T> p)
 /** @} */
 
 } // beast
+}
 
 #endif

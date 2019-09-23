@@ -30,7 +30,7 @@ class CollectorManager
 {
 public:
     static std::unique_ptr<CollectorManager> New (
-        Section const& params, beast::Journal journal);
+        Section const& params, boost::beast::Journal journal);
 
     virtual ~CollectorManager () = 0;
     virtual beast::insight::Collector::ptr const& collector () = 0;

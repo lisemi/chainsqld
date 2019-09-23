@@ -27,6 +27,7 @@
 #include <ripple/beast/core/Config.h>
 #include <ripple/beast/core/SharedObject.h>
 
+namespace boost {
 namespace beast {
 
 // Visual Studio doesn't seem to do very well when it comes
@@ -322,6 +323,7 @@ bool operator!= (T const* lhs, SharedPtr <U> const& rhs) noexcept
 }
 /** @} */
 
+}
 }
 
 #endif

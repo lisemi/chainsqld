@@ -101,7 +101,7 @@ void Stoppable::startRecursive ()
         iter->stoppable->startRecursive ();
 }
 
-void Stoppable::stopAsyncRecursive (beast::Journal j)
+void Stoppable::stopAsyncRecursive (boost::beast::Journal j)
 {
     using namespace std::chrono;
     auto const start = high_resolution_clock::now();
@@ -123,7 +123,7 @@ void Stoppable::stopAsyncRecursive (beast::Journal j)
         iter->stoppable->stopAsyncRecursive(j);
 }
 
-void Stoppable::stopRecursive (beast::Journal j)
+void Stoppable::stopRecursive (boost::beast::Journal j)
 {
     // Block on each child from the bottom of the tree up.
     //
@@ -184,7 +184,7 @@ void RootStoppable::start ()
         startRecursive ();
 }
 
-void RootStoppable::stop (beast::Journal j)
+void RootStoppable::stop (boost::beast::Journal j)
 {
     // Must have a prior call to start()
     assert (m_started);
@@ -193,7 +193,7 @@ void RootStoppable::stop (beast::Journal j)
         stopRecursive (j);
 }
 
-bool RootStoppable::stopAsync (beast::Journal j)
+bool RootStoppable::stopAsync (boost::beast::Journal j)
 {
     bool alreadyCalled;
     {

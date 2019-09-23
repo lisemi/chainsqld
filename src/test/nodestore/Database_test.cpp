@@ -44,7 +44,7 @@ public:
         auto batch = createPredictableBatch (
             numObjectsToTest, seedValue);
 
-        beast::Journal j;
+        boost::beast::Journal j;
 
         // Write to source db
         {
@@ -110,7 +110,7 @@ public:
         auto batch = createPredictableBatch (
             numObjectsToTest, rng());
 
-        beast::Journal j;
+        boost::beast::Journal j;
 
         {
             // Open the database

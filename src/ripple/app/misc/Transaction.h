@@ -168,7 +168,7 @@ private:
 
     std::shared_ptr<STTx const>   mTransaction;
     Application&    mApp;
-    beast::Journal  j_;
+    boost::beast::Journal  j_;
 };
 
 } // ripple

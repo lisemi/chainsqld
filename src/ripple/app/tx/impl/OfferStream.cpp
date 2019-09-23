@@ -26,7 +26,7 @@ namespace ripple {
 template<class TIn, class TOut>
 TOfferStreamBase<TIn, TOut>::TOfferStreamBase (ApplyView& view, ApplyView& cancelView,
     Book const& book, NetClock::time_point when,
-        StepCounter& counter, beast::Journal journal)
+        StepCounter& counter, boost::beast::Journal journal)
     : j_ (journal)
     , view_ (view)
     , cancelView_ (cancelView)
@@ -83,7 +83,7 @@ STAmount accountFundsHelper (ReadView const& view,
     STAmount const& saDefault,
     Issue const&,
     FreezeHandling freezeHandling,
-    beast::Journal j)
+    boost::beast::Journal j)
 {
     return accountFunds (view, id, saDefault, freezeHandling, j);
 }
@@ -94,7 +94,7 @@ IOUAmount accountFundsHelper (ReadView const& view,
     IOUAmount const& amtDefault,
     Issue const& issue,
     FreezeHandling freezeHandling,
-    beast::Journal j)
+    boost::beast::Journal j)
 {
     if (issue.account == id)
         // self funded
@@ -110,7 +110,7 @@ ZXCAmount accountFundsHelper (ReadView const& view,
     ZXCAmount const& amtDefault,
     Issue const& issue,
     FreezeHandling freezeHandling,
-    beast::Journal j)
+    boost::beast::Journal j)
 {
     return toAmount<ZXCAmount> (
         accountHolds (view, id, issue.currency, issue.account, freezeHandling, j));

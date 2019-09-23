@@ -24,6 +24,7 @@
 #include <ripple/beast/hash/endian.h>
 #include <ripple/beast/hash/impl/spookyv2.h>
 
+namespace boost {
 namespace beast {
 
 // See http://burtleburtle.net/bob/hash/spooky.html
@@ -34,7 +35,7 @@ private:
 
 public:
     using result_type = std::size_t;
-    static beast::endian const endian = beast::endian::native;
+    static boost::beast::endian const endian = boost::beast::endian::native;
 
     spooky (std::size_t seed1 = 1, std::size_t seed2 = 2) noexcept
     {
@@ -57,5 +58,6 @@ public:
 };
 
 } // beast
+} // boost
 
 #endif

@@ -235,7 +235,7 @@ PeerImp::crawl() const
     auto const iter = headers_.find("Crawl");
     if (iter == headers_.end())
         return false;
-    return beast::detail::iequals(iter->value(), "public");
+    return boost::beast::iequals(iter->value(), "public");
 }
 
 std::string
@@ -2427,7 +2427,7 @@ PeerImp::getLedger (std::shared_ptr<protocol::TMGetLedger> const& m)
 void
 PeerImp::peerTXData (uint256 const& hash,
     std::shared_ptr <protocol::TMLedgerData> const& pPacket,
-        beast::Journal journal)
+        boost::beast::Journal journal)
 {
     app_.getInboundTransactions().gotData (hash, shared_from_this(), pPacket);
 }

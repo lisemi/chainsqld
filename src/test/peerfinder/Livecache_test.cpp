@@ -44,7 +44,7 @@ public:
 
     void testFetch ()
     {
-        Livecache <> c (m_clock, beast::Journal());
+        Livecache <> c (m_clock, boost::beast::Journal());
 
         add (1, 1, c);
         add (2, 1, c);

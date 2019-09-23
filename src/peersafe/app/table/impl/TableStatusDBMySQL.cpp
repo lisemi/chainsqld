@@ -23,7 +23,7 @@
 
 namespace ripple {
 
-    TableStatusDBMySQL::TableStatusDBMySQL(DatabaseCon* dbconn, Application * app, beast::Journal& journal) : TableStatusDB(dbconn,app,journal)
+    TableStatusDBMySQL::TableStatusDBMySQL(DatabaseCon* dbconn, Application * app, boost::beast::Journal& journal) : TableStatusDB(dbconn,app,journal)
     {
     }
 

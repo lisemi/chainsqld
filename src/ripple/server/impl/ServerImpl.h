@@ -51,7 +51,7 @@ public:
 
     /** Returns the Journal associated with the server. */
     virtual
-    beast::Journal
+    boost::beast::Journal
     journal() = 0;
 
     /** Set the listening port settings.
@@ -88,7 +88,7 @@ private:
     using Doors = std::vector <std::shared_ptr<Door<Handler>>>;
 
     Handler& handler_;
-    beast::Journal j_;
+    boost::beast::Journal j_;
     boost::asio::io_service& io_service_;
     boost::asio::io_service::strand strand_;
     boost::optional <boost::asio::io_service::work> work_;
@@ -103,11 +103,11 @@ private:
 
 public:
     ServerImpl(Handler& handler,
-        boost::asio::io_service& io_service, beast::Journal journal);
+        boost::asio::io_service& io_service, boost::beast::Journal journal);
 
     ~ServerImpl();
 
-    beast::Journal
+    boost::beast::Journal
     journal() override
     {
         return j_;
@@ -143,7 +143,7 @@ private:
 template<class Handler>
 ServerImpl<Handler>::
 ServerImpl(Handler& handler,
-        boost::asio::io_service& io_service, beast::Journal journal)
+        boost::asio::io_service& io_service, boost::beast::Journal journal)
     : handler_(handler)
     , j_(journal)
     , io_service_(io_service)

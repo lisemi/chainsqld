@@ -72,7 +72,7 @@ public:
     protected:
         HANDLE hSM3Handle_;
     public:
-        static beast::endian const endian = beast::endian::big;
+        static boost::beast::endian const endian = boost::beast::endian::big;
     };
 
 public:

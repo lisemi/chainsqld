@@ -37,7 +37,7 @@ public:
         maxClientHeaderBytes = 32 * 1024
     };
 
-    static void initializeSSLContext (Config const& config, beast::Journal j);
+    static void initializeSSLContext (Config const& config, boost::beast::Journal j);
 
     static void get (
         bool bSSL,
@@ -48,7 +48,7 @@ public:
         std::size_t responseMax,    // if no Content-Length header
         std::chrono::seconds timeout,
         std::function <bool (const boost::system::error_code& ecResult, int iStatus, std::string const& strData)> complete,
-        beast::Journal& j);
+        boost::beast::Journal& j);
 
     static void get (
         bool bSSL,
@@ -59,7 +59,7 @@ public:
         std::size_t responseMax,    // if no Content-Length header
         std::chrono::seconds timeout,
         std::function <bool (const boost::system::error_code& ecResult, int iStatus, std::string const& strData)> complete,
-        beast::Journal& j);
+        boost::beast::Journal& j);
 
     static void request (
         bool bSSL,
@@ -70,7 +70,7 @@ public:
         std::size_t responseMax,    // if no Content-Length header
         std::chrono::seconds timeout,
         std::function <bool (const boost::system::error_code& ecResult, int iStatus, std::string const& strData)> complete,
-        beast::Journal& j);
+        boost::beast::Journal& j);
 };
 
 } // ripple

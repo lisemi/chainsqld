@@ -41,13 +41,13 @@ public:
     ApplyContext (Application& app, OpenView& base,
         STTx const& tx, TER preclaimResult,
             std::uint64_t baseFee, ApplyFlags flags,
-                    beast::Journal = {});
+                    boost::beast::Journal = {});
 
     Application& app;
     STTx const& tx;
     TER const preclaimResult;
     std::uint64_t const baseFee;
-    beast::Journal const journal;
+    boost::beast::Journal const journal;
 
     ApplyView&
     view()

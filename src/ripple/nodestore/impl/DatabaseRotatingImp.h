@@ -53,7 +53,7 @@ public:
                  Stoppable& parent,
                  std::shared_ptr <Backend> writableBackend,
                  std::shared_ptr <Backend> archiveBackend,
-                 beast::Journal journal)
+                 boost::beast::Journal journal)
             : DatabaseImp (
                 name,
                 scheduler,

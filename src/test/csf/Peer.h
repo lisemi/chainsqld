@@ -202,7 +202,7 @@ struct Peer
 
     //! All peers start from the default constructed ledger
     Peer(PeerID i, BasicNetwork<Peer*>& n, UNL const& u, ConsensusParms p)
-        : consensus(n.clock(), *this, beast::Journal{})
+        : consensus(n.clock(), *this, boost::beast::Journal{})
         , id{i}
         , net{n}
         , unl(u)

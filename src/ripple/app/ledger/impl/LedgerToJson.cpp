@@ -132,7 +132,7 @@ Json::Value fillJsonTx (LedgerFill const& fill,
             if (account != amount.getIssuer())
             {
                 auto const ownerFunds = accountFunds(fill.ledger,
-                    account, amount, fhIGNORE_FREEZE, beast::Journal());
+                    account, amount, fhIGNORE_FREEZE, boost::beast::Journal());
                 txJson[jss::owner_funds] = ownerFunds.getText ();
             }
         }

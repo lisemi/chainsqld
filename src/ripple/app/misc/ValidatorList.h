@@ -116,7 +116,7 @@ class ValidatorList
     ManifestCache& validatorManifests_;
     ManifestCache& publisherManifests_;
     TimeKeeper& timeKeeper_;
-    beast::Journal j_;
+    boost::beast::Journal j_;
     boost::shared_mutex mutable mutex_;
 
     std::atomic<std::size_t> quorum_;
@@ -152,7 +152,7 @@ public:
         ManifestCache& validatorManifests,
         ManifestCache& publisherManifests,
         TimeKeeper& timeKeeper,
-        beast::Journal j,
+        boost::beast::Journal j,
         boost::optional<std::size_t> minimumQuorum = boost::none);
     ~ValidatorList ();
 

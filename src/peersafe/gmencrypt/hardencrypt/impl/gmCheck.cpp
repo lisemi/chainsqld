@@ -172,7 +172,7 @@ GMCheck::GMCheck()
 	isRandomGenerateThread = false;
 }
 
-//void GMCheck::setLogJournal(beast::Journal* journal)
+//void GMCheck::setLogJournal(boost::beast::Journal* journal)
 //{
 //	if (journal != nullptr && journal_ == nullptr)
 //	{

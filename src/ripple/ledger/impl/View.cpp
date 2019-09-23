@@ -166,7 +166,7 @@ STAmount
 accountHolds (ReadView const& view,
     AccountID const& account, Currency const& currency,
         AccountID const& issuer, FreezeHandling zeroIfFrozen,
-              beast::Journal j)
+              boost::beast::Journal j)
 {
     STAmount amount;
     if (isZXC(currency))
@@ -207,7 +207,7 @@ accountHolds (ReadView const& view,
 STAmount
 accountFunds (ReadView const& view, AccountID const& id,
     STAmount const& saDefault, FreezeHandling freezeHandling,
-        beast::Journal j)
+        boost::beast::Journal j)
 {
     STAmount saFunds;
 
@@ -243,7 +243,7 @@ static
 std::uint32_t
 confineOwnerCount (std::uint32_t current, std::int32_t adjustment,
     boost::optional<AccountID> const& id = boost::none,
-    beast::Journal j = beast::Journal{})
+    boost::beast::Journal j = boost::beast::Journal{})
 {
     std::uint32_t adjusted {current + adjustment};
     if (adjustment > 0)
@@ -280,7 +280,7 @@ confineOwnerCount (std::uint32_t current, std::int32_t adjustment,
 
 ZXCAmount
 zxcLiquid (ReadView const& view, AccountID const& id,
-    std::int32_t ownerCountAdj, beast::Journal j)
+    std::int32_t ownerCountAdj, boost::beast::Journal j)
 {
     auto const sle = view.read(keylet::account(id));
     if (sle == nullptr)
@@ -474,7 +474,7 @@ transferFeeMax(ReadView const& view,
 
 bool
 areCompatible (ReadView const& validLedger, ReadView const& testLedger,
-    beast::Journal::Stream& s, const char* reason)
+    boost::beast::Journal::Stream& s, const char* reason)
 {
     bool ret = true;
 
@@ -482,7 +482,7 @@ areCompatible (ReadView const& validLedger, ReadView const& testLedger,
     {
         // valid -> ... -> test
         auto hash = hashOfSeq (testLedger, validLedger.info().seq,
-            beast::Journal());
+            boost::beast::Journal());
         if (hash && (*hash != validLedger.info().hash))
         {
             JLOG(s) << reason << " incompatible with valid ledger";
@@ -496,7 +496,7 @@ areCompatible (ReadView const& validLedger, ReadView const& testLedger,
     {
         // test -> ... -> valid
         auto hash = hashOfSeq (validLedger, testLedger.info().seq,
-            beast::Journal());
+            boost::beast::Journal());
         if (hash && (*hash != testLedger.info().hash))
         {
             JLOG(s) << reason << " incompatible preceding ledger";
@@ -528,7 +528,7 @@ areCompatible (ReadView const& validLedger, ReadView const& testLedger,
 }
 
 bool areCompatible (uint256 const& validHash, LedgerIndex validIndex,
-    ReadView const& testLedger, beast::Journal::Stream& s, const char* reason)
+    ReadView const& testLedger, boost::beast::Journal::Stream& s, const char* reason)
 {
     bool ret = true;
 
@@ -536,7 +536,7 @@ bool areCompatible (uint256 const& validHash, LedgerIndex validIndex,
     {
         // Ledger we are testing follows last valid ledger
         auto hash = hashOfSeq (testLedger, validIndex,
-            beast::Journal());
+            boost::beast::Journal());
         if (hash && (*hash != validHash))
         {
             JLOG(s) << reason << " incompatible following ledger";
@@ -584,7 +584,7 @@ cdirFirst (ReadView const& view,
     std::shared_ptr<SLE const>& sleNode,      // <-> current node
     unsigned int& uDirEntry,    // <-- next entry
     uint256& uEntryIndex,       // <-- The entry, if available. Otherwise, zero.
-    beast::Journal j)
+    boost::beast::Journal j)
 {
     sleNode = view.read(keylet::page(uRootIndex));
     uDirEntry   = 0;
@@ -598,7 +598,7 @@ cdirNext (ReadView const& view,
     std::shared_ptr<SLE const>& sleNode,      // <-> current node
     unsigned int& uDirEntry,    // <-> next entry
     uint256& uEntryIndex,       // <-- The entry, if available. Otherwise, zero.
-    beast::Journal j)
+    boost::beast::Journal j)
 {
     auto const& svIndexes = sleNode->getFieldV256 (sfIndexes);
     assert (uDirEntry <= svIndexes.size ());
@@ -675,7 +675,7 @@ getMajorityAmendments (ReadView const& view)
 
 boost::optional<uint256>
 hashOfSeq (ReadView const& ledger, LedgerIndex seq,
-    beast::Journal journal)
+    boost::beast::Journal journal)
 {
     // Easy cases...
     if (seq > ledger.seq())
@@ -754,7 +754,7 @@ hashOfSeq (ReadView const& ledger, LedgerIndex seq,
 void
 adjustOwnerCount (ApplyView& view,
     std::shared_ptr<SLE> const& sle,
-        std::int32_t amount, beast::Journal j)
+        std::int32_t amount, boost::beast::Journal j)
 {
     assert(amount != 0);
     std::uint32_t const current {sle->getFieldU32 (sfOwnerCount)};
@@ -771,7 +771,7 @@ dirFirst (ApplyView& view,
     std::shared_ptr<SLE>& sleNode,      // <-> current node
     unsigned int& uDirEntry,    // <-- next entry
     uint256& uEntryIndex,       // <-- The entry, if available. Otherwise, zero.
-    beast::Journal j)
+    boost::beast::Journal j)
 {
     sleNode = view.peek(keylet::page(uRootIndex));
     uDirEntry   = 0;
@@ -785,7 +785,7 @@ dirNext (ApplyView& view,
     std::shared_ptr<SLE>& sleNode,      // <-> current node
     unsigned int& uDirEntry,    // <-> next entry
     uint256& uEntryIndex,       // <-- The entry, if available. Otherwise, zero.
-    beast::Journal j)
+    boost::beast::Journal j)
 {
     auto const& svIndexes = sleNode->getFieldV256 (sfIndexes);
     assert (uDirEntry <= svIndexes.size ());
@@ -835,7 +835,7 @@ dirAdd (ApplyView& view,
     uint256 const&                          uLedgerIndex,
     bool                                    strictOrder,
     std::function<void (SLE::ref)>          fDescriber,
-    beast::Journal j)
+    boost::beast::Journal j)
 {
     if (view.rules().enabled(featureSortedDirectories))
     {
@@ -946,7 +946,7 @@ dirDelete (ApplyView& view,
     uint256 const&                  uLedgerIndex,   // --> Value to remove from directory.
     const bool                      bStable,        // --> True, not to change relative order of entries.
     const bool                      bSoft,          // --> True, uNodeDir is not hard and fast (pass uNodeDir=0).
-    beast::Journal j)
+    boost::beast::Journal j)
 {
     if (view.rules().enabled(featureSortedDirectories))
     {
@@ -1148,7 +1148,7 @@ trustCreate (ApplyView& view,
                                         // Issuer should be the account being set.
     std::uint32_t uQualityIn,
     std::uint32_t uQualityOut,
-    beast::Journal j)
+    boost::beast::Journal j)
 {
     JLOG (j.trace())
         << "trustCreate: " << to_string (uSrcAccountID) << ", "
@@ -1239,7 +1239,7 @@ trustDelete (ApplyView& view,
     std::shared_ptr<SLE> const& sleRippleState,
         AccountID const& uLowAccountID,
             AccountID const& uHighAccountID,
-                 beast::Journal j)
+                 boost::beast::Journal j)
 {
     // Detect legacy dirs.
     bool        bLowNode    = sleRippleState->isFieldPresent (sfLowNode);
@@ -1282,7 +1282,7 @@ trustDelete (ApplyView& view,
 TER
 offerDelete (ApplyView& view,
     std::shared_ptr<SLE> const& sle,
-    beast::Journal j)
+    boost::beast::Journal j)
 {
     if (! sle)
         return tesSUCCESS;
@@ -1316,7 +1316,7 @@ TER
 rippleCredit (ApplyView& view,
     AccountID const& uSenderID, AccountID const& uReceiverID,
     STAmount const& saAmount, bool bCheckIssuer,
-    beast::Journal j)
+    boost::beast::Journal j)
 {
     auto issuer = saAmount.getIssuer ();
     auto currency = saAmount.getCurrency ();
@@ -1462,7 +1462,7 @@ rippleTransferFee (ReadView const& view,
     AccountID const& to,
     AccountID const& issuer,
     STAmount const& amount,
-    beast::Journal j)
+    boost::beast::Journal j)
 {
     if (from != issuer && to != issuer)
     {
@@ -1490,7 +1490,7 @@ static
 TER
 rippleSend (ApplyView& view,
     AccountID const& uSenderID, AccountID const& uReceiverID,
-    STAmount const& saAmount, STAmount& saActual, beast::Journal j)
+    STAmount const& saAmount, STAmount& saActual, boost::beast::Journal j)
 {
     auto const issuer   = saAmount.getIssuer ();
 
@@ -1540,7 +1540,7 @@ rippleSend (ApplyView& view,
 TER
 accountSend (ApplyView& view,
     AccountID const& uSenderID, AccountID const& uReceiverID,
-    STAmount const& saAmount, beast::Journal j)
+    STAmount const& saAmount, boost::beast::Journal j)
 {
     assert (saAmount >= zero);
 
@@ -1576,10 +1576,10 @@ accountSend (ApplyView& view,
 
     TER terResult (tesSUCCESS);
 
-    SLE::pointer sender = uSenderID != beast::zero
+    SLE::pointer sender = uSenderID != boost::beast::zero
         ? view.peek (keylet::account(uSenderID))
         : SLE::pointer ();
-    SLE::pointer receiver = uReceiverID != beast::zero
+    SLE::pointer receiver = uReceiverID != boost::beast::zero
         ? view.peek (keylet::account(uReceiverID))
         : SLE::pointer ();
 
@@ -1663,7 +1663,7 @@ updateTrustLine (
     AccountID const& sender,
     STAmount const& before,
     STAmount const& after,
-    beast::Journal j)
+    boost::beast::Journal j)
 {
     std::uint32_t const flags (state->getFieldU32 (sfFlags));
 
@@ -1710,7 +1710,7 @@ updateTrustLine (
 TER
 issueIOU (ApplyView& view,
     AccountID const& account,
-        STAmount const& amount, Issue const& issue, beast::Journal j)
+        STAmount const& amount, Issue const& issue, boost::beast::Journal j)
 {
     assert (!isZXC (account) && !isZXC (issue.account));
 
@@ -1783,7 +1783,7 @@ redeemIOU (ApplyView& view,
     AccountID const& account,
     STAmount const& amount,
     Issue const& issue,
-    beast::Journal j)
+    boost::beast::Journal j)
 {
     assert (!isZXC (account) && !isZXC (issue.account));
 
@@ -1853,10 +1853,10 @@ transferZXC (ApplyView& view,
     AccountID const& from,
     AccountID const& to,
     STAmount const& amount,
-    beast::Journal j)
+    boost::beast::Journal j)
 {
-    assert (from != beast::zero);
-    assert (to != beast::zero);
+    assert (from != boost::beast::zero);
+    assert (to != boost::beast::zero);
     assert (from != to);
     assert (amount.native ());
 

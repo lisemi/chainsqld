@@ -45,7 +45,7 @@
 
 namespace ripple {
 
-	std::pair<TER, bool> SqlTransaction::transactionImpl_FstStorage(ApplyContext& ctx_, ripple::TxStore& txStore, TxID txID, beast::Journal journal, const std::vector<STTx> &txs)
+	std::pair<TER, bool> SqlTransaction::transactionImpl_FstStorage(ApplyContext& ctx_, ripple::TxStore& txStore, TxID txID, boost::beast::Journal journal, const std::vector<STTx> &txs)
 	{
 		auto tables = txs.at(0).getFieldArray(sfTables);
 		uint160 nameInDB = tables[0].getFieldH160(sfNameInDB);
@@ -67,7 +67,7 @@ namespace ripple {
 		return{ tesSUCCESS, false };
 	}
 
-	std::pair<TER, std::string> SqlTransaction::transactionImpl(ApplyContext& ctx_, ripple::TxStoreDBConn &txStoreDBConn, ripple::TxStore& txStore, beast::Journal journal, const STTx &tx)
+	std::pair<TER, std::string> SqlTransaction::transactionImpl(ApplyContext& ctx_, ripple::TxStoreDBConn &txStoreDBConn, ripple::TxStore& txStore, boost::beast::Journal journal, const STTx &tx)
 	{
 		STTx tmpTx = tx;
 		std::vector<STTx> txs = tx.getTxs(tmpTx);
@@ -259,12 +259,12 @@ namespace ripple {
         if (tx.isFieldPresent(sfSendMax))
         {
             auto const& sendMax = tx[sfSendMax];
-            return sendMax.native() ? sendMax.zxc() : beast::zero;
+            return sendMax.native() ? sendMax.zxc() : boost::beast::zero;
         }
         /* If there's no sfSendMax in ZXC, and the sfAmount isn't
         in ZXC, then the transaction can not send ZXC. */
         auto const& saDstAmount = tx.getFieldAmount(sfAmount);
-        return saDstAmount.native() ? saDstAmount.zxc() : beast::zero;
+        return saDstAmount.native() ? saDstAmount.zxc() : boost::beast::zero;
     }
 
     TER

@@ -21,7 +21,7 @@
 #define RIPPLE_BASICS_LOG_H_INCLUDED
 
 #include <ripple/basics/UnorderedContainers.h>
-#include <beast/core/string.hpp>
+#include <beast/include/boost/beast/core/string.hpp>
 #include <ripple/beast/utility/Journal.h>
 #include <boost/filesystem.hpp>
 #include <map>
@@ -51,7 +51,7 @@ class Application;
 class Logs
 {
 private:
-    class Sink : public beast::Journal::Sink
+    class Sink : public boost::beast::Journal::Sink
     {
     private:
         Logs& logs_;
@@ -59,13 +59,13 @@ private:
 
     public:
         Sink (std::string const& partition,
-            beast::severities::Severity thresh, Logs& logs);
+            boost::beast::severities::Severity thresh, Logs& logs);
 
         Sink (Sink const&) = delete;
         Sink& operator= (Sink const&) = delete;
 
         void
-        write (beast::severities::Severity level,
+        write (boost::beast::severities::Severity level,
                std::string const& text) override;
     };
 
@@ -149,14 +149,14 @@ private:
 
     std::mutex mutable mutex_;
     std::map <std::string,
-        std::unique_ptr<beast::Journal::Sink>,
-            beast::iless> sinks_;
-    beast::severities::Severity thresh_;
+        std::unique_ptr<boost::beast::Journal::Sink>,
+            boost::beast::iless> sinks_;
+    boost::beast::severities::Severity thresh_;
     File file_;
     bool silent_ = false;
 	Application* app_;
 public:
-    Logs(beast::severities::Severity level);
+    Logs(boost::beast::severities::Severity level);
 
     Logs (Logs const&) = delete;
     Logs& operator= (Logs const&) = delete;
@@ -166,26 +166,26 @@ public:
     bool
     open (boost::filesystem::path const& pathToLogFile);
 
-    beast::Journal::Sink&
+    boost::beast::Journal::Sink&
     get (std::string const& name);
 
-    beast::Journal::Sink&
+    boost::beast::Journal::Sink&
     operator[] (std::string const& name);
 
-    beast::Journal
+    boost::beast::Journal
     journal (std::string const& name);
 
-    beast::severities::Severity
+    boost::beast::severities::Severity
     threshold() const;
 
     void
-    threshold (beast::severities::Severity thresh);
+    threshold (boost::beast::severities::Severity thresh);
 
     std::vector<std::pair<std::string, std::string>>
     partition_severities() const;
 
     void
-    write (beast::severities::Severity level, std::string const& partition,
+    write (boost::beast::severities::Severity level, std::string const& partition,
         std::string const& text, bool console);
 
     std::string
@@ -205,17 +205,17 @@ public:
     }
 
     virtual
-    std::unique_ptr<beast::Journal::Sink>
+    std::unique_ptr<boost::beast::Journal::Sink>
     makeSink(std::string const& partition,
-        beast::severities::Severity startingLevel);
+        boost::beast::severities::Severity startingLevel);
 
 public:
     static
     LogSeverity
-    fromSeverity (beast::severities::Severity level);
+    fromSeverity (boost::beast::severities::Severity level);
 
     static
-    beast::severities::Severity
+    boost::beast::severities::Severity
     toSeverity (LogSeverity level);
 
     static
@@ -241,7 +241,7 @@ private:
     static
     void
     format (std::string& output, std::string const& message,
-        beast::severities::Severity severity, std::string const& partition);
+        boost::beast::severities::Severity severity, std::string const& partition);
 };
 
 // Wraps a Journal::Stream to skip evaluation of
@@ -258,16 +258,16 @@ private:
     @param sink unique_ptr to new debug Sink.
     @return unique_ptr to the previous Sink.  nullptr if there was no Sink.
 */
-std::unique_ptr<beast::Journal::Sink>
+std::unique_ptr<boost::beast::Journal::Sink>
 setDebugLogSink(
-    std::unique_ptr<beast::Journal::Sink> sink);
+    std::unique_ptr<boost::beast::Journal::Sink> sink);
 
 /** Returns a debug journal.
     The journal may drain to a null sink, so its output
     may never be seen. Never use it for critical
     information.
 */
-beast::Journal
+boost::beast::Journal
 debugLog();
 
 } // ripple

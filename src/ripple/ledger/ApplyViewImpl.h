@@ -56,7 +56,7 @@ public:
     void
     apply (OpenView& to,
         STTx const& tx, TER ter,
-            beast::Journal j);
+            boost::beast::Journal j);
 
     /** Set the amount of currency delivered.
 

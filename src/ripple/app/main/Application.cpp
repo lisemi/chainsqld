@@ -87,7 +87,7 @@ private:
     TreeNodeCache treecache_;
     FullBelowCache fullbelow_;
     NodeStore::Database& db_;
-    beast::Journal j_;
+    boost::beast::Journal j_;
 
     // missing node handler
     LedgerIndex maxSeq = 0;
@@ -126,7 +126,7 @@ public:
     {
     }
 
-    beast::Journal const&
+    boost::beast::Journal const&
     journal() override
     {
         return j_;
@@ -238,14 +238,14 @@ private:
     {
     private:
         beast::insight::Event m_event;
-        beast::Journal m_journal;
+        boost::beast::Journal m_journal;
         beast::io_latency_probe <std::chrono::steady_clock> m_probe;
         std::atomic<std::chrono::milliseconds> lastSample_;
 
     public:
         io_latency_sampler (
             beast::insight::Event ev,
-            beast::Journal journal,
+            boost::beast::Journal journal,
             std::chrono::milliseconds interval,
             boost::asio::io_service& ios)
             : m_event (ev)
@@ -301,7 +301,7 @@ public:
     std::unique_ptr<Logs> logs_;
     std::unique_ptr<TimeKeeper> timeKeeper_;
 
-    beast::Journal m_journal;
+    boost::beast::Journal m_journal;
     Application::MutexType m_masterMutex;
 
     // Required by the SHAMapStore
@@ -366,7 +366,7 @@ public:
     std::vector <std::unique_ptr<Stoppable>> websocketServers_;
 
     boost::asio::signal_set m_signals;
-    beast::WaitableEvent m_stop;
+    boost::beast::WaitableEvent m_stop;
 
     std::atomic<bool> checkSigs_;
 
@@ -846,7 +846,7 @@ public:
 
     bool serverOkay (std::string& reason) override;
 
-    beast::Journal journal (std::string const& name) override;
+    boost::beast::Journal journal (std::string const& name) override;
 
     //--------------------------------------------------------------------------
     bool initSqliteDbs ()
@@ -1626,7 +1626,7 @@ ApplicationImp::loadLedgerFromFile (
             if (ledger.get().isMember ("total_coins"))
             {
                 totalDrops =
-                    beast::lexicalCastThrow<std::uint64_t>
+                    boost::beast::lexicalCastThrow<std::uint64_t>
                         (ledger.get()["total_coins"].asString());
             }
 
@@ -1736,7 +1736,7 @@ bool ApplicationImp::loadOldLedger (
                 }
             }
         }
-        else if (ledgerID.empty () || beast::detail::iequals(ledgerID, "latest"))
+        else if (ledgerID.empty () || boost::boost::beast::iequals(ledgerID, "latest"))
         {
             loadLedger = getLastFullLedger ();
         }
@@ -1844,7 +1844,7 @@ bool ApplicationImp::loadOldLedger (
                 replayData->txns_.emplace (txIndex, txPair.first);
 
                 openLedger_->modify(
-                    [&txID, &s](OpenView& view, beast::Journal j)
+                    [&txID, &s](OpenView& view, boost::beast::Journal j)
                     {
                         view.rawTxInsert (txID, std::move (s), nullptr);
                         return true;
@@ -1911,7 +1911,7 @@ bool ApplicationImp::serverOkay (std::string& reason)
     return true;
 }
 
-beast::Journal
+boost::beast::Journal
 ApplicationImp::journal (std::string const& name)
 {
     return logs_->journal (name);
@@ -1944,7 +1944,7 @@ getSchema (DatabaseCon& dbc, std::string const& dbName)
 
 static bool schemaHas (
     DatabaseCon& dbc, std::string const& dbName, int line,
-    std::string const& content, beast::Journal j)
+    std::string const& content, boost::beast::Journal j)
 {
     std::vector<std::string> schema = getSchema (dbc, dbName);
 

@@ -23,6 +23,7 @@
 #include <limits>
 #include <iostream>
 
+namespace boost {
 namespace beast {
 
 //------------------------------------------------------------------------------
@@ -573,5 +574,6 @@ void PropertyStream::add (long double value)
     lexical_add (value);
 }
 
+}
 }
 

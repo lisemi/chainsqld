@@ -52,7 +52,7 @@ public:
 //  friend std::unique_ptr<T> std::make_unique (Args&&... args);
 
     // Should only be constructible by std::make_unique.
-    LoadManager (Application& app, Stoppable& parent, beast::Journal journal);
+    LoadManager (Application& app, Stoppable& parent, boost::beast::Journal journal);
 
 public:
     LoadManager () = delete;
@@ -100,7 +100,7 @@ private:
 
 private:
     Application& app_;
-    beast::Journal journal_;
+    boost::beast::Journal journal_;
 
     std::thread thread_;
     std::mutex mutex_;          // Guards deadLock_, armed_, and stop_.
@@ -112,7 +112,7 @@ private:
 
 std::unique_ptr<LoadManager>
 make_LoadManager (
-    Application& app, Stoppable& parent, beast::Journal journal);
+    Application& app, Stoppable& parent, boost::beast::Journal journal);
 
 } // ripple
 

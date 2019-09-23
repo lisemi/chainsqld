@@ -123,7 +123,7 @@ public:
 private:
     static std::unordered_map<
         std::pair<std::string, KeyType>,
-            Account, beast::uhash<>> cache_;
+            Account, boost::beast::uhash<>> cache_;
 
 
     // Return the account from the cache & add it to the cache if needed

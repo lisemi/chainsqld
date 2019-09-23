@@ -50,7 +50,7 @@ public:
         currentType = 1
     };
 
-    beast::Journal journal_;
+    boost::beast::Journal journal_;
     size_t const keyBytes_;
     std::string const name_;
     nudb::store db_;
@@ -58,7 +58,7 @@ public:
     Scheduler& scheduler_;
 
     NuDBBackend (int keyBytes, Section const& keyValues,
-        Scheduler& scheduler, beast::Journal journal)
+        Scheduler& scheduler, boost::beast::Journal journal)
         : journal_ (journal)
         , keyBytes_ (keyBytes)
         , name_ (get<std::string>(keyValues, "path"))
@@ -310,7 +310,7 @@ public:
         size_t keyBytes,
         Section const& keyValues,
         Scheduler& scheduler,
-        beast::Journal journal)
+        boost::beast::Journal journal)
     {
         return std::make_unique <NuDBBackend> (
             keyBytes, keyValues, scheduler, journal);

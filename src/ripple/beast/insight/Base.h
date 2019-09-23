@@ -22,6 +22,7 @@
 
 #include <memory>
 
+namespace boost {
 namespace beast {
 namespace insight {
 
@@ -32,6 +33,7 @@ public:
     virtual ~Base () = 0;
 };
 
+}
 }
 }
 

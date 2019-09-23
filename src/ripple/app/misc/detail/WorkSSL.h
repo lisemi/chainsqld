@@ -34,7 +34,7 @@ namespace detail {
 class SSLContext : public boost::asio::ssl::context
 {
 public:
-    SSLContext(beast::Journal j)
+    SSLContext(boost::beast::Journal j)
     : boost::asio::ssl::context(boost::asio::ssl::context::sslv23)
     {
         boost::system::error_code ec;
@@ -67,7 +67,7 @@ public:
         std::string const& path,
         std::string const& port,
         boost::asio::io_service& ios,
-        beast::Journal j,
+        boost::beast::Journal j,
         callback_type cb);
     ~WorkSSL() = default;
 
@@ -101,7 +101,7 @@ WorkSSL::WorkSSL(
     std::string const& path,
     std::string const& port,
     boost::asio::io_service& ios,
-    beast::Journal j,
+    boost::beast::Journal j,
     callback_type cb)
     : WorkBase(host, path, port, ios, cb)
     , context_(j)

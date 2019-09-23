@@ -88,7 +88,7 @@ protected:
     boost::asio::io_service::strand strand_;
     waitable_timer timer_;
     endpoint_type remote_address_;
-    beast::Journal journal_;
+    boost::beast::Journal journal_;
 
     std::string id_;
     std::size_t nid_;
@@ -111,7 +111,7 @@ protected:
 public:
     template<class ConstBufferSequence>
     BaseHTTPPeer(Port const& port, Handler& handler,
-        boost::asio::io_service& io_service, beast::Journal journal,
+        boost::asio::io_service& io_service, boost::beast::Journal journal,
             endpoint_type remote_address, ConstBufferSequence const& buffers);
 
     virtual
@@ -165,7 +165,7 @@ protected:
 
     // Session
 
-    beast::Journal
+    boost::beast::Journal
     journal() override
     {
         return journal_;
@@ -212,7 +212,7 @@ template<class Handler, class Impl>
 template<class ConstBufferSequence>
 BaseHTTPPeer<Handler, Impl>::
 BaseHTTPPeer(Port const& port, Handler& handler,
-    boost::asio::io_service& io_service, beast::Journal journal,
+    boost::asio::io_service& io_service, boost::beast::Journal journal,
         endpoint_type remote_address,
         ConstBufferSequence const& buffers)
     : port_(port)

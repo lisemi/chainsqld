@@ -70,7 +70,7 @@ public:
         std::size_t const id (++n);
         std::stringstream ss;
         ss << "rocksdb #" << id;
-        beast::setCurrentThreadName (ss.str());
+        boost::beast::setCurrentThreadName (ss.str());
 
         (*f)(a);
     }
@@ -93,7 +93,7 @@ private:
     std::atomic <bool> m_deletePath;
 
 public:
-    beast::Journal m_journal;
+    boost::beast::Journal m_journal;
     size_t const m_keyBytes;
     Scheduler& m_scheduler;
     BatchWriter m_batch;
@@ -102,7 +102,7 @@ public:
     int fdlimit_ = 2048;
 
     RocksDBBackend (int keyBytes, Section const& keyValues,
-        Scheduler& scheduler, beast::Journal journal, RocksDBEnv* env)
+        Scheduler& scheduler, boost::beast::Journal journal, RocksDBEnv* env)
         : m_deletePath (false)
         , m_journal (journal)
         , m_keyBytes (keyBytes)
@@ -400,7 +400,7 @@ public:
         size_t keyBytes,
         Section const& keyValues,
         Scheduler& scheduler,
-        beast::Journal journal)
+        boost::beast::Journal journal)
     {
         return std::make_unique <RocksDBBackend> (
             keyBytes, keyValues, scheduler, journal, &m_env);

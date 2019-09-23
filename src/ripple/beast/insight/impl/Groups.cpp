@@ -23,6 +23,7 @@
 #include <unordered_map>
 #include <memory>
 
+namespace boost {
 namespace beast {
 namespace insight {
 
@@ -131,5 +132,6 @@ std::unique_ptr <Groups> make_Groups (Collector::ptr const& collector)
     return std::make_unique <detail::GroupsImp> (collector);
 }
 
+}
 }
 }

@@ -32,7 +32,7 @@ namespace ripple {
 template<class Handler>
 std::unique_ptr<Server>
 make_Server(Handler& handler,
-    boost::asio::io_service& io_service, beast::Journal journal)
+    boost::asio::io_service& io_service, boost::beast::Journal journal)
 {
     return std::make_unique<ServerImpl<Handler>>(
         handler, io_service, journal);

@@ -52,7 +52,7 @@ TableSyncItem::~TableSyncItem()
 {
 }
 
-TableSyncItem::TableSyncItem(Application& app, beast::Journal journal, Config& cfg, SyncTargetType eTargetType)
+TableSyncItem::TableSyncItem(Application& app, boost::beast::Journal journal, Config& cfg, SyncTargetType eTargetType)
     :app_(app)
     ,journal_(journal)
     ,cfg_(cfg)

@@ -22,6 +22,7 @@
 
 #include <string>
 
+namespace boost {
 namespace beast {
 
 // Auxiliary outines for debugging
@@ -61,6 +62,7 @@ extern void checkHeap ();
 
 }
 
+}
 }
 
 #endif

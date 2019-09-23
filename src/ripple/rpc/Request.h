@@ -34,7 +34,7 @@ namespace RPC {
 struct Request
 {
     explicit Request (
-        beast::Journal journal_,
+        boost::beast::Journal journal_,
         std::string const& method_,
         Json::Value& params_,
         Application& app_)
@@ -47,7 +47,7 @@ struct Request
     }
 
     // [in] The Journal for logging
-    beast::Journal journal;
+    boost::beast::Journal journal;
 
     // [in] The JSON-RPC method
     std::string method;

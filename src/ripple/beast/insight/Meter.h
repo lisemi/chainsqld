@@ -25,6 +25,7 @@
 #include <ripple/beast/insight/Base.h>
 #include <ripple/beast/insight/MeterImpl.h>
 
+namespace boost {
 namespace beast {
 namespace insight {
 
@@ -91,6 +92,7 @@ private:
     std::shared_ptr <MeterImpl> m_impl;
 };
 
+}
 }
 }
 

@@ -183,7 +183,7 @@ handleNewValidation(Application& app,
         val->setTrusted();
     RCLValidations& validations  = app.getValidations();
 
-    beast::Journal j = validations.journal();
+    boost::beast::Journal j = validations.journal();
 
     // Do not process partial validations.
     if (!val->isFull())

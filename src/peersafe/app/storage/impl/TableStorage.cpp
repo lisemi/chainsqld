@@ -31,7 +31,7 @@
 #include <ripple/ledger/impl/Tuning.h>
 
 namespace ripple {
-    TableStorage::TableStorage(Application& app, Config& cfg, beast::Journal journal)
+    TableStorage::TableStorage(Application& app, Config& cfg, boost::beast::Journal journal)
         : app_(app)
         , journal_(journal)
         , cfg_(cfg)

@@ -534,7 +534,7 @@ Value::asString () const
         return value_.bool_ ? "true" : "false";
 
     case intValue:
-        return beast::lexicalCastThrow <std::string> (value_.int_);
+        return boost::beast::lexicalCastThrow <std::string> (value_.int_);
 
     case uintValue:
     case realValue:
@@ -572,7 +572,7 @@ Value::asInt () const
         return value_.bool_ ? 1 : 0;
 
     case stringValue:
-        return beast::lexicalCastThrow <int> (value_.string_);
+        return boost::beast::lexicalCastThrow <int> (value_.string_);
 
     case arrayValue:
     case objectValue:
@@ -608,7 +608,7 @@ Value::asUInt () const
         return value_.bool_ ? 1 : 0;
 
     case stringValue:
-        return beast::lexicalCastThrow <unsigned int> (value_.string_);
+        return boost::beast::lexicalCastThrow <unsigned int> (value_.string_);
 
     case arrayValue:
     case objectValue:

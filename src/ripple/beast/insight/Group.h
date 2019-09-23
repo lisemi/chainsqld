@@ -25,6 +25,7 @@
 #include <memory>
 #include <string>
 
+namespace boost {
 namespace beast {
 namespace insight {
 
@@ -38,6 +39,7 @@ public:
     virtual std::string const& name () const = 0;
 };
 
+}
 }
 }
 

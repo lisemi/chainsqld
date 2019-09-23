@@ -110,7 +110,7 @@ private:
     uint256 index_;
     boost::optional<value_type> mutable cache_;
 
-    static beast::Journal j_;
+    static boost::beast::Journal j_;
 };
 
 } // ripple

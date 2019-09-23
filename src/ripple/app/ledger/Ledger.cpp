@@ -241,7 +241,7 @@ Ledger::Ledger (
         bool& loaded,
         Config const& config,
         Family& family,
-        beast::Journal j)
+        boost::beast::Journal j)
     : mImmutable (true)
     , txMap_ (std::make_shared <SHAMap> (SHAMapType::TRANSACTION,
         info.txHash, family,
@@ -673,7 +673,7 @@ Ledger::peek (Keylet const& k) const
 }
 
 //------------------------------------------------------------------------------
-bool Ledger::walkLedger (beast::Journal j) const
+bool Ledger::walkLedger (boost::beast::Journal j) const
 {
     std::vector <SHAMapMissingNode> missingNodes1;
     std::vector <SHAMapMissingNode> missingNodes2;
@@ -720,7 +720,7 @@ bool Ledger::walkLedger (beast::Journal j) const
     return missingNodes1.empty () && missingNodes2.empty ();
 }
 
-bool Ledger::assertSane (beast::Journal ledgerJ) const
+bool Ledger::assertSane (boost::beast::Journal ledgerJ) const
 {
     if (info_.hash.isNonZero () &&
             info_.accountHash.isNonZero () &&
@@ -1227,7 +1227,7 @@ static
 void finishLoadByIndexOrHash(
     std::shared_ptr<Ledger> const& ledger,
     Config const& config,
-    beast::Journal j)
+    boost::beast::Journal j)
 {
     if (!ledger)
         return;
@@ -1282,7 +1282,7 @@ getHashByIndex (std::uint32_t ledgerIndex, Application& app)
 
     std::string sql =
         "SELECT LedgerHash FROM Ledgers INDEXED BY SeqLedger WHERE LedgerSeq='";
-    sql.append (beast::lexicalCastThrow <std::string> (ledgerIndex));
+    sql.append (boost::beast::lexicalCastThrow <std::string> (ledgerIndex));
     sql.append ("';");
 
     std::string hash;
@@ -1342,9 +1342,9 @@ getHashesByIndex (std::uint32_t minSeq, std::uint32_t maxSeq,
 
     std::string sql =
         "SELECT LedgerSeq,LedgerHash,PrevHash FROM Ledgers WHERE LedgerSeq >= ";
-    sql.append (beast::lexicalCastThrow <std::string> (minSeq));
+    sql.append (boost::beast::lexicalCastThrow <std::string> (minSeq));
     sql.append (" AND LedgerSeq <= ");
-    sql.append (beast::lexicalCastThrow <std::string> (maxSeq));
+    sql.append (boost::beast::lexicalCastThrow <std::string> (maxSeq));
     sql.append (";");
 
     auto db = app.getLedgerDB ().checkoutDb ();

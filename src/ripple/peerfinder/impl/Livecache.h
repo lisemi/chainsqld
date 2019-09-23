@@ -188,7 +188,7 @@ private:
         std::chrono::steady_clock, std::less <beast::IP::Endpoint>,
             Allocator>;
 
-    beast::Journal m_journal;
+    boost::beast::Journal m_journal;
     cache_type m_cache;
 
 public:
@@ -197,7 +197,7 @@ public:
     /** Create the cache. */
     Livecache (
         clock_type& clock,
-        beast::Journal journal,
+        boost::beast::Journal journal,
         Allocator alloc = Allocator());
 
     //
@@ -362,7 +362,7 @@ public:
 template <class Allocator>
 Livecache <Allocator>::Livecache (
     clock_type& clock,
-    beast::Journal journal,
+    boost::beast::Journal journal,
     Allocator alloc)
     : m_journal (journal)
     , m_cache (clock, alloc)

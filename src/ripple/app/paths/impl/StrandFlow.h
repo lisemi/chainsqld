@@ -44,8 +44,8 @@ template<class TInAmt, class TOutAmt>
 struct StrandResult
 {
     TER ter = temUNKNOWN;                         ///< Result code
-    TInAmt in = beast::zero;                      ///< Currency amount in
-    TOutAmt out = beast::zero;                    ///< Currency amount out
+    TInAmt in = boost::beast::zero;                      ///< Currency amount in
+    TOutAmt out = boost::beast::zero;                    ///< Currency amount out
     boost::optional<PaymentSandbox> sandbox;      ///< Resulting Sandbox state
     boost::container::flat_set<uint256> ofrsToRm; ///< Offers to remove
 
@@ -88,7 +88,7 @@ flow (
     Strand const& strand,
     boost::optional<TInAmt> const& maxIn,
     TOutAmt const& out,
-    beast::Journal j)
+    boost::beast::Journal j)
 {
     using Result = StrandResult<TInAmt, TOutAmt>;
     if (strand.empty ())
@@ -237,8 +237,8 @@ flow (
 template<class TInAmt, class TOutAmt>
 struct FlowResult
 {
-    TInAmt in = beast::zero;
-    TOutAmt out = beast::zero;
+    TInAmt in = boost::beast::zero;
+    TOutAmt out = boost::beast::zero;
     boost::optional<PaymentSandbox> sandbox;
     boost::container::flat_set<uint256> removableOffers;
     TER ter = temUNKNOWN;
@@ -388,7 +388,7 @@ flow (PaymentSandbox const& baseView,
     bool offerCrossing,
     boost::optional<Quality> const& limitQuality,
     boost::optional<STAmount> const& sendMaxST,
-    beast::Journal j,
+    boost::beast::Journal j,
     path::detail::FlowDebugInfo* flowDebugInfo=nullptr)
 {
     // Used to track the strand that offers the best quality (output/input ratio)
@@ -422,9 +422,9 @@ flow (PaymentSandbox const& baseView,
     // get similar warnings for `sendMax` if it is initialized in the most
     // natural way. Using `make_optional`, allows us to work around this bug.
     TInAmt const sendMaxInit =
-        sendMaxST ? toAmount<TInAmt>(*sendMaxST) : TInAmt{beast::zero};
+        sendMaxST ? toAmount<TInAmt>(*sendMaxST) : TInAmt{boost::beast::zero};
     boost::optional<TInAmt> const sendMax =
-        boost::make_optional(sendMaxST && sendMaxInit >= beast::zero, sendMaxInit);
+        boost::make_optional(sendMaxST && sendMaxInit >= boost::beast::zero, sendMaxInit);
     boost::optional<TInAmt> remainingIn =
         boost::make_optional(!!sendMax, sendMaxInit);
     // boost::optional<TInAmt> remainingIn{sendMax};
@@ -448,7 +448,7 @@ flow (PaymentSandbox const& baseView,
     {
         using TResult = std::decay_t<decltype (*col.begin ())>;
         if (col.empty ())
-            return TResult{beast::zero};
+            return TResult{boost::beast::zero};
         return std::accumulate (col.begin () + 1, col.end (), *col.begin ());
     };
 
@@ -456,8 +456,8 @@ flow (PaymentSandbox const& baseView,
     // successful
     boost::container::flat_set<uint256> ofrsToRmOnFail;
 
-    while (remainingOut > beast::zero &&
-        (!remainingIn || *remainingIn > beast::zero))
+    while (remainingOut > boost::beast::zero &&
+        (!remainingIn || *remainingIn > boost::beast::zero))
     {
         ++curTry;
         if (curTry >= maxTries)
@@ -485,7 +485,7 @@ flow (PaymentSandbox const& baseView,
             ofrsToRm.insert (boost::container::ordered_unique_range_t{},
                 f.ofrsToRm.begin (), f.ofrsToRm.end ());
 
-            if (f.ter != tesSUCCESS || f.out == beast::zero)
+            if (f.ter != tesSUCCESS || f.out == boost::beast::zero)
                 continue;
 
             if (flowDebugInfo)
@@ -583,7 +583,7 @@ flow (PaymentSandbox const& baseView,
                 return {tecPATH_PARTIAL,
                     actualIn, actualOut, std::move(ofrsToRmOnFail)};
         }
-        else if (actualOut == beast::zero)
+        else if (actualOut == boost::beast::zero)
         {
             return {tecPATH_DRY, std::move(ofrsToRmOnFail)};
         }

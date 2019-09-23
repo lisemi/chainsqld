@@ -41,6 +41,7 @@
 #include <vector>
 #include <boost/container/flat_set.hpp>
 
+namespace boost {
 namespace beast {
 
 namespace detail {
@@ -544,5 +545,5 @@ hash_append(HashAlgorithm& h, std::error_code const& ec)
 }
 
 } // beast
-
+} // boost
 #endif

@@ -71,7 +71,7 @@ public:
     LedgerMaster(Application& app, Stopwatch& stopwatch,
         Stoppable& parent,
             beast::insight::Collector::ptr const& collector,
-                beast::Journal journal);
+                boost::beast::Journal journal);
 
     virtual ~LedgerMaster () = default;
 
@@ -80,7 +80,7 @@ public:
 
     bool isCompatible (
         ReadView const&,
-        beast::Journal::Stream,
+        boost::beast::Journal::Stream,
         char const* reason);
 
     std::recursive_mutex& peekMutex ();
@@ -308,7 +308,7 @@ private:
     // using ScopedUnlockType = GenericScopedUnlock <std::recursive_mutex>;
 
     Application& app_;
-    beast::Journal m_journal;
+    boost::beast::Journal m_journal;
 
     std::recursive_mutex mutable m_mutex;
 

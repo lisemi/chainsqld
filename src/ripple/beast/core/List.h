@@ -25,6 +25,7 @@
 #include <iterator>
 #include <type_traits>
 
+namespace boost {
 namespace beast {
 
 template <typename, typename>
@@ -554,6 +555,7 @@ private:
     Node m_tail;
 };
 
+}
 }
 
 #endif

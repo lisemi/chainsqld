@@ -45,7 +45,7 @@ public:
 
     void testBeastZero ()
     {
-        testcase ("beast::Zero Comparisons");
+        testcase ("boost::beast::Zero Comparisons");
 
         for (auto i : { -1, 0, 1})
         {
@@ -139,8 +139,8 @@ public:
             // Round up should give the smallest allowable number
             BEAST_EXPECT(tiny == mulRatio (tiny, 1, maxUInt32, true));
             // rounding down should be zero
-            BEAST_EXPECT(beast::zero == mulRatio (tiny, 1, maxUInt32, false));
-            BEAST_EXPECT(beast::zero ==
+            BEAST_EXPECT(boost::beast::zero == mulRatio (tiny, 1, maxUInt32, false));
+            BEAST_EXPECT(boost::beast::zero ==
                 mulRatio (tiny, maxUInt32 - 1, maxUInt32, false));
 
             // tiny negative numbers

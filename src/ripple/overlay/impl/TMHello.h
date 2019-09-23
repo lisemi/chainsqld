@@ -46,7 +46,7 @@ enum
     @return A pair. Second will be false if shared value generation failed.
 */
 boost::optional<uint256>
-makeSharedValue (SSL* ssl, beast::Journal journal);
+makeSharedValue (SSL* ssl, boost::beast::Journal journal);
 
 /** Build a TMHello protocol message. */
 protocol::TMHello
@@ -63,7 +63,7 @@ appendHello (beast::http::fields& h, protocol::TMHello const& hello);
             if the parsing failed.
 */
 boost::optional<protocol::TMHello>
-parseHello (bool request, beast::http::fields const& h, beast::Journal journal);
+parseHello (bool request, beast::http::fields const& h, boost::beast::Journal journal);
 
 /** Validate and store the public key in the TMHello.
     This includes signature verification on the shared value.
@@ -74,7 +74,7 @@ boost::optional<PublicKey>
 verifyHello (protocol::TMHello const& h, uint256 const& sharedValue,
     beast::IP::Address public_ip,
     beast::IP::Endpoint remote,
-    beast::Journal journal, Application& app);
+    boost::beast::Journal journal, Application& app);
 
 /** Parse a set of protocol versions.
     The returned list contains no duplicates and is sorted ascending.

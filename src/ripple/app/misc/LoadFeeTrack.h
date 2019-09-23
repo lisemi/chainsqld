@@ -42,7 +42,7 @@ struct Fees;
 class LoadFeeTrack final
 {
 public:
-    explicit LoadFeeTrack (beast::Journal journal = beast::Journal())
+    explicit LoadFeeTrack (boost::beast::Journal journal = boost::beast::Journal())
         : j_ (journal)
         , localTxnLoadFee_ (lftNormalFee)
         , remoteTxnLoadFee_ (lftNormalFee)
@@ -127,7 +127,7 @@ private:
     static std::uint32_t constexpr lftFeeDecFraction = 4;     // decrease fee by 1/4
     static std::uint32_t constexpr lftFeeMax = lftNormalFee * 1000000;
 
-    beast::Journal j_;
+    boost::beast::Journal j_;
     std::mutex mutable lock_;
 
     std::uint32_t localTxnLoadFee_;        // Scale factor, lftNormalFee = normal fee

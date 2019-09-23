@@ -36,7 +36,7 @@
 
 namespace ripple {    
     
-    TableStorageItem::TableStorageItem(Application& app, Config& cfg, beast::Journal journal)
+    TableStorageItem::TableStorageItem(Application& app, Config& cfg, boost::beast::Journal journal)
         : app_(app)
         , journal_(journal)
         , cfg_(cfg)

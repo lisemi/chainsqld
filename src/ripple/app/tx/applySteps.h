@@ -44,7 +44,7 @@ public:
     /// From the input - the flags
     ApplyFlags const flags;
     /// From the input - the journal
-    beast::Journal const j;
+    boost::beast::Journal const j;
 
     /// Intermediate transaction result
     TER const ter;
@@ -81,7 +81,7 @@ public:
     /// From the input - the flags
     ApplyFlags const flags;
     /// From the input - the journal
-    beast::Journal const j;
+    boost::beast::Journal const j;
 
     /// Intermediate transaction result
     TER const ter;
@@ -184,7 +184,7 @@ struct TxConsequences
 PreflightResult
 preflight(Application& app, Rules const& rules,
     STTx const& tx, ApplyFlags flags,
-        beast::Journal j);
+        boost::beast::Journal j);
 
 /** Gate a transaction based on static ledger information.
 
@@ -238,7 +238,7 @@ preclaim(PreflightResult const& preflightResult,
 */
 std::uint64_t
 calculateBaseFee(Application& app, ReadView const& view,
-    STTx const& tx, beast::Journal j);
+    STTx const& tx, boost::beast::Journal j);
 
 /** Determine the ZXC balance consequences if a transaction
     consumes the maximum ZXC allowed.

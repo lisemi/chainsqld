@@ -142,7 +142,7 @@ public:
     };
 
 public:     
-    TableSyncItem(Application& app, beast::Journal journal,Config& cfg, SyncTargetType eTargetType = SyncTarget_db);
+    TableSyncItem(Application& app, boost::beast::Journal journal,Config& cfg, SyncTargetType eTargetType = SyncTarget_db);
     virtual ~TableSyncItem();
 
     TxStoreDBConn& getTxStoreDBConn();
@@ -279,7 +279,7 @@ public:
     std::string                                                  sNickName_;
 protected:
 	Application &                                                app_;
-	beast::Journal                                               journal_;
+	boost::beast::Journal                                               journal_;
 	Config&                                                      cfg_;
 	std::string                                                  sTableNameInDB_;
     LedgerIndex                                                  uCreateLedgerSequence_;   
@@ -331,8 +331,8 @@ private:
 
 	SyncTargetType                                               eSyncTargetType_;
     
-    beast::WaitableEvent                                         operateSqlEvent;
-    beast::WaitableEvent                                         readDataEvent;
+    boost::beast::WaitableEvent                                         operateSqlEvent;
+    boost::beast::WaitableEvent                                         readDataEvent;
 };
 
 }

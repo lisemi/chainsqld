@@ -118,7 +118,7 @@ public:
             supported,
             enabled,
             vetoed,
-            beast::Journal{});
+            boost::beast::Journal{});
     }
 
     std::unique_ptr<AmendmentTable>

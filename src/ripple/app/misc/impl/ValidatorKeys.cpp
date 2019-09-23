@@ -27,7 +27,7 @@
 #include <beast/core/detail/base64.hpp>
 
 namespace ripple {
-ValidatorKeys::ValidatorKeys(Config const& config, beast::Journal j)
+ValidatorKeys::ValidatorKeys(Config const& config, boost::beast::Journal j)
 {
     if (config.exists(SECTION_VALIDATOR_TOKEN) &&
         config.exists(SECTION_VALIDATION_SEED))

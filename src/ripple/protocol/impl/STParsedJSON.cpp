@@ -221,7 +221,7 @@ static boost::optional<detail::STVar> parseLeaf (
                 else
                 {
                     ret = detail::make_stvar <STUInt8>(field,
-                        beast::lexicalCastThrow <std::uint8_t>(strValue));
+                        boost::beast::lexicalCastThrow <std::uint8_t>(strValue));
                 }
             }
             else if (value.isInt ())
@@ -316,7 +316,7 @@ static boost::optional<detail::STVar> parseLeaf (
                 else
                 {
                     ret = detail::make_stvar <STUInt16> (field,
-                        beast::lexicalCastThrow <std::uint16_t> (strValue));
+                        boost::beast::lexicalCastThrow <std::uint16_t> (strValue));
                 }
             }
             else if (value.isInt ())
@@ -349,7 +349,7 @@ static boost::optional<detail::STVar> parseLeaf (
             if (value.isString ())
             {
                 ret = detail::make_stvar <STUInt32> (field,
-                    beast::lexicalCastThrow <std::uint32_t> (
+                    boost::beast::lexicalCastThrow <std::uint32_t> (
                         value.asString ()));
             }
             else if (value.isInt ())

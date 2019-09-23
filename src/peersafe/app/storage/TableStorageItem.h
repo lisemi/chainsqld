@@ -49,7 +49,7 @@ class TableStorageItem
     }txInfo;
 
 public:    
-    TableStorageItem(Application& app, Config& cfg, beast::Journal journal);
+    TableStorageItem(Application& app, Config& cfg, boost::beast::Journal journal);
     void InitItem(AccountID account ,std::string nameInDB, std::string tableName);
     void SetItemParam(LedgerIndex txnLedgerSeq, uint256 txnHash, LedgerIndex LedgerSeq, uint256 ledgerHash);
     virtual ~TableStorageItem();
@@ -97,7 +97,7 @@ private:
 	uint32                                                                     lastTxTm_;
 
     Application&                                                                app_;
-    beast::Journal                                                              journal_;
+    boost::beast::Journal                                                              journal_;
     Config&                                                                     cfg_;
 };
 }

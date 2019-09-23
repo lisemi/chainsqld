@@ -33,7 +33,7 @@ private:
     LoadMonitor m_load;
 
     /* Support for insight */
-    beast::insight::Collector::ptr m_collector;
+    boost::beast::insight::Collector::ptr m_collector;
 
 public:
     /* The job category which we represent */
@@ -49,11 +49,11 @@ public:
     int deferred;
 
     /* Notification callbacks */
-    beast::insight::Event dequeue;
-    beast::insight::Event execute;
+    boost::beast::insight::Event dequeue;
+    boost::beast::insight::Event execute;
 
     JobTypeData (JobTypeInfo const& info_,
-            beast::insight::Collector::ptr const& collector, Logs& logs) noexcept
+            boost::beast::insight::Collector::ptr const& collector, Logs& logs) noexcept
         : m_load (logs.journal ("LoadMonitor"))
         , m_collector (collector)
         , info (info_)

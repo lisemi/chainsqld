@@ -1,8 +1,46 @@
-# Part of Beast
+#
+# Copyright (c) 2016-2017 Vinnie Falco (vinnie dot falco at gmail dot com)
+#
+# Distributed under the Boost Software License, Version 1.0. (See accompanying
+# file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+#
+# Official repository: https://github.com/boostorg/beast
+#
 
-cmake_minimum_required (VERSION 3.5.2)
+cmake_minimum_required (VERSION 3.5.1)
 
-project (Beast VERSION 79)
+if (POLICY CMP0074)
+    cmake_policy (SET CMP0074 NEW)
+endif()
+
+#-------------------------------------------------------------------------------
+
+function (DoGroupSources curdir rootdir folder)
+    file (GLOB children RELATIVE ${PROJECT_SOURCE_DIR}/${curdir} ${PROJECT_SOURCE_DIR}/${curdir}/*)
+    foreach (child ${children})
+        if (IS_DIRECTORY ${PROJECT_SOURCE_DIR}/${curdir}/${child})
+            DoGroupSources (${curdir}/${child} ${rootdir} ${folder})
+        elseif (${child} STREQUAL "CMakeLists.txt")
+            source_group("" FILES ${PROJECT_SOURCE_DIR}/${curdir}/${child})
+        else()
+            string (REGEX REPLACE ^${rootdir} ${folder} groupname ${curdir})
+            string (REPLACE "/" "\\" groupname ${groupname})
+            source_group (${groupname} FILES ${PROJECT_SOURCE_DIR}/${curdir}/${child})
+        endif()
+    endforeach()
+endfunction()
+
+function (GroupSources curdir folder)
+    DoGroupSources (${curdir} ${curdir} ${folder})
+endfunction()
+
+#-------------------------------------------------------------------------------
+#
+# Beast
+#
+#-------------------------------------------------------------------------------
+
+project (Beast VERSION 268)
 
 set_property (GLOBAL PROPERTY USE_FOLDERS ON)
 option (Beast_BUILD_EXAMPLES "Build examples" ON)
@@ -11,14 +49,25 @@ option (Beast_BUILD_TESTS "Build tests" ON)
 if (MSVC)
     set (CMAKE_VERBOSE_MAKEFILE FALSE)
 
-    add_definitions (-D_WIN32_WINNT=0x0601)
-    add_definitions (-D_SCL_SECURE_NO_WARNINGS=1)
-    add_definitions (-D_CRT_SECURE_NO_WARNINGS=1)
+    add_definitions (
+        -D_WIN32_WINNT=0x0601
+        -D_SCL_SECURE_NO_WARNINGS=1
+        -D_CRT_SECURE_NO_WARNINGS=1
+        -D_SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING
+        -D_SILENCE_CXX17_ADAPTOR_TYPEDEFS_DEPRECATION_WARNING
+    )
+
+    add_compile_options(
+        /bigobj       # large object file format
+        /permissive-  # strict C++
+        #/wd4503      # decorated name length exceeded, name was truncated
+        /W4           # enable all warnings
+        /MP           # Multi-processor compilation
+        )
 
     set (Boost_USE_STATIC_LIBS ON)
     set (Boost_USE_STATIC_RUNTIME ON)
 
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP /W4 /bigobj /permissive-")
     set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
     set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /Ob2 /Oi /Ot /GL /MT")
     set (CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /Oi /Ot /MT")
@@ -46,29 +95,15 @@ else()
     endif ()
 endif()
 
-#-------------------------------------------------------------------------------
-#
-# Boost
-#
-
-option (Boost_USE_STATIC_LIBS "Use static libraries for boost" ON)
-
-set(BOOST_COMPONENTS system)
-if (Beast_BUILD_EXAMPLES OR Beast_BUILD_TESTS)
-    list(APPEND BOOST_COMPONENTS coroutine context filesystem program_options thread)
-endif()
-find_package (Boost 1.58.0 REQUIRED COMPONENTS ${BOOST_COMPONENTS})
-
-link_directories(${Boost_LIBRARY_DIRS})
-
-if (MINGW)
-    link_libraries(ws2_32 mswsock)
-endif()
+# Must come before Boost includes, otherwise the
+# IDE sees the wrong file due to boost/ symlinks.
+include_directories (include)
 
 #-------------------------------------------------------------------------------
 #
 # OpenSSL
 #
+#-------------------------------------------------------------------------------
 
 if (APPLE AND NOT DEFINED ENV{OPENSSL_ROOT_DIR})
   find_program(HOMEBREW brew)
@@ -81,53 +116,49 @@ endif()
 
 find_package(OpenSSL)
 
-if (OPENSSL_FOUND)
-    add_definitions (-DBEAST_USE_OPENSSL=1)
-
-else()
-    add_definitions (-DBEAST_USE_OPENSSL=0)
-    message("OpenSSL not found.")
-endif()
-
+#-------------------------------------------------------------------------------
+#
+# Boost
 #
 #-------------------------------------------------------------------------------
 
-function(DoGroupSources curdir rootdir folder)
-    file (GLOB children RELATIVE ${PROJECT_SOURCE_DIR}/${curdir} ${PROJECT_SOURCE_DIR}/${curdir}/*)
-    foreach (child ${children})
-        if (IS_DIRECTORY ${PROJECT_SOURCE_DIR}/${curdir}/${child})
-            DoGroupSources(${curdir}/${child} ${rootdir} ${folder})
-        elseif (${child} STREQUAL "CMakeLists.txt")
-            source_group("" FILES ${PROJECT_SOURCE_DIR}/${curdir}/${child})
-        else()
-            string(REGEX REPLACE ^${rootdir} ${folder} groupname ${curdir})
-            string(REPLACE "/" "\\" groupname ${groupname})
-            source_group(${groupname} FILES ${PROJECT_SOURCE_DIR}/${curdir}/${child})
-        endif()
-    endforeach()
-endfunction()
+get_filename_component (BOOST_ROOT ../../ ABSOLUTE)
 
-function(GroupSources curdir folder)
-    DoGroupSources (${curdir} ${curdir} ${folder})
-endfunction()
+# VFALCO I want static but "b2 stage" builds a minimal set which excludes static
+add_definitions (-DBOOST_ALL_STATIC_LINK=1)
+
+add_definitions (-DBOOST_ASIO_NO_DEPRECATED=1)
+add_definitions (-DBOOST_ASIO_DISABLE_BOOST_ARRAY=1)
+add_definitions (-DBOOST_ASIO_DISABLE_BOOST_BIND=1)
+add_definitions (-DBOOST_ASIO_DISABLE_BOOST_DATE_TIME=1)
+add_definitions (-DBOOST_ASIO_DISABLE_BOOST_REGEX=1)
+add_definitions (-DBOOST_COROUTINES_NO_DEPRECATION_WARNING=1)
+
+include_directories (${BOOST_ROOT})
+
+link_directories(${BOOST_ROOT}/stage/lib)
+
+if (MINGW)
+    link_libraries(ws2_32 mswsock)
+endif()
 
 #-------------------------------------------------------------------------------
 
 if ("${VARIANT}" STREQUAL "coverage")
     if (MSVC)
     else()
-        set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse4.2 -fprofile-arcs -ftest-coverage")
-        set (CMAKE_BUILD_TYPE RELWITHDEBINFO)
-        set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lgcov")
+        set (CMAKE_BUILD_TYPE DEBUG)
+        set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse4.2 --coverage")
+        set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
     endif()
 
 elseif ("${VARIANT}" STREQUAL "ubasan")
     if (MSVC)
     else()
-        set (CMAKE_CXX_FLAGS
-          "${CMAKE_CXX_FLAGS} -DBEAST_NO_SLOW_TESTS=1 -msse4.2 -funsigned-char -fno-omit-frame-pointer -fsanitize=address,undefined -fsanitize-blacklist=${PROJECT_SOURCE_DIR}/scripts/blacklist.supp")
-        set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address,undefined")
         set (CMAKE_BUILD_TYPE RELWITHDEBINFO)
+        set (CMAKE_CXX_FLAGS
+          "${CMAKE_CXX_FLAGS} -DBOOST_BEAST_NO_SLOW_TESTS=1 -msse4.2 -funsigned-char -fno-omit-frame-pointer -fsanitize=address,undefined -fno-sanitize-recover=address,undefined -fsanitize-blacklist=${PROJECT_SOURCE_DIR}/tools/blacklist.supp")
+        set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address,undefined -fno-sanitize-recover=address,undefined")
     endif()
 
 elseif ("${VARIANT}" STREQUAL "debug")
@@ -140,17 +171,37 @@ endif()
 
 #-------------------------------------------------------------------------------
 #
-# Library interface
+# Static Libraries
 #
+#-------------------------------------------------------------------------------
 
-add_library (${PROJECT_NAME} INTERFACE)
-target_link_libraries (${PROJECT_NAME} INTERFACE ${Boost_SYSTEM_LIBRARY})
-if (NOT MSVC)
-    target_link_libraries (${PROJECT_NAME} INTERFACE Threads::Threads)
-endif()
-target_compile_definitions (${PROJECT_NAME} INTERFACE BOOST_COROUTINES_NO_DEPRECATION_WARNING=1)
-target_include_directories(${PROJECT_NAME} INTERFACE ${PROJECT_SOURCE_DIR}/include)
-target_include_directories(${PROJECT_NAME} SYSTEM INTERFACE ${Boost_INCLUDE_DIRS})
+add_definitions (-DBOOST_ASIO_SEPARATE_COMPILATION=1)
+add_definitions (-DBOOST_BEAST_SEPARATE_COMPILATION=1)
+
+GroupSources (test "/")
+
+add_library (
+    lib-asio STATIC
+    test/lib_asio.cpp
+)
+
+set_property(TARGET lib-asio PROPERTY FOLDER "static-libs")
+
+add_library (
+    lib-asio-ssl STATIC
+    test/lib_asio_ssl.cpp
+)
+
+set_property(TARGET lib-asio-ssl PROPERTY FOLDER "static-libs")
+
+add_library (
+    lib-beast STATIC
+    test/lib_beast.cpp
+)
+
+set_property(TARGET lib-beast PROPERTY FOLDER "static-libs")
+
+target_link_libraries(lib-asio lib-beast)
 
 #-------------------------------------------------------------------------------
 #
@@ -158,37 +209,31 @@ target_include_directories(${PROJECT_NAME} SYSTEM INTERFACE ${Boost_INCLUDE_DIRS
 #
 
 include_directories (.)
-include_directories (extras)
-include_directories (include)
 
 if (OPENSSL_FOUND)
     include_directories (${OPENSSL_INCLUDE_DIR})
 endif()
 
-file(GLOB_RECURSE BEAST_INCLUDES
-    ${PROJECT_SOURCE_DIR}/include/beast/*.hpp
-    ${PROJECT_SOURCE_DIR}/include/beast/*.ipp
+file (GLOB_RECURSE BOOST_BEAST_FILES
+    ${PROJECT_SOURCE_DIR}/include/boost/beast/*.hpp
+    ${PROJECT_SOURCE_DIR}/include/boost/beast/*.ipp
 )
 
-file(GLOB_RECURSE COMMON_INCLUDES
+file (GLOB_RECURSE BOOST_BEAST_EXPERIMENTAL_FILES
+    ${PROJECT_SOURCE_DIR}/include/boost/beast/_experimental/*.hpp
+    ${PROJECT_SOURCE_DIR}/include/boost/beast/_experimental/*.ipp
+)
+
+file (GLOB_RECURSE COMMON_FILES
     ${PROJECT_SOURCE_DIR}/example/common/*.hpp
   )
-
-file(GLOB_RECURSE EXAMPLE_INCLUDES
-    ${PROJECT_SOURCE_DIR}/example/*.hpp
-  )
-
-file(GLOB_RECURSE EXTRAS_INCLUDES
-    ${PROJECT_SOURCE_DIR}/extras/beast/*.hpp
-    ${PROJECT_SOURCE_DIR}/extras/beast/*.ipp
-)
-
-if (Beast_BUILD_TESTS)
-    add_subdirectory (test)
-endif()
 
 if (Beast_BUILD_EXAMPLES AND
     (NOT "${VARIANT}" STREQUAL "coverage") AND
     (NOT "${VARIANT}" STREQUAL "ubasan"))
     add_subdirectory (example)
+endif()
+
+if (Beast_BUILD_TESTS)
+    add_subdirectory (test)
 endif()

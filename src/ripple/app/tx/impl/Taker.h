@@ -69,7 +69,7 @@ private:
     CrossType cross_type_;
 
 protected:
-    beast::Journal journal_;
+    boost::beast::Journal journal_;
 
     struct Flow
     {
@@ -135,7 +135,7 @@ public:
     BasicTaker (
         CrossType cross_type, AccountID const& account, Amounts const& amount,
         Quality const& quality, std::uint32_t flags, Rate const& rate_in,
-        Rate const& rate_out, beast::Journal journal = beast::Journal ());
+        Rate const& rate_out, boost::beast::Journal journal = boost::beast::Journal ());
 
     virtual ~BasicTaker () = default;
 
@@ -229,7 +229,7 @@ public:
     Taker (CrossType cross_type, ApplyView& view,
         AccountID const& account, Amounts const& offer,
             std::uint32_t flags,
-                beast::Journal journal);
+                boost::beast::Journal journal);
     ~Taker () = default;
 
     void

@@ -32,6 +32,7 @@
 #include <typeinfo>
 #include <utility>
 
+namespace boost {
 namespace beast {
 
 namespace detail {
@@ -283,5 +284,6 @@ Out lexicalCast (In in, Out defaultValue = Out ())
 }
 
 } // beast
+}
 
 #endif

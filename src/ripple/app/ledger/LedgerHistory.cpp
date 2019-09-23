@@ -162,7 +162,7 @@ log_one(
     ReadView const& ledger,
     uint256 const& tx,
     char const* msg,
-    beast::Journal& j)
+    boost::beast::Journal& j)
 {
     auto metaData = ledger.txRead(tx).second;
 
@@ -185,7 +185,7 @@ log_metadata_difference(
     ReadView const& builtLedger,
     ReadView const& validLedger,
     uint256 const& tx,
-    beast::Journal j)
+    boost::beast::Journal j)
 {
     auto getMeta = [j](ReadView const& ledger,
         uint256 const& txID) -> std::shared_ptr<TxMeta>

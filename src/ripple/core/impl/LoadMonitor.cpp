@@ -46,7 +46,7 @@ LoadMonitor::Stats::Stats()
 
 //------------------------------------------------------------------------------
 
-LoadMonitor::LoadMonitor (beast::Journal j)
+LoadMonitor::LoadMonitor (boost::beast::Journal j)
     : mCounts (0)
     , mLatencyEvents (0)
     , mLatencyMSAvg (0)

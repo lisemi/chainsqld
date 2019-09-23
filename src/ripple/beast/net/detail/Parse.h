@@ -23,6 +23,7 @@
 #include <ios>
 #include <string>
 
+namespace boost {
 namespace beast {
 namespace IP {
 
@@ -97,6 +98,7 @@ integer_holder <IntType> integer (IntType& i)
 
 }
 
+}
 }
 }
 

@@ -41,7 +41,7 @@ public:
                 finished.signal();
         }
 
-        beast::WaitableEvent finished;
+        boost::beast::WaitableEvent finished;
         std::atomic <int> count;
     };
 

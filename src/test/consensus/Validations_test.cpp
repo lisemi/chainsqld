@@ -363,7 +363,7 @@ class Validations_test : public beast::unit_test::suite
         StaleData staleData_;
         ValidationParms p_;
         beast::manual_clock<std::chrono::steady_clock> clock_;
-        beast::Journal j_;
+        boost::beast::Journal j_;
         TestValidations tv_;
         int nextNodeId_ = 0;
 

@@ -22,6 +22,7 @@
 
 #include <type_traits>
 
+namespace boost {
 namespace beast {
 
 /** Makes T const or non const depending on a bool. */
@@ -37,6 +38,7 @@ struct maybe_const
 template <bool IsConst, class T>
 using maybe_const_t = typename maybe_const <IsConst,T>::type;
 
+}
 }
 
 #endif

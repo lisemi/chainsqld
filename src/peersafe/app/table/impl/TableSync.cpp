@@ -33,7 +33,7 @@
 #include <peersafe/app/util/TableSyncUtil.h>
 
 namespace ripple {
-TableSync::TableSync(Application& app, Config& cfg, beast::Journal journal)
+TableSync::TableSync(Application& app, Config& cfg, boost::beast::Journal journal)
     : app_(app)
     , journal_(journal)
     , cfg_(cfg)    

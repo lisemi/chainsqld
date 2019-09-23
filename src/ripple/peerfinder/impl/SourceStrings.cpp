@@ -41,7 +41,7 @@ public:
         return m_name;
     }
 
-    void fetch (Results& results, beast::Journal journal)
+    void fetch (Results& results, boost::beast::Journal journal)
     {
         results.addresses.resize (0);
         results.addresses.reserve (m_strings.size());

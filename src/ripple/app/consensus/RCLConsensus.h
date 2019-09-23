@@ -56,7 +56,7 @@ class RCLConsensus
         LedgerMaster& ledgerMaster_;
         LocalTxs& localTxs_;
         InboundTransactions& inboundTransactions_;
-        beast::Journal j_;
+        boost::beast::Journal j_;
 
         NodeID const nodeID_;
         PublicKey const valPublic_;
@@ -92,7 +92,7 @@ class RCLConsensus
             LocalTxs& localTxs,
             InboundTransactions& inboundTransactions,
             ValidatorKeys const & validatorKeys,
-            beast::Journal journal);
+            boost::beast::Journal journal);
 
         bool
         validating() const
@@ -375,7 +375,7 @@ public:
         InboundTransactions& inboundTransactions,
         Consensus<Adaptor>::clock_type const& clock,
         ValidatorKeys const & validatorKeys,
-        beast::Journal journal);
+        boost::beast::Journal journal);
 
     RCLConsensus(RCLConsensus const&) = delete;
 
@@ -471,7 +471,7 @@ private:
 
     Adaptor adaptor_;
     Consensus<Adaptor> consensus_;
-    beast::Journal j_;
+    boost::beast::Journal j_;
 };
 }
 

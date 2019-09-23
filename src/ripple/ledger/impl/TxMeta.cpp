@@ -32,7 +32,7 @@ namespace ripple {
 
 template<class T>
 TxMeta::TxMeta (uint256 const& txid,
-    std::uint32_t ledger, T const& data, beast::Journal j, CtorHelper)
+    std::uint32_t ledger, T const& data, boost::beast::Journal j, CtorHelper)
     : mTransactionID (txid)
     , mLedger (ledger)
     , mNodes (sfAffectedNodes, 32)
@@ -50,7 +50,7 @@ TxMeta::TxMeta (uint256 const& txid,
 }
 
 TxMeta::TxMeta (uint256 const& txid, std::uint32_t ledger, STObject const& obj,
-    beast::Journal j)
+    boost::beast::Journal j)
     : mTransactionID (txid)
     , mLedger (ledger)
     , mNodes (obj.getFieldArray (sfAffectedNodes))
@@ -72,7 +72,7 @@ TxMeta::TxMeta (uint256 const& txid, std::uint32_t ledger, STObject const& obj,
 TxMeta::TxMeta (uint256 const& txid,
     std::uint32_t ledger,
     Blob const& vec,
-    beast::Journal j)
+    boost::beast::Journal j)
     : TxMeta (txid, ledger, vec, j, CtorHelper ())
 {
 }
@@ -80,7 +80,7 @@ TxMeta::TxMeta (uint256 const& txid,
 TxMeta::TxMeta (uint256 const& txid,
     std::uint32_t ledger,
     std::string const& data,
-    beast::Journal j)
+    boost::beast::Journal j)
     : TxMeta (txid, ledger, data, j, CtorHelper ())
 {
 }

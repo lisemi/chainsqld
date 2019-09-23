@@ -35,11 +35,11 @@ public:
     STTx const& tx;
     Rules const rules;
     ApplyFlags flags;
-    beast::Journal j;
+    boost::beast::Journal j;
 
     PreflightContext(Application& app_, STTx const& tx_,
         Rules const& rules_, ApplyFlags flags_,
-            beast::Journal j_);
+            boost::beast::Journal j_);
 
     PreflightContext& operator=(PreflightContext const&) = delete;
 };
@@ -53,11 +53,11 @@ public:
     TER preflightResult;
     STTx const& tx;
     ApplyFlags flags;
-    beast::Journal j;
+    boost::beast::Journal j;
 
     PreclaimContext(Application& app_, ReadView const& view_,
         TER preflightResult_, STTx const& tx_,
-            ApplyFlags flags_, beast::Journal j_ = {})
+            ApplyFlags flags_, boost::beast::Journal j_ = {})
         : app(app_)
         , view(view_)
         , preflightResult(preflightResult_)
@@ -77,7 +77,7 @@ class Transactor
 {
 protected:
     ApplyContext& ctx_;
-    beast::Journal j_;
+    boost::beast::Journal j_;
 
     AccountID     account_;
     ZXCAmount     mFeeDue;

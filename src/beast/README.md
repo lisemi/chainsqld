@@ -1,12 +1,12 @@
-<img width="880" height = "80" alt = "Beast"
-    src="https://raw.githubusercontent.com/vinniefalco/Beast/master/doc/images/readme.png">
+<img width="880" height = "80" alt = "Boost.Beast Title"
+    src="https://raw.githubusercontent.com/boostorg/beast/master/doc/images/readme2.png">
 
 # HTTP and WebSocket built on Boost.Asio in C++11
 
-Branch      | Build         | Coverage       | Documentation
-------------|---------------|----------------|---------------
-[master](https://github.com/vinniefalco/Beast/tree/master)   | [![Build Status](https://travis-ci.org/vinniefalco/Beast.svg?branch=master)](https://travis-ci.org/vinniefalco/Beast)  [![Build status](https://ci.appveyor.com/api/projects/status/g0llpbvhpjuxjnlw/branch/master?svg=true)](https://ci.appveyor.com/project/vinniefalco/beast/branch/master)   | [![codecov](https://codecov.io/gh/vinniefalco/Beast/branch/master/graph/badge.svg)](https://codecov.io/gh/vinniefalco/Beast/branch/master)   | [![Documentation](https://img.shields.io/badge/documentation-master-brightgreen.svg)](http://vinniefalco.github.io/beast/)
-[develop](https://github.com/vinniefalco/Beast/tree/develop) | [![Build Status](https://travis-ci.org/vinniefalco/Beast.svg?branch=develop)](https://travis-ci.org/vinniefalco/Beast) [![Build status](https://ci.appveyor.com/api/projects/status/g0llpbvhpjuxjnlw/branch/develop?svg=true)](https://ci.appveyor.com/project/vinniefalco/beast/branch/develop) | [![codecov](https://codecov.io/gh/vinniefalco/Beast/branch/develop/graph/badge.svg)](https://codecov.io/gh/vinniefalco/Beast/branch/develop) | [![Documentation](https://img.shields.io/badge/documentation-develop-brightgreen.svg)](http://vinniefalco.github.io/stage/beast/develop)
+Branch      | Linux/OSX | Windows | Coverage | Documentation | Matrix
+------------|-----------|---------|----------|---------------|--------
+[master](https://github.com/boostorg/beast/tree/master)   | [![Build Status](https://travis-ci.org/boostorg/beast.svg?branch=master)](https://travis-ci.org/boostorg/beast)  | [![Build status](https://ci.appveyor.com/api/projects/status/2nh66khjjhtgasvo/branch/master?svg=true)](https://ci.appveyor.com/project/vinniefalco/beast/branch/master)   | [![codecov](https://img.shields.io/codecov/c/github/boostorg/beast/master.svg)](https://codecov.io/gh/boostorg/beast/branch/master)   | [![Documentation](https://img.shields.io/badge/documentation-master-brightgreen.svg)](http://www.boost.org/doc/libs/master/libs/beast/doc/html/index.html)  | [![Matrix](https://img.shields.io/badge/matrix-master-brightgreen.svg)](http://www.boost.org/development/tests/master/developer/beast.html)
+[develop](https://github.com/boostorg/beast/tree/develop) | [![Build Status](https://travis-ci.org/boostorg/beast.svg?branch=develop)](https://travis-ci.org/boostorg/beast) | [![Build status](https://ci.appveyor.com/api/projects/status/2nh66khjjhtgasvo/branch/develop?svg=true)](https://ci.appveyor.com/project/vinniefalco/beast/branch/develop) | [![codecov](https://img.shields.io/codecov/c/github/boostorg/beast/develop.svg)](https://codecov.io/gh/boostorg/beast/branch/develop) | [![Documentation](https://img.shields.io/badge/documentation-develop-brightgreen.svg)](https://www.boost.org/doc/libs/develop/libs/beast/index.html) | [![Matrix](https://img.shields.io/badge/matrix-develop-brightgreen.svg)](https://www.boost.org/development/tests/develop/developer/beast.html)
 
 ## Contents
 
@@ -14,11 +14,12 @@ Branch      | Build         | Coverage       | Documentation
 - [Appearances](#appearances)
 - [Description](#description)
 - [Requirements](#requirements)
+- [Git Branches](#branches)
 - [Building](#building)
 - [Usage](#usage)
-- [Licence](#licence)
+- [License](#license)
 - [Contact](#contact)
-- [Contributing](#Contributing)
+- [Contributing](#contributing-we-need-your-help)
 
 ## Introduction
 
@@ -42,21 +43,23 @@ This library is designed for:
 
 ## Appearances
 
-| <a href="http://cppcast.com/2017/01/vinnie-falco/">CppCast 2017</a> | <a href="https://raw.githubusercontent.com/vinniefalco/Beast/master/doc/images/CppCon2016.pdf">CppCon 2016</a> |
-| ------------ | ----------- |
-| <a href="http://cppcast.com/2017/01/vinnie-falco/"><img width="180" height="180" alt="Vinnie Falco" src="https://avatars1.githubusercontent.com/u/1503976?v=3&u=76c56d989ef4c09625256662eca2775df78a16ad&s=180"></a> | <a href="https://www.youtube.com/watch?v=uJZgRcvPFwI"><img width="320" height = "180" alt="Beast" src="https://raw.githubusercontent.com/vinniefalco/Beast/master/doc/images/CppCon2016.png"></a> |
+| <a href="https://github.com/vinniefalco/CppCon2018">CppCon 2018</a> | <a href="https://www.bishopfox.com/case_study/securing-beast/">Bishop Fox 2018</a> |
+| ------------ | ------------ |
+| <a href="https://www.youtube.com/watch?v=7FQwAjELMek"><img width="320" height = "180" alt="Beast" src="https://raw.githubusercontent.com/vinniefalco/CppCon2018/master/CppCon2018.png"></a> | <a href="https://youtu.be/4TtyYbGDAj0"><img width="320" height = "180" alt="Beast Security Review" src="https://raw.githubusercontent.com/vinniefalco/BeastAssets/master/BishopFox2018.png"></a> |
+
+| <a href="https://github.com/vinniefalco/CppCon2018">CppCon 2017</a> | <a href="http://cppcast.com/2017/01/vinnie-falco/">CppCast 2017</a> | <a href="https://raw.githubusercontent.com/vinniefalco/BeastAssets/master/CppCon2016.pdf">CppCon 2016</a> |
+| ------------ | ------------ | ----------- |
+| <a href="https://www.youtube.com/watch?v=WsUnnYEKPnI"><img width="320" height = "180" alt="Beast" src="https://raw.githubusercontent.com/vinniefalco/CppCon2017/master/CppCon2017.png"></a> | <a href="http://cppcast.com/2017/01/vinnie-falco/"><img width="180" height="180" alt="Vinnie Falco" src="https://avatars1.githubusercontent.com/u/1503976?v=3&u=76c56d989ef4c09625256662eca2775df78a16ad&s=180"></a> | <a href="https://www.youtube.com/watch?v=uJZgRcvPFwI"><img width="320" height = "180" alt="Beast" src="https://raw.githubusercontent.com/vinniefalco/BeastAssets/master/CppCon2016.png"></a> |
 
 ## Description
 
-This software is currently in beta: interfaces may change.
-For recent changes see the [CHANGELOG](CHANGELOG.md).
-The library has been submitted to the
-[Boost Library Incubator](http://rrsd.com/blincubator.com/bi_library/beast-2/?gform_post_id=1579)
+This software is in its first official release. Interfaces
+may change in response to user feedback. For recent changes
+see the [CHANGELOG](CHANGELOG.md).
 
-* [Project Site](http://vinniefalco.github.io/)
-* [Repository](https://github.com/vinniefalco/Beast)
-* [Project Documentation](http://vinniefalco.github.io/beast/)
-* [Autobahn.testsuite results](http://vinniefalco.github.io/autobahn/index.html)
+* [Official Site](https://github.com/boostorg/beast)
+* [Documentation](https://www.boost.org/doc/libs/master/libs/beast/) (master branch)
+* [Autobahn|Testsuite WebSocket Results](https://vinniefalco.github.io/boost/beast/reports/autobahn/index.html)
 
 ## Requirements
 
@@ -66,63 +69,141 @@ create concurrent network programs using callbacks or coroutines.
 
 * **C++11:** Robust support for most language features.
 * **Boost:** Boost.Asio and some other parts of Boost.
-* **OpenSSL:** Optional, for using TLS/Secure sockets.
+* **OpenSSL:** Required for using TLS/Secure sockets and examples/tests
 
-When using Microsoft Visual C++, Visual Studio 2015 Update 3 or later is required.
+When using Microsoft Visual C++, Visual Studio 2017 or later is required.
 
-These components are required in order to build the tests and examples:
+One of these components is required in order to build the tests and examples:
 
-* CMake 3.7.2 or later
 * Properly configured bjam/b2
+* CMake 3.5.1 or later (Windows only)
 
 ## Building
 
-Beast is header-only so there are no libraries to build or link with.
-To use Beast in your project, simply copy the Beast sources to your
-project's source tree (alternatively, bring Beast into your Git repository
-using the `git subtree` or `git submodule` commands). Then, edit your
- build scripts to add the `include/` directory to the list of paths checked
- by the C++ compiler when searching for includes. Beast `#include` lines
- will look like this:
+Beast is header-only. To use it just add the necessary `#include` line
+to your source files, like this:
 ```C++
-#include <beast/http.hpp>
-#include <beast/websocket.hpp>
+#include <boost/beast.hpp>
 ```
 
-To link your program successfully, you'll need to add the Boost.System
-library to link with. If you use coroutines you'll also need the
-Boost.Coroutine library. Please visit the Boost documentation for
-instructions on how to do this for your particular build system.
+If you use coroutines you'll need to link with the Boost.Coroutine
+library. Please visit the Boost documentation for instructions
+on how to do this for your particular build system.
 
-For the examples and tests, Beast provides build scripts for Boost.Build (bjam)
-and CMake. It is possible to generate Microsoft Visual Studio or Apple
-Xcode project files using CMake by executing these commands from
-the root of the repository:
+## GitHub
+
+To use the latest official release of Beast, simply obtain the latest
+Boost distribution and follow the instructions for integrating it
+into your development environment. If you wish to build the examples
+and tests, or if you wish to preview upcoming changes and features,
+it is suggested to clone the "Boost superproject" and work with Beast
+"in-tree" (meaning, the libs/beast subdirectory of the superproject).
+
+The official repository contains the following branches:
+
+* [**master**](https://github.com/boostorg/beast/tree/master) This
+  holds the most recent snapshot with code that is known to be stable.
+
+* [**develop**](https://github.com/boostorg/beast/tree/develop) This
+  holds the most recent snapshot. It may contain unstable code.
+
+Each of these branches requires a corresponding Boost branch and
+all of its subprojects. For example, if you wish to use the **master**
+branch version of Beast, you should clone the Boost superproject,
+switch to the **master** branch in the superproject and acquire
+all the Boost libraries corresponding to that branch including Beast.
+
+To clone the superproject locally, and switch into the main project's
+directory use:
+```
+git clone --recursive https://github.com/boostorg/boost.git
+cd boost
+```
+
+"bjam" is used to build Beast and the Boost libraries. On a non-Windows
+system use this command to build bjam:
+```
+./bootstrap.sh
+```
+
+From a Windows command line, build bjam using this command:
+```
+.\BOOTSTRAP.BAT
+```
+
+## Building tests and examples
+Building tests and examples requires OpenSSL installed. If OpenSSL is installed
+in a non-system location, you will need to copy the
+[user-config.jam](tools/user-config.jam) file into your home directory and set
+the `OPENSSL_ROOT` environment variable to the path that contains an installation
+of OpenSSL.
+
+### Ubuntu/Debian
+If installed into a system directory, OpenSSL will be automatically found and used.
+```bash
+sudo apt install libssl-dev
+```
+### Windows
+Replace `path` in the following code snippets with the path you installed vcpkg
+to. Examples assume a 32-bit build, if you build a 64-bit version replace
+`x32-windows` with `x64-windows` in the path.
+- Using [vcpkg](https://github.com/Microsoft/vcpkg) and CMD:
+```bat
+vcpkg install openssl --triplet x32-windows
+SET OPENSSL_ROOT=path\installed\x32-windows
+```
+
+- Using [vcpkg](https://github.com/Microsoft/vcpkg) and PowerShell:
+```powershell
+vcpkg install openssl --triplet x32-windows
+$env:OPENSSL_ROOT = "path\x32-windows"
+```
+
+- Using [vcpkg](https://github.com/Microsoft/vcpkg) and bash:
+```bash
+vcpkg.exe install openssl --triplet x32-windows
+export OPENSSL_ROOT=path/x32-windows
+```
+
+### Mac OS
+Using [brew](https://github.com/Homebrew/brew):
+```bash
+brew install openssl
+export OPENSSL_ROOT=$(brew --prefix openssl)
+# install bjam tool user specific configuration file to read OPENSSL_ROOT
+# see https://boostorg.github.io/build/manual/develop/index.html
+cp ./libs/beast/tools/user-config.jam $HOME
+```
+
+Make sure the bjam tool (also called "b2") is available in the path
+your shell uses to find executables. The Beast project is located in
+"libs/beast" relative to the directory containing the Boot superproject.
+To build the Beast tests, examples, and documentation use these commands:
+```
+export PATH=$PWD:$PATH
+b2 -j2 libs/beast/test cxxstd=11      # bjam must be in your $PATH
+b2 -j2 libs/beast/example cxxstd=11   # "-j2" means use two processors
+b2 libs/beast/doc                     # Doxygen and Saxon are required for this
+```
+
+
+
+Additional instructions for configuring, using, and building libraries
+in superproject may be found in the
+[Boost Wiki](https://github.com/boostorg/boost/wiki/Getting-Started).
+
+## Visual Studio
+
+CMake may be used to generate a very nice Visual Studio solution and
+a set of Visual Studio project files using these commands:
 
 ```
+cd libs/beast
 mkdir bin
 cd bin
-cmake ..                                    # for 32-bit Windows builds
-cmake -G Xcode ..                           # for Apple Xcode builds
-
-cd ..
-mkdir bin64
-cd bin64
-cmake -G"Visual Studio 14 2015 Win64" ..    # for 64-bit Windows builds (VS2015)
+cmake ..                                    # for 32-bit Windows builds, or
 cmake -G"Visual Studio 15 2017 Win64" ..    # for 64-bit Windows builds (VS2017)
-
 ```
-
-To build with Boost.Build, it is necessary to have the bjam executable
-in your path. And bjam needs to know how to find the Boost sources. The
-easiest way to do this is make sure that the version of bjam in your path
-is the one at the root of the Boost source tree, which is built when
-running `bootstrap.sh` (or `bootstrap.bat` on Windows).
-
-Once bjam is in your path, simply run bjam in the root of the Beast
-repository to automatically build the required Boost libraries if they
-are not already built, build the examples, then build and run the unit
-tests.
 
 The files in the repository are laid out thusly:
 
@@ -131,32 +212,30 @@ The files in the repository are laid out thusly:
     bin/            Create this to hold executables and project files
     bin64/          Create this to hold 64-bit Windows executables and project files
     doc/            Source code and scripts for the documentation
-    include/        Add this to your compiler includes
-        beast/
-    extras/         Additional APIs, may change
+    include/        Where the header files are located
     example/        Self contained example programs
-    test/           Unit tests and benchmarks
+    meta/           Metadata for Boost integration
+    test/           The unit tests for Beast
+    tools/          Scripts used for CI testing
 ```
-
 
 ## Usage
 
 These examples are complete, self-contained programs that you can build
 and run yourself (they are in the `example` directory).
 
-http://vinniefalco.github.io/beast/beast/quick_start.html
+https://www.boost.org/doc/libs/develop/libs/beast/doc/html/beast/quick_start.html
 
 ## License
 
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file [LICENSE_1_0.txt](LICENSE_1_0.txt) or copy at
-http://www.boost.org/LICENSE_1_0.txt)
+https://www.boost.org/LICENSE_1_0.txt)
 
 ## Contact
 
 Please report issues or questions here:
-https://github.com/vinniefalco/Beast/issues
-
+https://github.com/boostorg/beast/issues
 
 ---
 
@@ -178,7 +257,7 @@ You can look through the Closed pull requests to get an idea of how
 reviews are performed. To give a code review just sign in with your
 GitHub account and then add comments to any open pull requests below,
 don't be shy!
-<p>https://github.com/vinniefalco/Beast/pulls</p>
+<p>https://github.com/boostorg/beast/pulls</p>
 
 Here are some resources to learn more about
 code reviews:
@@ -196,11 +275,3 @@ stakeholders about its interfaces. Even if you just have questions,
 asking them in the code review or in issues provides valuable information
 that can be used to improve the library - do not hesitate, no question
 is insignificant or unimportant!
-
-While code reviews are the preferred form of donation, if you simply
-must donate money to support the library, please do so
-using <a href="https://bitcoin.org">Bitcoin</a> sent to this address:
-<a href="bitcoin:1DaPsDvv6MjFUSnsxXSHzeYKSjzrWrQY7T?amount=0.03&label=Beast%20Library"><b>1DaPsDvv6MjFUSnsxXSHzeYKSjzrWrQY7T</b></a>
-
-<a href="bitcoin:1DaPsDvv6MjFUSnsxXSHzeYKSjzrWrQY7T?amount=0.03&label=Beast%20Library">
-    <img src="https://raw.githubusercontent.com/vinniefalco/Beast/master/doc/images/btc_qr2.png" width="490" height="100"></a>

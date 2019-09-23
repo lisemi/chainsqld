@@ -38,7 +38,7 @@ class PathState : public CountedObject <PathState>
     PathState (PaymentSandbox const& parent,
             STAmount const& saSend,
                STAmount const& saSendMax,
-                   beast::Journal j)
+                   boost::beast::Journal j)
         : mIndex (0)
         , uQuality (0)
         , saInReq (saSendMax)
@@ -169,7 +169,7 @@ private:
     // Source may only be used there if not mentioned by an account.
     AccountIssueToNodeIndex umReverse;
 
-    beast::Journal j_;
+    boost::beast::Journal j_;
 };
 
 } // ripple

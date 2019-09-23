@@ -39,7 +39,7 @@ public:
     PublicKey publicKey;
     SecretKey secretKey;
     std::string manifest;
-    ValidatorKeys(Config const& config, beast::Journal j);
+    ValidatorKeys(Config const& config, boost::beast::Journal j);
 
     bool configInvalid() const
     {

@@ -473,7 +473,7 @@ struct Flow_test : public beast::unit_test::suite
 
             BEAST_EXPECT(flowResult.removableOffers.size () == 1);
             env.app ().openLedger ().modify (
-                [&](OpenView& view, beast::Journal j)
+                [&](OpenView& view, boost::beast::Journal j)
                 {
                     if (flowResult.removableOffers.empty())
                         return false;

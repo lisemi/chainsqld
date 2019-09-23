@@ -31,7 +31,7 @@ class ResolverAsio : public Resolver
 public:
     static
     std::unique_ptr<ResolverAsio> New (
-        boost::asio::io_service&, beast::Journal);
+        boost::asio::io_service&, boost::beast::Journal);
 };
 
 }

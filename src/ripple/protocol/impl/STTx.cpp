@@ -640,7 +640,7 @@ std::pair<bool, std::string> STTx::checkMultiSign () const
     bool const fullyCanonical = (getFlags() & tfFullyCanonicalSig);
 
     // Signers must be in sorted order by AccountID.
-    AccountID lastAccountID (beast::zero);
+    AccountID lastAccountID (boost::beast::zero);
 
     for (auto const& signer : signers)
     {

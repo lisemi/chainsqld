@@ -295,7 +295,7 @@ private:
     friend class RootStoppable;
 
     struct Child;
-    using Children = beast::LockFreeStack <Child>;
+    using Children = boost::beast::LockFreeStack <Child>;
 
     struct Child : Children::Node
     {
@@ -308,8 +308,8 @@ private:
 
     void prepareRecursive ();
     void startRecursive ();
-    void stopAsyncRecursive (beast::Journal j);
-    void stopRecursive (beast::Journal j);
+    void stopAsyncRecursive (boost::beast::Journal j);
+    void stopRecursive (boost::beast::Journal j);
 
     std::string m_name;
     RootStoppable& m_root;
@@ -317,7 +317,7 @@ private:
     std::atomic<bool> m_stopped {false};
     std::atomic<bool> m_childrenStopped {false};
     Children m_children;
-    beast::WaitableEvent m_stoppedEvent;
+    boost::beast::WaitableEvent m_stoppedEvent;
 };
 
 //------------------------------------------------------------------------------
@@ -355,7 +355,7 @@ public:
         Thread safety:
             Safe to call from any thread not associated with a Stoppable.
     */
-    void stop (beast::Journal j);
+    void stop (boost::beast::Journal j);
 
     /** Return true if start() was ever called. */
     bool started () const
@@ -387,7 +387,7 @@ private:
         Thread safety:
             Safe to call from any thread at any time.
     */
-    bool stopAsync(beast::Journal j);
+    bool stopAsync(boost::beast::Journal j);
 
     std::atomic<bool> m_prepared {false};
     std::atomic<bool> m_started {false};

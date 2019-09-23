@@ -24,6 +24,7 @@
 #include <ripple/beast/net/IPEndpoint.h>
 #include <ripple/beast/net/detail/Parse.h>
 
+namespace boost {
 namespace beast {
 namespace IP {
 
@@ -170,5 +171,6 @@ std::istream& operator>> (std::istream& is, Endpoint& endpoint)
     return is;
 }
 
+}
 }
 }

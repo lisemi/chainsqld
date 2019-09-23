@@ -51,7 +51,7 @@ RCLConsensus::RCLConsensus(
     InboundTransactions& inboundTransactions,
     Consensus<Adaptor>::clock_type const& clock,
     ValidatorKeys const& validatorKeys,
-    beast::Journal journal)
+    boost::beast::Journal journal)
     : adaptor_(
           app,
           std::move(feeVote),
@@ -73,7 +73,7 @@ RCLConsensus::Adaptor::Adaptor(
     LocalTxs& localTxs,
     InboundTransactions& inboundTransactions,
     ValidatorKeys const& validatorKeys,
-    beast::Journal journal)
+    boost::beast::Journal journal)
     : app_(app)
         , feeVote_(std::move(feeVote))
         , ledgerMaster_(ledgerMaster)
@@ -555,7 +555,7 @@ RCLConsensus::Adaptor::doAccept(
             retriableTxs,
             tapNONE,
             "consensus",
-            [&](OpenView& view, beast::Journal j) {
+            [&](OpenView& view, boost::beast::Journal j) {
                 // Stuff the ledger with transactions from the queue.
                 return app_.getTxQ().accept(app_, view);
             });

@@ -33,7 +33,7 @@ namespace path {
 static
 TER
 deleteOffers (ApplyView& view,
-    boost::container::flat_set<uint256> const& offers, beast::Journal j)
+    boost::container::flat_set<uint256> const& offers, boost::beast::Journal j)
 {
     for (auto& e: offers)
         if (TER r = offerDelete (view,
@@ -123,12 +123,12 @@ RippleCalc::Output RippleCalc::rippleCalculate (
         {
             defaultPaths = pInputs->defaultPathsAllowed;
             partialPayment = pInputs->partialPaymentAllowed;
-            if (pInputs->limitQuality && saMaxAmountReq > beast::zero)
+            if (pInputs->limitQuality && saMaxAmountReq > boost::beast::zero)
                 limitQuality.emplace (
                     Amounts (saMaxAmountReq, saDstAmountReq));
         }
 
-        if (saMaxAmountReq >= beast::zero ||
+        if (saMaxAmountReq >= boost::beast::zero ||
             saMaxAmountReq.getCurrency () != saDstAmountReq.getCurrency () ||
             saMaxAmountReq.getIssuer () != uSrcAccountID)
         {

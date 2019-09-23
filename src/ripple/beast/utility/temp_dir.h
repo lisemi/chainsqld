@@ -23,6 +23,7 @@
 #include <boost/filesystem.hpp>
 #include <string>
 
+namespace boost {
 namespace beast {
 
 /** RAII temporary directory.
@@ -82,5 +83,6 @@ public:
 };
 
 } // beast
+}
 
 #endif

@@ -154,7 +154,7 @@ namespace ripple {
 					{
 						bytes out = e.takeOutput().toBytes();
 						std::cout << "exception:" << std::string(out.begin(), out.end()) << std::endl;
-						return std::make_pair(beast::zero, false);
+						return std::make_pair(boost::beast::zero, false);
 					}
 					else
 					{
@@ -162,7 +162,7 @@ namespace ripple {
 						return std::make_pair(e.newAddress(), true);;
 					}
 				}
-				return std::make_pair(beast::zero, false);
+				return std::make_pair(boost::beast::zero, false);
 			}
 
 			bool executeCall(Account sender, AccountID &contract, Blob data)

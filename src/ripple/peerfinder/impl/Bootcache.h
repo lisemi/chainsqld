@@ -101,7 +101,7 @@ private:
 
     Store& m_store;
     clock_type& m_clock;
-    beast::Journal m_journal;
+    boost::beast::Journal m_journal;
 
     // Time after which we can update the database again
     clock_type::time_point m_whenUpdate;
@@ -120,7 +120,7 @@ public:
     Bootcache (
         Store& store,
         clock_type& clock,
-        beast::Journal journal);
+        boost::beast::Journal journal);
 
     ~Bootcache ();
 

@@ -182,7 +182,7 @@ public:
 
     virtual bool serverOkay (std::string& reason) = 0;
 
-    virtual beast::Journal journal (std::string const& name) = 0;
+    virtual boost::beast::Journal journal (std::string const& name) = 0;
 
     /* Returns the number of file descriptors the application wants */
     virtual int fdlimit () const = 0;

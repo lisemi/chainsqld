@@ -57,7 +57,7 @@ public:
     using Slots = std::map <beast::IP::Endpoint,
         std::shared_ptr <SlotImp>>;
 
-    beast::Journal m_journal;
+    boost::beast::Journal m_journal;
     clock_type& m_clock;
     Store& m_store;
     Checker& m_checker;
@@ -107,7 +107,7 @@ public:
     //--------------------------------------------------------------------------
 
     Logic (clock_type& clock, Store& store,
-            Checker& checker, beast::Journal journal)
+            Checker& checker, boost::beast::Journal journal)
         : m_journal (journal)
         , m_clock (clock)
         , m_store (store)

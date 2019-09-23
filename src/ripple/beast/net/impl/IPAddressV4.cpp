@@ -27,6 +27,7 @@
 #include <sstream>
 #include <stdexcept>
 
+namespace boost {
 namespace beast {
 namespace IP {
 
@@ -180,5 +181,6 @@ std::istream& operator>> (std::istream& is, AddressV4& addr)
     return is;
 }
 
+}
 }
 }

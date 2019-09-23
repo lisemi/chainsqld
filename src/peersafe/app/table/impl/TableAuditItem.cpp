@@ -38,7 +38,7 @@ TableAuditItem::~TableAuditItem()
 {
 }
 
-TableAuditItem::TableAuditItem(Application& app, beast::Journal journal, Config& cfg, SyncTargetType eTargetType)
+TableAuditItem::TableAuditItem(Application& app, boost::beast::Journal journal, Config& cfg, SyncTargetType eTargetType)
 	:TableDumpItem(app,journal,cfg, eTargetType)
 {      
 	

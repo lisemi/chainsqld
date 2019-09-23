@@ -64,7 +64,7 @@ flow (PaymentSandbox& view,
     bool offerCrossing,
     boost::optional<Quality> const& limitQuality,
     boost::optional<STAmount> const& sendMax,
-    beast::Journal j,
+    boost::beast::Journal j,
     path::detail::FlowDebugInfo* flowDebugInfo=nullptr);
 
 }  // ripple

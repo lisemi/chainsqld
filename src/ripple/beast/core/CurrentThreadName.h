@@ -27,6 +27,7 @@
 #include <boost/optional.hpp>
 #include <string>
 
+namespace boost {
 namespace beast {
 
 /** Changes the name of the caller thread.
@@ -43,6 +44,7 @@ void setCurrentThreadName (std::string newThreadName);
 */
 boost::optional<std::string> getCurrentThreadName ();
 
+}
 }
 
 #endif

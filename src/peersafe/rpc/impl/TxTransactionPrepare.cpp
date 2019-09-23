@@ -130,7 +130,7 @@ namespace ripple {
 				return (*m_pMap)[accountId][tableName].uTxCheckHash;
 		}
 
-		return beast::zero;
+		return boost::beast::zero;
 	}
 
 	void TxTransactionPrepare::updatePassblob(const std::string& accountId, const std::string& tableName, const Blob& pass)

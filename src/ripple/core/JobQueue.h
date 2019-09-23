@@ -128,8 +128,8 @@ public:
 
     using JobFunction = std::function <void(Job&)>;
 
-    JobQueue (beast::insight::Collector::ptr const& collector,
-        Stoppable& parent, beast::Journal journal, Logs& logs);
+    JobQueue (boost::beast::insight::Collector::ptr const& collector,
+        Stoppable& parent, boost::beast::Journal journal, Logs& logs);
     ~JobQueue ();
 
     /** Adds a job to the JobQueue.
@@ -206,7 +206,7 @@ private:
 
     using JobDataMap = std::map <JobType, JobTypeData>;
 
-    beast::Journal m_journal;
+    boost::beast::Journal m_journal;
     mutable std::mutex m_mutex;
     std::uint64_t m_lastJob;
     std::set <Job> m_jobSet;
@@ -223,9 +223,9 @@ private:
     Job::CancelCallback m_cancelCallback;
 
     // Statistics tracking
-    beast::insight::Collector::ptr m_collector;
-    beast::insight::Gauge job_count;
-    beast::insight::Hook hook;
+    boost::beast::insight::Collector::ptr m_collector;
+    boost::beast::insight::Gauge job_count;
+    boost::beast::insight::Hook hook;
 
     std::condition_variable cv_;
 

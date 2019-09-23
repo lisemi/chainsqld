@@ -45,7 +45,7 @@ private:
     Application& app_;
     std::uint32_t const id_;
     beast::WrappedSink sink_;
-    beast::Journal journal_;
+    boost::beast::Journal journal_;
     endpoint_type remote_endpoint_;
     Resource::Consumer usage_;
     boost::asio::io_service::strand strand_;
@@ -63,7 +63,7 @@ public:
         endpoint_type const& remote_endpoint, Resource::Consumer usage,
             beast::asio::ssl_bundle::shared_context const& context,
                 std::uint32_t id, PeerFinder::Slot::ptr const& slot,
-                    beast::Journal journal, OverlayImpl& overlay);
+                    boost::beast::Journal journal, OverlayImpl& overlay);
 
     ~ConnectAttempt();
 

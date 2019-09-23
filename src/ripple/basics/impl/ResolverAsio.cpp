@@ -104,13 +104,13 @@ class ResolverAsioImpl
 public:
     using HostAndPort = std::pair <std::string, std::string>;
 
-    beast::Journal m_journal;
+    boost::beast::Journal m_journal;
 
     boost::asio::io_service& m_io_service;
     boost::asio::io_service::strand m_strand;
     boost::asio::ip::tcp::resolver m_resolver;
 
-    beast::WaitableEvent m_stop_complete;
+    boost::beast::WaitableEvent m_stop_complete;
     std::atomic <bool> m_stop_called;
     std::atomic <bool> m_stopped;
 
@@ -134,7 +134,7 @@ public:
     std::deque <Work> m_work;
 
     ResolverAsioImpl (boost::asio::io_service& io_service,
-        beast::Journal journal)
+        boost::beast::Journal journal)
             : m_journal (journal)
             , m_io_service (io_service)
             , m_strand (io_service)
@@ -367,7 +367,7 @@ public:
 
 std::unique_ptr<ResolverAsio> ResolverAsio::New (
     boost::asio::io_service& io_service,
-    beast::Journal journal)
+    boost::beast::Journal journal)
 {
     return std::make_unique<ResolverAsioImpl> (io_service, journal);
 }

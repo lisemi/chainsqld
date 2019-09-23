@@ -53,7 +53,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 using namespace std;
 
 namespace ripple {
-	class SuiteSink : public beast::Journal::Sink
+	class SuiteSink : public boost::beast::Journal::Sink
 	{
 		std::string partition_;
 		beast::unit_test::suite& suite_;
@@ -111,7 +111,7 @@ namespace ripple {
 
 		~SuiteLogs() override = default;
 
-		std::unique_ptr<beast::Journal::Sink>
+		std::unique_ptr<boost::beast::Journal::Sink>
 			makeSink(std::string const& partition,
 				beast::severities::Severity threshold) override
 		{
@@ -179,7 +179,7 @@ namespace ripple {
 			DatabaseCon::Setup setup = ripple::setup_SyncDatabaseCon(config_);
 			std::pair<std::string, bool> result = setup.sync_db.find("type");
 
-			beast::Journal j;
+			boost::beast::Journal j;
 			if (result.first.compare("sqlite") == 0)
                 m_pTableStatusDB = std::make_unique<TableStatusDBSQLite>(txstore_dbconn_->GetDBConn(), (ripple::Application*)this, j);				
 			else
@@ -193,9 +193,9 @@ namespace ripple {
 
 		void testInsertSyncDB()
 		{
-			m_pTableStatusDB->InsertSnycDB("hello", "t_abcde", to_string(account_), 100, beast::zero, 1, "500000",uint256(0));
-			m_pTableStatusDB->InsertSnycDB("hello2", "t_abcde2", to_string(account_), 100, beast::zero, 0, "500000", uint256(0));
-			m_pTableStatusDB->InsertSnycDB("hello3", "t_abcde3", to_string(account_), 10000, beast::zero, 1, "500000", uint256(0));
+			m_pTableStatusDB->InsertSnycDB("hello", "t_abcde", to_string(account_), 100, boost::beast::zero, 1, "500000",uint256(0));
+			m_pTableStatusDB->InsertSnycDB("hello2", "t_abcde2", to_string(account_), 100, boost::beast::zero, 0, "500000", uint256(0));
+			m_pTableStatusDB->InsertSnycDB("hello3", "t_abcde3", to_string(account_), 10000, boost::beast::zero, 1, "500000", uint256(0));
 		}
 
 		void testReadSyncDB() {

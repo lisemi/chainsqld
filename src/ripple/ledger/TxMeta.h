@@ -40,10 +40,10 @@ public:
 private:
     struct CtorHelper{};
     template<class T>
-    TxMeta (uint256 const& txID, std::uint32_t ledger, T const& data, beast::Journal j,
+    TxMeta (uint256 const& txID, std::uint32_t ledger, T const& data, boost::beast::Journal j,
                         CtorHelper);
 public:
-    TxMeta (beast::Journal j)
+    TxMeta (boost::beast::Journal j)
         : mLedger (0)
         , mIndex (static_cast<std::uint32_t> (-1))
         , mResult (255)
@@ -51,7 +51,7 @@ public:
     {
     }
 
-    TxMeta (uint256 const& txID, std::uint32_t ledger, std::uint32_t index, beast::Journal j)
+    TxMeta (uint256 const& txID, std::uint32_t ledger, std::uint32_t index, boost::beast::Journal j)
         : mTransactionID (txID)
         , mLedger (ledger)
         , mIndex (static_cast<std::uint32_t> (-1))
@@ -60,9 +60,9 @@ public:
     {
     }
 
-    TxMeta (uint256 const& txID, std::uint32_t ledger, Blob const&, beast::Journal j);
-    TxMeta (uint256 const& txID, std::uint32_t ledger, std::string const&, beast::Journal j);
-    TxMeta (uint256 const& txID, std::uint32_t ledger, STObject const&, beast::Journal j);
+    TxMeta (uint256 const& txID, std::uint32_t ledger, Blob const&, boost::beast::Journal j);
+    TxMeta (uint256 const& txID, std::uint32_t ledger, std::string const&, boost::beast::Journal j);
+    TxMeta (uint256 const& txID, std::uint32_t ledger, STObject const&, boost::beast::Journal j);
 
     void init (uint256 const& transactionID, std::uint32_t ledger);
     void clear ()
@@ -147,7 +147,7 @@ private:
 	ripple::Blob      contractTxsData;
     ripple::Blob      contractLogData;
 
-    beast::Journal j_;
+    boost::beast::Journal j_;
 };
 
 } // ripple

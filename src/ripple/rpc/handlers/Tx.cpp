@@ -38,7 +38,7 @@ namespace ripple {
     // {
     //   transaction: <hex>
     // }
-    std::pair<std::vector<std::shared_ptr<STTx>>, std::string> getLedgerTxs(RPC::Context& context, int ledgerSeq, uint256 startHash = beast::zero, bool include = false);
+    std::pair<std::vector<std::shared_ptr<STTx>>, std::string> getLedgerTxs(RPC::Context& context, int ledgerSeq, uint256 startHash = boost::beast::zero, bool include = false);
     void appendTxJson(const std::vector<std::shared_ptr<STTx>>& vecTxs, Json::Value& jvTxns, int ledgerSeq, int limit);
 
     static
@@ -119,7 +119,7 @@ namespace ripple {
             while (st.fetch())
             {
                 std::string sSqlSufix = boost::str(boost::format("'%lld' AND Owner = '%s' AND Name = '%s' order by TxSeq ")   \
-                    % beast::lexicalCastThrow <std::string>(*txSeq)   \
+                    % boost::beast::lexicalCastThrow <std::string>(*txSeq)   \
                     % *ownerRead % *nameRead);
                 std::string sSqlPrevious = sSqlPrefix + "<" + sSqlSufix + "desc limit 1";
                 std::string sSqlNext = sSqlPrefix + ">" + sSqlSufix + "asc limit 1";
@@ -241,7 +241,7 @@ Json::Value doGetCrossChainTx(RPC::Context& context)
 
 	auto const txid = context.params[jss::transaction_hash].asString();
 	int ledgerIndex = 1;
-	uint256 txHash = beast::zero;
+	uint256 txHash = boost::beast::zero;
 	int limit = 1;
 	bool bInclusive = true;
 
@@ -280,7 +280,7 @@ Json::Value doGetCrossChainTx(RPC::Context& context)
 		int startLedger = ledgerIndex;
 		int leftCount = limit;
 
-		if (txHash != beast::zero)
+		if (txHash != boost::beast::zero)
 		{
 			auto txn = context.app.getMasterTransaction().fetch(txHash, true);
 			if (!txn)
@@ -366,7 +366,7 @@ std::pair<std::vector<std::shared_ptr<STTx>>,std::string> getLedgerTxs(RPC::Cont
 			std::shared_ptr<STTx> pSTTX = std::make_shared<STTx>(SerialIter{ blob.data(), blob.size() });
 			if (pSTTX->isChainSqlTableType())
 			{
-				if (startHash != beast::zero && !bFound)
+				if (startHash != boost::beast::zero && !bFound)
 				{
 					if (pSTTX->getTransactionID() == startHash)
 					{

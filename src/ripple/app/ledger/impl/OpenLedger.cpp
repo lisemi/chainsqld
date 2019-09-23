@@ -35,7 +35,7 @@ namespace ripple {
 OpenLedger::OpenLedger(std::shared_ptr<
     Ledger const> const& ledger,
         CachedSLEs& cache,
-            beast::Journal journal)
+            boost::beast::Journal journal)
     : j_ (journal)
     , cache_ (cache)
     , current_ (create(ledger->rules(), ledger))
@@ -186,7 +186,7 @@ auto
 OpenLedger::apply_one (Application& app, OpenView& view,
     std::shared_ptr<STTx const> const& tx,
         bool retry, ApplyFlags flags, bool shouldRecover,
-            beast::Journal j) -> Result
+            boost::beast::Journal j) -> Result
 {
     if (retry)
         flags = flags | tapRETRY;

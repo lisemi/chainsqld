@@ -57,7 +57,7 @@ private:
         ThreadNameGuard (std::string const& newName)
         : old_ (beast::getCurrentThreadName ())
         {
-            beast::setCurrentThreadName (newName);
+            boost::beast::setCurrentThreadName (newName);
         }
 
         ~ThreadNameGuard()
@@ -66,7 +66,7 @@ private:
             if (old_)
                 oldName = std::move (*old_);
 
-            beast::setCurrentThreadName (oldName);
+            boost::beast::setCurrentThreadName (oldName);
         }
 
     private:

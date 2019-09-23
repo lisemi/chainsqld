@@ -19,6 +19,7 @@
 
 #include <ripple/beast/insight/Collector.h>
 
+namespace boost {
 namespace beast {
 namespace insight {
 
@@ -26,5 +27,6 @@ Collector::~Collector ()
 {
 }
 
+}
 }
 }

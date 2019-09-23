@@ -35,7 +35,7 @@ class LoadMonitor
 {
 public:
     explicit
-    LoadMonitor (beast::Journal j);
+    LoadMonitor (boost::beast::Journal j);
 
     void addLoadSample (LoadEvent const& sample);
 
@@ -72,7 +72,7 @@ private:
     std::uint64_t mTargetLatencyAvg;
     std::uint64_t mTargetLatencyPk;
     int           mLastUpdate;
-    beast::Journal j_;
+    boost::beast::Journal j_;
 };
 
 } // ripple

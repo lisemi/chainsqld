@@ -29,18 +29,18 @@ private:
     std::unordered_set<uint256,
         hardened_hash<>> set_;
     boost::optional<uint256> digest_;
-    std::unordered_set<uint256, beast::uhash<>> const& presets_;
+    std::unordered_set<uint256, boost::beast::uhash<>> const& presets_;
 
 public:
     explicit Impl(
-            std::unordered_set<uint256, beast::uhash<>> const& presets)
+            std::unordered_set<uint256, boost::beast::uhash<>> const& presets)
         : presets_(presets)
     {
     }
 
     explicit Impl(
         DigestAwareReadView const& ledger,
-            std::unordered_set<uint256, beast::uhash<>> const& presets)
+            std::unordered_set<uint256, boost::beast::uhash<>> const& presets)
         : presets_(presets)
     {
         auto const k = keylet::amendments();
@@ -94,12 +94,12 @@ public:
 
 Rules::Rules(
     DigestAwareReadView const& ledger,
-        std::unordered_set<uint256, beast::uhash<>> const& presets)
+        std::unordered_set<uint256, boost::beast::uhash<>> const& presets)
     : impl_(std::make_shared<Impl>(ledger, presets))
 {
 }
 
-Rules::Rules(std::unordered_set<uint256, beast::uhash<>> const& presets)
+Rules::Rules(std::unordered_set<uint256, boost::beast::uhash<>> const& presets)
     : impl_(std::make_shared<Impl>(presets))
 {
 }

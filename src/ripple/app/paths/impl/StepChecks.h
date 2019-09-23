@@ -67,7 +67,7 @@ checkNoRipple (
     // This is the account whose constraints we are checking
     AccountID const& next,
     Currency const& currency,
-    beast::Journal j)
+    boost::beast::Journal j)
 {
     // fetch the ripple lines into and out of this node
     auto sleIn = view.read (keylet::line (prev, cur, currency));

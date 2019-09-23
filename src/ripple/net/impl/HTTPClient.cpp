@@ -41,7 +41,7 @@ class HTTPClientSSLContext
 {
 public:
     explicit
-    HTTPClientSSLContext (Config const& config, beast::Journal j)
+    HTTPClientSSLContext (Config const& config, boost::beast::Journal j)
         : m_context (boost::asio::ssl::context::sslv23)
         , verify_ (config.SSL_VERIFY)
     {
@@ -90,7 +90,7 @@ private:
 
 boost::optional<HTTPClientSSLContext> httpClientSSLContext;
 
-void HTTPClient::initializeSSLContext (Config const& config, beast::Journal j)
+void HTTPClient::initializeSSLContext (Config const& config, boost::beast::Journal j)
 {
     httpClientSSLContext.emplace (config, j);
 }
@@ -105,7 +105,7 @@ public:
     HTTPClientImp (boost::asio::io_service& io_service,
         const unsigned short port,
         std::size_t responseSize,
-        beast::Journal& j)
+        boost::beast::Journal& j)
         : mSocket (io_service, httpClientSSLContext->context ())
         , mResolver (io_service)
         , mHeader (maxClientHeaderBytes)
@@ -411,13 +411,13 @@ public:
             return;
         }
 
-        mStatus = beast::lexicalCastThrow <int> (std::string (smMatch[1]));
+        mStatus = boost::beast::lexicalCastThrow <int> (std::string (smMatch[1]));
 
         if (boost::regex_match (strHeader, smMatch, reBody)) // we got some body
             mBody = smMatch[1];
 
         if (boost::regex_match (strHeader, smMatch, reSize))
-            mResponseSize = beast::lexicalCastThrow <int> (std::string(smMatch[1]));
+            mResponseSize = boost::beast::lexicalCastThrow <int> (std::string(smMatch[1]));
 
         if (mResponseSize == 0)
         {
@@ -526,7 +526,7 @@ private:
 
     std::deque<std::string>                                     mDeqSites;
     std::chrono::seconds                                        mTimeout;
-    beast::Journal                                              j_;
+    boost::beast::Journal                                              j_;
 };
 
 //------------------------------------------------------------------------------
@@ -541,7 +541,7 @@ void HTTPClient::get (
     std::chrono::seconds timeout,
     std::function<bool (const boost::system::error_code& ecResult, int iStatus,
         std::string const& strData)> complete,
-    beast::Journal& j)
+    boost::beast::Journal& j)
 {
     auto client = std::make_shared<HTTPClientImp> (
         io_service, port, responseMax, j);
@@ -558,7 +558,7 @@ void HTTPClient::get (
     std::chrono::seconds timeout,
     std::function<bool (const boost::system::error_code& ecResult, int iStatus,
         std::string const& strData)> complete,
-    beast::Journal& j)
+    boost::beast::Journal& j)
 {
     std::deque<std::string> deqSites (1, strSite);
 
@@ -577,7 +577,7 @@ void HTTPClient::request (
     std::chrono::seconds timeout,
     std::function<bool (const boost::system::error_code& ecResult, int iStatus,
         std::string const& strData)> complete,
-    beast::Journal& j)
+    boost::beast::Journal& j)
 {
     std::deque<std::string> deqSites (1, strSite);
 

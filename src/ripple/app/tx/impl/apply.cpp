@@ -106,7 +106,7 @@ forceValidity(HashRouter& router, uint256 const& txid,
 std::pair<STer, bool>
 apply (Application& app, OpenView& view,
     STTx const& tx, ApplyFlags flags,
-        beast::Journal j)
+        boost::beast::Journal j)
 {
     STAmountSO saved(view.info().parentCloseTime);
     auto pfresult = preflight(app, view.rules(), tx, flags, j);
@@ -118,7 +118,7 @@ ApplyResult
 applyTransaction (Application& app, OpenView& view,
     STTx const& txn,
         bool retryAssured, ApplyFlags flags,
-            beast::Journal j)
+            boost::beast::Journal j)
 {
     // Returns false if the transaction has need not be retried.
     if (retryAssured)

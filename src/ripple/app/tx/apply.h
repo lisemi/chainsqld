@@ -123,7 +123,7 @@ forceValidity(HashRouter& router, uint256 const& txid,
 std::pair<STer, bool>
 apply (Application& app, OpenView& view,
     STTx const& tx, ApplyFlags flags,
-        beast::Journal journal);
+        boost::beast::Journal journal);
 
 
 /** Enum class for return value from `applyTransaction`
@@ -150,7 +150,7 @@ enum class ApplyResult
 ApplyResult
 applyTransaction(Application& app, OpenView& view,
     STTx const& tx, bool retryAssured, ApplyFlags flags,
-    beast::Journal journal);
+    boost::beast::Journal journal);
 
 } // ripple
 

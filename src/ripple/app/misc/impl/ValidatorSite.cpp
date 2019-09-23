@@ -35,7 +35,7 @@ auto constexpr DEFAULT_REFRESH_INTERVAL = std::chrono::minutes{5};
 ValidatorSite::ValidatorSite (
     boost::asio::io_service& ios,
     ValidatorList& validators,
-    beast::Journal j)
+    boost::beast::Journal j)
     : ios_ (ios)
     , validators_ (validators)
     , j_ (j)

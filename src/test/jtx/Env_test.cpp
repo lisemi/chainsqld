@@ -66,7 +66,7 @@ public:
         void(Account("alice") < gw);
         std::set<Account>().emplace(gw);
         std::unordered_set<Account,
-            beast::uhash<>>().emplace("alice");
+            boost::beast::uhash<>>().emplace("alice");
     }
 
     // Declarations in amount.h

@@ -28,6 +28,7 @@
 
 #include <cstdint>
 
+namespace boost {
 namespace beast {
 
 //==============================================================================
@@ -293,6 +294,7 @@ inline IntegralType fromNetworkByteOrder (IntegralType value) noexcept
 #endif
 }
 
+}
 }
 
 #endif

@@ -85,7 +85,7 @@ setup_FeeVote (Section const& section);
     @param journal Where to log.
 */
 std::unique_ptr <FeeVote>
-make_FeeVote (FeeVote::Setup const& setup, beast::Journal journal);
+make_FeeVote (FeeVote::Setup const& setup, boost::beast::Journal journal);
 
 } // ripple
 

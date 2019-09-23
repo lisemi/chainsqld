@@ -80,7 +80,7 @@ class SHAMap
 {
 private:
     Family&                         f_;
-    beast::Journal                  journal_;
+    boost::beast::Journal                  journal_;
     std::uint32_t                   seq_;
     std::uint32_t                   ledgerSeq_ = 0; // sequence number of ledger this is part of
     std::shared_ptr<SHAMapAbstractNode> root_;

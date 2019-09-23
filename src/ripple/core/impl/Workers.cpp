@@ -122,7 +122,7 @@ int Workers::numberOfCurrentlyRunningTasks () const noexcept
     return m_runningTaskCount.load ();
 }
 
-void Workers::deleteWorkers (beast::LockFreeStack <Worker>& stack)
+void Workers::deleteWorkers (boost::beast::LockFreeStack <Worker>& stack)
 {
     for (;;)
     {
@@ -184,7 +184,7 @@ void Workers::Worker::run ()
         for (;;)
         {
             // Put the name back in case the callback changed it
-            beast::setCurrentThreadName (threadName_);
+            boost::beast::setCurrentThreadName (threadName_);
 
             // Acquire a task or "internal task."
             //
@@ -233,7 +233,7 @@ void Workers::Worker::run ()
             m_workers.m_allPaused.signal ();
 
         // Set inactive thread name.
-        beast::setCurrentThreadName ("(" + threadName_ + ")");
+        boost::beast::setCurrentThreadName ("(" + threadName_ + ")");
 
         // [1] We will be here when the paused list is popped
         //

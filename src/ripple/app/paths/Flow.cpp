@@ -66,7 +66,7 @@ flow (
     bool offerCrossing,
     boost::optional<Quality> const& limitQuality,
     boost::optional<STAmount> const& sendMax,
-    beast::Journal j,
+    boost::beast::Journal j,
     path::detail::FlowDebugInfo* flowDebugInfo)
 {
     Issue const srcIssue = [&] {

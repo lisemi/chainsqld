@@ -113,7 +113,7 @@ protected:
     using ScopedLockType = std::unique_lock <std::recursive_mutex>;
 
     PeerSet (Application& app, uint256 const& hash, std::chrono::milliseconds interval,
-        clock_type& clock, beast::Journal journal);
+        clock_type& clock, boost::beast::Journal journal);
 
     virtual ~PeerSet() = 0;
 
@@ -151,7 +151,7 @@ protected:
 
 protected:
     Application& app_;
-    beast::Journal m_journal;
+    boost::beast::Journal m_journal;
     clock_type& m_clock;
 
     std::recursive_mutex mLock;

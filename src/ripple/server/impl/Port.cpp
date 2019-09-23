@@ -159,7 +159,7 @@ parse_Port (ParsedPort& port, Section const& section, std::ostream& log)
             try
             {
                 port.port =
-                    beast::lexicalCastThrow<std::uint16_t>(result.first);
+                    boost::beast::lexicalCastThrow<std::uint16_t>(result.first);
 
                 // Port 0 is not supported
                 if (*port.port == 0)
@@ -188,12 +188,12 @@ parse_Port (ParsedPort& port, Section const& section, std::ostream& log)
     {
         auto const lim = get (section, "limit", "unlimited");
 
-        if (!beast::detail::iequals (lim, "unlimited"))
+        if (!boost::beast::iequals (lim, "unlimited"))
         {
             try
             {
                 port.limit = static_cast<int> (
-                    beast::lexicalCastThrow<std::uint16_t>(lim));
+                    boost::beast::lexicalCastThrow<std::uint16_t>(lim));
             }
             catch (std::exception const&)
             {
@@ -212,7 +212,7 @@ parse_Port (ParsedPort& port, Section const& section, std::ostream& log)
             try
             {
                 port.ws_queue_limit =
-                    beast::lexicalCastThrow<std::uint16_t>(result.first);
+                    boost::beast::lexicalCastThrow<std::uint16_t>(result.first);
 
                 // Queue must be greater than 0
                 if (port.ws_queue_limit == 0)

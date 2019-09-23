@@ -51,7 +51,7 @@ public:
     virtual ~Source () { }
     virtual std::string const& name () = 0;
     virtual void cancel () { }
-    virtual void fetch (Results& results, beast::Journal journal) = 0;
+    virtual void fetch (Results& results, boost::beast::Journal journal) = 0;
 };
 
 }

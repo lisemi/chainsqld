@@ -122,7 +122,7 @@ private:
     std::uint64_t state_ = 14695981039346656037u;
 
 public:
-    static beast::endian const endian = beast::endian::native;
+    static boost::beast::endian const endian = boost::beast::endian::native;
 
     void
     operator() (void const* key, std::size_t len) noexcept
@@ -147,7 +147,7 @@ private:
     std::uint32_t state_ = 2166136261;
 
 public:
-    static beast::endian const endian = beast::endian::native;
+    static boost::beast::endian const endian = boost::beast::endian::native;
 
     void
     operator() (void const* key, std::size_t len) noexcept
@@ -177,7 +177,7 @@ private:
     std::size_t state_ = 0;
 
 public:
-    static beast::endian const endian = beast::endian::native;
+    static boost::beast::endian const endian = boost::beast::endian::native;
 
     void
     operator() (void const* key, std::size_t len) noexcept
@@ -208,7 +208,7 @@ private:
     SpookyHash state_;
 
 public:
-    static beast::endian const endian = beast::endian::native;
+    static boost::beast::endian const endian = boost::beast::endian::native;
 
     spooky(std::size_t seed1 = 1, std::size_t seed2 = 2) noexcept
     {

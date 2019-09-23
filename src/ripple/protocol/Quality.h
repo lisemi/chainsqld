@@ -44,9 +44,9 @@ struct TAmounts
 {
     TAmounts() = default;
 
-    TAmounts (beast::Zero, beast::Zero)
-        : in (beast::zero)
-        , out (beast::zero)
+    TAmounts (boost::beast::Zero, boost::beast::Zero)
+        : in (boost::beast::zero)
+        , out (boost::beast::zero)
     {
     }
 

@@ -34,7 +34,7 @@ class DatabaseImp
     : public Database
 {
 private:
-    beast::Journal m_journal;
+    boost::beast::Journal m_journal;
     Scheduler& m_scheduler;
     // Persistent key/value storage.
     std::unique_ptr <Backend> m_backend;
@@ -66,7 +66,7 @@ public:
                  int readThreads,
                  Stoppable& parent,
                  std::unique_ptr <Backend> backend,
-                 beast::Journal journal)
+                 boost::beast::Journal journal)
         : Database (name, parent)
         , m_journal (journal)
         , m_scheduler (scheduler)
@@ -324,7 +324,7 @@ public:
     // Entry point for async read threads
     void threadEntry ()
     {
-        beast::setCurrentThreadName ("prefetch");
+        boost::beast::setCurrentThreadName ("prefetch");
         while (1)
         {
             uint256 hash;

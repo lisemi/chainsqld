@@ -33,7 +33,7 @@ public:
     std::unique_ptr<Cluster>
     create (std::vector<PublicKey> const& nodes)
     {
-        auto cluster = std::make_unique <Cluster> (beast::Journal ());
+        auto cluster = std::make_unique <Cluster> (boost::beast::Journal ());
 
         for (auto const& n : nodes)
             cluster->update (n, "Test");
@@ -189,7 +189,7 @@ public:
     {
         testcase ("Config Load");
 
-        auto c = std::make_unique <Cluster> (beast::Journal ());
+        auto c = std::make_unique <Cluster> (boost::beast::Journal ());
 
         // The servers on the network
         std::vector<PublicKey> network;

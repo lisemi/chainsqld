@@ -164,8 +164,8 @@ SHAMapStoreImp::SHAMapStoreImp (
         Setup const& setup,
         Stoppable& parent,
         NodeStore::Scheduler& scheduler,
-        beast::Journal journal,
-        beast::Journal nodeStoreJournal,
+        boost::beast::Journal journal,
+        boost::beast::Journal nodeStoreJournal,
         TransactionMaster& transactionMaster,
         BasicConfig const& config)
     : SHAMapStore (parent)
@@ -291,7 +291,7 @@ SHAMapStoreImp::copyNode (std::uint64_t& nodeCount,
 void
 SHAMapStoreImp::run()
 {
-    beast::setCurrentThreadName ("SHAMapStore");
+    boost::beast::setCurrentThreadName ("SHAMapStore");
     LedgerIndex lastRotated = state_db_.getState().lastRotated;
     netOPs_ = &app_.getOPs();
     ledgerMaster_ = &app_.getLedgerMaster();
@@ -833,8 +833,8 @@ make_SHAMapStore (Application& app,
         SHAMapStore::Setup const& s,
         Stoppable& parent,
         NodeStore::Scheduler& scheduler,
-        beast::Journal journal,
-        beast::Journal nodeStoreJournal,
+        boost::beast::Journal journal,
+        boost::beast::Journal nodeStoreJournal,
         TransactionMaster& transactionMaster,
         BasicConfig const& config)
 {

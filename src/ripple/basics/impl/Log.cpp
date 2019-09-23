@@ -35,7 +35,7 @@ namespace ripple {
 
 Logs::Sink::Sink (std::string const& partition,
     beast::severities::Severity thresh, Logs& logs)
-    : beast::Journal::Sink (thresh, false)
+    : boost::beast::Journal::Sink (thresh, false)
     , logs_(logs)
     , partition_(partition)
 {
@@ -129,7 +129,7 @@ Logs::open (boost::filesystem::path const& pathToLogFile)
     return file_.open(pathToLogFile);
 }
 
-beast::Journal::Sink&
+boost::beast::Journal::Sink&
 Logs::get (std::string const& name)
 {
     std::lock_guard <std::mutex> lock (mutex_);
@@ -138,19 +138,19 @@ Logs::get (std::string const& name)
     return *result.first->second;
 }
 
-beast::Journal::Sink&
+boost::beast::Journal::Sink&
 Logs::operator[] (std::string const& name)
 {
     return get(name);
 }
 
-beast::Journal
+boost::beast::Journal
 Logs::journal (std::string const& name)
 {
-    return beast::Journal (get(name));
+    return boost::beast::Journal (get(name));
 }
 
-beast::severities::Severity
+boost::beast::severities::Severity
 Logs::threshold() const
 {
     return thresh_;
@@ -210,7 +210,7 @@ void Logs::setApplication(Application* app)
 	app_ = app;
 }
 
-std::unique_ptr<beast::Journal::Sink>
+std::unique_ptr<boost::beast::Journal::Sink>
 Logs::makeSink(std::string const& name,
     beast::severities::Severity threshold)
 {
@@ -240,7 +240,7 @@ Logs::fromSeverity (beast::severities::Severity level)
     return lsFATAL;
 }
 
-beast::severities::Severity
+boost::beast::severities::Severity
 Logs::toSeverity (LogSeverity level)
 {
     using namespace beast::severities;
@@ -366,13 +366,13 @@ Logs::format (std::string& output, std::string const& message,
 class DebugSink
 {
 private:
-    std::reference_wrapper<beast::Journal::Sink> sink_;
-    std::unique_ptr<beast::Journal::Sink> holder_;
+    std::reference_wrapper<boost::beast::Journal::Sink> sink_;
+    std::unique_ptr<boost::beast::Journal::Sink> holder_;
     std::mutex m_;
 
 public:
     DebugSink ()
-        : sink_ (beast::Journal::getNullSink())
+        : sink_ (boost::beast::Journal::getNullSink())
     {
     }
 
@@ -382,8 +382,8 @@ public:
     DebugSink(DebugSink&&) = delete;
     DebugSink& operator=(DebugSink&&) = delete;
 
-    std::unique_ptr<beast::Journal::Sink>
-    set(std::unique_ptr<beast::Journal::Sink> sink)
+    std::unique_ptr<boost::beast::Journal::Sink>
+    set(std::unique_ptr<boost::beast::Journal::Sink> sink)
     {
         std::lock_guard<std::mutex> _(m_);
 
@@ -393,12 +393,12 @@ public:
         if (holder_)
             sink_ = *holder_;
         else
-            sink_ = beast::Journal::getNullSink();
+            sink_ = boost::beast::Journal::getNullSink();
 
         return sink;
     }
 
-    beast::Journal::Sink&
+    boost::beast::Journal::Sink&
     get()
     {
         std::lock_guard<std::mutex> _(m_);
@@ -414,17 +414,17 @@ debugSink()
     return _;
 }
 
-std::unique_ptr<beast::Journal::Sink>
+std::unique_ptr<boost::beast::Journal::Sink>
 setDebugLogSink(
-    std::unique_ptr<beast::Journal::Sink> sink)
+    std::unique_ptr<boost::beast::Journal::Sink> sink)
 {
     return debugSink().set(std::move(sink));
 }
 
-beast::Journal
+boost::beast::Journal
 debugLog()
 {
-    return beast::Journal (debugSink().get());
+    return boost::beast::Journal (debugSink().get());
 }
 
 } // ripple

@@ -42,7 +42,7 @@ namespace ripple {
 #define EXPIRE_TIME 300
 
 
-TableAssistant::TableAssistant(Application& app, Config& cfg, beast::Journal journal)
+TableAssistant::TableAssistant(Application& app, Config& cfg, boost::beast::Journal journal)
 	: app_(app)
 	, journal_(journal)
 	, cfg_(cfg)
@@ -57,7 +57,7 @@ uint256 TableAssistant::getCheckHash(uint160 nameInDB)
 	if (it != m_map.end())
 		return it->second->uTxCheckHash;
 	else
-		return beast::zero;
+		return boost::beast::zero;
 }
 
 Json::Value TableAssistant::prepare(const std::string& secret,const std::string& publickey, Json::Value& tx_json, bool ws)

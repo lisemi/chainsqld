@@ -48,8 +48,8 @@ namespace ripple {
 struct openssl_ripemd160_hasher
 {
 public:
-    static beast::endian const endian =
-        beast::endian::native;
+    static boost::beast::endian const endian =
+        boost::beast::endian::native;
 
     using result_type =
         std::array<std::uint8_t, 20>;
@@ -74,8 +74,8 @@ private:
 struct openssl_sha512_hasher
 {
 public:
-    static beast::endian const endian =
-        beast::endian::native;
+    static boost::beast::endian const endian =
+        boost::beast::endian::native;
 
     using result_type =
         std::array<std::uint8_t, 64>;
@@ -100,8 +100,8 @@ private:
 struct openssl_sha256_hasher
 {
 public:
-    static beast::endian const endian =
-        beast::endian::native;
+    static boost::beast::endian const endian =
+        boost::beast::endian::native;
 
     using result_type =
         std::array<std::uint8_t, 32>;
@@ -156,8 +156,8 @@ private:
     sha256_hasher h_;
 
 public:
-    static beast::endian const endian =
-        beast::endian::native;
+    static boost::beast::endian const endian =
+        boost::beast::endian::native;
 
     using result_type =
         std::array<std::uint8_t, 20>;
@@ -196,8 +196,8 @@ private:
     sha512_hasher h_;
 
 public:
-    static beast::endian const endian =
-        beast::endian::big;
+    static boost::beast::endian const endian =
+        boost::beast::endian::big;
 
     using result_type = uint256;
 

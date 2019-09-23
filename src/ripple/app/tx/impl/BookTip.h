@@ -79,7 +79,7 @@ public:
         @return `true` if there is a next offer
     */
     bool
-    step (beast::Journal j);
+    step (boost::beast::Journal j);
 };
 
 }

@@ -52,7 +52,7 @@ ValidatorList::ValidatorList (
     ManifestCache& validatorManifests,
     ManifestCache& publisherManifests,
     TimeKeeper& timeKeeper,
-    beast::Journal j,
+    boost::beast::Journal j,
     boost::optional<std::size_t> minimumQuorum)
     : validatorManifests_ (validatorManifests)
     , publisherManifests_ (publisherManifests)

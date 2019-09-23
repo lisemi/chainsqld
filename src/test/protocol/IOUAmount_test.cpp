@@ -62,7 +62,7 @@ public:
 
     void testBeastZero ()
     {
-        testcase ("beast::Zero Comparisons");
+        testcase ("boost::beast::Zero Comparisons");
 
         {
             IOUAmount z (zero);
@@ -196,8 +196,8 @@ public:
             BEAST_EXPECT(tiny == mulRatio (tiny, 1, maxUInt, true));
             BEAST_EXPECT(tiny == mulRatio (tiny, maxUInt - 1, maxUInt, true));
             // rounding down should be zero
-            BEAST_EXPECT(beast::zero == mulRatio (tiny, 1, maxUInt, false));
-            BEAST_EXPECT(beast::zero == mulRatio (tiny, maxUInt - 1, maxUInt, false));
+            BEAST_EXPECT(boost::beast::zero == mulRatio (tiny, 1, maxUInt, false));
+            BEAST_EXPECT(boost::beast::zero == mulRatio (tiny, maxUInt - 1, maxUInt, false));
 
             // tiny negative numbers
             IOUAmount tinyNeg (-minMantissa, minExponent);

@@ -158,7 +158,7 @@ all_features_except (uint256 const& key, Args const&... args)
         std::array<uint256, 1 + sizeof...(args)>{{key, args...}});
 }
 
-class SuiteSink : public beast::Journal::Sink
+class SuiteSink : public boost::beast::Journal::Sink
 {
     std::string partition_;
     beast::unit_test::suite& suite_;
@@ -197,7 +197,7 @@ public:
 
     ~SuiteLogs() override = default;
 
-    std::unique_ptr<beast::Journal::Sink>
+    std::unique_ptr<boost::beast::Journal::Sink>
     makeSink(std::string const& partition,
         beast::severities::Severity threshold) override
     {
@@ -213,7 +213,7 @@ class Env
 public:
     beast::unit_test::suite& test;
 
-    beast::Journal const journal;
+    boost::beast::Journal const journal;
 
     Account const& master = Account::master;
 

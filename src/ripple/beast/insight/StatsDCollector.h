@@ -25,6 +25,7 @@
 #include <ripple/beast/utility/Journal.h>
 #include <ripple/beast/net/IPEndpoint.h>
 
+namespace boost {
 namespace beast {
 namespace insight {
 
@@ -46,6 +47,7 @@ public:
         std::string const& prefix, Journal journal);
 };
 
+}
 }
 }
 

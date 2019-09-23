@@ -57,7 +57,7 @@ public:
 
 std::unique_ptr<LedgerCleaner>
 make_LedgerCleaner (Application& app,
-    Stoppable& parent, beast::Journal journal);
+    Stoppable& parent, boost::beast::Journal journal);
 
 } // detail
 } // ripple

@@ -49,7 +49,7 @@ public:
     virtual
     std::unique_ptr <Backend>
     createInstance (size_t keyBytes, Section const& parameters,
-        Scheduler& scheduler, beast::Journal journal) = 0;
+        Scheduler& scheduler, boost::beast::Journal journal) = 0;
 };
 
 }

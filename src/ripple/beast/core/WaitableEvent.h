@@ -30,6 +30,7 @@
 #include <pthread.h>
 #endif
 
+namespace boost {
 namespace beast {
 
 /** Allows threads to wait for events triggered by other threads.
@@ -119,6 +120,7 @@ private:
 #endif
 };
 
+}
 }
 
 #endif

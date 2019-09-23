@@ -637,7 +637,7 @@ public:
 
 	void testSTMap256() {
 		STMap256 map256;
-		map256[beast::zero] = uint256(1);
+		map256[boost::beast::zero] = uint256(1);
 		map256[uint256(1)] = uint256(2);
 		Json::Value json = map256.getJson(0);
 		std::cout<< json.toStyledString()<<std::endl;

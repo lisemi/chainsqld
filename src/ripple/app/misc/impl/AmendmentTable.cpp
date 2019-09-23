@@ -160,7 +160,7 @@ protected:
     // True if an unsupported amendment is enabled
     bool unsupportedEnabled_;
 
-    beast::Journal j_;
+    boost::beast::Journal j_;
 
     // Finds or creates state
     AmendmentState* add (uint256 const& amendment);
@@ -177,7 +177,7 @@ public:
         Section const& supported,
         Section const& enabled,
         Section const& vetoed,
-        beast::Journal journal);
+        boost::beast::Journal journal);
 
     uint256 find (std::string const& name) override;
 
@@ -223,7 +223,7 @@ AmendmentTableImpl::AmendmentTableImpl (
         Section const& supported,
         Section const& enabled,
         Section const& vetoed,
-        beast::Journal journal)
+        boost::beast::Journal journal)
     : lastUpdateSeq_ (0)
     , majorityTime_ (majorityTime)
     , majorityFraction_ (majorityFraction)
@@ -611,7 +611,7 @@ std::unique_ptr<AmendmentTable> make_AmendmentTable (
     Section const& supported,
     Section const& enabled,
     Section const& vetoed,
-    beast::Journal journal)
+    boost::beast::Journal journal)
 {
     return std::make_unique<AmendmentTableImpl> (
         majorityTime,

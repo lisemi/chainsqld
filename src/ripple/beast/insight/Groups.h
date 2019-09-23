@@ -26,6 +26,7 @@
 #include <memory>
 #include <string>
 
+namespace boost {
 namespace beast {
 namespace insight {
 
@@ -52,6 +53,7 @@ public:
 /** Create a group container that uses the specified collector. */
 std::unique_ptr <Groups> make_Groups (Collector::ptr const& collector);
 
+}
 }
 }
 

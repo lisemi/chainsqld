@@ -35,7 +35,7 @@ void
 registerSSLCerts(
     boost::asio::ssl::context& ctx,
     boost::system::error_code& ec,
-    beast::Journal j)
+    boost::beast::Journal j)
 {
 #if BOOST_OS_WINDOWS
     auto certStoreDelete = [](void* h) {

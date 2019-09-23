@@ -73,7 +73,7 @@ public:
 
     //--------------------------------------------------------------------------
 
-    class TestSink : public beast::Journal::Sink
+    class TestSink : public boost::beast::Journal::Sink
     {
         beast::unit_test::suite& suite_;
 
@@ -283,7 +283,7 @@ public:
         TestSink sink {*this};
         TestThread thread;
         sink.threshold (beast::severities::Severity::kAll);
-        beast::Journal journal {sink};
+        boost::beast::Journal journal {sink};
         TestHandler handler;
         auto s = make_Server (handler,
             thread.get_io_service(), journal);
@@ -373,13 +373,13 @@ public:
     /**
      * @brief sink for writing all log messages to a stringstream
      */
-    class CaptureSink : public beast::Journal::Sink
+    class CaptureSink : public boost::beast::Journal::Sink
     {
         std::stringstream& strm_;
     public:
         CaptureSink(beast::severities::Severity threshold,
             std::stringstream& strm)
-        : beast::Journal::Sink(threshold, false)
+        : boost::beast::Journal::Sink(threshold, false)
         , strm_(strm)
         {
         }
@@ -414,7 +414,7 @@ public:
             result_ = strm_.str();
         }
 
-        std::unique_ptr<beast::Journal::Sink>
+        std::unique_ptr<boost::beast::Journal::Sink>
         makeSink(std::string const& partition,
             beast::severities::Severity threshold) override
         {

@@ -67,7 +67,7 @@ public:
         endpoint_type remote_address,
         beast::http::request<Body, Headers>&& request,
         boost::asio::io_service& io_service,
-        beast::Journal journal);
+        boost::beast::Journal journal);
 
     void
     run() override;
@@ -163,7 +163,7 @@ BaseWSPeer(
     endpoint_type remote_address,
     beast::http::request<Body, Headers>&& request,
     boost::asio::io_service& io_service,
-    beast::Journal journal)
+    boost::beast::Journal journal)
     : BasePeer<Handler, Impl>(port, handler, remote_address,
         io_service, journal)
     , request_(std::move(request))

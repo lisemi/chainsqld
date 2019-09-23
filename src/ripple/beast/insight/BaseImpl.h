@@ -25,6 +25,7 @@
 #include <functional>
 #include <memory>
 
+namespace boost {
 namespace beast {
 namespace insight {
 
@@ -37,6 +38,7 @@ public:
     virtual ~BaseImpl () = 0;
 };
 
+}
 }
 }
 

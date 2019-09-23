@@ -122,7 +122,7 @@ TxStoreTransaction::~TxStoreTransaction() {
 //	databasecon_ = std::make_shared<DatabaseCon>(setup, database_name, nullptr, 0);
 //}
 
-TxStore::TxStore(DatabaseCon* dbconn, const Config& cfg, const beast::Journal& journal)
+TxStore::TxStore(DatabaseCon* dbconn, const Config& cfg, const boost::beast::Journal& journal)
 : cfg_(cfg)
 , db_type_()
 , databasecon_(dbconn)

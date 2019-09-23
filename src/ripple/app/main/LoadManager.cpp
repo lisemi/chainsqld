@@ -32,7 +32,7 @@
 namespace ripple {
 
 LoadManager::LoadManager (
-    Application& app, Stoppable& parent, beast::Journal journal)
+    Application& app, Stoppable& parent, boost::beast::Journal journal)
     : Stoppable ("LoadManager", parent)
     , app_ (app)
     , journal_ (journal)
@@ -107,7 +107,7 @@ void LoadManager::onStop ()
 
 void LoadManager::run ()
 {
-    beast::setCurrentThreadName ("LoadManager");
+    boost::beast::setCurrentThreadName ("LoadManager");
 
     using clock_type = std::chrono::steady_clock;
 
@@ -201,7 +201,7 @@ void LoadManager::run ()
 
 std::unique_ptr<LoadManager>
 make_LoadManager (Application& app,
-    Stoppable& parent, beast::Journal journal)
+    Stoppable& parent, boost::beast::Journal journal)
 {
     return std::make_unique<LoadManager>(app, parent, journal);
 }

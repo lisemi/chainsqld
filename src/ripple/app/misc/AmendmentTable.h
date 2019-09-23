@@ -164,7 +164,7 @@ std::unique_ptr<AmendmentTable> make_AmendmentTable (
     Section const& supported,
     Section const& enabled,
     Section const& vetoed,
-    beast::Journal journal);
+    boost::beast::Journal journal);
 
 }  // ripple
 

@@ -49,7 +49,7 @@ public:
         endpoint_type remote_address,
         beast::http::request<Body, Headers>&& request,
         socket_type&& socket,
-        beast::Journal journal);
+        boost::beast::Journal journal);
 };
 
 //------------------------------------------------------------------------------
@@ -63,7 +63,7 @@ PlainWSPeer(
     endpoint_type remote_address,
     beast::http::request<Body, Headers>&& request,
     socket_type&& socket,
-    beast::Journal journal)
+    boost::beast::Journal journal)
     : BaseWSPeer<Handler, PlainWSPeer>(port, handler, remote_address,
         std::move(request), socket.get_io_service(), journal)
     , ws_(std::move(socket))

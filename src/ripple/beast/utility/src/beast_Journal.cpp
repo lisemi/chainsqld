@@ -20,6 +20,7 @@
 #include <ripple/beast/utility/Journal.h>
 #include <cassert>
 
+namespace boost {
 namespace beast {
 
 //------------------------------------------------------------------------------
@@ -152,4 +153,5 @@ Journal::ScopedStream Journal::Stream::operator<< (
 }
 
 } // beast
+}
 

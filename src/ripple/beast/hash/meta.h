@@ -22,6 +22,7 @@
 
 #include <type_traits>
 
+namespace boost {
 namespace beast {
 
 template <bool ...> struct static_and;
@@ -140,5 +141,6 @@ template <class T, class U>
 using enable_if_lvalue_t = typename enable_if_lvalue<T, U>::type;
 
 } // beast
+} // boost
 
 #endif // BEAST_UTILITY_META_H_INCLUDED

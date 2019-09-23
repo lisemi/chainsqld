@@ -17,6 +17,7 @@
 */
 //==============================================================================
 
+namespace boost {
 namespace beast {
 namespace insight {
 
@@ -24,5 +25,6 @@ namespace detail {
 
 }
 
+}
 }
 }

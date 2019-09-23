@@ -90,7 +90,7 @@ private:
         }
     };
 
-    beast::Journal j_;
+    boost::beast::Journal j_;
     std::mutex mutable mutex_;
     std::thread thread_;
     boost::asio::io_service io_service_;
@@ -112,7 +112,7 @@ public:
     using error_code = boost::system::error_code;
 
     explicit
-    SNTPClientImp (beast::Journal j)
+    SNTPClientImp (boost::beast::Journal j)
         : j_ (j)
         , work_(io_service_)
         , socket_ (io_service_)
@@ -200,7 +200,7 @@ public:
 
     void doRun ()
     {
-        beast::setCurrentThreadName("rippled: SNTPClock");
+        boost::beast::setCurrentThreadName("rippled: SNTPClock");
         io_service_.run();
     }
 
@@ -476,7 +476,7 @@ public:
 //------------------------------------------------------------------------------
 
 std::unique_ptr<SNTPClock>
-make_SNTPClock (beast::Journal j)
+make_SNTPClock (boost::beast::Journal j)
 {
     return std::make_unique<SNTPClientImp>(j);
 }

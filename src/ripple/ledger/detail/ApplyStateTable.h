@@ -68,7 +68,7 @@ public:
     apply (OpenView& to, STTx const& tx,
         TER ter, boost::optional<
             STAmount> const& deliver,
-                beast::Journal j);
+                boost::beast::Journal j);
 
     bool
     exists (ReadView const& base,
@@ -140,18 +140,18 @@ private:
     std::shared_ptr<SLE>
     getForMod (ReadView const& base,
         key_type const& key, Mods& mods,
-            beast::Journal j);
+            boost::beast::Journal j);
 
     void
     threadTx (ReadView const& base, TxMeta& meta,
         AccountID const& to, Mods& mods,
-            beast::Journal j);
+            boost::beast::Journal j);
 
     void
     threadOwners (ReadView const& base,
         TxMeta& meta, std::shared_ptr<
             SLE const> const& sle, Mods& mods,
-                beast::Journal j);
+                boost::beast::Journal j);
 };
 
 } // detail

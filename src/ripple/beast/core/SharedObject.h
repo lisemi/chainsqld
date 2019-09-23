@@ -29,6 +29,7 @@
 
 #include <ripple/beast/core/Config.h>
 
+namespace boost {
 namespace beast {
 
 //==============================================================================
@@ -129,6 +130,7 @@ private:
     std::atomic <int> mutable refCount;
 };
 
+}
 }
 
 #endif

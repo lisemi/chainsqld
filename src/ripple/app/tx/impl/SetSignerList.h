@@ -73,14 +73,14 @@ private:
         std::vector<SignerEntries::SignerEntry>,
             Operation>
     determineOperation(STTx const& tx,
-        ApplyFlags flags, beast::Journal j);
+        ApplyFlags flags, boost::beast::Journal j);
 
     static
     TER validateQuorumAndSignerEntries (
         std::uint32_t quorum,
             std::vector<SignerEntries::SignerEntry> const& signers,
                 AccountID const& account,
-                    beast::Journal j);
+                    boost::beast::Journal j);
 
     TER replaceSignerList ();
     TER destroySignerList ();

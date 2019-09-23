@@ -34,8 +34,8 @@
 #include <functional>
 #include <type_traits>
 
-using beast::zero;
-using beast::Zero;
+using boost::beast::zero;
+using boost::beast::Zero;
 
 namespace ripple {
 
@@ -125,12 +125,12 @@ private:
 public:
     base_uint()
     {
-        *this = beast::zero;
+        *this = boost::beast::zero;
     }
 
-    base_uint(beast::Zero)
+    base_uint(boost::beast::Zero)
     {
-        *this = beast::zero;
+        *this = boost::beast::zero;
     }
 
     explicit base_uint (Blob const& vch)
@@ -140,7 +140,7 @@ public:
         if (vch.size () == size ())
             memcpy (pn, &vch[0], size ());
         else
-            *this = beast::zero;
+            *this = boost::beast::zero;
     }
 
     explicit base_uint (std::uint64_t b)
@@ -176,7 +176,7 @@ public:
 
     bool operator! () const
     {
-        return *this == beast::zero;
+        return *this == boost::beast::zero;
     }
 
     const base_uint operator~ () const
@@ -199,7 +199,7 @@ public:
 
     base_uint& operator= (std::uint64_t uHost)
     {
-        *this = beast::zero;
+        *this = boost::beast::zero;
         union
         {
             unsigned u[2];
@@ -304,7 +304,7 @@ public:
     }
 
     template <class Hasher,
-              class = std::enable_if_t<Hasher::endian != beast::endian::native>>
+              class = std::enable_if_t<Hasher::endian != boost::beast::endian::native>>
     friend void hash_append(
         Hasher& h, base_uint const& a) noexcept
     {
@@ -376,7 +376,7 @@ public:
 
         unsigned char* pOut = end () - ((pEnd - pBegin + 1) / 2);
 
-        *this = beast::zero;
+        *this = boost::beast::zero;
 
         if ((pEnd - pBegin) & 1)
             *pOut++ = charUnHex(*pBegin++);
@@ -419,9 +419,9 @@ public:
     }
 
     // Deprecated.
-    bool isZero () const { return *this == beast::zero; }
-    bool isNonZero () const { return *this != beast::zero; }
-    void zero () { *this = beast::zero; }
+    bool isZero () const { return *this == boost::beast::zero; }
+    bool isNonZero () const { return *this != boost::beast::zero; }
+    void zero () { *this = boost::beast::zero; }
 };
 
 using uint128 = base_uint<128>;
@@ -572,6 +572,7 @@ static_assert(sizeof(uint256) == 256/8, "There should be no padding bytes");
 
 } // rippled
 
+namespace boost {
 namespace beast
 {
 
@@ -581,5 +582,6 @@ struct is_uniquely_represented<ripple::base_uint<Bits, Tag>>
     {};
 
 }  // beast
+}  // boost
 
 #endif

@@ -41,10 +41,10 @@ public:
     private:
         std::uint32_t const limit_;
         std::uint32_t count_;
-        beast::Journal j_;
+        boost::beast::Journal j_;
 
     public:
-        StepCounter (std::uint32_t limit, beast::Journal j)
+        StepCounter (std::uint32_t limit, boost::beast::Journal j)
             : limit_ (limit)
             , count_ (0)
             , j_ (j)
@@ -69,7 +69,7 @@ public:
     };
 
 protected:
-    beast::Journal j_;
+    boost::beast::Journal j_;
     ApplyView& view_;
     ApplyView& cancelView_;
     Book book_;
@@ -89,7 +89,7 @@ protected:
 public:
     TOfferStreamBase (ApplyView& view, ApplyView& cancelView,
         Book const& book, NetClock::time_point when,
-            StepCounter& counter, beast::Journal journal);
+            StepCounter& counter, boost::beast::Journal journal);
 
     virtual ~TOfferStreamBase() = default;
 

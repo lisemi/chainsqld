@@ -26,10 +26,12 @@
 
 #include <cstdint>
 
+namespace boost {
 namespace beast {
 
 std::int64_t currentTimeMillis();
 
 } // beast
+}
 
 #endif   // BEAST_TIME_H_INCLUDED

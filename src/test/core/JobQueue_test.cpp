@@ -48,7 +48,7 @@ class JobQueue_test : public beast::unit_test::suite
             // longer be able to add Jobs (and calling addJob() should
             // return false).
             using namespace std::chrono_literals;
-            beast::Journal j {env.app().journal ("JobQueue_test")};
+            boost::beast::Journal j {env.app().journal ("JobQueue_test")};
             JobCounter& jCounter = jQueue.jobCounter();
             jCounter.join("JobQueue_test", 1s, j);
 
@@ -125,7 +125,7 @@ class JobQueue_test : public beast::unit_test::suite
             // longer be able to add a Coro (and calling postCoro() should
             // return false).
             using namespace std::chrono_literals;
-            beast::Journal j {env.app().journal ("JobQueue_test")};
+            boost::beast::Journal j {env.app().journal ("JobQueue_test")};
             JobCounter& jCounter = jQueue.jobCounter();
             jCounter.join("JobQueue_test", 1s, j);
 

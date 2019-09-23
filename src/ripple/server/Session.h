@@ -51,7 +51,7 @@ public:
 
     /** Returns the Journal to use for logging. */
     virtual
-    beast::Journal
+    boost::beast::Journal
     journal() = 0;
 
     /** Returns the Port settings for this connection. */

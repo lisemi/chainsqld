@@ -200,7 +200,7 @@ public:
         bool standalone, std::size_t network_quorum, bool start_valid,
         JobQueue& job_queue, LedgerMaster& ledgerMaster, Stoppable& parent,
         ValidatorKeys const & validatorKeys, boost::asio::io_service& io_svc,
-        beast::Journal journal)
+        boost::beast::Journal journal)
         : NetworkOPs (parent)
         , app_ (app)
         , m_clock (clock)
@@ -582,7 +582,7 @@ private:
 
     Application& app_;
     clock_type& m_clock;
-    beast::Journal m_journal;
+    boost::beast::Journal m_journal;
 
     std::unique_ptr <LocalTxs> m_localTX;
 
@@ -1146,7 +1146,7 @@ void NetworkOPsImp::apply (std::unique_lock<std::mutex>& batchLock)
                 m_ledgerMaster.peekMutex());
 
             app_.openLedger().modify(
-                [&](OpenView& view, beast::Journal j)
+                [&](OpenView& view, boost::beast::Journal j)
             {
                 for (TransactionStatus& e : transactions)
                 {
@@ -1559,7 +1559,7 @@ void NetworkOPsImp::switchLastClosedLedger (
         app_.openLedger().accept(app_, *rules,
             newLCL, OrderedTxs({}), false, retries,
                 tapNONE, "jump",
-                    [&](OpenView& view, beast::Journal j)
+                    [&](OpenView& view, boost::beast::Journal j)
                     {
                         // Stuff the ledger with transactions from the queue.
                         return app_.getTxQ().accept(app_, view);
@@ -2065,8 +2065,8 @@ NetworkOPsImp::transactionsSQL (
             % app_.accountIDCache().toBase58(account)
             % maxClause
             % minClause
-            % beast::lexicalCastThrow <std::string> (offset)
-            % beast::lexicalCastThrow <std::string> (numberOfResults)
+            % boost::beast::lexicalCastThrow <std::string> (offset)
+            % boost::beast::lexicalCastThrow <std::string> (numberOfResults)
         );
     else
         sql =
@@ -2085,8 +2085,8 @@ NetworkOPsImp::transactionsSQL (
                     % (descending ? "DESC" : "ASC")
                     % (descending ? "DESC" : "ASC")
                     % (descending ? "DESC" : "ASC")
-                    % beast::lexicalCastThrow <std::string> (offset)
-                    % beast::lexicalCastThrow <std::string> (numberOfResults)
+                    % boost::beast::lexicalCastThrow <std::string> (offset)
+                    % boost::beast::lexicalCastThrow <std::string> (numberOfResults)
                    );
     JLOG(m_journal.trace()) << "txSQL query: " << sql;
     return sql;
@@ -2771,7 +2771,7 @@ void NetworkOPsImp::PubValidatedTxForTable(const STTx& tx)
 				Blob vTableName = sTxTables[0].getFieldVL(sfTableName);
 				auto sTableName = strCopy(vTableName);
 
-				AccountID owner = beast::zero;
+				AccountID owner = boost::beast::zero;
 				if (tx.isFieldPresent(sfOwner))
 					owner = tx.getAccountID(sfOwner);
 				else if (tx.isFieldPresent(sfAccount))
@@ -2803,7 +2803,7 @@ void NetworkOPsImp::PubValidatedTxForTable(const STTx& tx)
 			auto const & sTxTables = txFinal.getFieldArray(sfTables);
 			auto sTableName = strCopy(sTxTables[0].getFieldVL(sfTableName));
 
-			AccountID owner = beast::zero;
+			AccountID owner = boost::beast::zero;
 			if (txFinal.isFieldPresent(sfOwner))
 				owner = txFinal.getAccountID(sfOwner);
 			else if (txFinal.isFieldPresent(sfAccount))
@@ -3835,7 +3835,7 @@ make_NetworkOPs (Application& app, NetworkOPs::clock_type& clock,
     bool standalone, std::size_t network_quorum, bool startvalid,
     JobQueue& job_queue, LedgerMaster& ledgerMaster, Stoppable& parent,
     ValidatorKeys const & validatorKeys, boost::asio::io_service& io_svc,
-    beast::Journal journal)
+    boost::beast::Journal journal)
 {
     return std::make_unique<NetworkOPsImp> (app, clock, standalone,
         network_quorum, startvalid, job_queue, ledgerMaster, parent,

@@ -316,7 +316,7 @@ TxQ::TxQAccount::remove(TxSeq const& sequence)
 //////////////////////////////////////////////////////////////////////////
 
 TxQ::TxQ(Setup const& setup,
-    beast::Journal j)
+    boost::beast::Journal j)
     : setup_(setup)
     , j_(j)
     , feeMetrics_(setup, j)
@@ -469,7 +469,7 @@ TxQ::tryClearAccountQueue(Application& app, OpenView& view,
         TxQAccount::TxMap::iterator beginTxIter, std::uint64_t feeLevelPaid,
             PreflightResult const& pfresult, std::size_t const txExtraCount,
                 ApplyFlags flags, FeeMetrics::Snapshot const& metricsSnapshot,
-                    beast::Journal j)
+                    boost::beast::Journal j)
 {
     auto const tSeq = tx.getSequence();
     assert(beginTxIter != accountIter->second.transactions.end());
@@ -602,7 +602,7 @@ TxQ::tryClearAccountQueue(Application& app, OpenView& view,
 std::pair<STer, bool>
 TxQ::apply(Application& app, OpenView& view,
     std::shared_ptr<STTx const> const& tx,
-        ApplyFlags flags, beast::Journal j)
+        ApplyFlags flags, boost::beast::Journal j)
 {
     auto const allowEscalation =
         (view.rules().enabled(featureFeeEscalation));
@@ -630,8 +630,8 @@ TxQ::apply(Application& app, OpenView& view,
 
         TxQAccount::TxMap::iterator nextTxIter;
 
-        ZXCAmount fee = beast::zero;
-        ZXCAmount potentialSpend = beast::zero;
+        ZXCAmount fee = boost::beast::zero;
+        ZXCAmount potentialSpend = boost::beast::zero;
         bool includeCurrentFee = false;
     };
 
@@ -1530,7 +1530,7 @@ setup_TxQ(Config const& config)
 
 
 std::unique_ptr<TxQ>
-make_TxQ(TxQ::Setup const& setup, beast::Journal j)
+make_TxQ(TxQ::Setup const& setup, boost::beast::Journal j)
 {
     return std::make_unique<TxQ>(setup, std::move(j));
 }

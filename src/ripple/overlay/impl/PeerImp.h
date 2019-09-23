@@ -100,8 +100,8 @@ private:
     id_t const id_;
     beast::WrappedSink sink_;
     beast::WrappedSink p_sink_;
-    beast::Journal journal_;
-    beast::Journal p_journal_;
+    boost::beast::Journal journal_;
+    boost::beast::Journal p_journal_;
     std::unique_ptr<beast::asio::ssl_bundle> ssl_bundle_;
     socket_type& socket_;
     stream_type& stream_;
@@ -187,7 +187,7 @@ public:
     virtual
     ~PeerImp();
 
-    beast::Journal const&
+    boost::beast::Journal const&
     pjournal() const
     {
         return p_journal_;
@@ -464,7 +464,7 @@ private:
     void
     peerTXData (uint256 const& hash,
         std::shared_ptr <protocol::TMLedgerData> const& pPacket,
-            beast::Journal journal);
+            boost::beast::Journal journal);
 };
 
 //------------------------------------------------------------------------------

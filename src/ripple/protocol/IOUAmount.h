@@ -26,7 +26,7 @@
 #include <string>
 #include <utility>
 
-using beast::zero;
+using boost::beast::zero;
 
 namespace ripple {
 
@@ -62,7 +62,7 @@ public:
     IOUAmount (IOUAmount const& other) = default;
     IOUAmount&operator= (IOUAmount const& other) = default;
 
-    IOUAmount (beast::Zero)
+    IOUAmount (boost::beast::Zero)
     {
         *this = zero;
     }
@@ -75,7 +75,7 @@ public:
     }
 
     IOUAmount&
-    operator= (beast::Zero)
+    operator= (boost::beast::Zero)
     {
         // The -100 is used to allow 0 to sort less than small positive values
         // which will have a large negative exponent.

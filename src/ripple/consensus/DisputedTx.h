@@ -56,7 +56,7 @@ public:
         @param ourVote Our vote on whether tx should be included
         @param j Journal for debugging
     */
-    DisputedTx(Tx_t const& tx, bool ourVote, beast::Journal j)
+    DisputedTx(Tx_t const& tx, bool ourVote, boost::beast::Journal j)
         : yays_(0), nays_(0), ourVote_(ourVote), tx_(tx), j_(j)
     {
     }
@@ -129,7 +129,7 @@ private:
     Tx_t tx_;       //< Transaction under dispute
 
     hash_map<NodeID_t, bool> votes_;  //< Votes of our peers
-    beast::Journal j_;                //< Debug journal
+    boost::beast::Journal j_;                //< Debug journal
 };
 
 // Track a peer's yes/no vote on a particular disputed tx_

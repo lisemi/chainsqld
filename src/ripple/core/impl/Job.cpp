@@ -77,7 +77,7 @@ bool Job::shouldCancel () const
 
 void Job::doJob ()
 {
-    beast::setCurrentThreadName ("doJob: " + mName);
+    boost::beast::setCurrentThreadName ("doJob: " + mName);
     m_loadEvent->start ();
     m_loadEvent->reName (mName);
 

@@ -32,7 +32,7 @@ class SkipList_test : public beast::unit_test::suite
     void
     testSkipList()
     {
-        beast::Journal const j;
+        boost::beast::Journal const j;
         std::vector<std::shared_ptr<Ledger>> history;
         {
             jtx::Env env(*this);

@@ -100,7 +100,7 @@ private:
 	bool executeCreate(AccountID const& _txSender, uint256 const& _endowment,
 		uint256 const& _gasPrice, int64_t const& _gas, bytesConstRef const& _code, AccountID const& _originAddress);
 
-	beast::Journal getJ();
+	boost::beast::Journal getJ();
 	void formatOutput(std::string msg);
 	void formatOutput(owning_bytes_ref output);
 private:
@@ -117,7 +117,7 @@ private:
 	int64_t m_refunded = 0;		        ///< The amount of gas refunded.
     int64_t m_baseGasRequired = 0;		///< The base amount of gas requried for executing this transaction.
 	int64_t m_gas = 0;					///< gas remained
-	//uint256 m_refunded = beast::zero;	///< The amount of gas refunded.
+	//uint256 m_refunded = boost::beast::zero;	///< The amount of gas refunded.
 
 	//std::shared_ptr<const STTx> m_t;        ///< The original transaction.
 	int64_t m_gasCost;

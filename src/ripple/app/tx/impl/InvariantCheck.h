@@ -72,7 +72,7 @@ public:
     finalize(
         STTx const& tx,
         TER tec,
-        beast::Journal const& j);
+        boost::beast::Journal const& j);
 };
 #endif
 
@@ -106,7 +106,7 @@ public:
         std::shared_ptr<SLE const> const&);
 
     bool
-    finalize(STTx const&, TER, beast::Journal const&);
+    finalize(STTx const&, TER, boost::beast::Journal const&);
 };
 
 /**
@@ -128,7 +128,7 @@ public:
         std::shared_ptr<SLE const> const&);
 
     bool
-    finalize(STTx const&, TER, beast::Journal const&);
+    finalize(STTx const&, TER, boost::beast::Journal const&);
 };
 
 /**
@@ -148,7 +148,7 @@ public:
         std::shared_ptr<SLE const> const&);
 
     bool
-    finalize(STTx const&, TER, beast::Journal const&);
+    finalize(STTx const&, TER, boost::beast::Journal const&);
 };
 
 /**
@@ -170,7 +170,7 @@ public:
         std::shared_ptr<SLE const> const&);
 
     bool
-    finalize(STTx const&, TER, beast::Journal const&);
+    finalize(STTx const&, TER, boost::beast::Journal const&);
 };
 
 /**
@@ -190,7 +190,7 @@ public:
         std::shared_ptr<SLE const> const&);
 
     bool
-    finalize(STTx const&, TER, beast::Journal const&);
+    finalize(STTx const&, TER, boost::beast::Journal const&);
 };
 
 /**
@@ -211,7 +211,7 @@ public:
         std::shared_ptr<SLE const> const&);
 
     bool
-    finalize(STTx const&, TER, beast::Journal const&);
+    finalize(STTx const&, TER, boost::beast::Journal const&);
     
 };
 
@@ -233,7 +233,7 @@ public:
         std::shared_ptr<SLE const> const&);
 
     bool
-    finalize(STTx const&, TER, beast::Journal const&);
+    finalize(STTx const&, TER, boost::beast::Journal const&);
     
 };
 

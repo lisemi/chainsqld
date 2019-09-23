@@ -333,7 +333,7 @@ toStrand (
     STPath const& path,
     bool ownerPaysTransferFee,
     bool offerCrossing,
-    beast::Journal j);
+    boost::beast::Journal j);
 
 /**
    Create a Strand for each specified path (including the default path, if
@@ -369,7 +369,7 @@ toStrands (ReadView const& sb,
     bool addDefaultPath,
     bool ownerPaysTransferFee,
     bool offerCrossing,
-    beast::Journal j);
+    boost::beast::Journal j);
 
 /// @cond INTERNAL
 template <class TIn, class TOut, class TDerived>
@@ -404,7 +404,7 @@ struct StepImp : public Step
     bool
     dry (EitherAmount const& out) const override
     {
-        return get<TOut>(out) == beast::zero;
+        return get<TOut>(out) == boost::beast::zero;
     }
 
     bool
@@ -480,7 +480,7 @@ struct StrandContext
         than once
     */
     boost::container::flat_set<Issue>& seenBookOuts;
-    beast::Journal j;                    ///< Journal for logging
+    boost::beast::Journal j;                    ///< Journal for logging
 
     /** StrandContext constructor. */
     StrandContext (ReadView const& view_,
@@ -498,7 +498,7 @@ struct StrandContext
         std::array<boost::container::flat_set<Issue>, 2>&
             seenDirectIssues_,                             ///< For detecting currency loops
         boost::container::flat_set<Issue>& seenBookOuts_,  ///< For detecting book loops
-        beast::Journal j_);                                ///< Journal for logging
+        boost::beast::Journal j_);                                ///< Journal for logging
 };
 
 /// @cond INTERNAL

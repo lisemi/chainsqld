@@ -129,10 +129,10 @@ class Discrepancy_test : public beast::unit_test::suite
                     node[sfFinalFields.fieldName] :
                     node[sfNewFields.fieldName];
                 if(prevFields)
-                    sumPrev += beast::lexicalCastThrow<std::uint64_t>(
+                    sumPrev += boost::beast::lexicalCastThrow<std::uint64_t>(
                         prevFields[sfBalance.fieldName].asString());
                 if(finalFields)
-                    sumFinal += beast::lexicalCastThrow<std::uint64_t>(
+                    sumFinal += boost::beast::lexicalCastThrow<std::uint64_t>(
                         finalFields[sfBalance.fieldName].asString());
             }
         }
