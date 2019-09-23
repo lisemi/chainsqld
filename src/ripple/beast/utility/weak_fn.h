@@ -20,7 +20,6 @@
 #ifndef BEAST_WEAK_FN_H_INCLUDED
 #define BEAST_WEAK_FN_H_INCLUDED
 
-#include <beast/core/detail/empty_base_optimization.hpp>
 #include <memory>
 
 // Original version:
@@ -88,7 +87,7 @@ namespace detail {
 
 template <class T, class R, class Policy, class... Args>
 class weak_binder
-    : private beast::detail::empty_base_optimization<Policy>
+    : private boost::empty_value <Policy> (boost::empty_init_t{})
 {
 private:
     using member_type = R (T::*)(Args...);
@@ -102,7 +101,7 @@ public:
 
     weak_binder (member_type member,
             Policy policy, pointer_type object)
-        : beast::detail::empty_base_optimization<Policy>(std::move(policy))
+        : boost::empty_value <Policy> (boost::empty_init_t{}, std::move(policy))
         , member_(member)
         , object_(object)
         { }
