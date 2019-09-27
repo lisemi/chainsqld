@@ -19,13 +19,12 @@
 #ifndef RIPPLE_TEST_TRUSTED_PUBLISHER_SERVER_H_INCLUDED
 #define RIPPLE_TEST_TRUSTED_PUBLISHER_SERVER_H_INCLUDED
 
-#include <beast/include/boost/beast/core/detail/base64.hpp>
 #include <ripple/protocol/PublicKey.h>
 #include <ripple/protocol/SecretKey.h>
 #include <ripple/protocol/Sign.h>
 #include <ripple/basics/strHex.h>
 #include <boost/asio.hpp>
-#include <beast/include/boost/beast/core/detail/base64.hpp>
+#include <ripple/beast/core/base64.cpp>
 #include <beast/include/boost/beast/http.hpp>
 
 namespace ripple {

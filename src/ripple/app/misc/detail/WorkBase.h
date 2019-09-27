@@ -179,7 +179,7 @@ WorkBase<Impl>::onStart()
 {
     req_.method(boost::beast::http::verb::get);
     req_.target(path_.empty() ? "/" : path_);
-    req_.version = 11;
+    req_.version(11);
     req_.set (
         "Host", host_ + ":" + port_);
     req_.set ("User-Agent", BuildInfo::getFullVersionString());

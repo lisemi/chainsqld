@@ -24,7 +24,8 @@
 #include <ripple/basics/Log.h>
 #include <ripple/core/Config.h>
 #include <ripple/core/ConfigSections.h>
-#include <#include <beast/include/boost/beast/core/detail/base64.hpp>
+//#include <beast/include/boost/beast/core/detail/base64.hpp>
+#include <ripple/beast/core/base64.cpp>
 
 namespace ripple {
 ValidatorKeys::ValidatorKeys(Config const& config, boost::beast::Journal j)

@@ -26,7 +26,8 @@
 #include <ripple/json/json_reader.h>
 #include <ripple/protocol/PublicKey.h>
 #include <ripple/protocol/Sign.h>
-#include <beast/include/boost/beast/core/detail/base64.hpp>
+//#include <beast/include/boost/beast/core/detail/base64.hpp>
+#include <ripple/beast/core/base64.cpp>
 #include <boost/regex.hpp>
 #include <numeric>
 #include <stdexcept>

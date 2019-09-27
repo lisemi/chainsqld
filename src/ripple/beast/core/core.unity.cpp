@@ -195,6 +195,7 @@
 #include <ripple/beast/core/SystemStats.cpp>
 #include <ripple/beast/core/Time.cpp>
 #include <ripple/beast/core/WaitableEvent.cpp>
+#include <ripple/beast/core/base64.cpp>
 
 #ifdef _CRTDBG_MAP_ALLOC
 #pragma pop_macro("calloc")

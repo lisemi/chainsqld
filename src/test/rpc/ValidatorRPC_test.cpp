@@ -25,7 +25,7 @@
 #include <ripple/json/json_value.h>
 #include <ripple/protocol/JsonFields.h>
 #include <ripple/protocol/Sign.h>
-#include <beast/include/boost/beast/core/detail/base64.hpp>
+#include <ripple/beast/core/base64.cpp>
 #include <test/jtx.h>
 #include <test/jtx/TrustedPublisherServer.h>
 

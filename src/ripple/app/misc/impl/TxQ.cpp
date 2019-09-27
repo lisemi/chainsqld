@@ -1048,7 +1048,7 @@ TxQ::apply(Application& app, OpenView& view,
             auto endTotal = std::accumulate(endAccount.transactions.begin(),
                 endAccount.transactions.end(),
                     std::pair<std::uint64_t, std::uint64_t>(0, 0),
-                        [&](auto const& total, auto const& tx)
+                        [&, max](auto const& total, auto const& tx)
                         {
                             // Check for overflow.
                             auto next = tx.second.feeLevel /

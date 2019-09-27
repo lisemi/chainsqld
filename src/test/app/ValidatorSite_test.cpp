@@ -17,7 +17,7 @@
 */
 //==============================================================================
 
-#include <beast/include/boost/beast/core/detail/base64.hpp>
+#include <ripple/beast/core/base64.cpp>
 #include <ripple/app/misc/ValidatorSite.h>
 #include <ripple/basics/Slice.h>
 #include <ripple/basics/strHex.h>
