@@ -151,7 +151,7 @@ write(DynamicBuffer& db, frame_header const& fh)
     else if(fh.len <= 65535)
     {
         b[1] |= 126;
-        auto len_be = endian::native_to_big(
+        auto len_be = boost::endian::native_to_big(
             static_cast<std::uint16_t>(fh.len));
         std::memcpy(&b[2], &len_be, sizeof(len_be));
         n = 4;
@@ -159,14 +159,14 @@ write(DynamicBuffer& db, frame_header const& fh)
     else
     {
         b[1] |= 127;
-        auto len_be = endian::native_to_big(
+        auto len_be = boost::endian::native_to_big(
             static_cast<std::uint64_t>(fh.len));
         std::memcpy(&b[2], &len_be, sizeof(len_be));
         n = 10;
     }
     if(fh.mask)
     {
-        auto key_le = endian::native_to_little(
+        auto key_le = boost::endian::native_to_little(
             static_cast<std::uint32_t>(fh.key));
         std::memcpy(&b[n], &key_le, sizeof(key_le));
         n += 4;
@@ -221,7 +221,7 @@ read_close(
 
     net::buffer_copy(out_bufs, bs);
 
-    cr.code = endian::big_to_native(code_be);
+    cr.code = boost::endian::big_to_native(code_be);
     if(! is_valid_close_code(cr.code))
     {
         // invalid close code

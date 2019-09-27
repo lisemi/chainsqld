@@ -774,7 +774,7 @@ parse_fh(
         BOOST_ASSERT(buffer_bytes(cb) >= sizeof(len_be));
         cb.consume(net::buffer_copy(
             net::mutable_buffer(&len_be, sizeof(len_be)), cb));
-        fh.len = endian::big_to_native(len_be);
+        fh.len = boost::endian::big_to_native(len_be);
         if(fh.len < 126)
         {
             // length not canonical
@@ -789,7 +789,7 @@ parse_fh(
         BOOST_ASSERT(buffer_bytes(cb) >= sizeof(len_be));
         cb.consume(net::buffer_copy(
             net::mutable_buffer(&len_be, sizeof(len_be)), cb));
-        fh.len = endian::big_to_native(len_be);
+        fh.len = boost::endian::big_to_native(len_be);
         if(fh.len < 65536)
         {
             // length not canonical
@@ -805,7 +805,7 @@ parse_fh(
         BOOST_ASSERT(buffer_bytes(cb) >= sizeof(key_le));
         cb.consume(net::buffer_copy(
             net::mutable_buffer(&key_le, sizeof(key_le)), cb));
-        fh.key = endian::little_to_native(key_le);
+        fh.key = boost::endian::little_to_native(key_le);
         detail::prepare_key(rd_key, fh.key);
     }
     else
@@ -911,7 +911,7 @@ write_close(DynamicBuffer& db, close_reason const& cr)
         if(fh.mask)
             detail::prepare_key(key, fh.key);
         {
-            auto code_be = endian::native_to_big<std::uint16_t>(cr.code);
+            auto code_be = boost::endian::native_to_big<std::uint16_t>(cr.code);
             auto mb = db.prepare(2);
             net::buffer_copy(mb,
                 net::const_buffer(&code_be, sizeof(code_be)));
