@@ -33,7 +33,7 @@
 
 namespace ripple {
 
-class STObject_test : public beast::unit_test::suite
+class STObject_test : public boost::beast::unit_test::suite
 {
 public:
     bool parseJSONString (std::string const& json, Json::Value& to)

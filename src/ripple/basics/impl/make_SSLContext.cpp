@@ -186,7 +186,7 @@ disallowRenegotiation (SSL const* ssl, bool isNew)
     struct StaticData
     {
         std::mutex lock;
-        beast::aged_unordered_set <SSL const*> set;
+        boost::beast::aged_unordered_set <SSL const*> set;
 
         StaticData()
             : set (ripple::stopwatch())

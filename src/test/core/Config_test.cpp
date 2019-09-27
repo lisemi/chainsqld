@@ -132,7 +132,7 @@ private:
 protected:
     using path = boost::filesystem::path;
     path subDir_;
-    beast::unit_test::suite& test_;
+    boost::beast::unit_test::suite& test_;
 
     auto rmDir (path const& toRm)
     {
@@ -144,7 +144,7 @@ protected:
     };
 
 public:
-    ConfigGuard (beast::unit_test::suite& test, path subDir,
+    ConfigGuard (boost::beast::unit_test::suite& test, path subDir,
             bool useCounter = true)
         : subDir_ (std::move (subDir))
         , test_ (test)
@@ -210,7 +210,7 @@ private:
     Config config_;
 
 public:
-    RippledCfgGuard (beast::unit_test::suite& test,
+    RippledCfgGuard (boost::beast::unit_test::suite& test,
         path subDir, path const& dbPath,
             path const& validatorsFile,
                 bool useCounter = true)
@@ -320,7 +320,7 @@ private:
     path validatorsFile_;
 
 public:
-    ValidatorsTxtGuard (beast::unit_test::suite& test,
+    ValidatorsTxtGuard (boost::beast::unit_test::suite& test,
         path subDir, path const& validatorsFileName,
             bool useCounter = true)
         : ConfigGuard (test, std::move (subDir), useCounter)

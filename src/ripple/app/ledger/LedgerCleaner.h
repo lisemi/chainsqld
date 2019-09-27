@@ -33,7 +33,7 @@ namespace detail {
 /** Check the ledger/transaction databases to make sure they have continuity */
 class LedgerCleaner
     : public Stoppable
-    , public beast::PropertyStream::Source
+    , public boost::beast::PropertyStream::Source
 {
 protected:
     explicit LedgerCleaner (Stoppable& parent);

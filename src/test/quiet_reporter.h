@@ -8,8 +8,8 @@
 #ifndef TEST_QUIET_REPORTER_H
 #define TEST_QUIET_REPORTER_H
 
-#include <beast/unit_test/amount.hpp>
-#include <beast/unit_test/recorder.hpp>
+#include <beast/include/boost/beast/_experimental/unit_test/amount.hpp>
+#include <beast/include/boost/beast/_experimental/unit_test/recorder.hpp>
 #include <boost/lexical_cast.hpp>
 #include <algorithm>
 #include <chrono>
@@ -25,7 +25,7 @@ namespace test {
 /** A simple test runner that only reports failures and a summary to the output
     stream.  To also report log events, set the runner argument to "log".
 */
-class quiet_reporter : public beast::unit_test::runner
+class quiet_reporter : public boost::beast::unit_test::runner
 {
 private:
 
@@ -124,7 +124,7 @@ public:
 
     ~quiet_reporter()
     {
-        using namespace beast::unit_test;
+        using namespace boost::beast::unit_test;
         auto & top = results_.top_;
         if(!top.empty())
         {
@@ -156,7 +156,7 @@ public:
 private:
     virtual
     void
-    on_suite_begin(beast::unit_test::suite_info const& info) override
+    on_suite_begin(boost::beast::unit_test::suite_info const& info) override
     {
         suite_results_ = suite_results{info.full_name()};
     }

@@ -28,6 +28,8 @@
 #include <mutex>
 #include <stdexcept>
 
+
+namespace boost {
 namespace beast {
 
 /** Measures handler latency on an io_service queue. */
@@ -235,6 +237,7 @@ private:
     };
 };
 
+}
 }
 
 #endif

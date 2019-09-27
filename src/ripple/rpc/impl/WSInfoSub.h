@@ -46,7 +46,7 @@ public:
         auto it = h.find("X-User");
         if (it != h.end() &&
             isIdentified(
-                ws->port(), beast::IPAddressConversion::from_asio(
+                ws->port(), boost::beast::IPAddressConversion::from_asio(
                     ws->remote_endpoint()).address(), it->value().to_string()))
         {
             user_ = it->value().to_string();
@@ -74,7 +74,7 @@ public:
         auto sp = ws_.lock();
         if(! sp)
             return;
-        beast::multi_buffer sb;
+        boost::beast::multi_buffer sb;
         stream(jv,
             [&](void const* data, std::size_t n)
             {

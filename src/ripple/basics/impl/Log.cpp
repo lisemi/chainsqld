@@ -34,7 +34,7 @@
 namespace ripple {
 
 Logs::Sink::Sink (std::string const& partition,
-    beast::severities::Severity thresh, Logs& logs)
+    boost::beast::severities::Severity thresh, Logs& logs)
     : boost::beast::Journal::Sink (thresh, false)
     , logs_(logs)
     , partition_(partition)
@@ -42,7 +42,7 @@ Logs::Sink::Sink (std::string const& partition,
 }
 
 void
-Logs::Sink::write (beast::severities::Severity level, std::string const& text)
+Logs::Sink::write (boost::beast::severities::Severity level, std::string const& text)
 {
     if (level < threshold())
         return;
@@ -117,7 +117,7 @@ void Logs::File::writeln (char const* text)
 
 //------------------------------------------------------------------------------
 
-Logs::Logs(beast::severities::Severity thresh)
+Logs::Logs(boost::beast::severities::Severity thresh)
     : thresh_ (thresh), // default severity
 	app_(NULL)
 {
@@ -157,7 +157,7 @@ Logs::threshold() const
 }
 
 void
-Logs::threshold (beast::severities::Severity thresh)
+Logs::threshold (boost::beast::severities::Severity thresh)
 {
     std::lock_guard <std::mutex> lock (mutex_);
     thresh_ = thresh;
@@ -178,7 +178,7 @@ Logs::partition_severities() const
 }
 
 void
-Logs::write (beast::severities::Severity level, std::string const& partition,
+Logs::write (boost::beast::severities::Severity level, std::string const& partition,
     std::string const& text, bool console)
 {
     std::string s;
@@ -212,16 +212,16 @@ void Logs::setApplication(Application* app)
 
 std::unique_ptr<boost::beast::Journal::Sink>
 Logs::makeSink(std::string const& name,
-    beast::severities::Severity threshold)
+    boost::beast::severities::Severity threshold)
 {
     return std::make_unique<Sink>(
         name, threshold, *this);
 }
 
 LogSeverity
-Logs::fromSeverity (beast::severities::Severity level)
+Logs::fromSeverity (boost::beast::severities::Severity level)
 {
-    using namespace beast::severities;
+    using namespace boost::beast::severities;
     switch (level)
     {
     case kTrace:   return lsTRACE;
@@ -243,7 +243,7 @@ Logs::fromSeverity (beast::severities::Severity level)
 boost::beast::severities::Severity
 Logs::toSeverity (LogSeverity level)
 {
-    using namespace beast::severities;
+    using namespace boost::beast::severities;
     switch (level)
     {
     case lsTRACE:   return kTrace;
@@ -328,7 +328,7 @@ Logs::scrub (std::string s)
 
 void
 Logs::format (std::string& output, std::string const& message,
-    beast::severities::Severity severity, std::string const& partition)
+    boost::beast::severities::Severity severity, std::string const& partition)
 {
     output.reserve (message.size() + partition.size() + 100);
 
@@ -338,7 +338,7 @@ Logs::format (std::string& output, std::string const& message,
     if (! partition.empty ())
         output += partition + ":";
 
-    using namespace beast::severities;
+    using namespace boost::beast::severities;
     switch (severity)
     {
     case kTrace:    output += "TRC "; break;

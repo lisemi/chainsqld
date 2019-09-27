@@ -145,7 +145,7 @@ OverlayImpl::OverlayImpl (
     , next_id_(1)
     , timer_count_(0)
 {
-    beast::PropertyStream::Source::add (m_peerFinder.get());
+    boost::beast::PropertyStream::Source::add (m_peerFinder.get());
 }
 
 OverlayImpl::~OverlayImpl ()
@@ -162,12 +162,12 @@ OverlayImpl::~OverlayImpl ()
 //------------------------------------------------------------------------------
 
 Handoff
-OverlayImpl::onHandoff (std::unique_ptr <beast::asio::ssl_bundle>&& ssl_bundle,
+OverlayImpl::onHandoff (std::unique_ptr <boost::beast::asio::ssl_bundle>&& ssl_bundle,
     http_request_type&& request,
         endpoint_type remote_endpoint)
 {
     auto const id = next_id_++;
-    beast::WrappedSink sink (app_.logs()["Peer"], makePrefix(id));
+    boost::beast::WrappedSink sink (app_.logs()["Peer"], makePrefix(id));
     boost::beast::Journal journal (sink);
 
     Handoff handoff;
@@ -189,13 +189,13 @@ OverlayImpl::onHandoff (std::unique_ptr <beast::asio::ssl_bundle>&& ssl_bundle,
     }
 
     auto consumer = m_resourceManager.newInboundEndpoint(
-        beast::IPAddressConversion::from_asio(remote_endpoint));
+        boost::beast::IPAddressConversion::from_asio(remote_endpoint));
     if (consumer.disconnect())
         return handoff;
 
     auto const slot = m_peerFinder->new_inbound_slot (
-        beast::IPAddressConversion::from_asio(local_endpoint),
-            beast::IPAddressConversion::from_asio(remote_endpoint));
+        boost::beast::IPAddressConversion::from_asio(local_endpoint),
+            boost::beast::IPAddressConversion::from_asio(remote_endpoint));
 
     if (slot == nullptr)
     {
@@ -207,7 +207,7 @@ OverlayImpl::onHandoff (std::unique_ptr <beast::asio::ssl_bundle>&& ssl_bundle,
     // TODO Validate HTTP request
 
     {
-        auto const types = beast::rfc2616::split_commas(
+        auto const types = boost::beast::rfc2616::split_commas(
             request["Connect-As"]);
         if (std::find_if(types.begin(), types.end(),
                 [](std::string const& s)
@@ -218,7 +218,7 @@ OverlayImpl::onHandoff (std::unique_ptr <beast::asio::ssl_bundle>&& ssl_bundle,
             handoff.moved = false;
             handoff.response = makeRedirectResponse(slot, request,
                 remote_endpoint.address());
-            handoff.keep_alive = beast::rfc2616::is_keep_alive(request);
+            handoff.keep_alive = boost::beast::rfc2616::is_keep_alive(request);
             return handoff;
         }
     }
@@ -251,7 +251,7 @@ OverlayImpl::onHandoff (std::unique_ptr <beast::asio::ssl_bundle>&& ssl_bundle,
     auto publicKey = verifyHello (*hello,
         *sharedValue,
         setup_.public_ip,
-        beast::IPAddressConversion::from_asio(
+        boost::beast::IPAddressConversion::from_asio(
             remote_endpoint), journal, app_);
     if(! publicKey)
     {
@@ -274,7 +274,7 @@ OverlayImpl::onHandoff (std::unique_ptr <beast::asio::ssl_bundle>&& ssl_bundle,
         handoff.moved = false;
         handoff.response = makeRedirectResponse(slot, request,
             remote_endpoint.address());
-        handoff.keep_alive = beast::rfc2616::is_keep_alive(request);
+        handoff.keep_alive = boost::beast::rfc2616::is_keep_alive(request);
         return handoff;
     }
 
@@ -326,13 +326,13 @@ std::shared_ptr<Writer>
 OverlayImpl::makeRedirectResponse (PeerFinder::Slot::ptr const& slot,
     http_request_type const& request, address_type remote_address)
 {
-    beast::http::response<json_body> msg;
+    boost::beast::http::response<json_body> msg;
     msg.version = request.version;
-    msg.result(beast::http::status::service_unavailable);
+    msg.result(boost::beast::http::status::service_unavailable);
     msg.insert("Server", BuildInfo::getFullVersionString());
     msg.insert("Remote-Address", remote_address);
     msg.insert("Content-Type", "application/json");
-    msg.insert(beast::http::field::connection, "close");
+    msg.insert(boost::beast::http::field::connection, "close");
     msg.body = Json::objectValue;
     {
         auto const result = m_peerFinder->redirect(slot);
@@ -350,12 +350,12 @@ OverlayImpl::makeErrorResponse (PeerFinder::Slot::ptr const& slot,
     address_type remote_address,
     std::string text)
 {
-    beast::http::response<beast::http::string_body> msg;
+    boost::beast::http::response<boost::beast::http::string_body> msg;
     msg.version = request.version;
-    msg.result(beast::http::status::bad_request);
+    msg.result(boost::beast::http::status::bad_request);
     msg.insert("Server", BuildInfo::getFullVersionString());
     msg.insert("Remote-Address", remote_address.to_string());
-    msg.insert(beast::http::field::connection, "close");
+    msg.insert(boost::beast::http::field::connection, "close");
     msg.body = text;
     msg.prepare_payload();
     return std::make_shared<SimpleWriter>(msg);
@@ -364,7 +364,7 @@ OverlayImpl::makeErrorResponse (PeerFinder::Slot::ptr const& slot,
 //------------------------------------------------------------------------------
 
 void
-OverlayImpl::connect (beast::IP::Endpoint const& remote_endpoint)
+OverlayImpl::connect (boost::beast::IP::Endpoint const& remote_endpoint)
 {
     assert(work_);
 
@@ -383,7 +383,7 @@ OverlayImpl::connect (beast::IP::Endpoint const& remote_endpoint)
     }
 
     auto const p = std::make_shared<ConnectAttempt>(app_,
-        io_service_, beast::IPAddressConversion::to_asio_endpoint(remote_endpoint),
+        io_service_, boost::beast::IPAddressConversion::to_asio_endpoint(remote_endpoint),
             usage, setup_.context, next_id_++, slot,
                 app_.journal("Peer"), *this);
 
@@ -494,7 +494,7 @@ OverlayImpl::onPrepare()
 
     m_resolver.resolve (bootstrapIps,
         [this](std::string const& name,
-            std::vector <beast::IP::Endpoint> const& addresses)
+            std::vector <boost::beast::IP::Endpoint> const& addresses)
         {
             std::vector <std::string> ips;
             ips.reserve(addresses.size());
@@ -520,7 +520,7 @@ OverlayImpl::onPrepare()
         m_resolver.resolve (app_.config().IPS_FIXED,
             [this](
                 std::string const& name,
-                std::vector <beast::IP::Endpoint> const& addresses)
+                std::vector <boost::beast::IP::Endpoint> const& addresses)
             {
                 if (!addresses.empty ())
                     m_peerFinder->addFixedPeer (name, addresses);
@@ -558,28 +558,28 @@ OverlayImpl::onChildrenStopped ()
 //------------------------------------------------------------------------------
 
 void
-OverlayImpl::onWrite (beast::PropertyStream::Map& stream)
+OverlayImpl::onWrite (boost::beast::PropertyStream::Map& stream)
 {
-    beast::PropertyStream::Set set ("traffic", stream);
+    boost::beast::PropertyStream::Set set ("traffic", stream);
     auto stats = m_traffic.getCounts();
     for (auto& i : stats)
     {
         if (! i.second.messagesIn && ! i.second.messagesOut)
             continue;
 
-        beast::PropertyStream::Map item (set);
+        boost::beast::PropertyStream::Map item (set);
         item["category"] = i.first;
         item["bytes_in"] =
-            beast::lexicalCast<std::string>
+            boost::beast::lexicalCast<std::string>
                 (i.second.bytesIn.load());
         item["messages_in"] =
-            beast::lexicalCast<std::string>
+            boost::beast::lexicalCast<std::string>
                 (i.second.messagesIn.load());
         item["bytes_out"] =
-            beast::lexicalCast<std::string>
+            boost::beast::lexicalCast<std::string>
                 (i.second.bytesOut.load());
         item["messages_out"] =
-            beast::lexicalCast<std::string>
+            boost::beast::lexicalCast<std::string>
                 (i.second.messagesOut.load());
     }
 }
@@ -761,7 +761,7 @@ OverlayImpl::crawl()
     for_each ([&](std::shared_ptr<PeerImp>&& sp)
     {
         auto& pv = av.append(Json::Value(Json::objectValue));
-        pv[jss::public_key] = beast::detail::base64_encode(
+        pv[jss::public_key] = boost::beast::detail::base64_encode(
             sp->getNodePublic().data(),
                 sp->getNodePublic().size());
         pv[jss::type] = sp->slot()->inbound() ?
@@ -805,9 +805,9 @@ OverlayImpl::processRequest (http_request_type const& req,
     if (req.target() != "/crawl")
         return false;
 
-    beast::http::response<json_body> msg;
+    boost::beast::http::response<json_body> msg;
     msg.version = req.version;
-    msg.result(beast::http::status::ok);
+    msg.result(boost::beast::http::status::ok);
     msg.insert("Server", BuildInfo::getFullVersionString());
     msg.insert("Content-Type", "application/json");
     msg.insert("Connection", "close");
@@ -1034,7 +1034,7 @@ setup_Overlay (BasicConfig const& config)
     {
         bool valid;
         std::tie (setup.public_ip, valid) =
-            beast::IP::Address::from_string (ip);
+            boost::beast::IP::Address::from_string (ip);
         if (! valid || ! setup.public_ip.is_v4() ||
                 is_private (setup.public_ip))
             Throw<std::runtime_error> ("Configured public IP is invalid");

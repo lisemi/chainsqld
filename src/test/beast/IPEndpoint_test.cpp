@@ -30,6 +30,7 @@
 
 #include <typeinfo>
 
+namespace boost {
 namespace beast {
 namespace IP {
 

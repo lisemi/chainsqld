@@ -18,7 +18,7 @@
 #define NUDB_DEBUG_LOG 0
 #endif
 #if NUDB_DEBUG_LOG
-#include <beast/unit_test/dstream.hpp>
+#include <beast/include/boost/beast/_experimental/unit_test/dstream.hpp>
 #include <iostream>
 #endif
 
@@ -739,7 +739,7 @@ run()
     using namespace detail;
 
 #if NUDB_DEBUG_LOG
-    beast::unit_test::dstream dout{std::cout};
+    boost::beast::unit_test::dstream dout{std::cout};
 #endif
     for(;;)
     {

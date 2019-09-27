@@ -32,7 +32,7 @@ namespace ripple
 {
 namespace test
 {
-struct PayChan_test : public beast::unit_test::suite
+struct PayChan_test : public boost::beast::unit_test::suite
 {
     static
     uint256

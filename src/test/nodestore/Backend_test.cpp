@@ -43,11 +43,11 @@ public:
         testcase ("Backend type=" + type);
 
         Section params;
-        beast::temp_dir tempDir;
+        boost::beast::temp_dir tempDir;
         params.set ("type", type);
         params.set ("path", tempDir.path());
 
-        beast::xor_shift_engine rng (seedValue);
+        boost::beast::xor_shift_engine rng (seedValue);
 
         // Create a batch
         auto batch = createPredictableBatch (

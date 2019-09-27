@@ -36,7 +36,7 @@
 #include <peersafe/crypto/ECDSA.h>
 #include <ripple/beast/utility/rngfill.h>
 #include <ripple/crypto/csprng.h>
-//#include <beast/unit_test/suite.h>
+//#include <beast/include/boost/beast/_experimental/unit_test/suite.h>
 #include <ed25519-donna/ed25519.h>
 #include <openssl/ripemd.h>
 #include <openssl/pem.h>
@@ -560,7 +560,7 @@ Blob RippleAddress::accountPrivateDecrypt (
 Blob RippleAddress::getRandomPassword()
 {
 	uint256 digest;
-	beast::rngfill(
+	boost::beast::rngfill(
 		digest.data(),
 		digest.size(),
 		crypto_prng());

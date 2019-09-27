@@ -33,7 +33,7 @@
 namespace ripple {
 namespace test {
 
-class Env_test : public beast::unit_test::suite
+class Env_test : public boost::beast::unit_test::suite
 {
 public:
     template <class T>

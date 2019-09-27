@@ -25,6 +25,7 @@
 #include <cstdint>
 #include <type_traits>
 
+namespace boost {
 namespace beast {
 
 // See http://www.isthe.com/chongo/tech/comp/fnv/
@@ -66,5 +67,6 @@ public:
 };
 
 } // beast
+}
 
 #endif

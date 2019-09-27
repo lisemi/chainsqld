@@ -67,13 +67,13 @@ public:
     // VFALCO TODO Use std::shared_ptr, std::weak_ptr
     using weak_mapped_ptr = std::weak_ptr <mapped_type>;
     using mapped_ptr = std::shared_ptr <mapped_type>;
-    using clock_type = beast::abstract_clock <std::chrono::steady_clock>;
+    using clock_type = boost::beast::abstract_clock <std::chrono::steady_clock>;
 
 public:
     // VFALCO TODO Change expiration_seconds to clock_type::duration
     TaggedCache (std::string const& name, int size,
         clock_type::rep expiration_seconds, clock_type& clock, boost::beast::Journal journal,
-            beast::insight::Collector::ptr const& collector = beast::insight::NullCollector::New ())
+            boost::beast::insight::Collector::ptr const& collector = boost::beast::insight::NullCollector::New ())
         : m_journal (journal)
         , m_clock (clock)
         , m_stats (name,
@@ -502,7 +502,7 @@ private:
         m_stats.size.set (getCacheSize ());
 
         {
-            beast::insight::Gauge::value_type hit_rate (0);
+            boost::beast::insight::Gauge::value_type hit_rate (0);
             {
                 lock_guard lock (m_mutex);
                 auto const total (m_hits + m_misses);
@@ -518,15 +518,15 @@ protected:
     {
         template <class Handler>
         Stats (std::string const& prefix, Handler const& handler,
-            beast::insight::Collector::ptr const& collector)
+            boost::beast::insight::Collector::ptr const& collector)
             : hook (collector->make_hook (handler))
             , size (collector->make_gauge (prefix, "size"))
             , hit_rate (collector->make_gauge (prefix, "hit_rate"))
             { }
 
-        beast::insight::Hook hook;
-        beast::insight::Gauge size;
-        beast::insight::Gauge hit_rate;
+        boost::beast::insight::Hook hook;
+        boost::beast::insight::Gauge size;
+        boost::beast::insight::Gauge hit_rate;
     };
 
     class Entry

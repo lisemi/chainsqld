@@ -29,9 +29,9 @@
 namespace ripple {
 namespace test {
 
-class Validations_test : public beast::unit_test::suite
+class Validations_test : public boost::beast::unit_test::suite
 {
-    using clock_type = beast::abstract_clock<std::chrono::steady_clock> const;
+    using clock_type = boost::beast::abstract_clock<std::chrono::steady_clock> const;
     //--------------------------------------------------------------------------
     // Basic type wrappers for validation types
 
@@ -80,7 +80,7 @@ class Validations_test : public beast::unit_test::suite
         friend void
         hash_append(Hasher& h, ID const& id)
         {
-            using beast::hash_append;
+            using boost::beast::hash_append;
             hash_append(h, id.id);
         }
 
@@ -362,7 +362,7 @@ class Validations_test : public beast::unit_test::suite
     {
         StaleData staleData_;
         ValidationParms p_;
-        beast::manual_clock<std::chrono::steady_clock> clock_;
+        boost::beast::manual_clock<std::chrono::steady_clock> clock_;
         boost::beast::Journal j_;
         TestValidations tv_;
         int nextNodeId_ = 0;

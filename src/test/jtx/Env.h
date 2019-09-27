@@ -44,7 +44,7 @@
 #include <ripple/protocol/STAmount.h>
 #include <ripple/protocol/STObject.h>
 #include <ripple/protocol/STTx.h>
-#include <beast/core/detail/type_traits.hpp>
+#include <beast/include/boost/beast/core/detail/type_traits.hpp>
 #include <ripple/beast/unit_test.h>
 #include <functional>
 #include <string>
@@ -161,12 +161,12 @@ all_features_except (uint256 const& key, Args const&... args)
 class SuiteSink : public boost::beast::Journal::Sink
 {
     std::string partition_;
-    beast::unit_test::suite& suite_;
+    boost::beast::unit_test::suite& suite_;
 
 public:
     SuiteSink(std::string const& partition,
-            beast::severities::Severity threshold,
-            beast::unit_test::suite& suite)
+            boost::beast::severities::Severity threshold,
+            boost::beast::unit_test::suite& suite)
         : Sink (threshold, false)
         , partition_(partition + " ")
         , suite_ (suite)
@@ -174,23 +174,23 @@ public:
     }
 
     // For unit testing, always generate logging text.
-    inline bool active(beast::severities::Severity level) const override
+    inline bool active(boost::beast::severities::Severity level) const override
     {
         return true;
     }
 
     void
-    write(beast::severities::Severity level, std::string const& text) override;
+    write(boost::beast::severities::Severity level, std::string const& text) override;
 };
 
 class SuiteLogs : public Logs
 {
-    beast::unit_test::suite& suite_;
+    boost::beast::unit_test::suite& suite_;
 
 public:
     explicit
-    SuiteLogs(beast::unit_test::suite& suite)
-        : Logs (beast::severities::kError)
+    SuiteLogs(boost::beast::unit_test::suite& suite)
+        : Logs (boost::beast::severities::kError)
         , suite_(suite)
     {
     }
@@ -199,7 +199,7 @@ public:
 
     std::unique_ptr<boost::beast::Journal::Sink>
     makeSink(std::string const& partition,
-        beast::severities::Severity threshold) override
+        boost::beast::severities::Severity threshold) override
     {
         return std::make_unique<SuiteSink>(partition, threshold, suite_);
     }
@@ -211,7 +211,7 @@ public:
 class Env
 {
 public:
-    beast::unit_test::suite& test;
+    boost::beast::unit_test::suite& test;
 
     boost::beast::Journal const journal;
 
@@ -227,7 +227,7 @@ private:
         std::thread thread;
         std::unique_ptr<AbstractClient> client;
 
-        AppBundle (beast::unit_test::suite& suite,
+        AppBundle (boost::beast::unit_test::suite& suite,
             std::unique_ptr<Config> config,
             std::unique_ptr<Logs> logs);
         ~AppBundle();
@@ -254,7 +254,7 @@ public:
      * enable all and disable specific features
      */
     // VFALCO Could wrap the suite::log in a Journal here
-    Env (beast::unit_test::suite& suite_,
+    Env (boost::beast::unit_test::suite& suite_,
             std::unique_ptr<Config> config,
             FeatureBitset features,
             std::unique_ptr<Logs> logs = nullptr)
@@ -285,7 +285,7 @@ public:
      * @param args collection of features
      *
      */
-    Env (beast::unit_test::suite& suite_,
+    Env (boost::beast::unit_test::suite& suite_,
             FeatureBitset features)
         : Env(suite_, envconfig(), features)
     {
@@ -302,7 +302,7 @@ public:
      * @param config The desired Config - ownership will be taken by moving
      * the pointer. See envconfig and related functions for common config tweaks.
      */
-    Env (beast::unit_test::suite& suite_,
+    Env (boost::beast::unit_test::suite& suite_,
         std::unique_ptr<Config> config,
         std::unique_ptr<Logs> logs = nullptr)
         : Env(suite_, std::move(config), all_amendments(), std::move(logs))
@@ -318,7 +318,7 @@ public:
      *
      * @param suite_ the current unit_test::suite
      */
-    Env (beast::unit_test::suite& suite_)
+    Env (boost::beast::unit_test::suite& suite_)
         : Env(suite_, envconfig())
     {
     }
@@ -781,7 +781,7 @@ protected:
         FN const&... fN)
     {
         maybe_invoke(stx, f,
-            beast::detail::is_invocable<F,
+            boost::beast::detail::is_invocable<F,
                 void(Env&, STTx const&)>());
         invoke(stx, fN...);
     }
@@ -815,7 +815,7 @@ protected:
         FN const&... fN)
     {
         maybe_invoke(jt, f,
-            beast::detail::is_invocable<F,
+            boost::beast::detail::is_invocable<F,
                 void(Env&, JTx&)>());
         invoke(jt, fN...);
     }

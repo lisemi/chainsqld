@@ -23,7 +23,7 @@
 #include <ripple/resource/Charge.h>
 #include <ripple/resource/Fees.h>
 #include <ripple/json/json_value.h>
-#include <beast/utility/Journal.h>
+#include <beast/include/boost/beast/utility/Journal.h>
 
 namespace ripple {
 

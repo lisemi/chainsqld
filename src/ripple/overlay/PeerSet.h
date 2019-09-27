@@ -48,7 +48,7 @@ namespace ripple {
 class PeerSet
 {
 public:
-    using clock_type = beast::abstract_clock <std::chrono::steady_clock>;
+    using clock_type = boost::beast::abstract_clock <std::chrono::steady_clock>;
 
     /** Returns the hash of the data we want. */
     uint256 const& getHash () const

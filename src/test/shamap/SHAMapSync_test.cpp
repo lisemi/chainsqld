@@ -28,7 +28,7 @@
 namespace ripple {
 namespace tests {
 
-class sync_test : public beast::unit_test::suite
+class sync_test : public boost::beast::unit_test::suite
 {
 public:
     static std::shared_ptr<SHAMapItem> makeRandomAS ()

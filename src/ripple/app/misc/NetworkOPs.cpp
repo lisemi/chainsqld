@@ -68,7 +68,7 @@
 #include <ripple/basics/make_lock.h>
 #include <peersafe/rpc/impl/TableAssistant.h>
 #include <peersafe/rpc/TableUtils.h>
-#include <beast/core/detail/base64.hpp>
+#include <beast/include/boost/beast/core/detail/base64.hpp>
 #include <boost/asio/steady_timer.hpp>
 
 namespace ripple {
@@ -692,7 +692,7 @@ std::string
 NetworkOPsImp::getHostId (bool forAdmin)
 {
     if (forAdmin)
-        return beast::getComputerName ();
+        return boost::beast::getComputerName ();
 
     // For non-admin uses hash the node public key into a
     // single RFC1751 word:
@@ -3291,7 +3291,7 @@ bool NetworkOPsImp::subServer (InfoSub::ref isrListener, Json::Value& jvResult,
         jvResult[jss::stand_alone] = m_standalone;
 
     // CHECKME: is it necessary to provide a random number here?
-    beast::rngfill (
+    boost::beast::rngfill (
         uRandom.begin(),
         uRandom.size(),
         crypto_prng());

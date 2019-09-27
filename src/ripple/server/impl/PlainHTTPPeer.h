@@ -68,7 +68,7 @@ PlainHTTPPeer(Port const& port, Handler& handler,
     boost::beast::Journal journal, endpoint_type remote_endpoint,
         ConstBufferSequence const& buffers, socket_type&& socket)
     : BaseHTTPPeer<Handler, PlainHTTPPeer>(port, handler,
-        socket.get_io_service(), journal, remote_endpoint, buffers)
+        socket.get_executor().context(), journal, remote_endpoint, buffers)
     , stream_(std::move(socket))
 {
     // Set TCP_NODELAY on loopback interfaces,
@@ -133,7 +133,7 @@ do_request()
     }
 
     // Perform half-close when Connection: close and not SSL
-    if (! beast::rfc2616::is_keep_alive(this->message_))
+    if (! boost::beast::rfc2616::is_keep_alive(this->message_))
         stream_.shutdown(socket_type::shutdown_receive, ec);
     if (ec)
         return this->fail(ec, "request");

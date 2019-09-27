@@ -23,7 +23,7 @@
 
 namespace ripple
 {
-class RangeSet_test : public beast::unit_test::suite
+class RangeSet_test : public boost::beast::unit_test::suite
 {
 public:
     void

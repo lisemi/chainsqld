@@ -33,7 +33,7 @@
 namespace ripple {
 namespace tests {
 
-class FetchPack_test : public beast::unit_test::suite
+class FetchPack_test : public boost::beast::unit_test::suite
 {
 public:
     enum
@@ -83,7 +83,7 @@ public:
     };
 
     std::shared_ptr <Item>
-    make_random_item (beast::xor_shift_engine& r)
+    make_random_item (boost::beast::xor_shift_engine& r)
     {
         Serializer s;
         for (int d = 0; d < 3; ++d)
@@ -96,7 +96,7 @@ public:
     add_random_items (
         std::size_t n,
         Table& t,
-        beast::xor_shift_engine& r)
+        boost::beast::xor_shift_engine& r)
     {
         while (n--)
         {
@@ -123,7 +123,7 @@ public:
 
         pass ();
 
-//         beast::Random r;
+//         boost::beast::Random r;
 //         add_random_items (tableItems, *t1, r);
 //         std::shared_ptr <Table> t2 (t1->snapShot (true));
 //

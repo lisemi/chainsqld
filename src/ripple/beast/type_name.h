@@ -31,6 +31,7 @@
 #include <cstdlib>
 #include <vector>
 
+namespace boost {
 namespace beast {
 
 #ifdef _MSC_VER
@@ -69,5 +70,6 @@ type_name()
 #endif
 
 } // beast
+}
 
 #endif

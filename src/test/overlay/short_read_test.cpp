@@ -45,7 +45,7 @@ will complete with eof.
 
 */
 
-class short_read_test : public beast::unit_test::suite
+class short_read_test : public boost::beast::unit_test::suite
 {
 private:
     using io_service_type = boost::asio::io_service;

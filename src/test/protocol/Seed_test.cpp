@@ -30,7 +30,7 @@
 
 namespace ripple {
 
-class Seed_test : public beast::unit_test::suite
+class Seed_test : public boost::beast::unit_test::suite
 {
     static
     bool equal(Seed const& lhs, Seed const& rhs)
@@ -50,7 +50,7 @@ public:
 
             for (std::uint8_t i = 0; i < 64; i++)
             {
-                beast::rngfill (
+                boost::beast::rngfill (
                     src,
                     sizeof(src),
                     default_prng());
@@ -62,7 +62,7 @@ public:
         for (int i = 0; i < 64; i++)
         {
             uint128 src;
-            beast::rngfill (
+            boost::beast::rngfill (
                 src.data(),
                 src.size(),
                 default_prng());

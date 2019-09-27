@@ -30,7 +30,7 @@ namespace test {
 
 //------------------------------------------------------------------------------
 
-class ClosureCounter_test : public beast::unit_test::suite
+class ClosureCounter_test : public boost::beast::unit_test::suite
 {
     // We're only using Env for its Journal.
     jtx::Env env {*this};

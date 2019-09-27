@@ -31,7 +31,7 @@
 namespace ripple {
 namespace test {
 
-struct Escrow_test : public beast::unit_test::suite
+struct Escrow_test : public boost::beast::unit_test::suite
 {
     // A PreimageSha256 fulfillments and its associated condition.
     std::array<std::uint8_t, 4> const fb1 =

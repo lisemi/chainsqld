@@ -28,7 +28,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #include <boost/format.hpp>
 
 namespace ripple {
-class DataBaseConn_test : public beast::unit_test::suite {
+class DataBaseConn_test : public boost::beast::unit_test::suite {
 public:
 
 	void init_env() {

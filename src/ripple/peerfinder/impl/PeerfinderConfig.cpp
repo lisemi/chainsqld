@@ -67,7 +67,7 @@ void Config::applyTuning ()
         std::min(ipLimit, static_cast<int>(inPeers / 2)));
 }
 
-void Config::onWrite (beast::PropertyStream::Map &map)
+void Config::onWrite (boost::beast::PropertyStream::Map &map)
 {
     map ["max_peers"]       = maxPeers;
     map ["out_peers"]       = outPeers;

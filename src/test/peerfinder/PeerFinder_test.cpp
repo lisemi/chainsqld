@@ -28,7 +28,7 @@
 namespace ripple {
 namespace PeerFinder {
 
-class Logic_test : public beast::unit_test::suite
+class Logic_test : public boost::beast::unit_test::suite
 {
 public:
     struct TestStore : Store
@@ -59,7 +59,7 @@ public:
 
         template <class Handler>
         void
-        async_connect (beast::IP::Endpoint const& ep,
+        async_connect (boost::beast::IP::Endpoint const& ep,
             Handler&& handler)
         {
             boost::system::error_code ec;
@@ -77,7 +77,7 @@ public:
         TestStopwatch clock;
         Logic<TestChecker> logic (clock, store, checker, boost::beast::Journal{});
         logic.addFixedPeer ("test",
-            beast::IP::Endpoint::from_string("65.0.0.1:5"));
+            boost::beast::IP::Endpoint::from_string("65.0.0.1:5"));
         {
             Config c;
             c.autoConnect = false;
@@ -93,7 +93,7 @@ public:
                 BEAST_EXPECT(list.size() == 1);
                 auto const slot = logic.new_outbound_slot(list.front());
                 BEAST_EXPECT(logic.onConnected(slot,
-                    beast::IP::Endpoint::from_string("65.0.0.2:5")));
+                    boost::beast::IP::Endpoint::from_string("65.0.0.2:5")));
                 logic.on_closed(slot);
                 ++n;
             }
@@ -115,7 +115,7 @@ public:
         TestStopwatch clock;
         Logic<TestChecker> logic (clock, store, checker, boost::beast::Journal{});
         logic.addFixedPeer ("test",
-            beast::IP::Endpoint::from_string("65.0.0.1:5"));
+            boost::beast::IP::Endpoint::from_string("65.0.0.1:5"));
         {
             Config c;
             c.autoConnect = false;
@@ -134,7 +134,7 @@ public:
                 BEAST_EXPECT(list.size() == 1);
                 auto const slot = logic.new_outbound_slot(list.front());
                 if (! BEAST_EXPECT(logic.onConnected(slot,
-                        beast::IP::Endpoint::from_string("65.0.0.2:5"))))
+                        boost::beast::IP::Endpoint::from_string("65.0.0.2:5"))))
                     return;
                 std::string s = ".";
                 if (! BEAST_EXPECT(logic.activate(slot, pk, false) ==

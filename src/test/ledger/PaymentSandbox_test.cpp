@@ -28,7 +28,7 @@
 namespace ripple {
 namespace test {
 
-class PaymentSandbox_test : public beast::unit_test::suite
+class PaymentSandbox_test : public boost::beast::unit_test::suite
 {
     /*
       Create paths so one path funds another path.

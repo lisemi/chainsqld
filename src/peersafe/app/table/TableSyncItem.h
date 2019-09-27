@@ -39,7 +39,7 @@ class STTx;
 class TableSyncItem
 {
 public:
-    using clock_type = beast::abstract_clock <std::chrono::steady_clock>;
+    using clock_type = boost::beast::abstract_clock <std::chrono::steady_clock>;
     using sqldata_type = std::pair<LedgerIndex, protocol::TMTableData>;	
 
     enum TableSyncState
@@ -201,7 +201,7 @@ public:
     void SetLedgerState(LedgerSyncState lState);
 	void SetDeleted(bool deleted);
 
-    bool IsInFailList(beast::IP::Endpoint& peerAddr);
+    bool IsInFailList(boost::beast::IP::Endpoint& peerAddr);
     
     void TryOperateSQL();
     void OperateSQLThread();
@@ -317,8 +317,8 @@ private:
 
     bool                                                         bGetLocalData_;
 
-    beast::IP::Endpoint                                          uPeerAddr_;
-    std::list <beast::IP::Endpoint>                              lfailList_;
+    boost::beast::IP::Endpoint                                          uPeerAddr_;
+    std::list <boost::beast::IP::Endpoint>                              lfailList_;
     bool                                                         bIsChange_;
 
     bool                                                         bIsAutoSync_;

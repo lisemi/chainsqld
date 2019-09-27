@@ -103,8 +103,10 @@ void setCurrentThreadNameImpl (std::string const& name)
 #include <Foundation/NSThread.h>
 #include <Foundation/NSString.h>
 #import <objc/message.h>
+namespace boost{
 namespace beast{
 #include <ripple/beast/core/osx_ObjCHelpers.h>
+}
 }
 
 #else
@@ -112,6 +114,7 @@ namespace beast{
 
 #endif
 
+namespace boost {
 namespace beast {
 namespace detail {
 
@@ -133,6 +136,7 @@ void setCurrentThreadNameImpl (std::string const& name)
 
 } // detail
 } // beast
+}
 
 #endif
 

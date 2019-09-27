@@ -25,7 +25,7 @@
 
 namespace ripple {
 
-class STAmount_test : public beast::unit_test::suite
+class STAmount_test : public boost::beast::unit_test::suite
 {
 public:
     static STAmount serializeAndDeserialize (STAmount const& s)

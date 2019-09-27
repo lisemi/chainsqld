@@ -23,7 +23,7 @@
 
 namespace ripple {
 
-class XRPAmount_test : public beast::unit_test::suite
+class XRPAmount_test : public boost::beast::unit_test::suite
 {
 public:
     void testSigNum ()

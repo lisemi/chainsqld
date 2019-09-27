@@ -46,14 +46,14 @@ class KeyCache
 {
 public:
     using key_type = Key;
-    using clock_type = beast::abstract_clock <std::chrono::steady_clock>;
+    using clock_type = boost::beast::abstract_clock <std::chrono::steady_clock>;
 
 private:
     struct Stats
     {
         template <class Handler>
         Stats (std::string const& prefix, Handler const& handler,
-            beast::insight::Collector::ptr const& collector)
+            boost::beast::insight::Collector::ptr const& collector)
             : hook (collector->make_hook (handler))
             , size (collector->make_gauge (prefix, "size"))
             , hit_rate (collector->make_gauge (prefix, "hit_rate"))
@@ -61,9 +61,9 @@ private:
             , misses (0)
             { }
 
-        beast::insight::Hook hook;
-        beast::insight::Gauge size;
-        beast::insight::Gauge hit_rate;
+        boost::beast::insight::Hook hook;
+        boost::beast::insight::Gauge size;
+        boost::beast::insight::Gauge hit_rate;
 
         std::size_t hits;
         std::size_t misses;
@@ -102,7 +102,7 @@ public:
         @param age  The initial expiration time.
     */
     KeyCache (std::string const& name, clock_type& clock,
-        beast::insight::Collector::ptr const& collector, size_type target_size = 0,
+        boost::beast::insight::Collector::ptr const& collector, size_type target_size = 0,
             clock_type::rep expiration_seconds = 120)
         : m_stats (name,
             std::bind (&KeyCache::collect_metrics, this),
@@ -119,7 +119,7 @@ public:
         size_type target_size = 0, clock_type::rep expiration_seconds = 120)
         : m_stats (name,
             std::bind (&KeyCache::collect_metrics, this),
-                beast::insight::NullCollector::New ())
+                boost::beast::insight::NullCollector::New ())
         , m_clock (clock)
         , m_name (name)
         , m_target_size (target_size)
@@ -287,7 +287,7 @@ private:
         m_stats.size.set (size ());
 
         {
-            beast::insight::Gauge::value_type hit_rate (0);
+            boost::beast::insight::Gauge::value_type hit_rate (0);
             {
                 lock_guard lock (m_mutex);
                 auto const total (m_stats.hits + m_stats.misses);

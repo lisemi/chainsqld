@@ -50,7 +50,7 @@ public:
 	// VFALCO TODO Use std::shared_ptr, std::weak_ptr
 	using weak_mapped_ptr = std::weak_ptr <mapped_type>;
 	using mapped_ptr = std::shared_ptr <mapped_type>;
-	using clock_type = beast::abstract_clock <std::chrono::steady_clock>;
+	using clock_type = boost::beast::abstract_clock <std::chrono::steady_clock>;
 public:
 	TaggedCacheExt(std::string const& name, int size,
 		clock_type::rep expiration_seconds,clock_type::rep expiration_seconds_max, clock_type& clock, std::function<bool(std::shared_ptr<T>)> func, boost::beast::Journal journal) :

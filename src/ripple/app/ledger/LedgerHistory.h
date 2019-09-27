@@ -35,7 +35,7 @@ namespace ripple {
 class LedgerHistory
 {
 public:
-    LedgerHistory (beast::insight::Collector::ptr const& collector,
+    LedgerHistory (boost::beast::insight::Collector::ptr const& collector,
         Application& app);
 
     /** Track a ledger
@@ -110,8 +110,8 @@ private:
         Json::Value const& consensus);
 
     Application& app_;
-    beast::insight::Collector::ptr collector_;
-    beast::insight::Counter mismatch_counter_;
+    boost::beast::insight::Collector::ptr collector_;
+    boost::beast::insight::Counter mismatch_counter_;
 
     using LedgersByHash = TaggedCacheExt <LedgerHash, Ledger const>;
 

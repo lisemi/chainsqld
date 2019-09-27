@@ -115,9 +115,9 @@ getSeedFromRPC(Json::Value const& params, Json::Value& error);
 std::pair<PublicKey, SecretKey>
 keypairForSignature(Json::Value const& params, Json::Value& error);
 
-extern beast::SemanticVersion const firstVersion;
-extern beast::SemanticVersion const goodVersion;
-extern beast::SemanticVersion const lastVersion;
+extern boost::beast::SemanticVersion const firstVersion;
+extern boost::beast::SemanticVersion const goodVersion;
+extern boost::beast::SemanticVersion const lastVersion;
 
 template <class Object>
 void

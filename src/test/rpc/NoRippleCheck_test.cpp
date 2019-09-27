@@ -29,7 +29,7 @@
 
 namespace ripple {
 
-class NoRippleCheck_test : public beast::unit_test::suite
+class NoRippleCheck_test : public boost::beast::unit_test::suite
 {
     void
     testBadInput ()
@@ -235,7 +235,7 @@ public:
     }
 };
 
-class NoRippleCheckLimits_test : public beast::unit_test::suite
+class NoRippleCheckLimits_test : public boost::beast::unit_test::suite
 {
     void
     testLimits(bool admin)
@@ -262,12 +262,12 @@ class NoRippleCheckLimits_test : public beast::unit_test::suite
                 // we get too close to the drop limit.
                 using namespace ripple::Resource;
                 using namespace std::chrono;
-                using namespace beast::IP;
+                using namespace boost::beast::IP;
                 auto c = env.app().getResourceManager()
                     .newInboundEndpoint (Endpoint::from_string ("127.0.0.1"));
                 if (dropThreshold - c.balance() <= 20)
                 {
-                    using clock_type = beast::abstract_clock <steady_clock>;
+                    using clock_type = boost::beast::abstract_clock <steady_clock>;
                     c.entry().local_balance =
                         DecayingSample <decayWindowSeconds, clock_type>
                             {steady_clock::now()};

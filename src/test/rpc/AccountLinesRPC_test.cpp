@@ -28,7 +28,7 @@ namespace ripple {
 
 namespace RPC {
 
-class AccountLinesRPC_test : public beast::unit_test::suite
+class AccountLinesRPC_test : public boost::beast::unit_test::suite
 {
 public:
     void testAccountLines()

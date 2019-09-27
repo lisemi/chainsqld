@@ -30,13 +30,13 @@ public:
     virtual ~Store () { }
 
     // load the bootstrap cache
-    using load_callback = std::function <void (beast::IP::Endpoint, int)>;
+    using load_callback = std::function <void (boost::beast::IP::Endpoint, int)>;
     virtual std::size_t load (load_callback const& cb) = 0;
 
     // save the bootstrap cache
     struct Entry
     {
-        beast::IP::Endpoint endpoint;
+        boost::beast::IP::Endpoint endpoint;
         int valence;
     };
     virtual void save (std::vector <Entry> const& v) = 0;

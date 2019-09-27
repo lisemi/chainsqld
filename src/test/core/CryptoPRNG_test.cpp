@@ -26,7 +26,7 @@
 
 namespace ripple {
 
-class CryptoPRNG_test : public beast::unit_test::suite
+class CryptoPRNG_test : public boost::beast::unit_test::suite
 {
     void
     testGetValues()
@@ -56,7 +56,7 @@ class CryptoPRNG_test : public beast::unit_test::suite
         try
         {
             // create a temporary path to write crypto state files
-            beast::temp_dir td;
+            boost::beast::temp_dir td;
 
             auto stateFile = boost::filesystem::path {td.file("cryptostate")};
             auto& engine = crypto_prng();

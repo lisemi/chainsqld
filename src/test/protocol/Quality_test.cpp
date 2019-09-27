@@ -24,7 +24,7 @@
 
 namespace ripple {
 
-class Quality_test : public beast::unit_test::suite
+class Quality_test : public boost::beast::unit_test::suite
 {
 public:
     // Create a raw, non-integral amount from mantissa and exponent

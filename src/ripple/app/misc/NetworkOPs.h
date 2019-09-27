@@ -27,6 +27,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #include <ripple/ledger/ReadView.h>
 #include <ripple/net/InfoSub.h>
 #include <ripple/protocol/STValidation.h>
+#include <boost/asio/io_service.hpp>
 #include <memory>
 #include <deque>
 #include <tuple>
@@ -73,7 +74,7 @@ namespace ripple {
 		explicit NetworkOPs(Stoppable& parent);
 
 	public:
-		using clock_type = beast::abstract_clock <std::chrono::steady_clock>;
+		using clock_type = boost::beast::abstract_clock <std::chrono::steady_clock>;
 
 		enum OperatingMode
 		{

@@ -25,7 +25,7 @@
 namespace ripple {
 namespace test {
 
-class RobustTransaction_test : public beast::unit_test::suite
+class RobustTransaction_test : public boost::beast::unit_test::suite
 {
 public:
     void

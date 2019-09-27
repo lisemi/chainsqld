@@ -25,8 +25,8 @@
 namespace ripple {
 namespace PeerFinder {
 
-SlotImp::SlotImp (beast::IP::Endpoint const& local_endpoint,
-    beast::IP::Endpoint const& remote_endpoint, bool fixed,
+SlotImp::SlotImp (boost::beast::IP::Endpoint const& local_endpoint,
+    boost::beast::IP::Endpoint const& remote_endpoint, bool fixed,
         clock_type& clock)
     : recent (clock)
     , m_inbound (true)
@@ -42,7 +42,7 @@ SlotImp::SlotImp (beast::IP::Endpoint const& local_endpoint,
 {
 }
 
-SlotImp::SlotImp (beast::IP::Endpoint const& remote_endpoint,
+SlotImp::SlotImp (boost::beast::IP::Endpoint const& remote_endpoint,
     bool fixed, clock_type& clock)
     : recent (clock)
     , m_inbound (false)
@@ -102,7 +102,7 @@ SlotImp::recent_t::recent_t (clock_type& clock)
 }
 
 void
-SlotImp::recent_t::insert (beast::IP::Endpoint const& ep, int hops)
+SlotImp::recent_t::insert (boost::beast::IP::Endpoint const& ep, int hops)
 {
     auto const result (cache.emplace (ep, hops));
     if (! result.second)
@@ -117,7 +117,7 @@ SlotImp::recent_t::insert (beast::IP::Endpoint const& ep, int hops)
 }
 
 bool
-SlotImp::recent_t::filter (beast::IP::Endpoint const& ep, int hops)
+SlotImp::recent_t::filter (boost::beast::IP::Endpoint const& ep, int hops)
 {
     auto const iter (cache.find (ep));
     if (iter == cache.end())
@@ -131,7 +131,7 @@ SlotImp::recent_t::filter (beast::IP::Endpoint const& ep, int hops)
 void
 SlotImp::recent_t::expire ()
 {
-    beast::expire (cache,
+    boost::beast::expire (cache,
         Tuning::liveCacheSecondsToLive);
 }
 

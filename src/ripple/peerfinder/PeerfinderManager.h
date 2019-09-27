@@ -29,10 +29,10 @@
 namespace ripple {
 namespace PeerFinder {
 
-using clock_type = beast::abstract_clock <std::chrono::steady_clock>;
+using clock_type = boost::beast::abstract_clock <std::chrono::steady_clock>;
 
 /** Represents a set of addresses. */
-using IPAddresses = std::vector <beast::IP::Endpoint>;
+using IPAddresses = std::vector <boost::beast::IP::Endpoint>;
 
 //------------------------------------------------------------------------------
 
@@ -87,7 +87,7 @@ struct Config
     void applyTuning ();
 
     /** Write the configuration into a property stream */
-    void onWrite (beast::PropertyStream::Map& map);
+    void onWrite (boost::beast::PropertyStream::Map& map);
 };
 
 //------------------------------------------------------------------------------
@@ -97,10 +97,10 @@ struct Endpoint
 {
     Endpoint ();
 
-    Endpoint (beast::IP::Endpoint const& ep, int hops_);
+    Endpoint (boost::beast::IP::Endpoint const& ep, int hops_);
 
     int hops;
-    beast::IP::Endpoint address;
+    boost::beast::IP::Endpoint address;
 };
 
 bool operator< (Endpoint const& lhs, Endpoint const& rhs);
@@ -121,7 +121,7 @@ enum class Result
 /** Maintains a set of IP addresses used for getting into the network. */
 class Manager
     : public Stoppable
-    , public beast::PropertyStream::Source
+    , public boost::beast::PropertyStream::Source
 {
 protected:
     explicit Manager (Stoppable& parent);
@@ -152,7 +152,7 @@ public:
         file, along with the set of corresponding IP addresses.
     */
     virtual void addFixedPeer (std::string const& name,
-        std::vector <beast::IP::Endpoint> const& addresses) = 0;
+        std::vector <boost::beast::IP::Endpoint> const& addresses) = 0;
 
     /** Add a set of strings as fallback IP::Endpoint sources.
         @param name A label used for diagnostics.
@@ -175,15 +175,15 @@ public:
         Usually this is because of a detected self-connection.
     */
     virtual Slot::ptr new_inbound_slot (
-        beast::IP::Endpoint const& local_endpoint,
-            beast::IP::Endpoint const& remote_endpoint) = 0;
+        boost::beast::IP::Endpoint const& local_endpoint,
+            boost::beast::IP::Endpoint const& remote_endpoint) = 0;
 
     /** Create a new outbound slot with the specified remote endpoint.
         If nullptr is returned, then the slot could not be assigned.
         Usually this is because of a duplicate connection.
     */
     virtual Slot::ptr new_outbound_slot (
-        beast::IP::Endpoint const& remote_endpoint) = 0;
+        boost::beast::IP::Endpoint const& remote_endpoint) = 0;
 
     /** Called when mtENDPOINTS is received. */
     virtual void on_endpoints (Slot::ptr const& slot,
@@ -216,7 +216,7 @@ public:
     virtual
     bool
     onConnected (Slot::ptr const& slot,
-        beast::IP::Endpoint const& local_endpoint) = 0;
+        boost::beast::IP::Endpoint const& local_endpoint) = 0;
 
     /** Request an active slot type. */
     virtual
@@ -231,7 +231,7 @@ public:
 
     /** Return a set of addresses we should connect to. */
     virtual
-    std::vector <beast::IP::Endpoint>
+    std::vector <boost::beast::IP::Endpoint>
     autoconnect() = 0;
 
     virtual

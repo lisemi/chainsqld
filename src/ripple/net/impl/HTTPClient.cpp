@@ -182,7 +182,7 @@ public:
 
         auto query = std::make_shared<boost::asio::ip::tcp::resolver::query>(
                 mDeqSites[0],
-                beast::lexicalCast <std::string> (mPort),
+                boost::beast::lexicalCast <std::string> (mPort),
                 boost::asio::ip::resolver_query_base::numeric_service);
         mQuery  = query;
 

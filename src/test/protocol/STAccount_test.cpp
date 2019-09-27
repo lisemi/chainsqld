@@ -23,7 +23,7 @@
 
 namespace ripple {
 
-struct STAccount_test : public beast::unit_test::suite
+struct STAccount_test : public boost::beast::unit_test::suite
 {
     void
     testSTAccount()

@@ -22,7 +22,7 @@
 
 #include <ripple/server/Writer.h>
 #include <ripple/server/WSSession.h>
-#include <beast/http/message.hpp>
+#include <beast/include/boost/beast/http/message.hpp>
 #include <ripple/beast/net/IPEndpoint.h>
 #include <ripple/beast/utility/Journal.h>
 #include <functional>
@@ -61,7 +61,7 @@ public:
 
     /** Returns the remote address of the connection. */
     virtual
-    beast::IP::Endpoint
+    boost::beast::IP::Endpoint
     remoteAddress() = 0;
 
     /** Returns the current HTTP request. */

@@ -25,7 +25,7 @@
 #include <ripple/overlay/PeerSet.h>
 #include <ripple/server/Handoff.h>
 #include <ripple/beast/asio/ssl_bundle.h>
-#include <beast/http/message.hpp>
+#include <beast/include/boost/beast/http/message.hpp>
 #include <ripple/core/Stoppable.h>
 #include <ripple/beast/utility/PropertyStream.h>
 #include <memory>
@@ -41,7 +41,7 @@ namespace ripple {
 /** Manages the set of connected peers. */
 class Overlay
     : public Stoppable
-    , public beast::PropertyStream::Source
+    , public boost::beast::PropertyStream::Source
 {
 protected:
     // VFALCO NOTE The requirement of this constructor is an
@@ -50,7 +50,7 @@ protected:
     //
     Overlay (Stoppable& parent)
         : Stoppable ("Overlay", parent)
-        , beast::PropertyStream::Source ("peers")
+        , boost::beast::PropertyStream::Source ("peers")
     {
     }
 
@@ -66,7 +66,7 @@ public:
     {
         std::shared_ptr<boost::asio::ssl::context> context;
         bool expire = false;
-        beast::IP::Address public_ip;
+        boost::beast::IP::Address public_ip;
         int ipLimit = 0;
     };
 
@@ -77,7 +77,7 @@ public:
     /** Conditionally accept an incoming HTTP request. */
     virtual
     Handoff
-    onHandoff (std::unique_ptr <beast::asio::ssl_bundle>&& bundle,
+    onHandoff (std::unique_ptr <boost::beast::asio::ssl_bundle>&& bundle,
         http_request_type&& request,
             boost::asio::ip::tcp::endpoint remote_address) = 0;
 
@@ -87,7 +87,7 @@ public:
     */
     virtual
     void
-    connect (beast::IP::Endpoint const& address) = 0;
+    connect (boost::beast::IP::Endpoint const& address) = 0;
 
     /** Returns the maximum number of peers we are configured to allow. */
     virtual

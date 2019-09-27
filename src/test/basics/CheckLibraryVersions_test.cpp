@@ -25,7 +25,7 @@
 namespace ripple {
 namespace version {
 
-struct CheckLibraryVersions_test : beast::unit_test::suite
+struct CheckLibraryVersions_test : boost::beast::unit_test::suite
 {
     void testBadOpenSSL()
     {

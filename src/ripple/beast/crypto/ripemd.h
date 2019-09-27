@@ -23,6 +23,7 @@
 #include <ripple/beast/crypto/detail/mac_facade.h>
 #include <ripple/beast/crypto/detail/ripemd_context.h>
 
+namespace boost {
 namespace beast {
 
 using ripemd160_hasher = detail::mac_facade<
@@ -32,6 +33,7 @@ using ripemd160_hasher = detail::mac_facade<
 using ripemd160_hasher_s = detail::mac_facade<
     detail::ripemd160_context, true>;
 
+}
 }
 
 #endif

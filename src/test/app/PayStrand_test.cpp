@@ -621,7 +621,7 @@ struct ExistingElementPool
     }
 };
 
-struct PayStrandAllPairs_test : public beast::unit_test::suite
+struct PayStrandAllPairs_test : public boost::beast::unit_test::suite
 {
     // Test every combination of element type pairs on a path
     void
@@ -854,7 +854,7 @@ struct PayStrandAllPairs_test : public beast::unit_test::suite
 
 BEAST_DEFINE_TESTSUITE_MANUAL(PayStrandAllPairs, app, ripple);
 
-struct PayStrand_test : public beast::unit_test::suite
+struct PayStrand_test : public boost::beast::unit_test::suite
 {
     static bool hasFeature(uint256 const& feat, std::initializer_list<uint256> args)
     {

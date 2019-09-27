@@ -30,7 +30,7 @@ namespace ripple {
 
 /** Manages various times used by the server. */
 class TimeKeeper
-    : public beast::abstract_clock<NetClock>
+    : public boost::beast::abstract_clock<NetClock>
 {
 public:
     virtual ~TimeKeeper() = default;

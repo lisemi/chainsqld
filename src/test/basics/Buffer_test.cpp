@@ -25,7 +25,7 @@
 namespace ripple {
 namespace test {
 
-struct Buffer_test : beast::unit_test::suite
+struct Buffer_test : boost::beast::unit_test::suite
 {
     bool sane (Buffer const& b) const
     {

@@ -98,7 +98,7 @@ class BasicNetwork
 public:
     using peer_type = Peer;
 
-    using clock_type = beast::manual_clock<std::chrono::steady_clock>;
+    using clock_type = boost::beast::manual_clock<std::chrono::steady_clock>;
 
     using duration = typename clock_type::duration;
 

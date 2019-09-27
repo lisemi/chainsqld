@@ -27,7 +27,7 @@
 
 namespace ripple {
 
-class AccountSet_test : public beast::unit_test::suite
+class AccountSet_test : public boost::beast::unit_test::suite
 {
 public:
 

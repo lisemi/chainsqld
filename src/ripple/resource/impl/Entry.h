@@ -30,12 +30,12 @@
 namespace ripple {
 namespace Resource {
 
-using clock_type = beast::abstract_clock <std::chrono::steady_clock>;
+using clock_type = boost::beast::abstract_clock <std::chrono::steady_clock>;
 
 // An entry in the table
 // VFALCO DEPRECATED using boost::intrusive list
 struct Entry
-    : public beast::List <Entry>::Node
+    : public boost::beast::List <Entry>::Node
 {
     Entry () = delete;
 

@@ -30,7 +30,7 @@
 namespace ripple {
 namespace test {
 
-class SHAMapStore_test : public beast::unit_test::suite
+class SHAMapStore_test : public boost::beast::unit_test::suite
 {
     static auto const deleteInterval = 8;
 

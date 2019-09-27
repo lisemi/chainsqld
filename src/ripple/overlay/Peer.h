@@ -56,7 +56,7 @@ public:
     send (Message::pointer const& m) = 0;
 
     virtual
-    beast::IP::Endpoint
+    boost::beast::IP::Endpoint
     getRemoteAddress() const = 0;
 
     /** Adjust this peer's load balance based on the type of load imposed. */

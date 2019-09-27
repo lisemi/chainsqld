@@ -25,7 +25,7 @@
 
 namespace ripple {
 
-class Feature_test : public beast::unit_test::suite
+class Feature_test : public boost::beast::unit_test::suite
 {
     void
     testNoParams()

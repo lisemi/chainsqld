@@ -24,6 +24,7 @@
 #include <sstream>
 #include <string>
 
+namespace boost {
 namespace beast {
 
 // A collection of handy stream manipulators and

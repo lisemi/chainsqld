@@ -27,7 +27,7 @@
 
 namespace ripple {
 
-class STTx_test : public beast::unit_test::suite
+class STTx_test : public boost::beast::unit_test::suite
 {
 public:
     void run()
@@ -89,7 +89,7 @@ public:
     }
 };
 
-class InnerObjectFormatsSerializer_test : public beast::unit_test::suite
+class InnerObjectFormatsSerializer_test : public boost::beast::unit_test::suite
 {
 public:
     void run()

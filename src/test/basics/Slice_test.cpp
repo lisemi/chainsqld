@@ -26,7 +26,7 @@
 namespace ripple {
 namespace test {
 
-struct Slice_test : beast::unit_test::suite
+struct Slice_test : boost::beast::unit_test::suite
 {
     void run()
     {

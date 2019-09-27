@@ -30,6 +30,7 @@
 #include <boost/asio/ssl/error.hpp>
 #include <boost/lexical_cast.hpp>
 
+namespace boost {
 namespace beast {
 
 /** Returns a human readable message if the error code is SSL related. */
@@ -77,5 +78,6 @@ is_short_read(boost::system::error_code const& ec)
 }
 
 } // beast
+}
 
 #endif

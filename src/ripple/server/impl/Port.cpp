@@ -70,8 +70,8 @@ operator<< (std::ostream& os, Port const& p)
 static
 void
 populate (Section const& section, std::string const& field, std::ostream& log,
-    boost::optional<std::vector<beast::IP::Address>>& ips,
-    bool allowAllIps, std::vector<beast::IP::Address> const& admin_ip)
+    boost::optional<std::vector<boost::beast::IP::Address>>& ips,
+    bool allowAllIps, std::vector<boost::beast::IP::Address> const& admin_ip)
 {
     auto const result = section.find(field);
     if (result.second)
@@ -83,7 +83,7 @@ populate (Section const& section, std::string const& field, std::ostream& log,
         ips.emplace();
         while (std::getline (ss, ip, ','))
         {
-            auto const addr = beast::IP::Endpoint::from_string_checked (ip);
+            auto const addr = boost::beast::IP::Endpoint::from_string_checked (ip);
             if (! addr.second)
             {
                 log << "Invalid value '" << ip << "' for key '" << field <<
@@ -116,7 +116,7 @@ populate (Section const& section, std::string const& field, std::ostream& log,
 
             auto const& address = addr.first.address();
             if (std::find_if (admin_ip.begin(), admin_ip.end(),
-                [&address] (beast::IP::Address const& ip)
+                [&address] (boost::beast::IP::Address const& ip)
                 {
                     return address == ip;
                 }
@@ -179,7 +179,7 @@ parse_Port (ParsedPort& port, Section const& section, std::ostream& log)
         auto const result = section.find("protocol");
         if (result.second)
         {
-            for (auto const& s : beast::rfc2616::split_commas(
+            for (auto const& s : boost::beast::rfc2616::split_commas(
                     result.first.begin(), result.first.end()))
                 port.protocol.insert(s);
         }

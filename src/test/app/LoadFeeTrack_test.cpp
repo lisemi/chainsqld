@@ -25,7 +25,7 @@
 
 namespace ripple {
 
-class LoadFeeTrack_test : public beast::unit_test::suite
+class LoadFeeTrack_test : public boost::beast::unit_test::suite
 {
 public:
     void run ()

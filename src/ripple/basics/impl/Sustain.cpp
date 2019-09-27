@@ -23,7 +23,7 @@
 #include <boost/format.hpp>
 
 // For Sustain Linux variants
-// VFALCO TODO Rewrite Sustain to use beast::Process
+// VFALCO TODO Rewrite Sustain to use boost::beast::Process
 #ifdef __linux__
 #include <sys/types.h>
 #include <sys/prctl.h>

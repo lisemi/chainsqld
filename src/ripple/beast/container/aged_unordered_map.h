@@ -26,6 +26,7 @@
 #include <functional>
 #include <memory>
 
+namespace boost {
 namespace beast {
 
 template <
@@ -39,6 +40,7 @@ template <
 using aged_unordered_map = detail::aged_unordered_container <
     false, true, Key, T, Clock, Hash, KeyEqual, Allocator>;
 
+}
 }
 
 #endif

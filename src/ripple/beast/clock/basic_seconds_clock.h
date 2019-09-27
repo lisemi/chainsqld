@@ -29,6 +29,7 @@
 #include <thread>
 #include <vector>
 
+namespace boost {
 namespace beast {
 
 namespace detail {
@@ -211,6 +212,7 @@ public:
     }
 };
 
+}
 }
 
 #endif

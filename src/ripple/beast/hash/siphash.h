@@ -24,6 +24,7 @@
 #include <cstddef>
 #include <cstdint>
 
+namespace boost {
 namespace beast {
 
 // See https://131002.net/siphash/
@@ -56,5 +57,6 @@ public:
 };
 
 } // beast
+}
 
 #endif

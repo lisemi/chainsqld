@@ -27,7 +27,7 @@
 namespace ripple {
 namespace test {
 
-class Coroutine_test : public beast::unit_test::suite
+class Coroutine_test : public boost::beast::unit_test::suite
 {
 public:
     class gate

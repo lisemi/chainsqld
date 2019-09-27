@@ -142,7 +142,7 @@ public:
         }
 
     private:
-        explicit Hop (typename beast::maybe_const <
+        explicit Hop (typename boost::beast::maybe_const <
             IsConst, list_type>::type& list)
             : m_list (list)
         {
@@ -150,14 +150,14 @@ public:
 
         friend class LivecacheBase;
 
-        std::reference_wrapper <typename beast::maybe_const <
+        std::reference_wrapper <typename boost::beast::maybe_const <
             IsConst, list_type>::type> m_list;
     };
 
 protected:
     // Work-around to call Hop's private constructor from Livecache
     template <bool IsConst>
-    static Hop <IsConst> make_hop (typename beast::maybe_const <
+    static Hop <IsConst> make_hop (typename boost::beast::maybe_const <
         IsConst, list_type>::type& list)
     {
         return Hop <IsConst> (list);
@@ -184,8 +184,8 @@ template <class Allocator = std::allocator <char>>
 class Livecache : protected detail::LivecacheBase
 {
 private:
-    using cache_type = beast::aged_map <beast::IP::Endpoint, Element,
-        std::chrono::steady_clock, std::less <beast::IP::Endpoint>,
+    using cache_type = boost::beast::aged_map <boost::beast::IP::Endpoint, Element,
+        std::chrono::steady_clock, std::less <boost::beast::IP::Endpoint>,
             Allocator>;
 
     boost::beast::Journal m_journal;
@@ -223,7 +223,7 @@ public:
             : public std::unary_function <
                 typename lists_type::value_type, Hop <IsConst>>
         {
-            Hop <IsConst> operator() (typename beast::maybe_const <
+            Hop <IsConst> operator() (typename boost::beast::maybe_const <
                 IsConst, typename lists_type::value_type>::type& list) const
             {
                 return make_hop <IsConst> (list);
@@ -354,7 +354,7 @@ public:
     void insert (Endpoint const& ep);
 
     /** Output statistics. */
-    void onWrite (beast::PropertyStream::Map& map);
+    void onWrite (boost::beast::PropertyStream::Map& map);
 };
 
 //------------------------------------------------------------------------------
@@ -387,7 +387,7 @@ Livecache <Allocator>::expire()
     }
     if (n > 0)
     {
-        JLOG(m_journal.debug()) << beast::leftw (18) <<
+        JLOG(m_journal.debug()) << boost::beast::leftw (18) <<
             "Livecache expired " << n <<
             ((n > 1) ? " entries" : " entry");
     }
@@ -409,7 +409,7 @@ void Livecache <Allocator>::insert (Endpoint const& ep)
     if (result.second)
     {
         hops.insert (e);
-        JLOG(m_journal.debug()) << beast::leftw (18) <<
+        JLOG(m_journal.debug()) << boost::beast::leftw (18) <<
             "Livecache insert " << ep.address <<
             " at hops " << ep.hops;
         return;
@@ -419,7 +419,7 @@ void Livecache <Allocator>::insert (Endpoint const& ep)
         // Drop duplicates at higher hops
         std::size_t const excess (
             ep.hops - e.endpoint.hops);
-        JLOG(m_journal.trace()) << beast::leftw(18) <<
+        JLOG(m_journal.trace()) << boost::beast::leftw(18) <<
             "Livecache drop " << ep.address <<
             " at hops +" << excess;
         return;
@@ -431,13 +431,13 @@ void Livecache <Allocator>::insert (Endpoint const& ep)
     if (ep.hops < e.endpoint.hops)
     {
         hops.reinsert (e, ep.hops);
-        JLOG(m_journal.debug()) << beast::leftw (18) <<
+        JLOG(m_journal.debug()) << boost::beast::leftw (18) <<
             "Livecache update " << ep.address <<
             " at hops " << ep.hops;
     }
     else
     {
-        JLOG(m_journal.trace()) << beast::leftw (18) <<
+        JLOG(m_journal.trace()) << boost::beast::leftw (18) <<
             "Livecache refresh " << ep.address <<
             " at hops " << ep.hops;
     }
@@ -445,17 +445,17 @@ void Livecache <Allocator>::insert (Endpoint const& ep)
 
 template <class Allocator>
 void
-Livecache <Allocator>::onWrite (beast::PropertyStream::Map& map)
+Livecache <Allocator>::onWrite (boost::beast::PropertyStream::Map& map)
 {
     typename cache_type::time_point const expired (
         m_cache.clock().now() - Tuning::liveCacheSecondsToLive);
     map ["size"] = size ();
     map ["hist"] = hops.histogram();
-    beast::PropertyStream::Set set ("entries", map);
+    boost::beast::PropertyStream::Set set ("entries", map);
     for (auto iter (m_cache.cbegin()); iter != m_cache.cend(); ++iter)
     {
         auto const& e (iter->second);
-        beast::PropertyStream::Map item (set);
+        boost::beast::PropertyStream::Map item (set);
         item ["hops"] = e.endpoint.hops;
         item ["address"] = e.endpoint.address.to_string ();
         std::stringstream ss;

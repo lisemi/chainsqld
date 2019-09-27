@@ -26,6 +26,7 @@
 #include <functional>
 #include <memory>
 
+namespace boost {
 namespace beast {
 
 template <
@@ -37,6 +38,7 @@ template <
 using aged_set = detail::aged_ordered_container <
     false, false, Key, void, Clock, Compare, Allocator>;
 
+}
 }
 
 #endif

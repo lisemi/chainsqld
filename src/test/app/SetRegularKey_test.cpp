@@ -23,7 +23,7 @@
 
 namespace ripple {
 
-class SetRegularKey_test : public beast::unit_test::suite
+class SetRegularKey_test : public boost::beast::unit_test::suite
 {
 public:
 

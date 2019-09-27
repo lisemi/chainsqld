@@ -36,7 +36,7 @@
 namespace ripple {
 namespace test {
 
-class Server_test : public beast::unit_test::suite
+class Server_test : public boost::beast::unit_test::suite
 {
 public:
     enum
@@ -75,17 +75,17 @@ public:
 
     class TestSink : public boost::beast::Journal::Sink
     {
-        beast::unit_test::suite& suite_;
+        boost::beast::unit_test::suite& suite_;
 
     public:
-        TestSink (beast::unit_test::suite& suite)
-            : Sink (beast::severities::kWarning, false)
+        TestSink (boost::beast::unit_test::suite& suite)
+            : Sink (boost::beast::severities::kWarning, false)
             , suite_ (suite)
         {
         }
 
         void
-        write (beast::severities::Severity level,
+        write (boost::beast::severities::Severity level,
             std::string const& text) override
         {
             if (level < threshold())
@@ -108,7 +108,7 @@ public:
 
         Handoff
         onHandoff (Session& session,
-            std::unique_ptr <beast::asio::ssl_bundle>&& bundle,
+            std::unique_ptr <boost::beast::asio::ssl_bundle>&& bundle,
                 http_request_type&& request,
                     boost::asio::ip::tcp::endpoint remote_address)
         {
@@ -127,7 +127,7 @@ public:
         onRequest (Session& session)
         {
             session.write (std::string ("Hello, world!\n"));
-            if (beast::rfc2616::is_keep_alive(session.request()))
+            if (boost::beast::rfc2616::is_keep_alive(session.request()))
                 session.complete();
             else
                 session.close (true);
@@ -282,7 +282,7 @@ public:
     {
         TestSink sink {*this};
         TestThread thread;
-        sink.threshold (beast::severities::Severity::kAll);
+        sink.threshold (boost::beast::severities::Severity::kAll);
         boost::beast::Journal journal {sink};
         TestHandler handler;
         auto s = make_Server (handler,
@@ -316,7 +316,7 @@ public:
 
             Handoff
             onHandoff (Session& session,
-                std::unique_ptr <beast::asio::ssl_bundle>&& bundle,
+                std::unique_ptr <boost::beast::asio::ssl_bundle>&& bundle,
                     http_request_type&& request,
                         boost::asio::ip::tcp::endpoint remote_address)
             {
@@ -377,7 +377,7 @@ public:
     {
         std::stringstream& strm_;
     public:
-        CaptureSink(beast::severities::Severity threshold,
+        CaptureSink(boost::beast::severities::Severity threshold,
             std::stringstream& strm)
         : boost::beast::Journal::Sink(threshold, false)
         , strm_(strm)
@@ -385,7 +385,7 @@ public:
         }
 
         void
-        write(beast::severities::Severity level, std::string const& text) override
+        write(boost::beast::severities::Severity level, std::string const& text) override
         {
             strm_ << text;
         }
@@ -404,7 +404,7 @@ public:
 
     public:
         CaptureLogs(std::string& result)
-            : Logs (beast::severities::kInfo)
+            : Logs (boost::beast::severities::kInfo)
             , result_(result)
         {
         }
@@ -416,7 +416,7 @@ public:
 
         std::unique_ptr<boost::beast::Journal::Sink>
         makeSink(std::string const& partition,
-            beast::severities::Severity threshold) override
+            boost::beast::severities::Severity threshold) override
         {
             return std::make_unique<CaptureSink>(threshold, strm_);
         }

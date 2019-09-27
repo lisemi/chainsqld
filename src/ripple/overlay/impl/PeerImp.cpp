@@ -50,7 +50,7 @@ PeerImp::PeerImp (Application& app, id_t id, endpoint_type remote_endpoint,
     PeerFinder::Slot::ptr const& slot, http_request_type&& request,
         protocol::TMHello const& hello, PublicKey const& publicKey,
             Resource::Consumer consumer,
-                std::unique_ptr<beast::asio::ssl_bundle>&& ssl_bundle,
+                std::unique_ptr<boost::beast::asio::ssl_bundle>&& ssl_bundle,
                     OverlayImpl& overlay)
     : Child (overlay)
     , app_ (app)
@@ -65,7 +65,7 @@ PeerImp::PeerImp (Application& app, id_t id, endpoint_type remote_endpoint,
     , strand_ (socket_.get_io_service())
     , timer_ (socket_.get_io_service())
     , remote_address_ (
-        beast::IPAddressConversion::from_asio(remote_endpoint))
+        boost::beast::IPAddressConversion::from_asio(remote_endpoint))
     , overlay_ (overlay)
     , m_inbound (true)
     , state_ (State::active)
@@ -105,10 +105,10 @@ PeerImp::run()
         if (boost::starts_with(s, "chainsqld-"))
         {
             s.erase(s.begin(), s.begin() + 8);
-            beast::SemanticVersion v;
+            boost::beast::SemanticVersion v;
             if (v.parse(s))
             {
-                beast::SemanticVersion av;
+                boost::beast::SemanticVersion av;
                 av.parse("0.28.1-b7");
                 hopsAware_ = v >= av;
             }
@@ -596,7 +596,7 @@ void PeerImp::doAccept()
 
     // TODO Apply headers to connection state.
 
-    beast::ostream(write_buffer_) << makeResponse(
+    boost::beast::ostream(write_buffer_) << makeResponse(
         ! overlay_.peerFinder().config().peerPrivate,
             request_, remote_address_, *sharedValue);
 
@@ -640,11 +640,11 @@ void PeerImp::doAccept()
 http_response_type
 PeerImp::makeResponse (bool crawl,
     http_request_type const& req,
-    beast::IP::Endpoint remote,
+    boost::beast::IP::Endpoint remote,
     uint256 const& sharedValue)
 {
     http_response_type resp;
-    resp.result(beast::http::status::switching_protocols);
+    resp.result(boost::beast::http::status::switching_protocols);
     resp.version = req.version;
     resp.insert("Connection", "Upgrade");
     resp.insert("Upgrade", "RTXP/1.2");
@@ -934,9 +934,9 @@ PeerImp::onMessage (std::shared_ptr <protocol::TMCluster> const& m)
         {
             protocol::TMLoadSource const& node = m->loadsources (i);
             Resource::Gossip::Item item;
-            item.address = beast::IP::Endpoint::from_string (node.name());
+            item.address = boost::beast::IP::Endpoint::from_string (node.name());
             item.balance = node.cost();
-            if (item.address != beast::IP::Endpoint())
+            if (item.address != boost::beast::IP::Endpoint())
                 gossip.items.push_back(item);
         }
         overlay_.resourceManager().importConsumers (name_, gossip);
@@ -1009,8 +1009,8 @@ PeerImp::onMessage (std::shared_ptr <protocol::TMEndpoints> const& m)
         {
             in_addr addr;
             addr.s_addr = tm.ipv4().ipv4();
-            beast::IP::AddressV4 v4 (ntohl (addr.s_addr));
-            endpoint.address = beast::IP::Endpoint (v4, tm.ipv4().ipv4port ());
+            boost::beast::IP::AddressV4 v4 (ntohl (addr.s_addr));
+            endpoint.address = boost::beast::IP::Endpoint (v4, tm.ipv4().ipv4port ());
         }
         else
         {

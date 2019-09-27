@@ -27,7 +27,7 @@
 
 namespace ripple {
 
-class LedgerRPC_test : public beast::unit_test::suite
+class LedgerRPC_test : public boost::beast::unit_test::suite
 {
     void
     checkErrorValue(

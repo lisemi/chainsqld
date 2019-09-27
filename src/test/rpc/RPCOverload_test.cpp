@@ -25,7 +25,7 @@
 namespace ripple {
 namespace test {
 
-class RPCOverload_test : public beast::unit_test::suite
+class RPCOverload_test : public boost::beast::unit_test::suite
 {
 public:
     void testOverload(bool useWS)

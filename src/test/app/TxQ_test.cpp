@@ -44,7 +44,7 @@ supportedAmendments ();
 
 namespace test {
 
-class TxQ_test : public beast::unit_test::suite
+class TxQ_test : public boost::beast::unit_test::suite
 {
     void
     checkMetrics(

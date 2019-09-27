@@ -41,7 +41,7 @@ namespace ripple {
 // FIXME: Need to clean up ledgers by index at some point
 
 LedgerHistory::LedgerHistory (
-    beast::insight::Collector::ptr const& collector,
+    boost::beast::insight::Collector::ptr const& collector,
         Application& app)
     : app_ (app)
     , collector_ (collector)

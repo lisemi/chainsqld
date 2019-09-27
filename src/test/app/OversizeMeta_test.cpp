@@ -26,7 +26,7 @@ namespace ripple {
 namespace test {
 
 // Make sure "plump" order books don't have problems
-class PlumpBook_test : public beast::unit_test::suite
+class PlumpBook_test : public boost::beast::unit_test::suite
 {
 public:
     void
@@ -79,7 +79,7 @@ BEAST_DEFINE_TESTSUITE(ThinBook, tx, ripple);
 
 //------------------------------------------------------------------------------
 
-class OversizeMeta_test : public beast::unit_test::suite
+class OversizeMeta_test : public boost::beast::unit_test::suite
 {
 public:
     void
@@ -120,7 +120,7 @@ BEAST_DEFINE_TESTSUITE_MANUAL(OversizeMeta,tx,ripple);
 
 //------------------------------------------------------------------------------
 
-class FindOversizeCross_test : public beast::unit_test::suite
+class FindOversizeCross_test : public boost::beast::unit_test::suite
 {
 public:
     // Return lowest x in [lo, hi] for which f(x)==true

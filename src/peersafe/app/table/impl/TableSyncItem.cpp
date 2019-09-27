@@ -420,7 +420,7 @@ bool TableSyncItem::IsGetLedgerExpire()
     if (duration_cast<seconds>(steady_clock::now() - clock_ledger_) > LEDGER_DATA_OVERTM)
     {
         auto iter = std::find_if(lfailList_.begin(), lfailList_.end(),
-            [this](beast::IP::Endpoint &item) {
+            [this](boost::beast::IP::Endpoint &item) {
             return item == uPeerAddr_;
         });
         if (iter == lfailList_.end())
@@ -439,7 +439,7 @@ bool TableSyncItem::IsGetDataExpire()
     if (duration_cast<seconds>(steady_clock::now() - clock_data_) > TABLE_DATA_OVERTM)
     {
         auto iter = std::find_if(lfailList_.begin(), lfailList_.end(),
-            [this](beast::IP::Endpoint &item) {
+            [this](boost::beast::IP::Endpoint &item) {
             return item == uPeerAddr_;
         });
         if (iter == lfailList_.end())
@@ -556,12 +556,12 @@ void TableSyncItem::SetLedgerState(LedgerSyncState lState)
     lState_ = lState;
 }
 
-bool TableSyncItem::IsInFailList(beast::IP::Endpoint& peerAddr)
+bool TableSyncItem::IsInFailList(boost::beast::IP::Endpoint& peerAddr)
 {
     bool ret = false;
 
     auto iter = std::find_if(lfailList_.begin(), lfailList_.end(),
-        [peerAddr](beast::IP::Endpoint &item) {
+        [peerAddr](boost::beast::IP::Endpoint &item) {
         return item == peerAddr;
     });
 

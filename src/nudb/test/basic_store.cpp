@@ -14,7 +14,7 @@
 #include <nudb/detail/pool.hpp>
 #include <nudb/progress.hpp>
 #include <nudb/verify.hpp>
-#include <beast/unit_test/suite.hpp>
+#include <beast/include/boost/beast/_experimental/unit_test/suite.hpp>
 #include <limits>
 #include <type_traits>
 
@@ -41,7 +41,7 @@ static_assert(!std::is_move_assignable      <pool>{}, "");
 
 namespace test {
 
-class basic_store_test : public beast::unit_test::suite
+class basic_store_test : public boost::beast::unit_test::suite
 {
 public:
     void

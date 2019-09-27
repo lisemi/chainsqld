@@ -194,7 +194,7 @@ class progress
 {
 private:
     using clock_type =
-        beast::basic_seconds_clock<
+        boost::beast::basic_seconds_clock<
             std::chrono::steady_clock>;
 
     std::size_t const work_;
@@ -275,7 +275,7 @@ parse_args(std::string const& s)
     );
     std::map <std::string,
         std::string, boost::beast::iless> map;
-    auto const v = beast::rfc2616::split(
+    auto const v = boost::beast::rfc2616::split(
         s.begin(), s.end(), ',');
     for (auto const& kv : v)
     {
@@ -296,13 +296,13 @@ parse_args(std::string const& s)
 
 #if RIPPLE_ROCKSDB_AVAILABLE
 
-class import_test : public beast::unit_test::suite
+class import_test : public boost::beast::unit_test::suite
 {
 public:
     void
     run() override
     {
-        testcase(beast::unit_test::abort_on_fail) << arg();
+        testcase(boost::beast::unit_test::abort_on_fail) << arg();
 
         using namespace nudb;
         using namespace nudb::detail;

@@ -23,7 +23,7 @@
 #include <ripple/server/impl/BaseHTTPPeer.h>
 #include <ripple/server/WSSession.h>
 #include <ripple/beast/asio/ssl_bundle.h>
-#include <beast/websocket/ssl.hpp>
+#include <beast/include/boost/beast/websocket/ssl.hpp>
 #include <memory>
 
 namespace ripple {
@@ -42,9 +42,9 @@ class SSLWSPeer
     using waitable_timer =
         boost::asio::basic_waitable_timer <clock_type>;
 
-    std::unique_ptr<beast::asio::ssl_bundle> ssl_bundle_;
-    beast::websocket::stream<
-        beast::asio::ssl_bundle::stream_type&> ws_;
+    std::unique_ptr<boost::beast::asio::ssl_bundle> ssl_bundle_;
+    boost::beast::websocket::stream<
+        boost::beast::asio::ssl_bundle::stream_type&> ws_;
 
 public:
     template<class Body, class Headers>
@@ -52,9 +52,9 @@ public:
         Port const& port,
         Handler& handler,
         endpoint_type remote_endpoint,
-        beast::http::request<Body, Headers>&& request,
+        boost::beast::http::request<Body, Headers>&& request,
         std::unique_ptr<
-            beast::asio::ssl_bundle>&& ssl_bundle,
+            boost::beast::asio::ssl_bundle>&& ssl_bundle,
         boost::beast::Journal journal);
 };
 
@@ -67,13 +67,13 @@ SSLWSPeer(
     Port const& port,
     Handler& handler,
     endpoint_type remote_endpoint,
-    beast::http::request<Body, Headers>&& request,
+    boost::beast::http::request<Body, Headers>&& request,
     std::unique_ptr<
-        beast::asio::ssl_bundle>&& ssl_bundle,
+        boost::beast::asio::ssl_bundle>&& ssl_bundle,
     boost::beast::Journal journal)
     : BaseWSPeer<Handler, SSLWSPeer>(port, handler,
         remote_endpoint, std::move(request),
-            ssl_bundle->socket.get_io_service(), journal)
+            ssl_bundle->socket.get_executor().context(), journal)
     , ssl_bundle_(std::move(ssl_bundle))
     , ws_(ssl_bundle_->stream)
 {

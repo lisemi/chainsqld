@@ -269,9 +269,9 @@ class ConnectHandouts
 public:
     // Keeps track of addresses we have made outgoing connections
     // to, for the purposes of not connecting to them too frequently.
-    using Squelches = beast::aged_set <beast::IP::Address>;
+    using Squelches = boost::beast::aged_set <boost::beast::IP::Address>;
 
-    using list_type = std::vector <beast::IP::Endpoint>;
+    using list_type = std::vector <boost::beast::IP::Endpoint>;
 
 private:
     std::size_t m_needed;
@@ -283,7 +283,7 @@ public:
     ConnectHandouts (std::size_t needed, Squelches& squelches);
 
     template <class = void>
-    bool try_insert (beast::IP::Endpoint const& endpoint);
+    bool try_insert (boost::beast::IP::Endpoint const& endpoint);
 
     bool empty() const
     {
@@ -322,14 +322,14 @@ ConnectHandouts::ConnectHandouts (
 
 template <class>
 bool
-ConnectHandouts::try_insert (beast::IP::Endpoint const& endpoint)
+ConnectHandouts::try_insert (boost::beast::IP::Endpoint const& endpoint)
 {
     if (full ())
         return false;
 
     // Make sure the address isn't already in our list
     if (std::any_of (m_list.begin(), m_list.end(),
-        [&endpoint](beast::IP::Endpoint const& other)
+        [&endpoint](boost::beast::IP::Endpoint const& other)
         {
             // Ignore port for security reasons
 			// by peersafe

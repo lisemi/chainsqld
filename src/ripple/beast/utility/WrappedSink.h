@@ -58,7 +58,7 @@ public:
     }
 
     bool
-    active (beast::severities::Severity level) const override
+    active (boost::beast::severities::Severity level) const override
     {
         return sink_.active (level);
     }
@@ -74,18 +74,18 @@ public:
         sink_.console (output);
     }
 
-    beast::severities::Severity
+    boost::beast::severities::Severity
     threshold() const override
     {
         return sink_.threshold();
     }
 
-    void threshold (beast::severities::Severity thresh) override
+    void threshold (boost::beast::severities::Severity thresh) override
     {
         sink_.threshold (thresh);
     }
 
-    void write (beast::severities::Severity level, std::string const& text) override
+    void write (boost::beast::severities::Severity level, std::string const& text) override
     {
         using boost::beast::Journal;
         sink_.write (level, prefix_ + text);

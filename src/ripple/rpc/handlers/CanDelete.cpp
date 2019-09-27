@@ -56,7 +56,7 @@ Json::Value doCanDelete (RPC::Context& context)
                 std::string::npos)
             {
                 canDeleteSeq =
-                        beast::lexicalCast <std::uint32_t>(canDeleteStr);
+                        boost::beast::lexicalCast <std::uint32_t>(canDeleteStr);
             }
             else if (canDeleteStr == "never")
             {

@@ -105,7 +105,7 @@ inline bool operator!= (SHAMapItem const& a, SHAMapItem const& b) { return a.key
 inline bool operator== (SHAMapItem const& a, uint256 const& b) { return a.key() == b; }
 inline bool operator!= (SHAMapItem const& a, uint256 const& b) { return a.key() != b; }
 
-class SHAMap_test : public beast::unit_test::suite
+class SHAMap_test : public boost::beast::unit_test::suite
 {
 public:
     static Blob IntToVUC (int v)

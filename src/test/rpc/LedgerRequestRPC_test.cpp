@@ -28,7 +28,7 @@ namespace ripple {
 
 namespace RPC {
 
-class LedgerRequestRPC_test : public beast::unit_test::suite
+class LedgerRequestRPC_test : public boost::beast::unit_test::suite
 {
 public:
 

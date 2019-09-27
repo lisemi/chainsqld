@@ -24,8 +24,8 @@
 #include <ripple/json/to_string.h>
 #include <ripple/protocol/JsonFields.h>
 #include <ripple/server/Port.h>
-#include <beast/core/multi_buffer.hpp>
-#include <beast/websocket.hpp>
+#include <beast/include/boost/beast/core/multi_buffer.hpp>
+#include <beast/include/boost/beast/websocket.hpp>
 
 #include <condition_variable>
 
@@ -93,8 +93,8 @@ class WSClientImpl : public WSClient
     boost::asio::io_service::strand strand_;
     std::thread thread_;
     boost::asio::ip::tcp::socket stream_;
-    beast::websocket::stream<boost::asio::ip::tcp::socket&> ws_;
-    beast::multi_buffer rb_;
+    boost::beast::websocket::stream<boost::asio::ip::tcp::socket&> ws_;
+    boost::beast::multi_buffer rb_;
 
     bool peerClosed_ = false;
 
@@ -260,7 +260,7 @@ private:
     {
         if(ec)
         {
-            if(ec == beast::websocket::error::closed)
+            if(ec == boost::beast::websocket::error::closed)
                peerClosed_ = true;
             return;
         }

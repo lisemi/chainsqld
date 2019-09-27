@@ -25,7 +25,7 @@
 namespace ripple {
 namespace test {
 
-struct SetAuth_test : public beast::unit_test::suite
+struct SetAuth_test : public boost::beast::unit_test::suite
 {
     // Set just the tfSetfAuth flag on a trust line
     // If the trust line does not exist, then it should

@@ -26,6 +26,7 @@
 #include <functional>
 #include <memory>
 
+namespace boost {
 namespace beast {
 
 template <
@@ -38,6 +39,7 @@ template <
 using aged_unordered_multiset = detail::aged_unordered_container <
     true, false, Key, void, Clock, Hash, KeyEqual, Allocator>;
 
+}
 }
 
 #endif

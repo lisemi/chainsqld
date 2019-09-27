@@ -27,7 +27,7 @@
 namespace ripple {
 namespace test {
 
-struct Regression_test : public beast::unit_test::suite
+struct Regression_test : public boost::beast::unit_test::suite
 {
     // OfferCreate, then OfferCreate with cancel
     void testOffer1()

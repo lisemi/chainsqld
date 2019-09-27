@@ -63,7 +63,7 @@ bool isSame (std::shared_ptr<NodeObject> const& lhs,
 
 // Some common code for the unit tests
 //
-class TestBase : public beast::unit_test::suite
+class TestBase : public boost::beast::unit_test::suite
 {
 public:
     // Tunable parameters
@@ -81,7 +81,7 @@ public:
         Batch batch;
         batch.reserve (numObjects);
 
-        beast::xor_shift_engine rng (seed);
+        boost::beast::xor_shift_engine rng (seed);
 
         for (int i = 0; i < numObjects; ++i)
         {
@@ -96,12 +96,12 @@ public:
             }
 
             uint256 hash;
-            beast::rngfill (hash.begin(), hash.size(), rng);
+            boost::beast::rngfill (hash.begin(), hash.size(), rng);
 
             Blob blob (
                 rand_int(rng,
                     minPayloadBytes, maxPayloadBytes));
-            beast::rngfill (blob.data(), blob.size(), rng);
+            boost::beast::rngfill (blob.data(), blob.size(), rng);
 
             batch.push_back (
                 NodeObject::createObject(

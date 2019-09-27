@@ -31,7 +31,7 @@ namespace ripple {
 
 /** A clock based on system_clock and adjusted for SNTP. */
 class SNTPClock
-    : public beast::abstract_clock<
+    : public boost::beast::abstract_clock<
         std::chrono::system_clock>
 {
 public:

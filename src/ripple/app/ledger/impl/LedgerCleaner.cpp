@@ -125,7 +125,7 @@ public:
     //
     //--------------------------------------------------------------------------
 
-    void onWrite (beast::PropertyStream::Map& map) override
+    void onWrite (boost::beast::PropertyStream::Map& map) override
     {
         std::lock_guard<std::mutex> lock (mutex_);
 
@@ -489,7 +489,7 @@ private:
 
 LedgerCleaner::LedgerCleaner (Stoppable& parent)
     : Stoppable ("LedgerCleaner", parent)
-    , beast::PropertyStream::Source ("ledgercleaner")
+    , boost::beast::PropertyStream::Source ("ledgercleaner")
 {
 }
 

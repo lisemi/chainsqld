@@ -35,7 +35,7 @@ public:
         DummyScheduler scheduler;
         RootStoppable parent ("TestRootStoppable");
 
-        beast::temp_dir node_db;
+        boost::beast::temp_dir node_db;
         Section srcParams;
         srcParams.set ("type", srcBackendType);
         srcParams.set ("path", node_db.path());
@@ -61,7 +61,7 @@ public:
                 "test", scheduler, 2, parent, srcParams, j);
 
             // Set up the destination database
-            beast::temp_dir dest_db;
+            boost::beast::temp_dir dest_db;
             Section destParams;
             destParams.set ("type", destBackendType);
             destParams.set ("path", dest_db.path());
@@ -99,12 +99,12 @@ public:
 
         testcase (s);
 
-        beast::temp_dir node_db;
+        boost::beast::temp_dir node_db;
         Section nodeParams;
         nodeParams.set ("type", type);
         nodeParams.set ("path", node_db.path());
 
-        beast::xor_shift_engine rng (seedValue);
+        boost::beast::xor_shift_engine rng (seedValue);
 
         // Create a batch
         auto batch = createPredictableBatch (

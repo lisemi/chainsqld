@@ -7,7 +7,7 @@
 
 #include <nudb/test/test_store.hpp>
 #include <nudb/util.hpp>
-#include <beast/unit_test/dstream.hpp>
+#include <beast/include/boost/beast/_experimental/unit_test/dstream.hpp>
 
 #if WITH_ROCKSDB
 #include "rocksdb/db.h"
@@ -36,8 +36,8 @@ char const* rocksdb_build_compile_date="Benchmark Dummy Compile Date";
 namespace nudb {
 namespace test {
 
-beast::unit_test::dstream dout{std::cout};
-beast::unit_test::dstream derr{std::cerr};
+boost::beast::unit_test::dstream dout{std::cout};
+boost::beast::unit_test::dstream derr{std::cerr};
 
 struct stop_watch
 {

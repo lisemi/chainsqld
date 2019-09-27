@@ -47,9 +47,9 @@ public:
         results.addresses.reserve (m_strings.size());
         for (int i = 0; i < m_strings.size (); ++i)
         {
-            beast::IP::Endpoint ep (beast::IP::Endpoint::from_string (m_strings [i]));
+            boost::beast::IP::Endpoint ep (boost::beast::IP::Endpoint::from_string (m_strings [i]));
             if (is_unspecified (ep))
-                ep = beast::IP::Endpoint::from_string_altform (m_strings [i]);
+                ep = boost::beast::IP::Endpoint::from_string_altform (m_strings [i]);
             if (! is_unspecified (ep))
                 results.addresses.push_back (ep);
         }

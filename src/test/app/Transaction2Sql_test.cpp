@@ -55,12 +55,12 @@ namespace ripple {
 class SuiteSink : public boost::beast::Journal::Sink
 {
 	std::string partition_;
-	beast::unit_test::suite& suite_;
+	boost::beast::unit_test::suite& suite_;
 
 public:
 	SuiteSink(std::string const& partition,
-		beast::severities::Severity threshold,
-		beast::unit_test::suite& suite)
+		boost::beast::severities::Severity threshold,
+		boost::beast::unit_test::suite& suite)
 		: Sink(threshold, false)
 		, partition_(partition + " ")
 		, suite_(suite)
@@ -68,16 +68,16 @@ public:
 	}
 
 	// For unit testing, always generate logging text.
-	bool active(beast::severities::Severity level) const override
+	bool active(boost::beast::severities::Severity level) const override
 	{
 		return true;
 	}
 
 	void
-		write(beast::severities::Severity level,
+		write(boost::beast::severities::Severity level,
 			std::string const& text) override
 	{
-		using namespace beast::severities;
+		using namespace boost::beast::severities;
 		std::string s;
 		switch (level)
 		{
@@ -100,12 +100,12 @@ public:
 
 class SuiteLogs : public Logs
 {
-	beast::unit_test::suite& suite_;
+	boost::beast::unit_test::suite& suite_;
 
 public:
 	explicit
-		SuiteLogs(beast::unit_test::suite& suite)
-		: Logs(beast::severities::kError)
+		SuiteLogs(boost::beast::unit_test::suite& suite)
+		: Logs(boost::beast::severities::kError)
 		, suite_(suite)
 	{
 	}
@@ -114,14 +114,14 @@ public:
 
 	std::unique_ptr<boost::beast::Journal::Sink>
 		makeSink(std::string const& partition,
-			beast::severities::Severity threshold) override
+			boost::beast::severities::Severity threshold) override
 	{
 		return std::make_unique<SuiteSink>(partition, threshold, suite_);
 	}
 };
 std::unique_ptr<ripple::Logs> logs_;
 
-class Transaction2Sql_test : public beast::unit_test::suite {
+class Transaction2Sql_test : public boost::beast::unit_test::suite {
 public:
 	Transaction2Sql_test()
 	: txstore_dbconn_(nullptr)
@@ -2505,7 +2505,7 @@ private:
 	std::string table_name_;
 }; // class Transaction_test
 
-class Transaction2Sql_db2_test : public beast::unit_test::suite {
+class Transaction2Sql_db2_test : public boost::beast::unit_test::suite {
 public:
 	Transaction2Sql_db2_test()
 	: txstore_dbconn_(nullptr)

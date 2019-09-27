@@ -35,7 +35,7 @@ then canonicalize a new object with the same key, make sure you get the
 original object.
 */
 
-class TaggedCache_test : public beast::unit_test::suite
+class TaggedCache_test : public boost::beast::unit_test::suite
 {
 public:
     void run ()

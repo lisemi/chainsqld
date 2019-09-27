@@ -25,6 +25,7 @@
 #include <type_traits>
 #include <array>
 
+namespace boost {
 namespace beast {
 namespace detail {
 
@@ -88,5 +89,6 @@ private:
 
 } // detail
 } // beast
+}
 
 #endif

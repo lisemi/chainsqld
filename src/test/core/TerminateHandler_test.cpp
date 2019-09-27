@@ -30,7 +30,7 @@
 namespace ripple {
 namespace test {
 
-class TerminateHandler_test : public beast::unit_test::suite
+class TerminateHandler_test : public boost::beast::unit_test::suite
 {
 private:
     // Allow cerr to be redirected.  Destructor restores old cerr streambuf.
@@ -55,7 +55,7 @@ private:
     {
     public:
         ThreadNameGuard (std::string const& newName)
-        : old_ (beast::getCurrentThreadName ())
+        : old_ (boost::beast::getCurrentThreadName ())
         {
             boost::beast::setCurrentThreadName (newName);
         }

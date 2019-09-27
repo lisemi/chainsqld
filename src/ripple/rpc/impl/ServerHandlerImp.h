@@ -84,9 +84,9 @@ private:
     std::unique_ptr<Server> m_server;
     Setup setup_;
     JobQueue& m_jobQueue;
-    beast::insight::Counter rpc_requests_;
-    beast::insight::Event rpc_size_;
-    beast::insight::Event rpc_time_;
+    boost::beast::insight::Counter rpc_requests_;
+    boost::beast::insight::Event rpc_size_;
+    boost::beast::insight::Event rpc_time_;
     std::mutex countlock_;
     std::map<std::reference_wrapper<Port const>, int> count_;
 
@@ -126,7 +126,7 @@ public:
 
     Handoff
     onHandoff (Session& session,
-        std::unique_ptr <beast::asio::ssl_bundle>&& bundle,
+        std::unique_ptr <boost::beast::asio::ssl_bundle>&& bundle,
             http_request_type&& request,
                 boost::asio::ip::tcp::endpoint remote_address);
 
@@ -161,7 +161,7 @@ private:
 
     void
     processRequest (Port const& port, std::string const& request,
-        beast::IP::Endpoint const& remoteIPAddress, Output&&,
+        boost::beast::IP::Endpoint const& remoteIPAddress, Output&&,
         std::shared_ptr<JobQueue::Coro> coro,
         std::string forwardedFor, std::string user);
 

@@ -23,7 +23,7 @@
 
 namespace ripple {
 
-class TMHello_test : public beast::unit_test::suite
+class TMHello_test : public boost::beast::unit_test::suite
 {
 private:
     template <class FwdIt>

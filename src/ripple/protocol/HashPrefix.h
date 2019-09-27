@@ -108,7 +108,7 @@ template <class Hasher>
 void
 hash_append (Hasher& h, HashPrefix const& hp) noexcept
 {
-    using beast::hash_append;
+    using boost::beast::hash_append;
     hash_append(h,
         static_cast<std::uint32_t>(hp));
 }

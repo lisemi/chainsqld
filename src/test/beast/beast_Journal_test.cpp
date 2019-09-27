@@ -20,6 +20,7 @@
 #include <ripple/beast/utility/Journal.h>
 #include <ripple/beast/unit_test.h>
 
+namespace boost {
 namespace beast {
 
 class Journal_test : public unit_test::suite
@@ -61,7 +62,7 @@ public:
     {
         TestSink sink;
 
-        using namespace beast::severities;
+        using namespace boost::beast::severities;
         sink.threshold(kInfo);
 
         Journal j(sink);

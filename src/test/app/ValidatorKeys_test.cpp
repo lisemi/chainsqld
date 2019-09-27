@@ -26,7 +26,7 @@
 namespace ripple {
 namespace test {
 
-class ValidatorKeys_test : public beast::unit_test::suite
+class ValidatorKeys_test : public boost::beast::unit_test::suite
 {
     // Used with [validation_seed]
     const std::string seed = "shUwVw52ofnCUX5m7kPTKzJdr4HEH";

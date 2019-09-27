@@ -215,7 +215,7 @@ class Validations
     hash_map<NodeKey, ValidationAndPrevID> current_;
 
     //! Recent validations from nodes, indexed by ledger identifier
-    beast::aged_unordered_map<
+    boost::beast::aged_unordered_map<
         LedgerID,
         hash_map<NodeKey, Validation>,
         std::chrono::steady_clock,
@@ -315,7 +315,7 @@ public:
     template <class... Ts>
     Validations(
         ValidationParms const& p,
-        beast::abstract_clock<std::chrono::steady_clock>& c,
+        boost::beast::abstract_clock<std::chrono::steady_clock>& c,
         boost::beast::Journal j,
         Ts&&... ts)
         : byLedger_(c), parms_(p), j_(j), stalePolicy_(std::forward<Ts>(ts)...)
@@ -482,7 +482,7 @@ public:
     expire()
     {
         ScopedLock lock{mutex_};
-        beast::expire(byLedger_, parms_.validationSET_EXPIRES);
+        boost::beast::expire(byLedger_, parms_.validationSET_EXPIRES);
     }
 
     /** Distribution of current trusted validations

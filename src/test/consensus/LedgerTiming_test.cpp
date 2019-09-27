@@ -23,7 +23,7 @@
 namespace ripple {
 namespace test {
 
-class LedgerTiming_test : public beast::unit_test::suite
+class LedgerTiming_test : public boost::beast::unit_test::suite
 {
     boost::beast::Journal j;
 

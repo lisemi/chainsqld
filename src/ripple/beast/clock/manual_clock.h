@@ -23,6 +23,7 @@
 #include <ripple/beast/clock/abstract_clock.h>
 #include <cassert>
 
+namespace boost {
 namespace beast {
 
 /** Manual clock implementation.
@@ -95,6 +96,7 @@ public:
     }
 };
 
+}
 }
 
 #endif

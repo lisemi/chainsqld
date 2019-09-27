@@ -24,6 +24,7 @@
 #include <cstdint>
 #include <new>
 
+namespace boost {
 namespace beast {
 
 namespace detail {
@@ -82,6 +83,7 @@ secure_erase (void* dest, std::size_t bytes)
     erase(dest, bytes);
 }
 
+}
 }
 
 #endif

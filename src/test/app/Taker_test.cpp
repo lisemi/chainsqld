@@ -24,7 +24,7 @@
 
 namespace ripple {
 
-class Taker_test : public beast::unit_test::suite
+class Taker_test : public boost::beast::unit_test::suite
 {
     static bool const Buy = false;
     static bool const Sell = true;

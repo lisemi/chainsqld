@@ -25,7 +25,7 @@
 
 namespace ripple {
 
-class TestSuite : public beast::unit_test::suite
+class TestSuite : public boost::beast::unit_test::suite
 {
 public:
     template <class S, class T>

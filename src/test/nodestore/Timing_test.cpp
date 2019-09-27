@@ -26,7 +26,7 @@
 #include <ripple/beast/utility/temp_dir.h>
 #include <ripple/beast/xor_shift_engine.h>
 #include <ripple/beast/unit_test.h>
-#include <beast/unit_test/thread.hpp>
+#include <beast/include/boost/beast/_experimental/unit_test/thread.hpp>
 #include <boost/algorithm/string.hpp>
 #include <atomic>
 #include <chrono>
@@ -82,7 +82,7 @@ private:
         maxSize = 1250
     };
 
-    beast::xor_shift_engine gen_;
+    boost::beast::xor_shift_engine gen_;
     std::uint8_t prefix_;
     std::uniform_int_distribution<std::uint32_t> d_type_;
     std::uniform_int_distribution<std::uint32_t> d_size_;
@@ -136,7 +136,7 @@ public:
 
 //----------------------------------------------------------------------------------
 
-class Timing_test : public beast::unit_test::suite
+class Timing_test : public boost::beast::unit_test::suite
 {
 public:
     enum
@@ -240,7 +240,7 @@ public:
         std::size_t number_of_threads, Args const&... args)
     {
         std::atomic<std::size_t> c(0);
-        std::vector<beast::unit_test::thread> t;
+        std::vector<boost::beast::unit_test::thread> t;
         t.reserve(number_of_threads);
         for (std::size_t id = 0; id < number_of_threads; ++id)
             t.emplace_back(*this,
@@ -256,7 +256,7 @@ public:
         std::size_t number_of_threads, Args const&... args)
     {
         std::atomic<std::size_t> c(0);
-        std::vector<beast::unit_test::thread> t;
+        std::vector<boost::beast::unit_test::thread> t;
         t.reserve(number_of_threads);
         for (std::size_t id = 0; id < number_of_threads; ++id)
             t.emplace_back(*this,
@@ -337,7 +337,7 @@ public:
             suite& suite_;
             Backend& backend_;
             Sequence seq1_;
-            beast::xor_shift_engine gen_;
+            boost::beast::xor_shift_engine gen_;
             std::uniform_int_distribution<std::size_t> dist_;
 
         public:
@@ -399,7 +399,7 @@ public:
             //Params const& params_;
             Backend& backend_;
             Sequence seq2_;
-            beast::xor_shift_engine gen_;
+            boost::beast::xor_shift_engine gen_;
             std::uniform_int_distribution<std::size_t> dist_;
 
         public:
@@ -463,7 +463,7 @@ public:
             Backend& backend_;
             Sequence seq1_;
             Sequence seq2_;
-            beast::xor_shift_engine gen_;
+            boost::beast::xor_shift_engine gen_;
             std::uniform_int_distribution<std::uint32_t> rand_;
             std::uniform_int_distribution<std::size_t> dist_;
 
@@ -545,7 +545,7 @@ public:
             Params const& params_;
             Backend& backend_;
             Sequence seq1_;
-            beast::xor_shift_engine gen_;
+            boost::beast::xor_shift_engine gen_;
             std::uniform_int_distribution<std::uint32_t> rand_;
             std::uniform_int_distribution<std::size_t> recent_;
             std::uniform_int_distribution<std::size_t> older_;
@@ -676,7 +676,7 @@ public:
             params.threads = threads;
             for (auto i = default_repeat; i--;)
             {
-                beast::temp_dir tempDir;
+                boost::beast::temp_dir tempDir;
                 Section config = parse(config_string);
                 config.set ("path", tempDir.path());
                 std::stringstream ss;
@@ -694,7 +694,7 @@ public:
     void
     run() override
     {
-        testcase ("Timing", beast::unit_test::abort_on_fail);
+        testcase ("Timing", boost::beast::unit_test::abort_on_fail);
 
         /*  Parameters:
 

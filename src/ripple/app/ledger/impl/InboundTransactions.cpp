@@ -69,7 +69,7 @@ public:
             Application& app,
             clock_type& clock,
             Stoppable& parent,
-            beast::insight::Collector::ptr const& collector,
+            boost::beast::insight::Collector::ptr const& collector,
             std::function <void (std::shared_ptr <SHAMap> const&,
                 bool)> gotSet)
         : Stoppable ("InboundTransactions", parent)
@@ -297,7 +297,7 @@ make_InboundTransactions (
     Application& app,
     InboundLedgers::clock_type& clock,
     Stoppable& parent,
-    beast::insight::Collector::ptr const& collector,
+    boost::beast::insight::Collector::ptr const& collector,
     std::function <void (std::shared_ptr <SHAMap> const&,
         bool)> gotSet)
 {

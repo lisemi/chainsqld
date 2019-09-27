@@ -70,7 +70,7 @@ auto constexpr MAX_LEDGER_AGE_ACQUIRE = 1min;
 
 LedgerMaster::LedgerMaster (Application& app, Stopwatch& stopwatch,
     Stoppable& parent,
-    beast::insight::Collector::ptr const& collector, boost::beast::Journal journal)
+    boost::beast::insight::Collector::ptr const& collector, boost::beast::Journal journal)
     : Stoppable ("LedgerMaster", parent)
     , app_ (app)
     , m_journal (journal)

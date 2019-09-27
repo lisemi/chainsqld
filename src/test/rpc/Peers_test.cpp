@@ -26,7 +26,7 @@
 
 namespace ripple {
 
-class Peers_test : public beast::unit_test::suite
+class Peers_test : public boost::beast::unit_test::suite
 {
     void testRequest()
     {

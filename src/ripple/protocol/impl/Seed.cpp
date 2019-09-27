@@ -37,7 +37,7 @@ namespace ripple {
 
 Seed::~Seed()
 {
-    beast::secure_erase(buf_.data(), buf_.size());
+    boost::beast::secure_erase(buf_.data(), buf_.size());
 }
 
 Seed::Seed (Slice const& slice)
@@ -62,12 +62,12 @@ Seed
 randomSeed()
 {
     std::array <std::uint8_t, 16> buffer;
-    beast::rngfill (
+    boost::beast::rngfill (
         buffer.data(),
         buffer.size(),
         crypto_prng());
     Seed seed (makeSlice (buffer));
-    beast::secure_erase(buffer.data(), buffer.size());
+    boost::beast::secure_erase(buffer.data(), buffer.size());
     return seed;
 }
 

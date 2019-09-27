@@ -35,7 +35,7 @@ namespace ripple {
 
 SecretKey::~SecretKey()
 {
-    beast::secure_erase(buf_, sizeof(buf_));
+    boost::beast::secure_erase(buf_, sizeof(buf_));
 }
 
 SecretKey::SecretKey (std::array<std::uint8_t, 32> const& key)
@@ -92,8 +92,8 @@ public:
         { gsk.data(), gsk.size() });
         PublicKey const pk(Slice
         { gpk.data(), gpk.size() });
-        beast::secure_erase(ui.data(), ui.size());
-        beast::secure_erase(gsk.data(), gsk.size());
+        boost::beast::secure_erase(ui.data(), ui.size());
+        boost::beast::secure_erase(gsk.data(), gsk.size());
         return {pk, sk};
     }
 };
@@ -298,12 +298,12 @@ SecretKey
 randomSecretKey()
 {
     std::uint8_t buf[32];
-    beast::rngfill(
+    boost::beast::rngfill(
         buf,
         sizeof(buf),
         crypto_prng());
     SecretKey sk(Slice{ buf, sizeof(buf) });
-    beast::secure_erase(buf, sizeof(buf));
+    boost::beast::secure_erase(buf, sizeof(buf));
     return sk;
 }
 
@@ -317,7 +317,7 @@ generateSecretKey (KeyType type, Seed const& seed)
         auto key = sha512Half_s(Slice(
             seed.data(), seed.size()));
         SecretKey sk = Slice{ key.data(), key.size() };
-        beast::secure_erase(key.data(), key.size());
+        boost::beast::secure_erase(key.data(), key.size());
         return sk;
     }
 
@@ -331,7 +331,7 @@ generateSecretKey (KeyType type, Seed const& seed)
         auto const upk =
             generateRootDeterministicPrivateKey(ps);
         SecretKey sk = Slice{ upk.data(), upk.size() };
-        beast::secure_erase(ps.data(), ps.size());
+        boost::beast::secure_erase(ps.data(), ps.size());
         return sk;
     }
 

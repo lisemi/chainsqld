@@ -24,6 +24,7 @@
 
 #include <type_traits>
 
+namespace boost {
 namespace beast {
 
 /** Expire aged container items past the specified age. */
@@ -46,6 +47,7 @@ expire (AgedContainer& c, std::chrono::duration <Rep, Period> const& age)
     return n;
 }
 
+}
 }
 
 #endif

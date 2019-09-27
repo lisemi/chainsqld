@@ -24,6 +24,7 @@
 #include <cstdint>
 #include <cstring>
 
+namespace boost {
 namespace beast {
 namespace detail {
 
@@ -425,5 +426,6 @@ void finish (ripemd160_context& ctx,
 
 } // detail
 } // beast
+}
 
 #endif

@@ -64,12 +64,12 @@ std::string to_string(std::chrono::system_clock::time_point tp);
     The epoch is unspecified.
 */
 using Stopwatch =
-    beast::abstract_clock<
+    boost::beast::abstract_clock<
         std::chrono::steady_clock>;
 
 /** A manual Stopwatch for unit tests. */
 using TestStopwatch =
-    beast::manual_clock<
+    boost::beast::manual_clock<
         std::chrono::steady_clock>;
 
 /** Returns an instance of a wall clock. */
@@ -77,9 +77,9 @@ inline
 Stopwatch&
 stopwatch()
 {
-    return beast::get_abstract_clock<
+    return boost::beast::get_abstract_clock<
         std::chrono::steady_clock,
-            beast::basic_seconds_clock<
+            boost::beast::basic_seconds_clock<
                 std::chrono::steady_clock>>();
 }
 

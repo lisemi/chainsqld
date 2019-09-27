@@ -152,7 +152,7 @@ public:
     void
     hash_append(Hasher& h, Address const& addr) noexcept
     {
-        using beast::hash_append;
+        using boost::beast::hash_append;
         if (addr.is_v4 ())
             hash_append(h, addr.to_v4 ());
         else if (addr.is_v6 ())
@@ -347,10 +347,10 @@ struct hash <boost::beast::IP::Address>
 
 namespace boost {
 template <>
-struct hash <beast::IP::Address>
+struct hash <boost::beast::IP::Address>
 {
     std::size_t
-    operator() (beast::IP::Address const& addr) const
+    operator() (boost::beast::IP::Address const& addr) const
     {
         return boost::beast::uhash<>{} (addr);
     }

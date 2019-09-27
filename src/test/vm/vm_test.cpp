@@ -50,7 +50,7 @@ size_t fromHex(const std::string& hex, std::string& binary)
 	return binary.size();
 }
 
-class VM_test : public beast::unit_test::suite {
+class VM_test : public boost::beast::unit_test::suite {
 public:
 	VM_test() {
 

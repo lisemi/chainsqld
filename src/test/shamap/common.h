@@ -54,7 +54,7 @@ public:
             "test", scheduler_, 1, parent_, testSection, j);
     }
 
-    beast::manual_clock <std::chrono::steady_clock>
+    boost::beast::manual_clock <std::chrono::steady_clock>
     clock()
     {
         return clock_;

@@ -30,6 +30,7 @@
 #include <utility>
 #include <vector>
 
+namespace boost {
 namespace beast {
 namespace hash_metrics {
 
@@ -196,5 +197,6 @@ windowed_score (FwdIter first, FwdIter last)
 
 } // hash_metrics
 } // beast
+}
 
 #endif

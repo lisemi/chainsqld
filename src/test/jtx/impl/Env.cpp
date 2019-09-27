@@ -56,9 +56,9 @@ namespace test {
 namespace jtx {
 
 void
-SuiteSink::write(beast::severities::Severity level, std::string const& text)
+SuiteSink::write(boost::beast::severities::Severity level, std::string const& text)
 {
-    using namespace beast::severities;
+    using namespace boost::beast::severities;
     std::string s;
     switch(level)
     {
@@ -78,11 +78,11 @@ SuiteSink::write(beast::severities::Severity level, std::string const& text)
 
 //------------------------------------------------------------------------------
 
-Env::AppBundle::AppBundle(beast::unit_test::suite& suite,
+Env::AppBundle::AppBundle(boost::beast::unit_test::suite& suite,
     std::unique_ptr<Config> config,
     std::unique_ptr<Logs> logs)
 {
-    using namespace beast::severities;
+    using namespace boost::beast::severities;
     // Use kFatal threshold to reduce noise from STObject.
     setDebugLogSink (std::make_unique<SuiteSink>("Debug", kFatal, suite));
     auto timeKeeper_ =

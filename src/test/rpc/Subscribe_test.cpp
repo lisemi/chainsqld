@@ -28,7 +28,7 @@
 namespace ripple {
 namespace test {
 
-class Subscribe_test : public beast::unit_test::suite
+class Subscribe_test : public boost::beast::unit_test::suite
 {
 public:
     void testServer()

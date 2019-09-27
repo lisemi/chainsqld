@@ -22,6 +22,7 @@
 
 #include <type_traits>
 
+namespace boost {
 namespace beast {
 
 template <class T>
@@ -30,6 +31,7 @@ struct is_aged_container
 {
 };
 
+}
 }
 
 #endif

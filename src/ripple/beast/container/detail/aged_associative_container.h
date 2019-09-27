@@ -22,6 +22,7 @@
 
 #include <type_traits>
 
+namespace boost {
 namespace beast {
 namespace detail {
 
@@ -48,6 +49,7 @@ struct aged_associative_container_extract_t <false>
     }
 };
 
+}
 }
 }
 

@@ -32,7 +32,7 @@ class SourceStrings : public Source
 public:
     using Strings = std::vector <std::string>;
 
-    static beast::SharedPtr <Source> New (std::string const& name, Strings const& strings);
+    static boost::beast::SharedPtr <Source> New (std::string const& name, Strings const& strings);
 };
 
 }

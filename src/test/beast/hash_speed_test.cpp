@@ -30,9 +30,10 @@
 #include <iomanip>
 #include <random>
 
+namespace boost {
 namespace beast {
 
-class hash_speed_test : public beast::unit_test::suite
+class hash_speed_test : public boost::beast::unit_test::suite
 {
 public:
     template <class Generator>

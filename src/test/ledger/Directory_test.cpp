@@ -28,7 +28,7 @@
 namespace ripple {
 namespace test {
 
-struct Directory_test : public beast::unit_test::suite
+struct Directory_test : public boost::beast::unit_test::suite
 {
     // Map [0-15576] into a a unique 3 letter currency code
     std::string
@@ -182,7 +182,7 @@ struct Directory_test : public beast::unit_test::suite
         auto const charlie = Account ("charlie");
         auto const gw = Account ("gw");
 
-        beast::xor_shift_engine eng;
+        boost::beast::xor_shift_engine eng;
 
         Env env(*this, with_features(featureSortedDirectories, featureMultiSign));
 

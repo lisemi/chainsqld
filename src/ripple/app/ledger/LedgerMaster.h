@@ -70,7 +70,7 @@ public:
     explicit
     LedgerMaster(Application& app, Stopwatch& stopwatch,
         Stoppable& parent,
-            beast::insight::Collector::ptr const& collector,
+            boost::beast::insight::Collector::ptr const& collector,
                 boost::beast::Journal journal);
 
     virtual ~LedgerMaster () = default;
@@ -237,7 +237,7 @@ public:
         LedgerIndex ledgerIndex, LedgerHash const& ledgerHash);
     void doLedgerCleaner(Json::Value const& parameters);
 
-    beast::PropertyStream::Source& getPropertySource ();
+    boost::beast::PropertyStream::Source& getPropertySource ();
 
     void clearPriorLedgers (LedgerIndex seq);
 

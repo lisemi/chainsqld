@@ -21,12 +21,12 @@
 #include <test/jtx/WSClient.h>
 #include <test/jtx.h>
 #include <ripple/beast/unit_test.h>
-#include <beast/core/handler_alloc.hpp>
+#include <beast/include/boost/beast/core/handler_alloc.hpp>
 
 namespace ripple {
 namespace test {
 
-class WSClient_test : public beast::unit_test::suite
+class WSClient_test : public boost::beast::unit_test::suite
 {
 public:
     void run() override

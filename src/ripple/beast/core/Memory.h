@@ -69,7 +69,7 @@ void zerostruct (Type& structure) noexcept
 #if (BEAST_COMPILER_SUPPORTS_ARC && defined (__OBJC__)) || DOXYGEN
  #define BEAST_AUTORELEASEPOOL  @autoreleasepool
 #else
- #define BEAST_AUTORELEASEPOOL  const beast::ScopedAutoReleasePool BEAST_JOIN_MACRO (autoReleasePool_, __LINE__);
+ #define BEAST_AUTORELEASEPOOL  const boost::beast::ScopedAutoReleasePool BEAST_JOIN_MACRO (autoReleasePool_, __LINE__);
 #endif
 
 #else

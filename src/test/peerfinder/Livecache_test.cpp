@@ -26,7 +26,7 @@
 namespace ripple {
 namespace PeerFinder {
 
-class Livecache_test : public beast::unit_test::suite
+class Livecache_test : public boost::beast::unit_test::suite
 {
 public:
     TestStopwatch m_clock;
@@ -37,8 +37,8 @@ public:
     {
         Endpoint ep;
         ep.hops = 0;
-        ep.address = beast::IP::Endpoint (
-            beast::IP::AddressV4 (index), port);
+        ep.address = boost::beast::IP::Endpoint (
+            boost::beast::IP::AddressV4 (index), port);
         c.insert (ep);
     }
 

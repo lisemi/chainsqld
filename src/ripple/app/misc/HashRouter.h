@@ -209,7 +209,7 @@ private:
     std::mutex mutable mutex_;
 
     // Stores all suppressed hashes and their expiration time
-    beast::aged_unordered_map<uint256, Entry, Stopwatch::clock_type,
+    boost::beast::aged_unordered_map<uint256, Entry, Stopwatch::clock_type,
         hardened_hash<strong_hash>> suppressionMap_;
 
     std::chrono::seconds const holdTime_;

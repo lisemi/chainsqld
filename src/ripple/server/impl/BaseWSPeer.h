@@ -24,9 +24,9 @@
 #include <ripple/protocol/BuildInfo.h>
 #include <ripple/beast/utility/rngfill.h>
 #include <ripple/crypto/csprng.h>
-#include <beast/websocket.hpp>
-#include <beast/core/multi_buffer.hpp>
-#include <beast/http/message.hpp>
+#include <beast/include/boost/beast/websocket.hpp>
+#include <beast/include/boost/beast/core/multi_buffer.hpp>
+#include <beast/include/boost/beast/http/message.hpp>
 #include <cassert>
 
 namespace ripple {
@@ -48,15 +48,15 @@ private:
     friend class BasePeer<Handler, Impl>;
 
     http_request_type request_;
-    beast::multi_buffer rb_;
-    beast::multi_buffer wb_;
+    boost::beast::multi_buffer rb_;
+    boost::beast::multi_buffer wb_;
     std::list<std::shared_ptr<WSMsg>> wq_;
     bool do_close_ = false;
-    beast::websocket::close_reason cr_;
+    boost::beast::websocket::close_reason cr_;
     waitable_timer timer_;
     bool close_on_timer_ = false;
     bool ping_active_ = false;
-    beast::websocket::ping_data payload_;
+    boost::beast::websocket::ping_data payload_;
     error_code ec_;
 
 public:
@@ -65,7 +65,7 @@ public:
         Port const& port,
         Handler& handler,
         endpoint_type remote_address,
-        beast::http::request<Body, Headers>&& request,
+        boost::beast::http::request<Body, Headers>&& request,
         boost::asio::io_service& io_service,
         boost::beast::Journal journal);
 
@@ -141,8 +141,8 @@ protected:
     on_ping(error_code const& ec);
 
     void
-    on_ping_pong(beast::websocket::frame_type kind,
-        beast::string_view payload);
+    on_ping_pong(boost::beast::websocket::frame_type kind,
+        boost::beast::string_view payload);
 
     void
     on_timer(error_code ec);
@@ -161,7 +161,7 @@ BaseWSPeer(
     Port const& port,
     Handler& handler,
     endpoint_type remote_address,
-    beast::http::request<Body, Headers>&& request,
+    boost::beast::http::request<Body, Headers>&& request,
     boost::asio::io_service& io_service,
     boost::beast::Journal journal)
     : BasePeer<Handler, Impl>(port, handler, remote_address,
@@ -188,7 +188,7 @@ run()
     impl().ws_.async_accept_ex(request_,
         [](auto & res)
         {
-            res.set(beast::http::field::server,
+            res.set(boost::beast::http::field::server,
                 BuildInfo::getFullVersionString());
         },
         strand_.wrap(std::bind(&BaseWSPeer::on_ws_handshake,
@@ -210,7 +210,7 @@ send(std::shared_ptr<WSMsg> w)
     {
         JLOG(this->j_.info()) <<
             "closing slow client";
-        cr_.code = static_cast<beast::websocket::close_code>(4000);
+        cr_.code = static_cast<boost::beast::websocket::close_code>(4000);
         cr_.reason = "Client is too slow.";
         wq_.erase(std::next(wq_.begin()), wq_.end());
         close();
@@ -329,7 +329,7 @@ void
 BaseWSPeer<Handler, Impl>::
 on_read(error_code const& ec)
 {
-    if(ec == beast::websocket::error::closed)
+    if(ec == boost::beast::websocket::error::closed)
         return on_close({});
     if(ec)
         return fail(ec, "read");
@@ -395,12 +395,12 @@ on_ping(error_code const& ec)
 template<class Handler, class Impl>
 void
 BaseWSPeer<Handler, Impl>::
-on_ping_pong(beast::websocket::frame_type kind,
-    beast::string_view payload)
+on_ping_pong(boost::beast::websocket::frame_type kind,
+    boost::beast::string_view payload)
 {
-    if(kind == beast::websocket::frame_type::pong)
+    if(kind == boost::beast::websocket::frame_type::pong)
     {
-        beast::string_view p(payload_.begin());
+        boost::beast::string_view p(payload_.begin());
         if(payload == p)
         {
             close_on_timer_ = false;
@@ -430,7 +430,7 @@ on_timer(error_code ec)
             close_on_timer_ = true;
             ping_active_ = true;
             // cryptographic is probably overkill..
-            beast::rngfill(payload_.begin(),
+            boost::beast::rngfill(payload_.begin(),
                 payload_.size(), crypto_prng());
             impl().ws_.async_ping(payload_,
                 strand_.wrap(std::bind(

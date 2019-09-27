@@ -24,7 +24,7 @@
 
 namespace ripple {
 
-class AmendmentBlocked_test : public beast::unit_test::suite
+class AmendmentBlocked_test : public boost::beast::unit_test::suite
 {
     void testBlockedMethods()
     {

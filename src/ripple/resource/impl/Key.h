@@ -31,13 +31,13 @@ namespace Resource {
 struct Key
 {
     Kind kind;
-    beast::IP::Endpoint address;
+    boost::beast::IP::Endpoint address;
     std::string name;
 
     Key () = delete;
 
     // Constructor for Inbound and Outbound (non-Unlimited) keys
-    Key (Kind k, beast::IP::Endpoint const& addr)
+    Key (Kind k, boost::beast::IP::Endpoint const& addr)
         : kind(k)
         , address(addr)
     {

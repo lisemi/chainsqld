@@ -127,6 +127,7 @@ typedef unsigned long long U64;
 #  endif
 #endif
 
+namespace boost {
 namespace beast {
 namespace detail {
 
@@ -932,3 +933,4 @@ unsigned long long XXH64_digest (const XXH64_state_t* state_in)
 
 } // detail
 } // beast
+}

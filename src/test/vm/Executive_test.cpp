@@ -59,7 +59,7 @@ namespace ripple {
 		}
 
 		using namespace test::jtx;
-		class Executive_test : public beast::unit_test::suite {
+		class Executive_test : public boost::beast::unit_test::suite {
 
 			void run() {
 				initEnv();

@@ -30,7 +30,7 @@
 
 namespace ripple {
 
-class LedgerLoad_test : public beast::unit_test::suite
+class LedgerLoad_test : public boost::beast::unit_test::suite
 {
     auto static ledgerConfig(
         std::unique_ptr<Config> cfg,
@@ -55,7 +55,7 @@ class LedgerLoad_test : public beast::unit_test::suite
     };
 
     SetupData
-    setupLedger(beast::temp_dir const& td)
+    setupLedger(boost::beast::temp_dir const& td)
     {
         using namespace test::jtx;
         SetupData retval = {td.path()};
@@ -220,7 +220,7 @@ class LedgerLoad_test : public beast::unit_test::suite
 public:
     void run ()
     {
-        beast::temp_dir td;
+        boost::beast::temp_dir td;
         auto sd = setupLedger(td);
 
         // test cases

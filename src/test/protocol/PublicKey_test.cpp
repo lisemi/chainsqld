@@ -25,7 +25,7 @@
 
 namespace ripple {
 
-class PublicKey_test : public beast::unit_test::suite
+class PublicKey_test : public boost::beast::unit_test::suite
 {
 public:
     using blob = std::vector<std::uint8_t>;

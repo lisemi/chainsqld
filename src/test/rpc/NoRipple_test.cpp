@@ -25,7 +25,7 @@ namespace ripple {
 
 namespace test {
 
-class NoRipple_test : public beast::unit_test::suite
+class NoRipple_test : public boost::beast::unit_test::suite
 {
 public:
     void

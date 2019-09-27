@@ -26,7 +26,7 @@
 namespace ripple {
 
 /** A PropertyStream::Sink which produces a Json::Value of type objectValue. */
-class JsonPropertyStream : public beast::PropertyStream
+class JsonPropertyStream : public boost::beast::PropertyStream
 {
 public:
     Json::Value m_top;

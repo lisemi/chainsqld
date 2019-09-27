@@ -32,7 +32,7 @@ struct Gossip
     struct Item
     {
         int balance;
-        beast::IP::Endpoint address;
+        boost::beast::IP::Endpoint address;
     };
 
     std::vector <Item> items;

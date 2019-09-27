@@ -23,7 +23,7 @@
 
 namespace ripple {
 
-class TransactionEntry_test : public beast::unit_test::suite
+class TransactionEntry_test : public boost::beast::unit_test::suite
 {
     void
     testBadInput()

@@ -600,7 +600,7 @@ CreateOffer::takerCross (
 {
     NetClock::time_point const when{ctx_.view().parentCloseTime()};
 
-    beast::WrappedSink takerSink (j_, "Taker ");
+    boost::beast::WrappedSink takerSink (j_, "Taker ");
 
     Taker taker (cross_type_, sb, account_, takerAmount,
         ctx_.tx.getFlags(), boost::beast::Journal (takerSink));
@@ -842,7 +842,7 @@ static SBoxCmp compareSandboxes (char const* name, ApplyContext const& ctx,
 
     if (diff.hasDiff())
     {
-        using namespace beast::severities;
+        using namespace boost::beast::severities;
         c = SBoxCmp::dustDiff;
         Severity s = kInfo;
         std::string diffDesc = ", but only dust.";
@@ -979,7 +979,7 @@ CreateOffer::cross (
             if (c <= SBoxCmp::dustDiff && takerR.second != flowR.second)
             {
                 c = SBoxCmp::dustDiff;
-                using namespace beast::severities;
+                using namespace boost::beast::severities;
                 Severity s = kInfo;
                 std::string onlyDust = ", but only dust.";
                 if (! diffIsDust (takerR.second.in, flowR.second.in) ||

@@ -31,7 +31,7 @@
 
 namespace ripple {
 
-// DEPRECATED use beast::severities::Severity instead
+// DEPRECATED use boost::beast::severities::Severity instead
 enum LogSeverity
 {
     lsINVALID   = -1,   // used to indicate an invalid severity
@@ -106,7 +106,7 @@ private:
         */
         // VFALCO NOTE The parameter is unfortunately a boost type because it
         //             can be either wchar or char based depending on platform.
-        //        TODO Replace with beast::File
+        //        TODO Replace with boost::beast::File
         //
         bool open (boost::filesystem::path const& path);
 

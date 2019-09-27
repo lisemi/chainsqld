@@ -73,6 +73,7 @@ bool WaitableEvent::wait (const int timeOutMs) const
 
 #else
 
+namespace boost {
 namespace beast {
 
 WaitableEvent::WaitableEvent (const bool useManualReset, bool initiallySignaled)
@@ -165,6 +166,7 @@ void WaitableEvent::reset() const
     pthread_mutex_unlock (&mutex);
 }
 
+}
 }
 
 #endif

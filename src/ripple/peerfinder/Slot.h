@@ -63,10 +63,10 @@ public:
     virtual State state () const = 0;
 
     /** The remote endpoint of socket. */
-    virtual beast::IP::Endpoint const& remote_endpoint () const = 0;
+    virtual boost::beast::IP::Endpoint const& remote_endpoint () const = 0;
 
     /** The local endpoint of the socket, when known. */
-    virtual boost::optional <beast::IP::Endpoint> const& local_endpoint () const = 0;
+    virtual boost::optional <boost::beast::IP::Endpoint> const& local_endpoint () const = 0;
 
     virtual boost::optional<std::uint16_t> listening_port () const = 0;
 

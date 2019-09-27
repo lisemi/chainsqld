@@ -38,17 +38,17 @@ passwordUnrequiredOrSentCorrect (Port const& port,
 }
 
 bool
-ipAllowed (beast::IP::Address const& remoteIp,
-           std::vector<beast::IP::Address> const& adminIp)
+ipAllowed (boost::beast::IP::Address const& remoteIp,
+           std::vector<boost::beast::IP::Address> const& adminIp)
 {
     return std::find_if (adminIp.begin (), adminIp.end (),
-        [&remoteIp](beast::IP::Address const& ip) { return ip.is_any () ||
+        [&remoteIp](boost::beast::IP::Address const& ip) { return ip.is_any () ||
             ip == remoteIp; }) != adminIp.end ();
 }
 
 bool
 isAdmin (Port const& port, Json::Value const& params,
-         beast::IP::Address const& remoteIp)
+         boost::beast::IP::Address const& remoteIp)
 {
     return ipAllowed (remoteIp, port.admin_ip) &&
         passwordUnrequiredOrSentCorrect (port, params);
@@ -56,7 +56,7 @@ isAdmin (Port const& port, Json::Value const& params,
 
 Role
 requestRole (Role const& required, Port const& port,
-             Json::Value const& params, beast::IP::Endpoint const& remoteIp,
+             Json::Value const& params, boost::beast::IP::Endpoint const& remoteIp,
              std::string const& user)
 {
     if (isAdmin(port, params, remoteIp.address()))
@@ -76,7 +76,7 @@ requestRole (Role const& required, Port const& port,
  */
 bool
 isUnlimited (Role const& required, Port const& port,
-    Json::Value const&params, beast::IP::Endpoint const& remoteIp,
+    Json::Value const&params, boost::beast::IP::Endpoint const& remoteIp,
     std::string const& user)
 {
     Role role = requestRole(required, port, params, remoteIp, user);
@@ -95,7 +95,7 @@ isUnlimited (Role const& role)
 
 Resource::Consumer
 requestInboundEndpoint (Resource::Manager& manager,
-    beast::IP::Endpoint const& remoteAddress,
+    boost::beast::IP::Endpoint const& remoteAddress,
         Port const& port, std::string const& user)
 {
     if (isUnlimited (Role::GUEST, port, Json::Value(), remoteAddress, user))
@@ -105,7 +105,7 @@ requestInboundEndpoint (Resource::Manager& manager,
 }
 
 bool
-isIdentified (Port const& port, beast::IP::Address const& remoteIp,
+isIdentified (Port const& port, boost::beast::IP::Address const& remoteIp,
         std::string const& user)
 {
     return ! user.empty() && ipAllowed (remoteIp, port.secure_gateway_ip);

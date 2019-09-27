@@ -81,8 +81,8 @@ public:
         st.execute ();
         while (st.fetch ())
         {
-            beast::IP::Endpoint const endpoint (
-                beast::IP::Endpoint::from_string (s));
+            boost::beast::IP::Endpoint const endpoint (
+                boost::beast::IP::Endpoint::from_string (s));
 
             if (!is_unspecified (endpoint))
             {
@@ -215,7 +215,7 @@ public:
                 while (st.fetch ())
                 {
                     Store::Entry entry;
-                    entry.endpoint = beast::IP::Endpoint::from_string (s);
+                    entry.endpoint = boost::beast::IP::Endpoint::from_string (s);
                     if (!is_unspecified (entry.endpoint))
                     {
                         entry.valence = valence;

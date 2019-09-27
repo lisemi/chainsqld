@@ -39,7 +39,7 @@ class PlainWSPeer
     using waitable_timer = boost::asio::basic_waitable_timer <clock_type>;
     using socket_type = boost::asio::ip::tcp::socket;
 
-    beast::websocket::stream<socket_type> ws_;
+    boost::beast::websocket::stream<socket_type> ws_;
 
 public:
     template<class Body, class Headers>
@@ -47,7 +47,7 @@ public:
         Port const& port,
         Handler& handler,
         endpoint_type remote_address,
-        beast::http::request<Body, Headers>&& request,
+        boost::beast::http::request<Body, Headers>&& request,
         socket_type&& socket,
         boost::beast::Journal journal);
 };
@@ -61,11 +61,11 @@ PlainWSPeer(
     Port const& port,
     Handler& handler,
     endpoint_type remote_address,
-    beast::http::request<Body, Headers>&& request,
+    boost::beast::http::request<Body, Headers>&& request,
     socket_type&& socket,
     boost::beast::Journal journal)
     : BaseWSPeer<Handler, PlainWSPeer>(port, handler, remote_address,
-        std::move(request), socket.get_io_service(), journal)
+        std::move(request), socket.get_executor().context()/*get_io_service()*/, journal)
     , ws_(std::move(socket))
 {
 }

@@ -54,7 +54,7 @@ public:
     // Maps remote endpoints to slots. Since a slot has a
     // remote endpoint upon construction, this holds all counts.
     //
-    using Slots = std::map <beast::IP::Endpoint,
+    using Slots = std::map <boost::beast::IP::Endpoint,
         std::shared_ptr <SlotImp>>;
 
     boost::beast::Journal m_journal;
@@ -69,7 +69,7 @@ public:
 
     // The source we are currently fetching.
     // This is used to cancel I/O during program exit.
-    beast::SharedPtr <Source> fetchSource_;
+    boost::beast::SharedPtr <Source> fetchSource_;
 
     // Configuration settings
     Config config_;
@@ -78,7 +78,7 @@ public:
     Counts counts_;
 
     // A list of slots that should always be connected
-    std::map <beast::IP::Endpoint, Fixed> fixed_;
+    std::map <boost::beast::IP::Endpoint, Fixed> fixed_;
 
     // Live livecache from mtENDPOINTS messages
     Livecache <> livecache_;
@@ -92,13 +92,13 @@ public:
     // The addresses (but not port) we are connected to. This includes
     // outgoing connection attempts. Note that this set can contain
     // duplicates (since the port is not set)
-    std::multiset <beast::IP::Address> connectedAddresses_;
+    std::multiset <boost::beast::IP::Address> connectedAddresses_;
 
     // Set of public keys belonging to active peers
     std::set <PublicKey> keys_;
 
     // A list of dynamic sources to consult as a fallback
-    std::vector <beast::SharedPtr <Source>> m_sources;
+    std::vector <boost::beast::SharedPtr <Source>> m_sources;
 
     clock_type::time_point m_whenBroadcast;
 
@@ -165,16 +165,16 @@ public:
 
     void
     addFixedPeer (std::string const& name,
-        beast::IP::Endpoint const& ep)
+        boost::beast::IP::Endpoint const& ep)
     {
-        std::vector<beast::IP::Endpoint> v;
+        std::vector<boost::beast::IP::Endpoint> v;
         v.push_back(ep);
         addFixedPeer (name, v);
     }
 
     void
     addFixedPeer (std::string const& name,
-        std::vector <beast::IP::Endpoint> const& addresses)
+        std::vector <boost::beast::IP::Endpoint> const& addresses)
     {
         std::lock_guard<std::recursive_mutex> _(lock_);
 
@@ -199,7 +199,7 @@ public:
 
             if (result.second)
             {
-                JLOG(m_journal.debug()) << beast::leftw (18) <<
+                JLOG(m_journal.debug()) << boost::beast::leftw (18) <<
                     "Logic add fixed '" << name <<
                     "' at " << remote_address;
                 return;
@@ -210,8 +210,8 @@ public:
     //--------------------------------------------------------------------------
 
     // Called when the Checker completes a connectivity test
-    void checkComplete (beast::IP::Endpoint const& remoteAddress,
-        beast::IP::Endpoint const& checkedAddress,
+    void checkComplete (boost::beast::IP::Endpoint const& remoteAddress,
+        boost::beast::IP::Endpoint const& checkedAddress,
             boost::system::error_code ec)
     {
         if (ec == boost::asio::error::operation_aborted)
@@ -222,7 +222,7 @@ public:
         if (iter == slots_.end())
         {
             // The slot disconnected before we finished the check
-            JLOG(m_journal.debug()) << beast::leftw (18) <<
+            JLOG(m_journal.debug()) << boost::beast::leftw (18) <<
                 "Logic tested " << checkedAddress <<
                 " but the connection was closed";
             return;
@@ -236,7 +236,7 @@ public:
         {
             // VFALCO TODO Should we retry depending on the error?
             slot.canAccept = false;
-            JLOG(m_journal.error()) << beast::leftw (18) <<
+            JLOG(m_journal.error()) << boost::beast::leftw (18) <<
                 "Logic testing " << iter->first << " with error, " <<
                 ec.message();
             bootcache_.on_failure (checkedAddress);
@@ -245,16 +245,16 @@ public:
 
         slot.canAccept = true;
         slot.set_listening_port (checkedAddress.port ());
-        JLOG(m_journal.debug()) << beast::leftw (18) <<
+        JLOG(m_journal.debug()) << boost::beast::leftw (18) <<
             "Logic testing " << checkedAddress << " succeeded";
     }
 
     //--------------------------------------------------------------------------
 
-    SlotImp::ptr new_inbound_slot (beast::IP::Endpoint const& local_endpoint,
-        beast::IP::Endpoint const& remote_endpoint)
+    SlotImp::ptr new_inbound_slot (boost::beast::IP::Endpoint const& local_endpoint,
+        boost::beast::IP::Endpoint const& remote_endpoint)
     {
-        JLOG(m_journal.debug()) << beast::leftw (18) <<
+        JLOG(m_journal.debug()) << boost::beast::leftw (18) <<
             "Logic accept" << remote_endpoint <<
             " on local " << local_endpoint;
 
@@ -267,7 +267,7 @@ public:
                 remote_endpoint.address());
             if (count > config_.ipLimit)
             {
-                JLOG(m_journal.debug()) << beast::leftw (18) <<
+                JLOG(m_journal.debug()) << boost::beast::leftw (18) <<
                     "Logic dropping inbound " << remote_endpoint <<
                     " because of ip limits.";
                 return SlotImp::ptr();
@@ -294,9 +294,9 @@ public:
 
     // Can't check for self-connect because we don't know the local endpoint
     SlotImp::ptr
-    new_outbound_slot (beast::IP::Endpoint const& remote_endpoint)
+    new_outbound_slot (boost::beast::IP::Endpoint const& remote_endpoint)
     {
-        JLOG(m_journal.debug()) << beast::leftw (18) <<
+        JLOG(m_journal.debug()) << boost::beast::leftw (18) <<
             "Logic connect " << remote_endpoint;
 
         std::lock_guard<std::recursive_mutex> _(lock_);
@@ -305,7 +305,7 @@ public:
         if (slots_.find (remote_endpoint) !=
             slots_.end ())
         {
-            JLOG(m_journal.debug()) << beast::leftw (18) <<
+            JLOG(m_journal.debug()) << boost::beast::leftw (18) <<
                 "Logic dropping " << remote_endpoint <<
                 " as duplicate connect";
             return SlotImp::ptr ();
@@ -333,9 +333,9 @@ public:
 
     bool
     onConnected (SlotImp::ptr const& slot,
-        beast::IP::Endpoint const& local_endpoint)
+        boost::beast::IP::Endpoint const& local_endpoint)
     {
-        JLOG(m_journal.trace()) << beast::leftw (18) <<
+        JLOG(m_journal.trace()) << boost::beast::leftw (18) <<
             "Logic connected" << slot->remote_endpoint () <<
             " on local " << local_endpoint;
 
@@ -354,7 +354,7 @@ public:
             {
                 assert (iter->second->local_endpoint ()
                         == slot->remote_endpoint ());
-                JLOG(m_journal.warn()) << beast::leftw (18) <<
+                JLOG(m_journal.warn()) << boost::beast::leftw (18) <<
                     "Logic dropping " << slot->remote_endpoint () <<
                     " as self connect";
                 return false;
@@ -372,7 +372,7 @@ public:
     activate (SlotImp::ptr const& slot,
         PublicKey const& key, bool cluster)
     {
-        JLOG(m_journal.debug()) << beast::leftw (18) <<
+        JLOG(m_journal.debug()) << boost::beast::leftw (18) <<
             "Logic handshake " << slot->remote_endpoint () <<
             " with " << (cluster ? "clustered " : "") << "key " << key;
 
@@ -426,7 +426,7 @@ public:
             auto iter (fixed_.find (slot->remote_endpoint()));
             assert (iter != fixed_.end ());
             iter->second.success (m_clock.now ());
-            JLOG(m_journal.trace()) << beast::leftw (18) <<
+            JLOG(m_journal.trace()) << boost::beast::leftw (18) <<
                 "Logic fixed " << slot->remote_endpoint () << " success";
         }
 
@@ -455,10 +455,10 @@ public:
     // VFALCO TODO This should add the returned addresses to the
     //             squelch list in one go once the list is built,
     //             rather than having each module add to the squelch list.
-    std::vector <beast::IP::Endpoint>
+    std::vector <boost::beast::IP::Endpoint>
     autoconnect()
     {
-        std::vector <beast::IP::Endpoint> const none;
+        std::vector <boost::beast::IP::Endpoint> const none;
 
         std::lock_guard<std::recursive_mutex> _(lock_);
 
@@ -490,14 +490,14 @@ public:
 
             if (! h.list().empty ())
             {
-                JLOG(m_journal.debug()) << beast::leftw (18) <<
+                JLOG(m_journal.debug()) << boost::beast::leftw (18) <<
                     "Logic connect " << h.list().size() << " fixed";
                 return h.list();
             }
 
             if (counts_.attempts() > 0)
             {
-                JLOG(m_journal.debug()) << beast::leftw (18) <<
+                JLOG(m_journal.debug()) << boost::beast::leftw (18) <<
                     "Logic waiting on " <<
                         counts_.attempts() << " attempts";
                 return none;
@@ -522,14 +522,14 @@ public:
                     livecache_.hops.rend());
             if (! h.list().empty ())
             {
-                JLOG(m_journal.debug()) << beast::leftw (18) <<
+                JLOG(m_journal.debug()) << boost::beast::leftw (18) <<
                     "Logic connect " << h.list().size () << " live " <<
                     ((h.list().size () > 1) ? "endpoints" : "endpoint");
                 return h.list();
             }
             else if (counts_.attempts() > 0)
             {
-                JLOG(m_journal.debug()) << beast::leftw (18) <<
+                JLOG(m_journal.debug()) << boost::beast::leftw (18) <<
                     "Logic waiting on " <<
                         counts_.attempts() << " attempts";
                 return none;
@@ -558,7 +558,7 @@ public:
 
         if (! h.list().empty ())
         {
-            JLOG(m_journal.debug()) << beast::leftw (18) <<
+            JLOG(m_journal.debug()) << boost::beast::leftw (18) <<
                 "Logic connect " << h.list().size () << " boot " <<
                 ((h.list().size () > 1) ? "addresses" : "address");
             return h.list();
@@ -618,8 +618,8 @@ public:
             {
                 Endpoint ep;
                 ep.hops = 0;
-                ep.address = beast::IP::Endpoint (
-                    beast::IP::AddressV4 ()).at_port (
+                ep.address = boost::beast::IP::Endpoint (
+                    boost::beast::IP::AddressV4 ()).at_port (
                         config_.listeningPort);
                 for (auto& t : targets)
                     t.insert (ep);
@@ -636,7 +636,7 @@ public:
             {
                 SlotImp::ptr const& slot = t.slot();
                 auto const& list = t.list();
-                JLOG(m_journal.trace()) << beast::leftw (18) <<
+                JLOG(m_journal.trace()) << boost::beast::leftw (18) <<
                     "Logic sending " << slot->remote_endpoint() <<
                     " with " << list.size() <<
                     ((list.size() == 1) ? " endpoint" : " endpoints");
@@ -661,7 +661,7 @@ public:
             entry.second->expire();
 
         // Expire the recent attempts table
-        beast::expire (m_squelches,
+        boost::beast::expire (m_squelches,
             Tuning::recentAttemptDuration);
 
         bootcache_.periodicActivity ();
@@ -680,7 +680,7 @@ public:
             // Enforce hop limit
             if (ep.hops > Tuning::maxHops)
             {
-                JLOG(m_journal.debug()) << beast::leftw (18) <<
+                JLOG(m_journal.debug()) << boost::beast::leftw (18) <<
                     "Endpoints drop " << ep.address <<
                     " for excess hops " << ep.hops;
                 iter = list.erase (iter);
@@ -699,7 +699,7 @@ public:
                 }
                 else
                 {
-                    JLOG(m_journal.debug()) << beast::leftw (18) <<
+                    JLOG(m_journal.debug()) << boost::beast::leftw (18) <<
                         "Endpoints drop " << ep.address <<
                         " for extra self";
                     iter = list.erase (iter);
@@ -710,7 +710,7 @@ public:
             // Discard invalid addresses
             if (! is_valid_address (ep.address))
             {
-                JLOG(m_journal.debug()) << beast::leftw (18) <<
+                JLOG(m_journal.debug()) << boost::beast::leftw (18) <<
                     "Endpoints drop " << ep.address <<
                     " as invalid";
                 iter = list.erase (iter);
@@ -724,7 +724,7 @@ public:
                     return ep.address == other.address;
                 }))
             {
-                JLOG(m_journal.debug()) << beast::leftw (18) <<
+                JLOG(m_journal.debug()) << boost::beast::leftw (18) <<
                     "Endpoints drop " << ep.address <<
                     " as duplicate";
                 iter = list.erase (iter);
@@ -742,7 +742,7 @@ public:
 
     void on_endpoints (SlotImp::ptr const& slot, Endpoints list)
     {
-        JLOG(m_journal.trace()) << beast::leftw (18) <<
+        JLOG(m_journal.trace()) << boost::beast::leftw (18) <<
             "Endpoints from " << slot->remote_endpoint () <<
             " contained " << list.size () <<
             ((list.size() > 1) ? " entries" : " entry");
@@ -773,7 +773,7 @@ public:
             {
                 if (slot->connectivityCheckInProgress)
                 {
-                    JLOG(m_journal.debug()) << beast::leftw (18) <<
+                    JLOG(m_journal.debug()) << boost::beast::leftw (18) <<
                         "Logic testing " << ep.address << " already in progress";
                     continue;
                 }
@@ -857,7 +857,7 @@ public:
             auto iter (fixed_.find (slot->remote_endpoint()));
             assert (iter != fixed_.end ());
             iter->second.failure (m_clock.now ());
-            JLOG(m_journal.debug()) << beast::leftw (18) <<
+            JLOG(m_journal.debug()) << boost::beast::leftw (18) <<
                 "Logic fixed " << slot->remote_endpoint () << " failed";
         }
 
@@ -865,7 +865,7 @@ public:
         switch (slot->state())
         {
         case Slot::accept:
-            JLOG(m_journal.trace()) << beast::leftw (18) <<
+            JLOG(m_journal.trace()) << boost::beast::leftw (18) <<
                 "Logic accept " << slot->remote_endpoint () << " failed";
             break;
 
@@ -879,12 +879,12 @@ public:
             break;
 
         case Slot::active:
-            JLOG(m_journal.trace()) << beast::leftw (18) <<
+            JLOG(m_journal.trace()) << boost::beast::leftw (18) <<
                 "Logic close " << slot->remote_endpoint();
             break;
 
         case Slot::closing:
-            JLOG(m_journal.trace()) << beast::leftw (18) <<
+            JLOG(m_journal.trace()) << boost::beast::leftw (18) <<
                 "Logic finished " << slot->remote_endpoint();
             break;
 
@@ -911,7 +911,7 @@ public:
 
     // Returns `true` if the address matches a fixed slot address
     // Must have the lock held
-    bool fixed (beast::IP::Endpoint const& endpoint) const
+    bool fixed (boost::beast::IP::Endpoint const& endpoint) const
     {
         for (auto const& entry : fixed_)
             if (entry.first == endpoint)
@@ -922,7 +922,7 @@ public:
     // Returns `true` if the address matches a fixed slot address
     // Note that this does not use the port information in the IP::Endpoint
     // Must have the lock held
-    bool fixed (beast::IP::Address const& address) const
+    bool fixed (boost::beast::IP::Address const& address) const
     {
         for (auto const& entry : fixed_)
             if (entry.first.address () == address)
@@ -964,13 +964,13 @@ public:
     //--------------------------------------------------------------------------
 
     void
-    addStaticSource (beast::SharedPtr <Source> const& source)
+    addStaticSource (boost::beast::SharedPtr <Source> const& source)
     {
         fetch (source);
     }
 
     void
-    addSource (beast::SharedPtr <Source> const& source)
+    addSource (boost::beast::SharedPtr <Source> const& source)
     {
         m_sources.push_back (source);
     }
@@ -997,7 +997,7 @@ public:
     }
 
     // Fetch bootcache addresses from the specified source.
-    void fetch (beast::SharedPtr <Source> const& source)
+    void fetch (boost::beast::SharedPtr <Source> const& source)
     {
         Source::Results results;
 
@@ -1025,14 +1025,14 @@ public:
         if (! results.error)
         {
             int const count (addBootcacheAddresses (results.addresses));
-            JLOG(m_journal.info()) << beast::leftw (18) <<
+            JLOG(m_journal.info()) << boost::beast::leftw (18) <<
                 "Logic added " << count <<
                 " new " << ((count == 1) ? "address" : "addresses") <<
                 " from " << source->name();
         }
         else
         {
-            JLOG(m_journal.error()) << beast::leftw (18) <<
+            JLOG(m_journal.error()) << boost::beast::leftw (18) <<
                 "Logic failed " << "'" << source->name() << "' fetch, " <<
                 results.error.message();
         }
@@ -1045,7 +1045,7 @@ public:
     //--------------------------------------------------------------------------
 
     // Returns true if the IP::Endpoint contains no invalid data.
-    bool is_valid_address (beast::IP::Endpoint const& address)
+    bool is_valid_address (boost::beast::IP::Endpoint const& address)
     {
         if (is_unspecified (address))
             return false;
@@ -1062,11 +1062,11 @@ public:
     //
     //--------------------------------------------------------------------------
 
-    void writeSlots (beast::PropertyStream::Set& set, Slots const& slots)
+    void writeSlots (boost::beast::PropertyStream::Set& set, Slots const& slots)
     {
         for (auto const& entry : slots)
         {
-            beast::PropertyStream::Map item (set);
+            boost::beast::PropertyStream::Map item (set);
             SlotImp const& slot (*entry.second);
             if (slot.local_endpoint () != boost::none)
                 item ["local_address"] = to_string (*slot.local_endpoint ());
@@ -1082,7 +1082,7 @@ public:
         }
     }
 
-    void onWrite (beast::PropertyStream::Map& map)
+    void onWrite (boost::beast::PropertyStream::Map& map)
     {
         std::lock_guard<std::recursive_mutex> _(lock_);
 
@@ -1093,27 +1093,27 @@ public:
         map ["fixed"]       = std::uint32_t (fixed_.size());
 
         {
-            beast::PropertyStream::Set child ("peers", map);
+            boost::beast::PropertyStream::Set child ("peers", map);
             writeSlots (child, slots_);
         }
 
         {
-            beast::PropertyStream::Map child ("counts", map);
+            boost::beast::PropertyStream::Map child ("counts", map);
             counts_.onWrite (child);
         }
 
         {
-            beast::PropertyStream::Map child ("config", map);
+            boost::beast::PropertyStream::Map child ("config", map);
             config_.onWrite (child);
         }
 
         {
-            beast::PropertyStream::Map child ("livecache", map);
+            boost::beast::PropertyStream::Map child ("livecache", map);
             livecache_.onWrite (child);
         }
 
         {
-            beast::PropertyStream::Map child ("bootcache", map);
+            boost::beast::PropertyStream::Map child ("bootcache", map);
             bootcache_.onWrite (child);
         }
     }
@@ -1157,10 +1157,10 @@ Logic<Checker>::onRedirects (FwdIter first, FwdIter last,
     std::size_t n = 0;
     for(;first != last && n < Tuning::maxRedirects; ++first, ++n)
         bootcache_.insert(
-            beast::IPAddressConversion::from_asio(*first));
+            boost::beast::IPAddressConversion::from_asio(*first));
     if (n > 0)
     {
-        JLOG(m_journal.trace()) << beast::leftw (18) <<
+        JLOG(m_journal.trace()) << boost::beast::leftw (18) <<
             "Logic add " << n << " redirect IPs from " << remote_address;
     }
 }

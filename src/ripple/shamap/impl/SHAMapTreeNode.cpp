@@ -366,7 +366,7 @@ SHAMapInnerNode::updateHash()
     if (mIsBranch != 0)
     {
         sha512_half_hasher h;
-        using beast::hash_append;
+        using boost::beast::hash_append;
         hash_append(h, HashPrefix::innerNode);
         for(auto const& hh : mHashes)
             hash_append(h, hh);
@@ -658,7 +658,7 @@ SHAMapTreeNode::getString(const SHAMapNodeID & id) const
     ret += "\n  Hash=";
     ret += to_string (mHash);
     ret += "/";
-    ret += beast::lexicalCast <std::string> (mItem->size());
+    ret += boost::beast::lexicalCast <std::string> (mItem->size());
     return ret;
 }
 

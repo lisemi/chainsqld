@@ -24,7 +24,7 @@ namespace ripple {
 
 //------------------------------------------------------------------------------
 
-class Workers_test : public beast::unit_test::suite
+class Workers_test : public boost::beast::unit_test::suite
 {
 public:
     struct TestCallback : Workers::Callback

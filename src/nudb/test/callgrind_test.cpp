@@ -6,7 +6,7 @@
 //
 
 #include <nudb/test/test_store.hpp>
-#include <beast/unit_test/suite.hpp>
+#include <beast/include/boost/beast/_experimental/unit_test/suite.hpp>
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
@@ -18,7 +18,7 @@ namespace test {
 
 // This test is designed for callgrind runs to find hotspots
 
-class callgrind_test : public beast::unit_test::suite
+class callgrind_test : public boost::beast::unit_test::suite
 {
 public:
     // Creates and opens a database, performs a bunch

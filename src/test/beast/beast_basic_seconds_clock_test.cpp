@@ -21,6 +21,7 @@
 
 #include <ripple/beast/clock/basic_seconds_clock.h>
 
+namespace boost {
 namespace beast {
 
 class basic_seconds_clock_test : public unit_test::suite

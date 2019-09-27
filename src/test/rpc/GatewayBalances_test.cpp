@@ -25,7 +25,7 @@
 namespace ripple {
 namespace test {
 
-class GatewayBalances_test : public beast::unit_test::suite
+class GatewayBalances_test : public boost::beast::unit_test::suite
 {
 public:
 

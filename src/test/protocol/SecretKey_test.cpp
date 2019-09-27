@@ -32,7 +32,7 @@
 
 namespace ripple {
 
-class SecretKey_test : public beast::unit_test::suite
+class SecretKey_test : public boost::beast::unit_test::suite
 {
 public:
     using blob = std::vector<std::uint8_t>;
@@ -141,7 +141,7 @@ public:
     makeCanonicalityTestVectors()
     {
         uint256 digest;
-        beast::rngfill (
+        boost::beast::rngfill (
             digest.data(),
             digest.size(),
             crypto_prng());
@@ -226,7 +226,7 @@ public:
             for (std::size_t j = 0; j < 32; j++)
             {
                 uint256 digest;
-                beast::rngfill (
+                boost::beast::rngfill (
                     digest.data(),
                     digest.size(),
                     crypto_prng());
@@ -269,7 +269,7 @@ public:
             for (std::size_t j = 0; j < 32; j++)
             {
                 std::vector<std::uint8_t> data (64 + (8 * i) + j);
-                beast::rngfill (
+                boost::beast::rngfill (
                     data.data(),
                     data.size(),
                     crypto_prng());

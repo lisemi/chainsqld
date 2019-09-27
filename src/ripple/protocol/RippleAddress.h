@@ -224,7 +224,7 @@ public:
     void
     hash_append(Hasher& hasher, RippleAddress const& value)
     {
-        using beast::hash_append;
+        using boost::beast::hash_append;
         hash_append(hasher, static_cast<CBase58Data const&>(value));
     }
 

@@ -31,6 +31,7 @@
 
 // namespace acme is used to demonstrate example code.  It is not proposed.
 
+namespace boost {
 namespace beast {
 namespace detail {
 
@@ -163,3 +164,4 @@ siphash::operator std::size_t() noexcept
 }
 
 } // beast
+}

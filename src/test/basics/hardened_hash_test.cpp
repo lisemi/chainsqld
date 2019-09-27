@@ -46,7 +46,7 @@ public:
     template <class Hasher>
     friend void hash_append (Hasher& h, test_user_type_member const& a) noexcept
     {
-        using beast::hash_append;
+        using boost::beast::hash_append;
         hash_append (h, a.t);
     }
 };
@@ -66,7 +66,7 @@ public:
     template <class Hasher>
     friend void hash_append (Hasher& h, test_user_type_free const& a) noexcept
     {
-        using beast::hash_append;
+        using boost::beast::hash_append;
         hash_append (h, a.t);
     }
 };
@@ -149,7 +149,7 @@ public:
     template <class Hasher>
     friend void hash_append(Hasher& h, unsigned_integer const& a) noexcept
     {
-        using beast::hash_append;
+        using boost::beast::hash_append;
         hash_append (h, a.m_vec);
     }
 
@@ -182,7 +182,7 @@ static_assert (sha256_t::bits == 256,
 namespace ripple {
 
 class hardened_hash_test
-    : public beast::unit_test::suite
+    : public boost::beast::unit_test::suite
 {
 public:
     template <class T>

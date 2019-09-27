@@ -11,7 +11,7 @@
 #include <nudb/test/fail_file.hpp>
 #include <nudb/test/test_store.hpp>
 #include <nudb/progress.hpp>
-#include <beast/unit_test/suite.hpp>
+#include <beast/include/boost/beast/_experimental/unit_test/suite.hpp>
 #include <cmath>
 #include <cstring>
 #include <memory>
@@ -21,7 +21,7 @@
 namespace nudb {
 namespace test {
 
-class basic_recover_test : public beast::unit_test::suite
+class basic_recover_test : public boost::beast::unit_test::suite
 {
 public:
     using key_type = std::uint32_t;
@@ -127,7 +127,7 @@ public:
         float loadFactor, std::size_t N)
     {
         testcase(std::to_string(N) + " inserts",
-            beast::unit_test::abort_on_fail);
+            boost::beast::unit_test::abort_on_fail);
         test_store ts{sizeof(key_type), blockSize, loadFactor};
         for(std::size_t n = 1;; ++n)
         {

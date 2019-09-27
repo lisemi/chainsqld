@@ -34,18 +34,18 @@ namespace PeerFinder {
 class SlotImp : public Slot
 {
 private:
-    using recent_type = beast::aged_unordered_map <beast::IP::Endpoint, int>;
+    using recent_type = boost::beast::aged_unordered_map <boost::beast::IP::Endpoint, int>;
 
 public:
     using ptr = std::shared_ptr <SlotImp>;
 
     // inbound
-    SlotImp (beast::IP::Endpoint const& local_endpoint,
-        beast::IP::Endpoint const& remote_endpoint, bool fixed,
+    SlotImp (boost::beast::IP::Endpoint const& local_endpoint,
+        boost::beast::IP::Endpoint const& remote_endpoint, bool fixed,
             clock_type& clock);
 
     // outbound
-    SlotImp (beast::IP::Endpoint const& remote_endpoint,
+    SlotImp (boost::beast::IP::Endpoint const& remote_endpoint,
         bool fixed, clock_type& clock);
 
     bool inbound () const
@@ -68,12 +68,12 @@ public:
         return m_state;
     }
 
-    beast::IP::Endpoint const& remote_endpoint () const
+    boost::beast::IP::Endpoint const& remote_endpoint () const
     {
         return m_remote_endpoint;
     }
 
-    boost::optional <beast::IP::Endpoint> const& local_endpoint () const
+    boost::optional <boost::beast::IP::Endpoint> const& local_endpoint () const
     {
         return m_local_endpoint;
     }
@@ -96,12 +96,12 @@ public:
         m_listening_port = port;
     }
 
-    void local_endpoint (beast::IP::Endpoint const& endpoint)
+    void local_endpoint (boost::beast::IP::Endpoint const& endpoint)
     {
         m_local_endpoint = endpoint;
     }
 
-    void remote_endpoint (beast::IP::Endpoint const& endpoint)
+    void remote_endpoint (boost::beast::IP::Endpoint const& endpoint)
     {
         m_remote_endpoint = endpoint;
     }
@@ -136,10 +136,10 @@ public:
             We also insert messages that we send to the slot to prevent
             sending a slot the same address too frequently.
         */
-        void insert (beast::IP::Endpoint const& ep, int hops);
+        void insert (boost::beast::IP::Endpoint const& ep, int hops);
 
         /** Returns `true` if we should not send endpoint to the slot. */
-        bool filter (beast::IP::Endpoint const& ep, int hops);
+        bool filter (boost::beast::IP::Endpoint const& ep, int hops);
 
     private:
         void expire ();
@@ -158,8 +158,8 @@ private:
     bool const m_fixed;
     bool m_cluster;
     State m_state;
-    beast::IP::Endpoint m_remote_endpoint;
-    boost::optional <beast::IP::Endpoint> m_local_endpoint;
+    boost::beast::IP::Endpoint m_remote_endpoint;
+    boost::optional <boost::beast::IP::Endpoint> m_local_endpoint;
     boost::optional <PublicKey> m_public_key;
 
     static std::int32_t constexpr unknownPort = -1;

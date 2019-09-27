@@ -53,7 +53,7 @@ public:
     static const std::chrono::minutes kReacquireInterval;
 
     InboundLedgersImp (Application& app, clock_type& clock, Stoppable& parent,
-                       beast::insight::Collector::ptr const& collector)
+                       boost::beast::insight::Collector::ptr const& collector)
         : Stoppable ("InboundLedgers", parent)
         , app_ (app)
         , fetchRate_(clock.now())
@@ -212,7 +212,7 @@ public:
     {
         ScopedLockType sl (mLock);
 
-        beast::expire (mRecentFailures, kReacquireInterval);
+        boost::beast::expire (mRecentFailures, kReacquireInterval);
         return mRecentFailures.find (h) != mRecentFailures.end();
     }
 
@@ -381,7 +381,7 @@ public:
                 }
             }
 
-            beast::expire (mRecentFailures, kReacquireInterval);
+            boost::beast::expire (mRecentFailures, kReacquireInterval);
 
         }
 
@@ -409,9 +409,9 @@ private:
     using MapType = hash_map <uint256, std::shared_ptr<InboundLedger>>;
     MapType mLedgers;
 
-    beast::aged_map <uint256, std::uint32_t> mRecentFailures;
+    boost::beast::aged_map <uint256, std::uint32_t> mRecentFailures;
 
-    beast::insight::Counter mCounter;
+    boost::beast::insight::Counter mCounter;
 };
 
 //------------------------------------------------------------------------------
@@ -426,7 +426,7 @@ InboundLedgers::~InboundLedgers()
 std::unique_ptr<InboundLedgers>
 make_InboundLedgers (Application& app,
     InboundLedgers::clock_type& clock, Stoppable& parent,
-    beast::insight::Collector::ptr const& collector)
+    boost::beast::insight::Collector::ptr const& collector)
 {
     return std::make_unique<InboundLedgersImp> (app, clock, parent, collector);
 }

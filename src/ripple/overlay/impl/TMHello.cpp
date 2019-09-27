@@ -24,7 +24,7 @@
 #include <ripple/beast/rfc2616.h>
 #include <ripple/beast/core/LexicalCast.h>
 #include <ripple/protocol/digest.h>
-#include <beast/core/detail/base64.hpp>
+#include <beast/include/boost/beast/core/detail/base64.hpp>
 #include <boost/regex.hpp>
 #include <algorithm>
 
@@ -95,8 +95,8 @@ makeSharedValue (SSL* ssl, boost::beast::Journal journal)
 protocol::TMHello
 buildHello (
     uint256 const& sharedValue,
-    beast::IP::Address public_ip,
-    beast::IP::Endpoint remote,
+    boost::beast::IP::Address public_ip,
+    boost::beast::IP::Endpoint remote,
     Application& app)
 {
     protocol::TMHello h;
@@ -125,7 +125,7 @@ buildHello (
         {
             // Connection is to a public IP
             h.set_remote_ip (addr.value);
-            if (public_ip != beast::IP::Address())
+            if (public_ip != boost::beast::IP::Address())
                 h.set_local_ip (public_ip.to_v4().value);
         }
     }
@@ -151,14 +151,14 @@ buildHello (
 }
 
 void
-appendHello (beast::http::fields& h,
+appendHello (boost::beast::http::fields& h,
     protocol::TMHello const& hello)
 {
     //h.append ("Protocol-Versions",...
 
     h.insert ("Public-Key", hello.nodepublic());
 
-    h.insert ("Session-Signature", beast::detail::base64_encode (
+    h.insert ("Session-Signature", boost::beast::detail::base64_encode (
         hello.nodeproof()));
 
     if (hello.has_nettime())
@@ -168,24 +168,24 @@ appendHello (beast::http::fields& h,
         h.insert ("Ledger", std::to_string (hello.ledgerindex()));
 
     if (hello.has_ledgerclosed())
-        h.insert ("Closed-Ledger", beast::detail::base64_encode (
+        h.insert ("Closed-Ledger", boost::beast::detail::base64_encode (
             hello.ledgerclosed()));
 
     if (hello.has_ledgerprevious())
-        h.insert ("Previous-Ledger", beast::detail::base64_encode (
+        h.insert ("Previous-Ledger", boost::beast::detail::base64_encode (
             hello.ledgerprevious()));
 
     if (hello.has_local_ip())
-        h.insert ("Local-IP", beast::IP::to_string (
-            beast::IP::AddressV4(hello.local_ip())));
+        h.insert ("Local-IP", boost::beast::IP::to_string (
+            boost::beast::IP::AddressV4(hello.local_ip())));
 
     if (hello.has_remote_ip())
-        h.insert ("Remote-IP", beast::IP::to_string (
-            beast::IP::AddressV4(hello.remote_ip())));
+        h.insert ("Remote-IP", boost::beast::IP::to_string (
+            boost::beast::IP::AddressV4(hello.remote_ip())));
 }
 
 std::vector<ProtocolVersion>
-parse_ProtocolVersions(beast::string_view const& value)
+parse_ProtocolVersions(boost::beast::string_view const& value)
 {
     static boost::regex re (
         "^"                  // start of line
@@ -196,7 +196,7 @@ parse_ProtocolVersions(beast::string_view const& value)
         "$"                  // The end of the string
         , boost::regex_constants::optimize);
 
-    auto const list = beast::rfc2616::split_commas(value);
+    auto const list = boost::beast::rfc2616::split_commas(value);
     std::vector<ProtocolVersion> result;
     for (auto const& s : list)
     {
@@ -205,10 +205,10 @@ parse_ProtocolVersions(beast::string_view const& value)
             continue;
         int major;
         int minor;
-        if (! beast::lexicalCastChecked (
+        if (! boost::beast::lexicalCastChecked (
                 major, std::string (m[1])))
             continue;
-        if (! beast::lexicalCastChecked (
+        if (! boost::beast::lexicalCastChecked (
                 minor, std::string (m[2])))
             continue;
         result.push_back (std::make_pair (major, minor));
@@ -219,7 +219,7 @@ parse_ProtocolVersions(beast::string_view const& value)
 }
 
 boost::optional<protocol::TMHello>
-parseHello (bool request, beast::http::fields const& h, boost::beast::Journal journal)
+parseHello (bool request, boost::beast::http::fields const& h, boost::beast::Journal journal)
 {
     // protocol version in TMHello is obsolete,
     // it is supplanted by the values in the headers.
@@ -259,7 +259,7 @@ parseHello (bool request, beast::http::fields const& h, boost::beast::Journal jo
         if (iter == h.end())
             return boost::none;
         // TODO Security Review
-        hello.set_nodeproof (beast::detail::base64_decode (iter->value().to_string()));
+        hello.set_nodeproof (boost::beast::detail::base64_decode (iter->value().to_string()));
     }
 
     {
@@ -274,7 +274,7 @@ parseHello (bool request, beast::http::fields const& h, boost::beast::Journal jo
         if (iter != h.end())
         {
             std::uint64_t nettime;
-            if (! beast::lexicalCastChecked(nettime, iter->value().to_string()))
+            if (! boost::beast::lexicalCastChecked(nettime, iter->value().to_string()))
                 return boost::none;
             hello.set_nettime (nettime);
         }
@@ -285,7 +285,7 @@ parseHello (bool request, beast::http::fields const& h, boost::beast::Journal jo
         if (iter != h.end())
         {
             LedgerIndex ledgerIndex;
-            if (! beast::lexicalCastChecked(ledgerIndex, iter->value().to_string()))
+            if (! boost::beast::lexicalCastChecked(ledgerIndex, iter->value().to_string()))
                 return boost::none;
             hello.set_ledgerindex (ledgerIndex);
         }
@@ -294,13 +294,13 @@ parseHello (bool request, beast::http::fields const& h, boost::beast::Journal jo
     {
         auto const iter = h.find ("Closed-Ledger");
         if (iter != h.end())
-            hello.set_ledgerclosed (beast::detail::base64_decode (iter->value().to_string()));
+            hello.set_ledgerclosed (boost::beast::detail::base64_decode (iter->value().to_string()));
     }
 
     {
         auto const iter = h.find ("Previous-Ledger");
         if (iter != h.end())
-            hello.set_ledgerprevious (beast::detail::base64_decode (iter->value().to_string()));
+            hello.set_ledgerprevious (boost::beast::detail::base64_decode (iter->value().to_string()));
     }
 
     {
@@ -308,9 +308,9 @@ parseHello (bool request, beast::http::fields const& h, boost::beast::Journal jo
         if (iter != h.end())
         {
             bool valid;
-            beast::IP::Address address;
+            boost::beast::IP::Address address;
             std::tie (address, valid) =
-                beast::IP::Address::from_string (iter->value().to_string());
+                boost::beast::IP::Address::from_string (iter->value().to_string());
             if (!valid)
                 return boost::none;
             if (address.is_v4())
@@ -323,9 +323,9 @@ parseHello (bool request, beast::http::fields const& h, boost::beast::Journal jo
         if (iter != h.end())
         {
             bool valid;
-            beast::IP::Address address;
+            boost::beast::IP::Address address;
             std::tie (address, valid) =
-                beast::IP::Address::from_string (iter->value().to_string());
+                boost::beast::IP::Address::from_string (iter->value().to_string());
             if (!valid)
                 return boost::none;
             if (address.is_v4())
@@ -339,8 +339,8 @@ parseHello (bool request, beast::http::fields const& h, boost::beast::Journal jo
 boost::optional<PublicKey>
 verifyHello (protocol::TMHello const& h,
     uint256 const& sharedValue,
-    beast::IP::Address public_ip,
-    beast::IP::Endpoint remote,
+    boost::beast::IP::Address public_ip,
+    boost::beast::IP::Endpoint remote,
     boost::beast::Journal journal,
     Application& app)
 {
@@ -415,23 +415,23 @@ verifyHello (protocol::TMHello const& h,
         // correct IP
         JLOG(journal.info()) <<
             "Hello: Disconnect: Peer IP is " <<
-            beast::IP::to_string (remote.to_v4())
+            boost::beast::IP::to_string (remote.to_v4())
             << " not " <<
-            beast::IP::to_string (beast::IP::AddressV4 (h.local_ip()));
+            boost::beast::IP::to_string (boost::beast::IP::AddressV4 (h.local_ip()));
         return boost::none;
     }
 
     if (h.has_remote_ip() && is_public (remote) &&
-        (public_ip != beast::IP::Address()) &&
+        (public_ip != boost::beast::IP::Address()) &&
         (h.remote_ip() != public_ip.to_v4().value))
     {
         // We know our public IP and peer reports connection
         // from some other IP
         JLOG(journal.info()) <<
             "Hello: Disconnect: Our IP is " <<
-            beast::IP::to_string (public_ip.to_v4())
+            boost::beast::IP::to_string (public_ip.to_v4())
             << " not " <<
-            beast::IP::to_string (beast::IP::AddressV4 (h.remote_ip()));
+            boost::beast::IP::to_string (boost::beast::IP::AddressV4 (h.remote_ip()));
         return boost::none;
     }
 

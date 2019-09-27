@@ -23,7 +23,7 @@
 
 namespace ripple {
 
-class LedgerClosed_test : public beast::unit_test::suite
+class LedgerClosed_test : public boost::beast::unit_test::suite
 {
 public:
 

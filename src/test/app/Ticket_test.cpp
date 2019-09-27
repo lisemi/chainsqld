@@ -24,7 +24,7 @@
 
 namespace ripple {
 
-class Ticket_test : public beast::unit_test::suite
+class Ticket_test : public boost::beast::unit_test::suite
 {
     static auto constexpr idOne =
       "00000000000000000000000000000000"

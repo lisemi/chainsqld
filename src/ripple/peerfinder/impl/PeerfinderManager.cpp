@@ -100,7 +100,7 @@ public:
     }
 
     void addFixedPeer (std::string const& name,
-        std::vector <beast::IP::Endpoint> const& addresses) override
+        std::vector <boost::beast::IP::Endpoint> const& addresses) override
     {
         m_logic.addFixedPeer (name, addresses);
     }
@@ -122,14 +122,14 @@ public:
 
     Slot::ptr
     new_inbound_slot (
-        beast::IP::Endpoint const& local_endpoint,
-            beast::IP::Endpoint const& remote_endpoint) override
+        boost::beast::IP::Endpoint const& local_endpoint,
+            boost::beast::IP::Endpoint const& remote_endpoint) override
     {
         return m_logic.new_inbound_slot (local_endpoint, remote_endpoint);
     }
 
     Slot::ptr
-    new_outbound_slot (beast::IP::Endpoint const& remote_endpoint) override
+    new_outbound_slot (boost::beast::IP::Endpoint const& remote_endpoint) override
     {
         return m_logic.new_outbound_slot (remote_endpoint);
     }
@@ -167,7 +167,7 @@ public:
 
     bool
     onConnected (Slot::ptr const& slot,
-        beast::IP::Endpoint const& local_endpoint) override
+        boost::beast::IP::Endpoint const& local_endpoint) override
     {
         SlotImp::ptr impl (std::dynamic_pointer_cast <SlotImp> (slot));
         return m_logic.onConnected (impl, local_endpoint);
@@ -188,7 +188,7 @@ public:
         return m_logic.redirect (impl);
     }
 
-    std::vector <beast::IP::Endpoint>
+    std::vector <boost::beast::IP::Endpoint>
     autoconnect() override
     {
         return m_logic.autoconnect();
@@ -236,7 +236,7 @@ public:
     //
     //--------------------------------------------------------------------------
 
-    void onWrite (beast::PropertyStream::Map& map) override
+    void onWrite (boost::beast::PropertyStream::Map& map) override
     {
         m_logic.onWrite (map);
     }
@@ -246,7 +246,7 @@ public:
 
 Manager::Manager (Stoppable& parent)
     : Stoppable ("PeerFinder", parent)
-    , beast::PropertyStream::Source ("peerfinder")
+    , boost::beast::PropertyStream::Source ("peerfinder")
 {
 }
 

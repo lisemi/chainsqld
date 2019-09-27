@@ -26,6 +26,7 @@
 #include <string>
 #include <thread>
 
+namespace boost {
 namespace beast {
 
 class abstract_clock_test : public unit_test::suite

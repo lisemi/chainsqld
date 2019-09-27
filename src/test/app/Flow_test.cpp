@@ -54,7 +54,7 @@ zxcMinusFee (jtx::Env const& env, std::int64_t zxcAmount)
         dropsPerZXC<std::int64_t>::value * zxcAmount - feeDrops);
 };
 
-struct Flow_test : public beast::unit_test::suite
+struct Flow_test : public boost::beast::unit_test::suite
 {
     static bool hasFeature(uint256 const& feat, std::initializer_list<uint256> args)
     {

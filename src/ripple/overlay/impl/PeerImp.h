@@ -35,7 +35,7 @@
 #include <ripple/beast/core/ByteOrder.h>
 #include <ripple/beast/net/IPAddressConversion.h>
 #include <ripple/beast/asio/ssl_bundle.h>
-#include <beast/http/message.hpp>
+#include <beast/include/boost/beast/http/message.hpp>
 #include <ripple/beast/utility/WrappedSink.h>
 #include <ripple/app/consensus/RCLCxPeerPos.h>
 #include <cstdint>
@@ -98,11 +98,11 @@ private:
 
     Application& app_;
     id_t const id_;
-    beast::WrappedSink sink_;
-    beast::WrappedSink p_sink_;
+    boost::beast::WrappedSink sink_;
+    boost::beast::WrappedSink p_sink_;
     boost::beast::Journal journal_;
     boost::beast::Journal p_journal_;
-    std::unique_ptr<beast::asio::ssl_bundle> ssl_bundle_;
+    std::unique_ptr<boost::beast::asio::ssl_bundle> ssl_bundle_;
     socket_type& socket_;
     stream_type& stream_;
     boost::asio::io_service::strand strand_;
@@ -113,7 +113,7 @@ private:
 
     // Updated at each stage of the connection process to reflect
     // the current conditions as closely as possible.
-    beast::IP::Endpoint remote_address_;
+    boost::beast::IP::Endpoint remote_address_;
 
     // These are up here to prevent warnings about order of initializations
     //
@@ -148,11 +148,11 @@ private:
     Resource::Consumer usage_;
     Resource::Charge fee_;
     PeerFinder::Slot::ptr slot_;
-    beast::multi_buffer read_buffer_;
+    boost::beast::multi_buffer read_buffer_;
     http_request_type request_;
     http_response_type response_;
-    beast::http::fields const& headers_;
-    beast::multi_buffer write_buffer_;
+    boost::beast::http::fields const& headers_;
+    boost::beast::multi_buffer write_buffer_;
     std::queue<Message::pointer> send_queue_;
     bool gracefulClose_ = false;
     int large_sendq_ = 0;
@@ -171,13 +171,13 @@ public:
         PeerFinder::Slot::ptr const& slot, http_request_type&& request,
             protocol::TMHello const& hello, PublicKey const& publicKey,
                 Resource::Consumer consumer,
-                    std::unique_ptr<beast::asio::ssl_bundle>&& ssl_bundle,
+                    std::unique_ptr<boost::beast::asio::ssl_bundle>&& ssl_bundle,
                         OverlayImpl& overlay);
 
     /** Create outgoing, handshaked peer. */
     // VFALCO legacyPublicKey should be implied by the Slot
     template <class Buffers>
-    PeerImp (Application& app, std::unique_ptr<beast::asio::ssl_bundle>&& ssl_bundle,
+    PeerImp (Application& app, std::unique_ptr<boost::beast::asio::ssl_bundle>&& ssl_bundle,
         Buffers const& buffers, PeerFinder::Slot::ptr&& slot,
             http_response_type&& response, Resource::Consumer usage,
                 protocol::TMHello const& hello,
@@ -221,7 +221,7 @@ public:
     void
     sendEndpoints (FwdIt first, FwdIt last);
 
-    beast::IP::Endpoint
+    boost::beast::IP::Endpoint
     getRemoteAddress() const override
     {
         return remote_address_;
@@ -358,7 +358,7 @@ private:
 
     http_response_type
     makeResponse (bool crawl, http_request_type const& req,
-        beast::IP::Endpoint remoteAddress,
+        boost::beast::IP::Endpoint remoteAddress,
         uint256 const& sharedValue);
 
     void
@@ -470,7 +470,7 @@ private:
 //------------------------------------------------------------------------------
 
 template <class Buffers>
-PeerImp::PeerImp (Application& app, std::unique_ptr<beast::asio::ssl_bundle>&& ssl_bundle,
+PeerImp::PeerImp (Application& app, std::unique_ptr<boost::beast::asio::ssl_bundle>&& ssl_bundle,
     Buffers const& buffers, PeerFinder::Slot::ptr&& slot,
         http_response_type&& response, Resource::Consumer usage,
             protocol::TMHello const& hello,
@@ -518,7 +518,7 @@ PeerImp::sendEndpoints (FwdIt first, FwdIt last)
         protocol::TMEndpoint& tme (*tm.add_endpoints());
         if (ep.address.is_v4())
             tme.mutable_ipv4()->set_ipv4(
-                beast::toNetworkByteOrder (ep.address.to_v4().value));
+                boost::beast::toNetworkByteOrder (ep.address.to_v4().value));
         else
             tme.mutable_ipv4()->set_ipv4(0);
         tme.mutable_ipv4()->set_ipv4port (ep.address.port());

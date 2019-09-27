@@ -12,7 +12,7 @@
 #include <nudb/test/test_store.hpp>
 #include <nudb/progress.hpp>
 #include <nudb/verify.hpp>
-#include <beast/unit_test/suite.hpp>
+#include <beast/include/boost/beast/_experimental/unit_test/suite.hpp>
 
 namespace nudb {
 namespace test {
@@ -20,7 +20,7 @@ namespace test {
 // Simple test to check that rekey works, and
 // also to exercise all its failure paths.
 //
-class rekey_test : public beast::unit_test::suite
+class rekey_test : public boost::beast::unit_test::suite
 {
 public:
     void

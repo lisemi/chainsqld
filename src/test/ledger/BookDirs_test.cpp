@@ -23,7 +23,7 @@
 namespace ripple {
 namespace test {
 
-struct BookDirs_test : public beast::unit_test::suite
+struct BookDirs_test : public boost::beast::unit_test::suite
 {
     void test_bookdir(std::initializer_list<uint256> fs)
     {

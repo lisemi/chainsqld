@@ -34,6 +34,7 @@
 #include <iomanip>
 #include <random>
 
+namespace boost {
 namespace beast {
 
 template <class Block, class Derived>
@@ -285,7 +286,7 @@ private:
 public:
     SlowKey()
     {
-        static beast::xor_shift_engine eng;
+        static boost::beast::xor_shift_engine eng;
         std::uniform_int_distribution<short> yeardata(1900, 2014);
         std::uniform_int_distribution<unsigned> monthdata(1, 12);
         std::uniform_int_distribution<unsigned> daydata(1, 28);
@@ -309,7 +310,7 @@ public:
     void
     hash_append (Hasher& h, SlowKey const& x) noexcept
     {
-        using beast::hash_append;
+        using boost::beast::hash_append;
         hash_append (h, x.date_, x.data_);
     }
 
@@ -332,7 +333,7 @@ private:
 public:
     FastKey()
     {
-        static beast::xor_shift_engine eng;
+        static boost::beast::xor_shift_engine eng;
         for (auto& v : m_values)
             v = eng();
     }

@@ -128,9 +128,9 @@ using ripemd160_hasher = openssl_ripemd160_hasher;
 using sha256_hasher = openssl_sha256_hasher;
 using sha512_hasher = openssl_sha512_hasher;
 #else
-using ripemd160_hasher = beast::ripemd160_hasher;
-using sha256_hasher = beast::sha256_hasher;
-using sha512_hasher = beast::sha512_hasher;
+using ripemd160_hasher = boost::beast::ripemd160_hasher;
+using sha256_hasher = boost::beast::sha256_hasher;
+using sha512_hasher = boost::beast::sha512_hasher;
 #endif
 
 //------------------------------------------------------------------------------
@@ -236,7 +236,7 @@ private:
     void
     erase (std::true_type)
     {
-        beast::secure_erase(&h_, sizeof(h_));
+        boost::beast::secure_erase(&h_, sizeof(h_));
     }
 };
 
@@ -257,9 +257,9 @@ inline
 void
 sha512_deprecatedMSVCWorkaround()
 {
-    beast::sha512_hasher h;
+    boost::beast::sha512_hasher h;
     auto const digest = static_cast<
-        beast::sha512_hasher::result_type>(h);
+        boost::beast::sha512_hasher::result_type>(h);
 }
 #endif
 
@@ -268,7 +268,7 @@ template <class... Args>
 sha512_half_hasher::result_type
 sha512Half (Args const&... args)
 {
-    using beast::hash_append;
+    using boost::beast::hash_append;
     HardEncrypt* hEObj = HardEncryptObj::getInstance();
     HardEncrypt::SM3Hash objSM3(hEObj);//refObjSM3 = hEObj->getSM3Obj();
 
@@ -304,7 +304,7 @@ sha512_half_hasher_s::result_type
 sha512Half_s (Args const&... args)
 {
     sha512_half_hasher_s h;
-    using beast::hash_append;
+    using boost::beast::hash_append;
     hash_append(h, args...);
     return static_cast<typename
         sha512_half_hasher_s::result_type>(h);

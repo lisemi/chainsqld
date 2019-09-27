@@ -103,7 +103,7 @@ private:
     std::size_t miss_ = 0;
     std::mutex mutable mutex_;
     Stopwatch::duration timeToLive_;
-    beast::aged_unordered_map <digest_type,
+    boost::beast::aged_unordered_map <digest_type,
         value_type, Stopwatch::clock_type,
             hardened_hash<strong_hash>> map_;
 };

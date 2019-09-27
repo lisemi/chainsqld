@@ -110,8 +110,8 @@ struct enable_if_lvalue
         struct Safe
         {
             template <class TX, class TY,
-            class = beast::enable_if_lvalue_t<TX, X>,
-            class = beast::enable_if_lvalue_t < TY, Y >>
+            class = boost::beast::enable_if_lvalue_t<TX, X>,
+            class = boost::beast::enable_if_lvalue_t < TY, Y >>
                 Safe (TX&& x, TY&& y)
                 : x_ (x)
                 , y_ (y)

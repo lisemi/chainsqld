@@ -93,21 +93,21 @@ Bootcache::load ()
 {
     clear();
     auto const n (m_store.load (
-        [this](beast::IP::Endpoint const& endpoint, int valence)
+        [this](boost::beast::IP::Endpoint const& endpoint, int valence)
         {
             auto const result (this->m_map.insert (
                 value_type (endpoint, valence)));
             if (! result.second)
             {
                 JLOG(this->m_journal.error())
-                    << beast::leftw (18) <<
+                    << boost::beast::leftw (18) <<
                     "Bootcache discard " << endpoint;
             }
         }));
 
     if (n > 0)
     {
-        JLOG(m_journal.info()) << beast::leftw (18) <<
+        JLOG(m_journal.info()) << boost::beast::leftw (18) <<
             "Bootcache loaded " << n <<
                 ((n > 1) ? " addresses" : " address");
         prune ();
@@ -115,13 +115,13 @@ Bootcache::load ()
 }
 
 bool
-Bootcache::insert (beast::IP::Endpoint const& endpoint)
+Bootcache::insert (boost::beast::IP::Endpoint const& endpoint)
 {
     auto const result (m_map.insert (
         value_type (endpoint, 0)));
     if (result.second)
     {
-        JLOG(m_journal.trace()) << beast::leftw (18) <<
+        JLOG(m_journal.trace()) << boost::beast::leftw (18) <<
             "Bootcache insert " << endpoint;
         prune ();
         flagForUpdate();
@@ -130,7 +130,7 @@ Bootcache::insert (beast::IP::Endpoint const& endpoint)
 }
 
 bool
-Bootcache::insertStatic (beast::IP::Endpoint const& endpoint)
+Bootcache::insertStatic (boost::beast::IP::Endpoint const& endpoint)
 {
     auto result (m_map.insert (
         value_type (endpoint, staticValence)));
@@ -145,7 +145,7 @@ Bootcache::insertStatic (beast::IP::Endpoint const& endpoint)
 
     if (result.second)
     {
-        JLOG(m_journal.trace()) << beast::leftw (18) <<
+        JLOG(m_journal.trace()) << boost::beast::leftw (18) <<
             "Bootcache insert " << endpoint;
         prune ();
         flagForUpdate();
@@ -154,7 +154,7 @@ Bootcache::insertStatic (beast::IP::Endpoint const& endpoint)
 }
 
 void
-Bootcache::on_success (beast::IP::Endpoint const& endpoint)
+Bootcache::on_success (boost::beast::IP::Endpoint const& endpoint)
 {
     auto result (m_map.insert (
         value_type (endpoint, 1)));
@@ -174,7 +174,7 @@ Bootcache::on_success (beast::IP::Endpoint const& endpoint)
         assert (result.second);
     }
     Entry const& entry (result.first->right);
-    JLOG(m_journal.info()) << beast::leftw (18) <<
+    JLOG(m_journal.info()) << boost::beast::leftw (18) <<
         "Bootcache connect " << endpoint <<
         " with " << entry.valence() <<
         ((entry.valence() > 1) ? " successes" : " success");
@@ -182,7 +182,7 @@ Bootcache::on_success (beast::IP::Endpoint const& endpoint)
 }
 
 void
-Bootcache::on_failure (beast::IP::Endpoint const& endpoint)
+Bootcache::on_failure (boost::beast::IP::Endpoint const& endpoint)
 {
     auto result (m_map.insert (
         value_type (endpoint, -1)));
@@ -203,7 +203,7 @@ Bootcache::on_failure (beast::IP::Endpoint const& endpoint)
     }
     Entry const& entry (result.first->right);
     auto const n (std::abs (entry.valence()));
-    JLOG(m_journal.debug()) << beast::leftw (18) <<
+    JLOG(m_journal.debug()) << boost::beast::leftw (18) <<
         "Bootcache failed " << endpoint <<
         " with " << n <<
         ((n > 1) ? " attempts" : " attempt");
@@ -219,12 +219,12 @@ Bootcache::periodicActivity ()
 //--------------------------------------------------------------------------
 
 void
-Bootcache::onWrite (beast::PropertyStream::Map& map)
+Bootcache::onWrite (boost::beast::PropertyStream::Map& map)
 {
-    beast::PropertyStream::Set entries ("entries", map);
+    boost::beast::PropertyStream::Set entries ("entries", map);
     for (auto iter = m_map.right.begin(); iter != m_map.right.end(); ++iter)
     {
-        beast::PropertyStream::Map entry (entries);
+        boost::beast::PropertyStream::Map entry (entries);
         entry["endpoint"] = iter->get_left().to_string();
         entry["valence"] = std::int32_t (iter->get_right().valence());
     }
@@ -249,15 +249,15 @@ Bootcache::prune ()
         count-- > 0 && iter != m_map.right.begin(); ++pruned)
     {
         --iter;
-        beast::IP::Endpoint const& endpoint (iter->get_left());
+        boost::beast::IP::Endpoint const& endpoint (iter->get_left());
         Entry const& entry (iter->get_right());
-        JLOG(m_journal.trace()) << beast::leftw (18) <<
+        JLOG(m_journal.trace()) << boost::beast::leftw (18) <<
             "Bootcache pruned" << endpoint <<
             " at valence " << entry.valence();
         iter = m_map.right.erase (iter);
     }
 
-    JLOG(m_journal.debug()) << beast::leftw (18) <<
+    JLOG(m_journal.debug()) << boost::beast::leftw (18) <<
         "Bootcache pruned " << pruned << " entries total";
 }
 

@@ -179,7 +179,7 @@ template <class Hasher>
 inline void
 hash_append(Hasher& h, Tx const& tx)
 {
-    using beast::hash_append;
+    using boost::beast::hash_append;
     hash_append(h, tx.id());
 }
 

@@ -43,18 +43,18 @@ private:
     using clock_type = Stopwatch;
     using Imports = hash_map <std::string, Import>;
     using Table = hash_map <Key, Entry, Key::hasher, Key::key_equal>;
-    using EntryIntrusiveList = beast::List <Entry>;
+    using EntryIntrusiveList = boost::beast::List <Entry>;
 
     struct Stats
     {
-        Stats (beast::insight::Collector::ptr const& collector)
+        Stats (boost::beast::insight::Collector::ptr const& collector)
         {
             warn = collector->make_meter ("warn");
             drop = collector->make_meter ("drop");
         }
 
-        beast::insight::Meter warn;
-        beast::insight::Meter drop;
+        boost::beast::insight::Meter warn;
+        boost::beast::insight::Meter drop;
     };
 
     Stats m_stats;
@@ -88,7 +88,7 @@ private:
     //--------------------------------------------------------------------------
 public:
 
-    Logic (beast::insight::Collector::ptr const& collector,
+    Logic (boost::beast::insight::Collector::ptr const& collector,
         clock_type& clock, boost::beast::Journal journal)
         : m_stats (collector)
         , m_clock (clock)
@@ -107,7 +107,7 @@ public:
         table_.clear();
     }
 
-    Consumer newInboundEndpoint (beast::IP::Endpoint const& address)
+    Consumer newInboundEndpoint (boost::beast::IP::Endpoint const& address)
     {
         Entry* entry (nullptr);
 
@@ -138,7 +138,7 @@ public:
         return Consumer (*this, *entry);
     }
 
-    Consumer newOutboundEndpoint (beast::IP::Endpoint const& address)
+    Consumer newOutboundEndpoint (boost::beast::IP::Endpoint const& address)
     {
         Entry* entry (nullptr);
 
@@ -508,12 +508,12 @@ public:
 
     void writeList (
         clock_type::time_point const now,
-            beast::PropertyStream::Set& items,
+            boost::beast::PropertyStream::Set& items,
                 EntryIntrusiveList& list)
     {
         for (auto& entry : list)
         {
-            beast::PropertyStream::Map item (items);
+            boost::beast::PropertyStream::Map item (items);
             if (entry.refcount != 0)
                 item ["count"] = entry.refcount;
             item ["name"] = entry.to_string();
@@ -523,29 +523,29 @@ public:
         }
     }
 
-    void onWrite (beast::PropertyStream::Map& map)
+    void onWrite (boost::beast::PropertyStream::Map& map)
     {
         clock_type::time_point const now (m_clock.now());
 
         std::lock_guard<std::recursive_mutex> _(lock_);
 
         {
-            beast::PropertyStream::Set s ("inbound", map);
+            boost::beast::PropertyStream::Set s ("inbound", map);
             writeList (now, s, inbound_);
         }
 
         {
-            beast::PropertyStream::Set s ("outbound", map);
+            boost::beast::PropertyStream::Set s ("outbound", map);
             writeList (now, s, outbound_);
         }
 
         {
-            beast::PropertyStream::Set s ("admin", map);
+            boost::beast::PropertyStream::Set s ("admin", map);
             writeList (now, s, admin_);
         }
 
         {
-            beast::PropertyStream::Set s ("inactive", map);
+            boost::beast::PropertyStream::Set s ("inactive", map);
             writeList (now, s, inactive_);
         }
     }

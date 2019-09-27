@@ -21,6 +21,7 @@
 
 #include <ripple/beast/unit_test.h>
 
+namespace boost {
 namespace beast {
 
 struct adl_tester {};
@@ -42,7 +43,7 @@ int signum (adl_tester2)
 
 }  // detail
 
-class Zero_test : public beast::unit_test::suite
+class Zero_test : public boost::beast::unit_test::suite
 {
 private:
     struct IntegerWrapper

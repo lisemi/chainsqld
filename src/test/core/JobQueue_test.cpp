@@ -27,7 +27,7 @@ namespace test {
 
 //------------------------------------------------------------------------------
 
-class JobQueue_test : public beast::unit_test::suite
+class JobQueue_test : public boost::beast::unit_test::suite
 {
     void testAddJob()
     {

@@ -43,7 +43,7 @@ Json::Value doRandom (RPC::Context& context)
     try
     {
         uint256 rand;
-        beast::rngfill (
+        boost::beast::rngfill (
             rand.begin(),
             rand.size(),
             crypto_prng());

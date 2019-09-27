@@ -26,7 +26,7 @@
 namespace ripple {
 namespace test {
 
-class Book_test : public beast::unit_test::suite
+class Book_test : public boost::beast::unit_test::suite
 {
     std::string getBookDir(jtx::Env & env, Issue const& in, Issue const& out)
     {

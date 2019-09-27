@@ -26,7 +26,7 @@ namespace ripple {
 namespace NodeStore {
 namespace tests {
 
-class varint_test : public beast::unit_test::suite
+class varint_test : public boost::beast::unit_test::suite
 {
 public:
     void

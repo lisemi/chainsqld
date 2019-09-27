@@ -11,12 +11,12 @@
 #include <nudb/test/test_store.hpp>
 #include <nudb/progress.hpp>
 #include <nudb/verify.hpp>
-#include <beast/unit_test/suite.hpp>
+#include <beast/include/boost/beast/_experimental/unit_test/suite.hpp>
 
 namespace nudb {
 namespace test {
 
-class verify_test : public beast::unit_test::suite
+class verify_test : public boost::beast::unit_test::suite
 {
 public:
     // File doesn't exist

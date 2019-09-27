@@ -25,7 +25,7 @@
 
 namespace ripple {
 
-class StringUtilities_test : public beast::unit_test::suite
+class StringUtilities_test : public boost::beast::unit_test::suite
 {
 public:
     void testUnHexSuccess (std::string const& strIn, std::string const& strExpected)

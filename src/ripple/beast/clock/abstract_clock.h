@@ -23,6 +23,7 @@
 #include <chrono>
 #include <string>
 
+namespace boost {
 namespace beast {
 
 /** Abstract interface to a clock.
@@ -106,6 +107,7 @@ get_abstract_clock()
     return clock;
 }
 
+}
 }
 
 #endif

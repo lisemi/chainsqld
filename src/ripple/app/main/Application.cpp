@@ -237,14 +237,14 @@ private:
     class io_latency_sampler
     {
     private:
-        beast::insight::Event m_event;
+        boost::beast::insight::Event m_event;
         boost::beast::Journal m_journal;
-        beast::io_latency_probe <std::chrono::steady_clock> m_probe;
+        boost::beast::io_latency_probe <std::chrono::steady_clock> m_probe;
         std::atomic<std::chrono::milliseconds> lastSample_;
 
     public:
         io_latency_sampler (
-            beast::insight::Event ev,
+            boost::beast::insight::Event ev,
             boost::beast::Journal journal,
             std::chrono::milliseconds interval,
             boost::asio::io_service& ios)
@@ -984,7 +984,7 @@ public:
     // PropertyStream
     //
 
-    void onWrite (beast::PropertyStream::Map& stream) override
+    void onWrite (boost::beast::PropertyStream::Map& stream) override
     {
     }
 
@@ -1148,7 +1148,7 @@ bool ApplicationImp::setup()
         if (!logs_->open(debug_log))
             std::cerr << "Can't open log file " << debug_log << '\n';
 
-        using namespace beast::severities;
+        using namespace boost::beast::severities;
         if (logs_->threshold() > kDebug)
             logs_->threshold (kDebug);
     }
@@ -1336,7 +1336,7 @@ bool ApplicationImp::setup()
     {
         auto setup = setup_ServerHandler(
             *config_,
-            beast::logstream { m_journal.error() });
+            boost::beast::logstream { m_journal.error() });
         setup.makeContexts();
         serverHandler_->setup (setup, m_journal);
     }
@@ -1736,7 +1736,7 @@ bool ApplicationImp::loadOldLedger (
                 }
             }
         }
-        else if (ledgerID.empty () || boost::boost::beast::iequals(ledgerID, "latest"))
+        else if (ledgerID.empty () || boost::beast::iequals(ledgerID, "latest"))
         {
             loadLedger = getLastFullLedger ();
         }
@@ -1745,7 +1745,7 @@ bool ApplicationImp::loadOldLedger (
             // assume by sequence
             std::uint32_t index;
 
-            if (beast::lexicalCastChecked (index, ledgerID))
+            if (boost::beast::lexicalCastChecked (index, ledgerID))
                 loadLedger = loadByIndex (index, *this);
         }
 
@@ -2187,7 +2187,7 @@ bool ApplicationImp::setSynTable()
 //------------------------------------------------------------------------------
 
 Application::Application ()
-    : beast::PropertyStream::Source ("app")
+    : boost::beast::PropertyStream::Source ("app")
 {
 }
 

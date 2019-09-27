@@ -37,23 +37,23 @@ private:
     using endpoint_type = boost::asio::ip::tcp::endpoint;
 
     using request_type =
-        beast::http::request<beast::http::empty_body>;
+        boost::beast::http::request<boost::beast::http::empty_body>;
 
     using response_type =
-        beast::http::response<beast::http::dynamic_body>;
+        boost::beast::http::response<boost::beast::http::dynamic_body>;
 
     Application& app_;
     std::uint32_t const id_;
-    beast::WrappedSink sink_;
+    boost::beast::WrappedSink sink_;
     boost::beast::Journal journal_;
     endpoint_type remote_endpoint_;
     Resource::Consumer usage_;
     boost::asio::io_service::strand strand_;
     boost::asio::basic_waitable_timer<std::chrono::steady_clock> timer_;
-    std::unique_ptr<beast::asio::ssl_bundle> ssl_bundle_;
-    beast::asio::ssl_bundle::socket_type& socket_;
-    beast::asio::ssl_bundle::stream_type& stream_;
-    beast::multi_buffer read_buf_;
+    std::unique_ptr<boost::beast::asio::ssl_bundle> ssl_bundle_;
+    boost::beast::asio::ssl_bundle::socket_type& socket_;
+    boost::beast::asio::ssl_bundle::stream_type& stream_;
+    boost::beast::multi_buffer read_buf_;
     response_type response_;
     PeerFinder::Slot::ptr slot_;
     request_type req_;
@@ -61,7 +61,7 @@ private:
 public:
     ConnectAttempt (Application& app, boost::asio::io_service& io_service,
         endpoint_type const& remote_endpoint, Resource::Consumer usage,
-            beast::asio::ssl_bundle::shared_context const& context,
+            boost::beast::asio::ssl_bundle::shared_context const& context,
                 std::uint32_t id, PeerFinder::Slot::ptr const& slot,
                     boost::beast::Journal journal, OverlayImpl& overlay);
 
@@ -99,7 +99,7 @@ private:
     boost::asio::ip::tcp::endpoint
     parse_endpoint (std::string const& s, boost::system::error_code& ec)
     {
-        beast::IP::Endpoint bep;
+        boost::beast::IP::Endpoint bep;
         std::istringstream is(s);
         is >> bep;
         if (is.fail())
@@ -109,7 +109,7 @@ private:
             return boost::asio::ip::tcp::endpoint{};
         }
 
-        return beast::IPAddressConversion::to_asio_endpoint(bep);
+        return boost::beast::IPAddressConversion::to_asio_endpoint(bep);
     }
 };
 

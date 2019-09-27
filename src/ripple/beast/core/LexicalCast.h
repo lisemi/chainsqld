@@ -165,7 +165,7 @@ template <class Out>
 struct LexicalCast <Out, std::string>
 {
     static_assert (std::is_integral <Out>::value,
-        "beast::LexicalCast can only be used with integral types");
+        "boost::beast::LexicalCast can only be used with integral types");
 
     template <class Integral = Out>
     std::enable_if_t <std::is_unsigned <Integral>::value, bool>

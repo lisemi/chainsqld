@@ -5,13 +5,14 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include <beast/unit_test/amount.hpp>
-#include <beast/unit_test/global_suites.hpp>
-#include <beast/unit_test/suite.hpp>
+#include <beast/include/boost/beast/_experimental/unit_test/amount.hpp>
+#include <beast/include/boost/beast/_experimental/unit_test/global_suites.hpp>
+#include <beast/include/boost/beast/_experimental/unit_test/suite.hpp>
 #include <string>
 
 // Include this .cpp in your project to gain access to the printing suite
 
+namespace boost {
 namespace beast {
 namespace unit_test {
 

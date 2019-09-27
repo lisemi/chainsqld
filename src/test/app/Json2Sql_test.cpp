@@ -29,7 +29,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 namespace ripple {
 
-class Json2Sql_test : public beast::unit_test::suite {
+class Json2Sql_test : public boost::beast::unit_test::suite {
 public:
 	void run() {
 		pass();

@@ -64,7 +64,7 @@ Throw (Args&&... args)
 
     E e(std::forward<Args>(args)...);
     LogThrow (std::string("Throwing exception of type " +
-                          beast::type_name<E>() +": ") + e.what());
+                          boost::beast::type_name<E>() +": ") + e.what());
     throw e;
 }
 

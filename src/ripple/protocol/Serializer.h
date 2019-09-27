@@ -199,7 +199,7 @@ public:
     }
     void secureErase ()
     {
-        beast::secure_erase(mData.data(), mData.size());
+        boost::beast::secure_erase(mData.data(), mData.size());
         mData.clear ();
     }
     void erase ()

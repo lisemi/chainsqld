@@ -25,7 +25,7 @@
 
 namespace ripple {
 
-class Freeze_test : public beast::unit_test::suite
+class Freeze_test : public boost::beast::unit_test::suite
 {
 
     static Json::Value

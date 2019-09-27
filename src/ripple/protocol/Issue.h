@@ -60,7 +60,7 @@ template <class Hasher>
 void
 hash_append(Hasher& h, Issue const& r)
 {
-    using beast::hash_append;
+    using boost::beast::hash_append;
     hash_append(h, r.currency, r.account);
 }
 

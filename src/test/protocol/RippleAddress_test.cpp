@@ -41,7 +41,7 @@ public:
 	{
 		//Test AES
 		uint256 digest;
-		beast::rngfill(
+		boost::beast::rngfill(
 			digest.data(),
 			digest.size(),
 			crypto_prng());
@@ -77,7 +77,7 @@ public:
 		auto vucTextRecovered = RippleAddress::decryptAES(randomBlob, vucTextCipher);
 		expect(vucTextSrc == vucTextRecovered, "Encrypt-decrypt failed.");
 
-		beast::rngfill(
+		boost::beast::rngfill(
 			digest.data(),
 			digest.size(),
 			crypto_prng());
@@ -218,7 +218,7 @@ public:
 
 		//Test AES
 		uint256 digest;
-		beast::rngfill(
+		boost::beast::rngfill(
 			digest.data(),
 			digest.size(),
 			crypto_prng());
@@ -236,7 +236,7 @@ public:
 
 //------------------------------------------------------------------------------
 
-class RippleIdentifier_test : public beast::unit_test::suite
+class RippleIdentifier_test : public boost::beast::unit_test::suite
 {
 public:
     void run ()

@@ -22,7 +22,7 @@
 namespace ripple {
 namespace test {
 
-struct PendingSaves_test : public beast::unit_test::suite
+struct PendingSaves_test : public boost::beast::unit_test::suite
 {
     void testSaves()
     {

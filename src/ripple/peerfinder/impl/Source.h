@@ -35,7 +35,7 @@ namespace PeerFinder {
     be updated automatically. Another solution is to use a custom DNS server
     that hands out peer IP addresses when name lookups are performed.
 */
-class Source : public beast::SharedObject
+class Source : public boost::beast::SharedObject
 {
 public:
     /** The results of a fetch. */

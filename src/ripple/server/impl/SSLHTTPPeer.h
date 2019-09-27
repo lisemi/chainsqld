@@ -40,7 +40,7 @@ private:
     using yield_context = boost::asio::yield_context;
     using error_code = boost::system::error_code;
 
-    std::unique_ptr<beast::asio::ssl_bundle> ssl_bundle_;
+    std::unique_ptr<boost::beast::asio::ssl_bundle> ssl_bundle_;
     stream_type& stream_;
 
 public:
@@ -78,8 +78,8 @@ SSLHTTPPeer(Port const& port, Handler& handler,
     boost::beast::Journal journal, endpoint_type remote_address,
         ConstBufferSequence const& buffers, socket_type&& socket)
     : BaseHTTPPeer<Handler, SSLHTTPPeer>(port, handler,
-        socket.get_io_service(), journal, remote_address, buffers)
-    , ssl_bundle_(std::make_unique<beast::asio::ssl_bundle>(
+        socket.get_executor().context(), journal, remote_address, buffers)
+    , ssl_bundle_(std::make_unique<boost::beast::asio::ssl_bundle>(
         port.context, std::move(socket)))
     , stream_(ssl_bundle_->stream)
 {

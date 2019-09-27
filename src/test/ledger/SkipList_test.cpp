@@ -27,7 +27,7 @@
 namespace ripple {
 namespace test {
 
-class SkipList_test : public beast::unit_test::suite
+class SkipList_test : public boost::beast::unit_test::suite
 {
     void
     testSkipList()

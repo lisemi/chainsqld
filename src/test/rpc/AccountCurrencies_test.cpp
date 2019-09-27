@@ -23,7 +23,7 @@
 
 namespace ripple {
 
-class AccountCurrencies_test : public beast::unit_test::suite
+class AccountCurrencies_test : public boost::beast::unit_test::suite
 {
     void
     testBadInput ()

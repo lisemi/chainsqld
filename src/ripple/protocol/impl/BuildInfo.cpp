@@ -98,7 +98,7 @@ getVersionString ()
 {
     static std::string const value = [] {
         std::string const s = versionString;
-        beast::SemanticVersion v;
+        boost::beast::SemanticVersion v;
         if (!v.parse (s) || v.print () != s)
             LogicError (s + ": Bad server version string");
         return s;

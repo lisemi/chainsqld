@@ -24,7 +24,7 @@
 namespace ripple {
 namespace test {
 
-struct mulDiv_test : beast::unit_test::suite
+struct mulDiv_test : boost::beast::unit_test::suite
 {
     void run()
     {

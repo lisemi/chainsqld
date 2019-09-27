@@ -10,13 +10,13 @@
 
 #include <nudb/test/test_store.hpp>
 #include <nudb/progress.hpp>
-#include <beast/unit_test/suite.hpp>
+#include <beast/include/boost/beast/_experimental/unit_test/suite.hpp>
 #include <unordered_map>
 
 namespace nudb {
 namespace test {
 
-class visit_test : public beast::unit_test::suite
+class visit_test : public boost::beast::unit_test::suite
 {
 public:
     void

@@ -48,7 +48,7 @@ struct nonhash
     operator std::size_t() noexcept { return WIDTH; }
 };
 
-struct base_uint_test : beast::unit_test::suite
+struct base_uint_test : boost::beast::unit_test::suite
 {
     using test96 = base_uint<96>;
 

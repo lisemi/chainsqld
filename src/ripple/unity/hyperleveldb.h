@@ -20,7 +20,7 @@
 #ifndef RIPPLE_UNITY_HYPERLEVELDB_H_INCLUDED
 #define RIPPLE_UNITY_HYPERLEVELDB_H_INCLUDED
 
-#include <beast/Config.h>
+#include <beast/include/boost/beast/Config.h>
 
 #if ! BEAST_WIN32
 

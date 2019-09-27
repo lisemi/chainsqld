@@ -238,7 +238,7 @@ public:
         if (ec == boost::asio::error::operation_aborted)
             return;
 
-        std::vector <beast::IP::Endpoint> addresses;
+        std::vector <boost::beast::IP::Endpoint> addresses;
 
         // If we get an error message back, we don't return any
         // results that we may have gotten.
@@ -246,7 +246,7 @@ public:
         {
             while (iter != boost::asio::ip::tcp::resolver::iterator())
             {
-                addresses.push_back (beast::IPAddressConversion::from_asio (*iter));
+                addresses.push_back (boost::beast::IPAddressConversion::from_asio (*iter));
                 ++iter;
             }
         }

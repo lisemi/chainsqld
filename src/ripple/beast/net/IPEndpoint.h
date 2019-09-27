@@ -98,7 +98,7 @@ public:
     void
     hash_append (Hasher& h, Endpoint const& endpoint)
     {
-        using beast::hash_append;
+        using boost::beast::hash_append;
         hash_append(h, endpoint.m_addr, endpoint.m_port);
     }
 
@@ -167,9 +167,9 @@ struct hash <boost::beast::IP::Endpoint>
 namespace boost {
 /** boost::hash support. */
 template <>
-struct hash <beast::IP::Endpoint>
+struct hash <boost::beast::IP::Endpoint>
 {
-    std::size_t operator() (beast::IP::Endpoint const& endpoint) const
+    std::size_t operator() (boost::beast::IP::Endpoint const& endpoint) const
         { return boost::beast::uhash<>{} (endpoint); }
 };
 }

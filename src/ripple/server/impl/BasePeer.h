@@ -45,7 +45,7 @@ protected:
     Port const& port_;
     Handler& handler_;
     endpoint_type remote_address_;
-    beast::WrappedSink sink_;
+    boost::beast::WrappedSink sink_;
     boost::beast::Journal j_;
 
     boost::asio::io_service::work work_;

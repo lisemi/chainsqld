@@ -23,6 +23,7 @@
 #include <iterator>
 #include <type_traits>
 
+namespace boost {
 namespace beast {
 
 template <bool, bool, class, class, class, class, class>
@@ -177,6 +178,7 @@ private:
 
 }
 
+}
 }
 
 #endif

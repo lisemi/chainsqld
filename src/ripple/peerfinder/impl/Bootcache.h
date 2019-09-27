@@ -79,16 +79,16 @@ private:
         int m_valence;
     };
 
-    using left_t = boost::bimaps::unordered_set_of <beast::IP::Endpoint>;
+    using left_t = boost::bimaps::unordered_set_of <boost::beast::IP::Endpoint>;
     using right_t = boost::bimaps::multiset_of <Entry>;
     using map_type = boost::bimap <left_t, right_t>;
     using value_type = map_type::value_type;
 
     struct Transform : std::unary_function <
         map_type::right_map::const_iterator::value_type const&,
-            beast::IP::Endpoint const&>
+            boost::beast::IP::Endpoint const&>
     {
-        beast::IP::Endpoint const& operator() (
+        boost::beast::IP::Endpoint const& operator() (
             map_type::right_map::
                 const_iterator::value_type const& v) const
         {
@@ -143,22 +143,22 @@ public:
     void load ();
 
     /** Add a newly-learned address to the cache. */
-    bool insert (beast::IP::Endpoint const& endpoint);
+    bool insert (boost::beast::IP::Endpoint const& endpoint);
 
     /** Add a staticallyconfigured address to the cache. */
-    bool insertStatic (beast::IP::Endpoint const& endpoint);
+    bool insertStatic (boost::beast::IP::Endpoint const& endpoint);
 
     /** Called when an outbound connection handshake completes. */
-    void on_success (beast::IP::Endpoint const& endpoint);
+    void on_success (boost::beast::IP::Endpoint const& endpoint);
 
     /** Called when an outbound connection attempt fails to handshake. */
-    void on_failure (beast::IP::Endpoint const& endpoint);
+    void on_failure (boost::beast::IP::Endpoint const& endpoint);
 
     /** Stores the cache in the persistent database on a timer. */
     void periodicActivity ();
 
     /** Write the cache state to the property stream. */
-    void onWrite (beast::PropertyStream::Map& map);
+    void onWrite (boost::beast::PropertyStream::Map& map);
 
 private:
     void prune ();

@@ -65,6 +65,7 @@ It depends on successfully passing SMHasher test set.
 *****************************/
 #include <stddef.h>   /* size_t */
 
+namespace boost {
 namespace beast {
 namespace detail {
 
@@ -150,5 +151,6 @@ When you are done, don't forget to free XXH state space, using typically XXHnn_f
 
 } // detail
 } // beast
+}
 
 #endif

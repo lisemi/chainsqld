@@ -41,7 +41,7 @@ class Ledger;
 class TableSync
 {
 public:
-    using clock_type = beast::abstract_clock <std::chrono::steady_clock>;
+    using clock_type = boost::beast::abstract_clock <std::chrono::steady_clock>;
 
     TableSync(Application& app, Config& cfg, boost::beast::Journal journal);
     virtual ~TableSync();

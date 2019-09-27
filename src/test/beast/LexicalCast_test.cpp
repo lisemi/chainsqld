@@ -21,6 +21,7 @@
 #include <ripple/beast/unit_test.h>
 #include <ripple/beast/xor_shift_engine.h>
 
+namespace boost {
 namespace beast {
 
 class LexicalCast_test : public unit_test::suite

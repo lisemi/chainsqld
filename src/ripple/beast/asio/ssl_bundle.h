@@ -26,6 +26,7 @@
 #include <memory>
 #include <utility>
 
+namespace boost {
 namespace beast {
 namespace asio {
 
@@ -67,5 +68,6 @@ ssl_bundle::ssl_bundle (boost::asio::ssl::context& context_, Args&&... args)
 
 } // asio
 } // beast
+}
 
 #endif

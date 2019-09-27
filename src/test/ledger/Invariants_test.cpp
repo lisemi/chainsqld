@@ -29,7 +29,7 @@
 
 namespace ripple {
 
-class Invariants_test : public beast::unit_test::suite
+class Invariants_test : public boost::beast::unit_test::suite
 {
 
     class TestSink : public boost::beast::Journal::Sink
@@ -37,10 +37,10 @@ class Invariants_test : public beast::unit_test::suite
     public:
         std::stringstream strm_;
 
-        TestSink () : Sink (beast::severities::kWarning, false) {  }
+        TestSink () : Sink (boost::beast::severities::kWarning, false) {  }
 
         void
-        write (beast::severities::Severity level,
+        write (boost::beast::severities::Severity level,
             std::string const& text) override
         {
             if (level < threshold())

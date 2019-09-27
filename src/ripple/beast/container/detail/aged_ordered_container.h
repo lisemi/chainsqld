@@ -35,6 +35,7 @@
 #include <ripple/beast/cxx17/type_traits.h> // <type_traits>
 #include <utility>
 
+namespace boost {
 namespace beast {
 namespace detail {
 
@@ -162,13 +163,13 @@ private:
 
     // VFALCO TODO This should only be enabled for maps.
     class pair_value_compare
-        : private boost::empty_value <Compare> (boost::empty_init_t{})
+        : private boost::empty_value <Compare>
         , public std::binary_function <value_type, value_type, bool>
     {
     public:
         bool operator() (value_type const& lhs, value_type const& rhs) const
         {
-            return this->member() (lhs.first, rhs.first);
+            return this->get() (lhs.first, rhs.first);
         }
 
         pair_value_compare ()
@@ -192,7 +193,7 @@ private:
     // Compares value_type against element, used in insert_check
     // VFALCO TODO hoist to remove template argument dependencies
     class KeyValueCompare
-        : private boost::empty_value <Compare> (boost::empty_init_t{})
+        : private boost::empty_value <Compare>
         , public std::binary_function <Key, element, bool>
     {
     public:
@@ -209,39 +210,39 @@ private:
         template <class K>
         bool operator() (K const& k, element const& e) const
         {
-            return this->member() (k, extract (e.value));
+            return this->get() (k, extract (e.value));
         }
 
         template <class K>
         bool operator() (element const& e, K const& k) const
         {
-            return this->member() (extract (e.value), k);
+            return this->get() (extract (e.value), k);
         }
 #endif
 
         bool operator() (Key const& k, element const& e) const
         {
-            return this->member() (k, extract (e.value));
+            return this->get() (k, extract (e.value));
         }
 
         bool operator() (element const& e, Key const& k) const
         {
-            return this->member() (extract (e.value), k);
+            return this->get() (extract (e.value), k);
         }
 
         bool operator() (element const& x, element const& y) const
         {
-            return this->member() (extract (x.value), extract (y.value));
+            return this->get() (extract (x.value), extract (y.value));
         }
 
         Compare& compare()
         {
-            return boost::empty_value<Compare>(boost::empty_init_t{})::member();
+            return boost::empty_value<Compare>::get();
         }
 
         Compare const& compare() const
         {
-            return boost::empty_value<Compare>(boost::empty_init_t{})::member();
+            return boost::empty_value<Compare>::get();
         }
     };
 
@@ -267,7 +268,7 @@ private:
 
     class config_t
         : private KeyValueCompare
-        , private boost::empty_value <ElementAllocator> (boost::empty_init_t{})
+        , private boost::empty_value <ElementAllocator>
     {
     public:
         explicit config_t (
@@ -307,7 +308,7 @@ private:
             , boost::empty_value <ElementAllocator> (boost::empty_init_t{}, (
                 ElementAllocatorTraits::
                     select_on_container_copy_construction (
-                        other.alloc()))
+                        other.alloc())))
             , clock (other.clock)
         {
         }
@@ -322,7 +323,7 @@ private:
         config_t (config_t&& other)
             : KeyValueCompare (std::move (other.key_compare()))
             , boost::empty_value <ElementAllocator> (boost::empty_init_t{}, (
-                std::move (other))
+                std::move (other)))
             , clock (other.clock)
         {
         }
@@ -375,12 +376,12 @@ private:
 
         ElementAllocator& alloc()
         {
-            return boost::empty_value <ElementAllocator> (boost::empty_init_t{})::member();
+            return boost::empty_value <ElementAllocator>::get();
         }
 
         ElementAllocator const& alloc() const
         {
-            return boost::empty_value <ElementAllocator> (boost::empty_init_t{})::member();
+            return boost::empty_value <ElementAllocator>::get();
         }
 
         std::reference_wrapper <clock_type> clock;
@@ -442,13 +443,13 @@ public:
 
     // A set iterator (IsMap==false) is always const
     // because the elements of a set are immutable.
-    using iterator = beast::detail::aged_container_iterator<
+    using iterator = boost::beast::detail::aged_container_iterator<
         ! IsMap, typename cont_type::iterator>;
-    using const_iterator = beast::detail::aged_container_iterator<
+    using const_iterator = boost::beast::detail::aged_container_iterator<
         true, typename cont_type::iterator>;
-    using reverse_iterator = beast::detail::aged_container_iterator<
+    using reverse_iterator = boost::beast::detail::aged_container_iterator<
         ! IsMap, typename cont_type::reverse_iterator>;
-    using const_reverse_iterator = beast::detail::aged_container_iterator<
+    using const_reverse_iterator = boost::beast::detail::aged_container_iterator<
         true, typename cont_type::reverse_iterator>;
 
     //--------------------------------------------------------------------------
@@ -465,13 +466,13 @@ public:
     public:
         // A set iterator (IsMap==false) is always const
         // because the elements of a set are immutable.
-        using iterator = beast::detail::aged_container_iterator<
+        using iterator = boost::beast::detail::aged_container_iterator<
             ! IsMap, typename list_type::iterator>;
-        using const_iterator = beast::detail::aged_container_iterator<
+        using const_iterator = boost::beast::detail::aged_container_iterator<
             true, typename list_type::iterator>;
-        using reverse_iterator = beast::detail::aged_container_iterator<
+        using reverse_iterator = boost::beast::detail::aged_container_iterator<
             ! IsMap, typename list_type::reverse_iterator>;
-        using const_reverse_iterator = beast::detail::aged_container_iterator<
+        using const_reverse_iterator = boost::beast::detail::aged_container_iterator<
             true, typename list_type::reverse_iterator>;
 
         iterator begin ()
@@ -963,16 +964,16 @@ public:
     // enable_if prevents erase (reverse_iterator pos) from compiling
     template <bool is_const, class Iterator, class Base,
          class = std::enable_if_t<!is_boost_reverse_iterator<Iterator>::value>>
-    beast::detail::aged_container_iterator <false, Iterator, Base>
-    erase (beast::detail::aged_container_iterator <is_const, Iterator, Base> pos);
+    boost::beast::detail::aged_container_iterator <false, Iterator, Base>
+    erase (boost::beast::detail::aged_container_iterator <is_const, Iterator, Base> pos);
 
     // enable_if prevents erase (reverse_iterator first, reverse_iterator last)
     // from compiling
     template <bool is_const, class Iterator, class Base,
         class = std::enable_if_t<!is_boost_reverse_iterator<Iterator>::value>>
-    beast::detail::aged_container_iterator <false, Iterator, Base>
-    erase (beast::detail::aged_container_iterator <is_const, Iterator, Base> first,
-           beast::detail::aged_container_iterator <is_const, Iterator, Base> last);
+    boost::beast::detail::aged_container_iterator <false, Iterator, Base>
+    erase (boost::beast::detail::aged_container_iterator <is_const, Iterator, Base> first,
+           boost::beast::detail::aged_container_iterator <is_const, Iterator, Base> last);
 
     template <class K>
     auto
@@ -988,7 +989,7 @@ public:
     template <bool is_const, class Iterator, class Base,
         class = std::enable_if_t<!is_boost_reverse_iterator<Iterator>::value>>
     void
-    touch (beast::detail::aged_container_iterator <is_const, Iterator, Base> pos)
+    touch (boost::beast::detail::aged_container_iterator <is_const, Iterator, Base> pos)
     {
         touch (pos, clock().now());
     }
@@ -1217,7 +1218,7 @@ private:
     template <bool is_const, class Iterator, class Base,
         class = std::enable_if_t<!is_boost_reverse_iterator<Iterator>::value>>
     void
-    touch (beast::detail::aged_container_iterator <
+    touch (boost::beast::detail::aged_container_iterator <
         is_const, Iterator, Base> pos,
             typename clock_type::time_point const& now);
 
@@ -1767,10 +1768,10 @@ template <bool IsMulti, bool IsMap, class Key, class T,
 template <bool is_const, class Iterator, class Base, class>
 beast::detail::aged_container_iterator <false, Iterator, Base>
 aged_ordered_container <IsMulti, IsMap, Key, T, Clock, Compare, Allocator>::
-erase (beast::detail::aged_container_iterator <is_const, Iterator, Base> pos)
+erase (boost::beast::detail::aged_container_iterator <is_const, Iterator, Base> pos)
 {
     unlink_and_delete_element(&*((pos++).iterator()));
-    return beast::detail::aged_container_iterator <
+    return boost::beast::detail::aged_container_iterator <
         false, Iterator, Base> (pos.iterator());
 }
 
@@ -1779,13 +1780,13 @@ template <bool IsMulti, bool IsMap, class Key, class T,
 template <bool is_const, class Iterator, class Base, class>
 beast::detail::aged_container_iterator <false, Iterator, Base>
 aged_ordered_container <IsMulti, IsMap, Key, T, Clock, Compare, Allocator>::
-erase (beast::detail::aged_container_iterator <is_const, Iterator, Base> first,
-       beast::detail::aged_container_iterator <is_const, Iterator, Base> last)
+erase (boost::beast::detail::aged_container_iterator <is_const, Iterator, Base> first,
+       boost::beast::detail::aged_container_iterator <is_const, Iterator, Base> last)
 {
     for (; first != last;)
         unlink_and_delete_element(&*((first++).iterator()));
 
-    return beast::detail::aged_container_iterator <
+    return boost::beast::detail::aged_container_iterator <
         false, Iterator, Base> (first.iterator());
 }
 
@@ -1881,7 +1882,7 @@ template <bool IsMulti, bool IsMap, class Key, class T,
 template <bool is_const, class Iterator, class Base, class>
 void
 aged_ordered_container <IsMulti, IsMap, Key, T, Clock, Compare, Allocator>::
-touch (beast::detail::aged_container_iterator <
+touch (boost::beast::detail::aged_container_iterator <
     is_const, Iterator, Base> pos,
         typename clock_type::time_point const& now)
 {
@@ -1920,7 +1921,7 @@ swap_data (aged_ordered_container& other) noexcept
 
 template <bool IsMulti, bool IsMap, class Key, class T,
     class Clock, class Compare, class Allocator>
-struct is_aged_container <beast::detail::aged_ordered_container <
+struct is_aged_container <boost::beast::detail::aged_ordered_container <
         IsMulti, IsMap, Key, T, Clock, Compare, Allocator>>
     : std::true_type
 {
@@ -1931,9 +1932,9 @@ struct is_aged_container <beast::detail::aged_ordered_container <
 template <bool IsMulti, bool IsMap, class Key, class T,
     class Clock, class Compare, class Allocator>
 void swap (
-    beast::detail::aged_ordered_container <IsMulti, IsMap,
+    boost::beast::detail::aged_ordered_container <IsMulti, IsMap,
         Key, T, Clock, Compare, Allocator>& lhs,
-    beast::detail::aged_ordered_container <IsMulti, IsMap,
+    boost::beast::detail::aged_ordered_container <IsMulti, IsMap,
         Key, T, Clock, Compare, Allocator>& rhs) noexcept
 {
     lhs.swap (rhs);
@@ -1959,6 +1960,7 @@ std::size_t expire (detail::aged_ordered_container <
     return n;
 }
 
+}
 }
 
 #endif

@@ -31,7 +31,7 @@
 namespace ripple {
 namespace Resource {
 
-class Manager_test : public beast::unit_test::suite
+class Manager_test : public boost::beast::unit_test::suite
 {
 public:
     class TestLogic
@@ -45,7 +45,7 @@ public:
 
     public:
         explicit TestLogic (boost::beast::Journal journal)
-            : Logic (beast::insight::NullCollector::New(), member, journal)
+            : Logic (boost::beast::insight::NullCollector::New(), member, journal)
         {
         }
 
@@ -71,8 +71,8 @@ public:
         {
             Gossip::Item item;
             item.balance = 100 + rand_int(499);
-            item.address = beast::IP::Endpoint (
-                beast::IP::AddressV4 (192, 0, 2, v + i));
+            item.address = boost::beast::IP::Endpoint (
+                boost::beast::IP::AddressV4 (192, 0, 2, v + i));
             gossip.items.push_back (item);
         }
     }
@@ -86,8 +86,8 @@ public:
         TestLogic logic (j);
 
         Charge const fee (dropThreshold + 1);
-        beast::IP::Endpoint const addr (
-            beast::IP::Endpoint::from_string ("192.0.2.2"));
+        boost::beast::IP::Endpoint const addr (
+            boost::beast::IP::Endpoint::from_string ("192.0.2.2"));
 
         {
             Consumer c (logic.newInboundEndpoint (addr));
@@ -193,8 +193,8 @@ public:
         Gossip g;
         Gossip::Item item;
         item.balance = 100;
-        item.address = beast::IP::Endpoint (
-            beast::IP::AddressV4 (192, 0, 2, 1));
+        item.address = boost::beast::IP::Endpoint (
+            boost::beast::IP::AddressV4 (192, 0, 2, 1));
         g.items.push_back (item);
 
         logic.importConsumers ("g", g);
@@ -209,7 +209,7 @@ public:
         TestLogic logic (j);
 
         {
-            beast::IP::Endpoint address (beast::IP::Endpoint::from_string ("192.0.2.1"));
+            boost::beast::IP::Endpoint address (boost::beast::IP::Endpoint::from_string ("192.0.2.1"));
             Consumer c (logic.newInboundEndpoint (address));
             Charge fee (1000);
             JLOG(j.info()) <<
@@ -225,7 +225,7 @@ public:
         }
 
         {
-            beast::IP::Endpoint address (beast::IP::Endpoint::from_string ("192.0.2.2"));
+            boost::beast::IP::Endpoint address (boost::beast::IP::Endpoint::from_string ("192.0.2.2"));
             Consumer c (logic.newInboundEndpoint (address));
             Charge fee (1000);
             JLOG(j.info()) <<

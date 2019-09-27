@@ -30,7 +30,7 @@
 
 namespace ripple {
 
-class digest_test : public beast::unit_test::suite
+class digest_test : public boost::beast::unit_test::suite
 {
     std::vector<uint256> dataset1;
 
@@ -115,12 +115,12 @@ class digest_test : public beast::unit_test::suite
 public:
     digest_test ()
     {
-        beast::xor_shift_engine g(19207813);
+        boost::beast::xor_shift_engine g(19207813);
         std::uint8_t buf[32];
 
         for (int i = 0; i < 1000000; i++)
         {
-            beast::rngfill (buf, sizeof(buf), g);
+            boost::beast::rngfill (buf, sizeof(buf), g);
             dataset1.push_back (uint256::fromVoid (buf));
         }
     }
@@ -129,7 +129,7 @@ public:
     {
         testcase ("SHA512");
         test<openssl_ripemd160_hasher> ("OpenSSL");
-        test<beast::ripemd160_hasher> ("Beast");
+        test<boost::beast::ripemd160_hasher> ("Beast");
         pass ();
     }
 
@@ -137,7 +137,7 @@ public:
     {
         testcase ("SHA256");
         test<openssl_sha256_hasher> ("OpenSSL");
-        test<beast::sha256_hasher> ("Beast");
+        test<boost::beast::sha256_hasher> ("Beast");
         pass ();
     }
 
@@ -145,7 +145,7 @@ public:
     {
         testcase ("RIPEMD160");
         test<openssl_ripemd160_hasher> ("OpenSSL");
-        test<beast::ripemd160_hasher> ("Beast");
+        test<boost::beast::ripemd160_hasher> ("Beast");
         pass ();
     }
 

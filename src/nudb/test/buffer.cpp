@@ -8,13 +8,13 @@
 // Test that header file is self-contained
 #include <nudb/detail/buffer.hpp>
 
-#include <beast/unit_test/suite.hpp>
+#include <beast/include/boost/beast/_experimental/unit_test/suite.hpp>
 #include <type_traits>
 
 namespace nudb {
 namespace test {
 
-class buffer_test : public beast::unit_test::suite
+class buffer_test : public boost::beast::unit_test::suite
 {
 public:
     void

@@ -40,7 +40,7 @@ std::vector<std::string>
 supportedAmendments ();
 }
 
-class AmendmentTable_test final : public beast::unit_test::suite
+class AmendmentTable_test final : public boost::beast::unit_test::suite
 {
 private:
     // 204/256 about 80% (we round down because the implementation rounds up)
@@ -51,7 +51,7 @@ private:
     amendmentId (std::string in)
     {
         sha256_hasher h;
-        using beast::hash_append;
+        using boost::beast::hash_append;
         hash_append(h, in);
         auto const d = static_cast<sha256_hasher::result_type>(h);
         uint256 result;

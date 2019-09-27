@@ -27,7 +27,7 @@ namespace ripple {
 namespace test {
 
 class tagged_integer_test
-    : public beast::unit_test::suite
+    : public boost::beast::unit_test::suite
 {
 private:
     struct Tag1 { };

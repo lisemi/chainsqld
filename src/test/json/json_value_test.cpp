@@ -25,7 +25,7 @@
 
 namespace ripple {
 
-struct json_value_test : beast::unit_test::suite
+struct json_value_test : boost::beast::unit_test::suite
 {
     void test_bool()
     {

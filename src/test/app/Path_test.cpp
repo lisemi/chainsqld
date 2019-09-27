@@ -188,7 +188,7 @@ auto IPE(Issue const& iss)
 
 //------------------------------------------------------------------------------
 
-class Path_test : public beast::unit_test::suite
+class Path_test : public boost::beast::unit_test::suite
 {
 public:
     class gate

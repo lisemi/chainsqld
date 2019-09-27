@@ -24,6 +24,7 @@
 #include <limits>
 #include <stdexcept>
 
+namespace boost {
 namespace beast {
 
 namespace detail {
@@ -121,6 +122,7 @@ xor_shift_engine<_>::murmurhash3 (result_type x)
 */
 using xor_shift_engine = detail::xor_shift_engine<>;
 
+}
 }
 
 #endif

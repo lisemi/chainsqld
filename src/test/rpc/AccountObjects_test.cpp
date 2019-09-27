@@ -110,7 +110,7 @@ R"json({
 })json"
 };
 
-class AccountObjects_test : public beast::unit_test::suite
+class AccountObjects_test : public boost::beast::unit_test::suite
 {
 public:
     void testErrors()

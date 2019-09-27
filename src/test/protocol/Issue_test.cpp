@@ -43,7 +43,7 @@
 
 namespace ripple {
 
-class Issue_test : public beast::unit_test::suite
+class Issue_test : public boost::beast::unit_test::suite
 {
 public:
     // Comparison, hash tests for uint60 (via base_uint)

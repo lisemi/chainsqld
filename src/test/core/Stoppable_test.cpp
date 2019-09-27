@@ -25,7 +25,7 @@ namespace ripple {
 namespace test {
 
 class Stoppable_test
-    : public beast::unit_test::suite
+    : public boost::beast::unit_test::suite
 {
 /*
             R

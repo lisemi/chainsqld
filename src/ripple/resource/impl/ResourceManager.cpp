@@ -41,7 +41,7 @@ private:
     std::condition_variable cond_;
 
 public:
-    ManagerImp (beast::insight::Collector::ptr const& collector,
+    ManagerImp (boost::beast::insight::Collector::ptr const& collector,
         boost::beast::Journal journal)
         : journal_ (journal)
         , logic_ (collector, stopwatch(), journal)
@@ -63,12 +63,12 @@ public:
         thread_.join();
     }
 
-    Consumer newInboundEndpoint (beast::IP::Endpoint const& address) override
+    Consumer newInboundEndpoint (boost::beast::IP::Endpoint const& address) override
     {
         return logic_.newInboundEndpoint (address);
     }
 
-    Consumer newOutboundEndpoint (beast::IP::Endpoint const& address) override
+    Consumer newOutboundEndpoint (boost::beast::IP::Endpoint const& address) override
     {
         return logic_.newOutboundEndpoint (address);
     }
@@ -103,7 +103,7 @@ public:
 
     //--------------------------------------------------------------------------
 
-    void onWrite (beast::PropertyStream::Map& map) override
+    void onWrite (boost::beast::PropertyStream::Map& map) override
     {
         logic_.onWrite (map);
     }
@@ -128,7 +128,7 @@ private:
 //------------------------------------------------------------------------------
 
 Manager::Manager ()
-    : beast::PropertyStream::Source ("resource")
+    : boost::beast::PropertyStream::Source ("resource")
 {
 }
 
@@ -139,7 +139,7 @@ Manager::~Manager ()
 //------------------------------------------------------------------------------
 
 std::unique_ptr <Manager> make_Manager (
-    beast::insight::Collector::ptr const& collector,
+    boost::beast::insight::Collector::ptr const& collector,
         boost::beast::Journal journal)
 {
     return std::make_unique <ManagerImp> (collector, journal);

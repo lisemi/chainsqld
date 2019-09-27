@@ -59,7 +59,7 @@ template <class Hasher>
 void
 hash_append (Hasher& h, Book const& b)
 {
-    using beast::hash_append;
+    using boost::beast::hash_append;
     hash_append(h, b.in, b.out);
 }
 

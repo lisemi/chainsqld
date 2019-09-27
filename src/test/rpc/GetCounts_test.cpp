@@ -25,7 +25,7 @@
 
 namespace ripple {
 
-class GetCounts_test : public beast::unit_test::suite
+class GetCounts_test : public boost::beast::unit_test::suite
 {
     void testGetCounts()
     {

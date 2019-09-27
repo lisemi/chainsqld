@@ -25,7 +25,7 @@
 
 namespace ripple {
 
-class OwnerInfo_test : public beast::unit_test::suite
+class OwnerInfo_test : public boost::beast::unit_test::suite
 {
     void
     testBadInput ()

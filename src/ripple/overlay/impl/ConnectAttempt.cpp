@@ -27,7 +27,7 @@ namespace ripple {
 
 ConnectAttempt::ConnectAttempt (Application& app, boost::asio::io_service& io_service,
     endpoint_type const& remote_endpoint, Resource::Consumer usage,
-        beast::asio::ssl_bundle::shared_context const& context,
+        boost::beast::asio::ssl_bundle::shared_context const& context,
             std::uint32_t id, PeerFinder::Slot::ptr const& slot,
                 boost::beast::Journal journal, OverlayImpl& overlay)
     : Child (overlay)
@@ -39,7 +39,7 @@ ConnectAttempt::ConnectAttempt (Application& app, boost::asio::io_service& io_se
     , usage_ (usage)
     , strand_ (io_service)
     , timer_ (io_service)
-    , ssl_bundle_ (std::make_unique<beast::asio::ssl_bundle>(
+    , ssl_bundle_ (std::make_unique<boost::beast::asio::ssl_bundle>(
         context, io_service))
     , socket_ (ssl_bundle_->socket)
     , stream_ (ssl_bundle_->stream)
@@ -202,7 +202,7 @@ ConnectAttempt::onHandshake (error_code ec)
         "onHandshake";
 
     if (! overlay_.peerFinder().onConnected (slot_,
-            beast::IPAddressConversion::from_asio (local_endpoint)))
+            boost::beast::IPAddressConversion::from_asio (local_endpoint)))
         return fail("Duplicate connection");
 
     auto sharedValue = makeSharedValue(
@@ -215,12 +215,12 @@ ConnectAttempt::onHandshake (error_code ec)
     auto const hello = buildHello (
         *sharedValue,
         overlay_.setup().public_ip,
-        beast::IPAddressConversion::from_asio(remote_endpoint_),
+        boost::beast::IPAddressConversion::from_asio(remote_endpoint_),
         app_);
     appendHello (req_, hello);
 
     setTimer();
-    beast::http::async_write(stream_, req_,
+    boost::beast::http::async_write(stream_, req_,
         strand_.wrap (std::bind (&ConnectAttempt::onWrite,
             shared_from_this(), std::placeholders::_1)));
 }
@@ -235,7 +235,7 @@ ConnectAttempt::onWrite (error_code ec)
         return;
     if(ec)
         return fail("onWrite", ec);
-    beast::http::async_read(stream_, read_buf_, response_,
+    boost::beast::http::async_read(stream_, read_buf_, response_,
         strand_.wrap(std::bind(&ConnectAttempt::onRead,
             shared_from_this(), std::placeholders::_1)));
 }
@@ -286,7 +286,7 @@ ConnectAttempt::makeRequest (bool crawl,
         request_type
 {
     request_type m;
-    m.method(beast::http::verb::get);
+    m.method(boost::beast::http::verb::get);
     m.target("/");
     m.version = 11;
     m.insert ("User-Agent", BuildInfo::getFullVersionString());
@@ -301,7 +301,7 @@ ConnectAttempt::makeRequest (bool crawl,
 void
 ConnectAttempt::processResponse()
 {
-    if (response_.result() == beast::http::status::service_unavailable)
+    if (response_.result() == boost::beast::http::status::service_unavailable)
     {
         Json::Value json;
         Json::Reader r;
@@ -357,7 +357,7 @@ ConnectAttempt::processResponse()
     auto publicKey = verifyHello (*hello,
         *sharedValue,
         overlay_.setup().public_ip,
-        beast::IPAddressConversion::from_asio(remote_endpoint_),
+        boost::beast::IPAddressConversion::from_asio(remote_endpoint_),
         journal_, app_);
     if(! publicKey)
         return close(); // verifyHello logs

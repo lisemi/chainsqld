@@ -31,6 +31,7 @@
 #include <type_traits>
 #include <cstddef>
 
+namespace boost {
 namespace beast {
 
 class xxhasher
@@ -82,6 +83,7 @@ public:
 };
 
 } // beast
+}
 
 #endif
 

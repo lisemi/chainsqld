@@ -25,7 +25,7 @@
 namespace ripple {
 namespace test {
 
-class CashDiff_test : public beast::unit_test::suite
+class CashDiff_test : public boost::beast::unit_test::suite
 {
 
     // Exercise diffIsDust (STAmount, STAmount)

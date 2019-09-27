@@ -23,7 +23,7 @@
 namespace ripple {
 namespace test {
 
-class AccountOffers_test : public beast::unit_test::suite
+class AccountOffers_test : public boost::beast::unit_test::suite
 {
 public:
     // test helper

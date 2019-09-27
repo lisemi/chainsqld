@@ -54,7 +54,7 @@ openSSLVersion(VersionNumber openSSLVersion)
 
 void checkVersion(std::string name, std::string required, std::string actual)
 {
-    beast::SemanticVersion r, a;
+    boost::beast::SemanticVersion r, a;
     if (! r.parse(required))
     {
         Throw<std::runtime_error> (
@@ -85,7 +85,7 @@ void checkOpenSSL(std::string version)
 {
     // The minimal version depends on whether we're linking
     // against 1.0.1 or later versions:
-    beast::SemanticVersion v;
+    boost::beast::SemanticVersion v;
 
     char const* openSSLMinimal101 = "1.0.1-g";
     char const* openSSLMinimal102 = "1.0.2-j";

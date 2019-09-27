@@ -24,7 +24,7 @@
 
 namespace ripple {
 
-class AccountTxPaging_test : public beast::unit_test::suite
+class AccountTxPaging_test : public boost::beast::unit_test::suite
 {
     bool
     checkTransaction (Json::Value const& tx, int sequence, int ledger)

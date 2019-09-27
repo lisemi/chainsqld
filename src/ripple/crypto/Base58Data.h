@@ -96,7 +96,7 @@ public:
     void
     hash_append(Hasher& hasher, CBase58Data const& value)
     {
-        beast::hash_append(hasher, value.vchData);
+        boost::beast::hash_append(hasher, value.vchData);
     }
 };
 

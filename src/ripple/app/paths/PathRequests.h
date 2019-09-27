@@ -35,7 +35,7 @@ class PathRequests
 public:
     /** A collection of all PathRequest instances. */
     PathRequests (Application& app,
-            boost::beast::Journal journal, beast::insight::Collector::ptr const& collector)
+            boost::beast::Journal journal, boost::beast::insight::Collector::ptr const& collector)
         : app_ (app)
         , mJournal (journal)
         , mLastIdentifier (0)
@@ -95,8 +95,8 @@ private:
     Application& app_;
     boost::beast::Journal                   mJournal;
 
-    beast::insight::Event            mFast;
-    beast::insight::Event            mFull;
+    boost::beast::insight::Event            mFast;
+    boost::beast::insight::Event            mFull;
 
     // Track all requests
     std::vector<PathRequest::wptr> requests_;

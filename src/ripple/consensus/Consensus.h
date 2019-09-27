@@ -315,7 +315,7 @@ class Consensus
     };
 public:
     //! Clock type for measuring time within the consensus code
-    using clock_type = beast::abstract_clock<std::chrono::steady_clock>;
+    using clock_type = boost::beast::abstract_clock<std::chrono::steady_clock>;
 
     Consensus(Consensus&&) = default;
 

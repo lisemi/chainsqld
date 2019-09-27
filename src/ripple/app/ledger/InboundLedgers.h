@@ -34,7 +34,7 @@ namespace ripple {
 class InboundLedgers
 {
 public:
-    using clock_type = beast::abstract_clock <std::chrono::steady_clock>;
+    using clock_type = boost::beast::abstract_clock <std::chrono::steady_clock>;
 
     virtual ~InboundLedgers() = 0;
 
@@ -83,7 +83,7 @@ public:
 std::unique_ptr<InboundLedgers>
 make_InboundLedgers (Application& app,
     InboundLedgers::clock_type& clock, Stoppable& parent,
-    beast::insight::Collector::ptr const& collector);
+    boost::beast::insight::Collector::ptr const& collector);
 
 
 } // ripple

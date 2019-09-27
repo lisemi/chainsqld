@@ -57,7 +57,7 @@ Json::Value doConnect (RPC::Context& context)
     else
         iPort = 6561;
 
-    auto ip = beast::IP::Endpoint::from_string(
+    auto ip = boost::beast::IP::Endpoint::from_string(
         context.params[jss::ip].asString ());
 
     if (! is_unspecified (ip))

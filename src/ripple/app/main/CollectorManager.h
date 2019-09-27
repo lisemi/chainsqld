@@ -25,7 +25,7 @@
 
 namespace ripple {
 
-/** Provides the beast::insight::Collector service. */
+/** Provides the boost::beast::insight::Collector service. */
 class CollectorManager
 {
 public:
@@ -33,8 +33,8 @@ public:
         Section const& params, boost::beast::Journal journal);
 
     virtual ~CollectorManager () = 0;
-    virtual beast::insight::Collector::ptr const& collector () = 0;
-    virtual beast::insight::Group::ptr const& group (
+    virtual boost::beast::insight::Collector::ptr const& collector () = 0;
+    virtual boost::beast::insight::Group::ptr const& group (
         std::string const& name) = 0;
 };
 

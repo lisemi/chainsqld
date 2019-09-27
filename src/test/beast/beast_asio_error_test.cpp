@@ -21,6 +21,7 @@
 #include <ripple/beast/unit_test.h>
 #include <string>
 
+namespace boost {
 namespace beast {
 
 class error_test : public unit_test::suite
@@ -32,7 +33,7 @@ public:
             boost::system::error_code ec =
                 boost::system::error_code (335544539,
                     boost::asio::error::get_ssl_category ());
-            std::string const s = beast::error_message_with_ssl(ec);
+            std::string const s = boost::beast::error_message_with_ssl(ec);
 
 #ifdef SSL_R_SHORT_READ
             BEAST_EXPECT(s == " (20,0,219) error:140000DB:SSL routines:SSL routines:short read");

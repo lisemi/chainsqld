@@ -25,7 +25,7 @@
 namespace ripple {
 namespace test {
 
-struct PseudoTx_test : public beast::unit_test::suite
+struct PseudoTx_test : public boost::beast::unit_test::suite
 {
     std::vector<STTx>
     getPseudoTxs(std::uint32_t seq)

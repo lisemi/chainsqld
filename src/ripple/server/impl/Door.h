@@ -26,7 +26,7 @@
 #include <ripple/server/impl/PlainHTTPPeer.h>
 #include <ripple/server/impl/SSLHTTPPeer.h>
 #include <ripple/beast/asio/ssl_bundle.h>
-#include <beast/core/multi_buffer.hpp>
+#include <beast/include/boost/beast/core/multi_buffer.hpp>
 #include <boost/asio/basic_waitable_timer.hpp>
 #include <boost/asio/buffer.hpp>
 #include <boost/asio/io_service.hpp>
@@ -172,9 +172,9 @@ Detector(Port const& port,
     : port_(port)
     , handler_(handler)
     , socket_(std::move(socket))
-    , timer_(socket_.get_io_service())
+    , timer_(socket_.get_executor().context())
     , remote_address_(remote_address)
-    , strand_(socket_.get_io_service())
+    , strand_(socket_.get_executor().context())
     , j_(j)
 {
 }
@@ -224,7 +224,7 @@ do_detect(boost::asio::yield_context do_yield)
 {
     bool ssl;
     error_code ec;
-    beast::multi_buffer buf(16);
+    boost::beast::multi_buffer buf(16);
     timer_.expires_from_now(std::chrono::seconds(15));
     std::tie(ec, ssl) = detect_ssl(socket_, buf, do_yield);
     error_code unused;
@@ -368,7 +368,7 @@ do_accept(boost::asio::yield_context do_yield)
     {
         error_code ec;
         endpoint_type remote_address;
-        socket_type socket (acceptor_.get_io_service());
+        socket_type socket (acceptor_.get_executor().context());
         acceptor_.async_accept (socket, remote_address, do_yield[ec]);
         if (ec && ec != boost::asio::error::operation_aborted)
         {

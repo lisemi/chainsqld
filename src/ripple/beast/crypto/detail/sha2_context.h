@@ -23,6 +23,7 @@
 #include <cstdint>
 #include <cstring>
 
+namespace boost {
 namespace beast {
 namespace detail {
 
@@ -424,5 +425,6 @@ void finish (sha512_context& ctx,
 
 } // detail
 } // beast
+}
 
 #endif

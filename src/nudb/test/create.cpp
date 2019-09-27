@@ -10,12 +10,12 @@
 
 #include <nudb/test/test_store.hpp>
 #include <nudb/create.hpp>
-#include <beast/unit_test/suite.hpp>
+#include <beast/include/boost/beast/_experimental/unit_test/suite.hpp>
 
 namespace nudb {
 namespace test {
 
-class create_test : public beast::unit_test::suite
+class create_test : public boost::beast::unit_test::suite
 {
 public:
     void

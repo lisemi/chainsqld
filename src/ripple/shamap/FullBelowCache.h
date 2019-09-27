@@ -58,8 +58,8 @@ public:
         @param targetExpirationSeconds The expiration time for items.
     */
     BasicFullBelowCache (std::string const& name, clock_type& clock,
-        beast::insight::Collector::ptr const& collector =
-            beast::insight::NullCollector::New (),
+        boost::beast::insight::Collector::ptr const& collector =
+            boost::beast::insight::NullCollector::New (),
         std::size_t target_size = defaultCacheTargetSize,
         std::size_t expiration_seconds = defaultCacheExpirationSeconds)
         : m_cache (name, clock, collector, target_size,

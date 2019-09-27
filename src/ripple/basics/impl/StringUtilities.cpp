@@ -116,7 +116,7 @@ uint64_t uintFromHex (std::string const& strSrc)
     return uValue;
 }
 
-// TODO Callers should be using beast::URL and beast::parse_URL instead.
+// TODO Callers should be using boost::beast::URL and boost::beast::parse_URL instead.
 bool parseUrl (parsedURL& pUrl, std::string const& strUrl)
 {
     // scheme://username:password@hostname:port/rest
@@ -134,7 +134,7 @@ bool parseUrl (parsedURL& pUrl, std::string const& strUrl)
         pUrl.domain = smMatch[2];
         if (smMatch[3].length ())
         {
-            pUrl.port = beast::lexicalCast <std::uint16_t> (
+            pUrl.port = boost::beast::lexicalCast <std::uint16_t> (
                 std::string (smMatch[3]));
         }
         pUrl.path = smMatch[4];

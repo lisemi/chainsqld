@@ -17,7 +17,7 @@
 #include <memory>
 
 #if NUDB_DEBUG_ARENA
-#include <beast/unit_test/dstream.hpp>
+#include <beast/include/boost/beast/_experimental/unit_test/dstream.hpp>
 #include <iostream>
 #endif
 
@@ -200,7 +200,7 @@ periodic_activity()
     auto const rate = static_cast<std::size_t>(std::ceil(
         used_ / duration_cast<duration<float>>(elapsed).count()));
 #if NUDB_DEBUG_ARENA
-    beast::unit_test::dstream dout{std::cout};
+    boost::beast::unit_test::dstream dout{std::cout};
     auto const size =
         [](element* e)
         {

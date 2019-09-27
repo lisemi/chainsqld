@@ -28,7 +28,7 @@ namespace test {
 // Test that converting a ledger to SHAMapV2
 // works as expected
 
-class SHAMapV2_test : public beast::unit_test::suite
+class SHAMapV2_test : public boost::beast::unit_test::suite
 {
     void
     testSHAMapV2()

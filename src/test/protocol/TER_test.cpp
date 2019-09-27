@@ -23,7 +23,7 @@
 
 namespace ripple {
 
-struct TER_test : public beast::unit_test::suite
+struct TER_test : public boost::beast::unit_test::suite
 {
     void
     testTransResultInfo()

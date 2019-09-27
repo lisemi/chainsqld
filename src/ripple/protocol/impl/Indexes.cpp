@@ -46,7 +46,7 @@ uint256
 getInsertIndex(AccountID const& account)
 {
 	sha512_half_hasher h;
-	using beast::hash_append;
+	using boost::beast::hash_append;
 	hash_append(h, spaceInsertLimit);
 	hash_append(h, account);
 	return static_cast<uint256>(h);
@@ -83,7 +83,7 @@ uint256
 getTableIndex(AccountID const& account)
 {
     sha512_half_hasher h;
-    using beast::hash_append;
+    using boost::beast::hash_append;
     hash_append(h, spaceTableList);
     hash_append(h, account);
     return static_cast<uint256>(h);
@@ -360,7 +360,7 @@ Keylet
 escrow (AccountID const& source, std::uint32_t seq)
 {
     sha512_half_hasher h;
-    using beast::hash_append;
+    using boost::beast::hash_append;
     hash_append(h, std::uint16_t(spaceEscrow));
     hash_append(h, source);
     hash_append(h, seq);
@@ -371,7 +371,7 @@ Keylet
 payChan (AccountID const& source, AccountID const& dst, std::uint32_t seq)
 {
     sha512_half_hasher h;
-    using beast::hash_append;
+    using boost::beast::hash_append;
     hash_append(h, std::uint16_t(spaceZXCUChannel));
     hash_append(h, source);
     hash_append(h, dst);

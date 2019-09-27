@@ -26,6 +26,7 @@
 #include <ripple/beast/clock/abstract_clock.h>
 #include <boost/intrusive/list.hpp>
 #include <boost/intrusive/unordered_set.hpp>
+#include <boost/core/empty_value.hpp>
 #include <algorithm>
 #include <functional>
 #include <initializer_list>
@@ -50,6 +51,7 @@ TODO
 #define BEAST_NO_CXX14_IS_PERMUTATION 1
 #endif
 
+namespace boost {
 namespace beast {
 namespace detail {
 
@@ -160,7 +162,7 @@ private:
 
     // VFALCO TODO hoist to remove template argument dependencies
     class ValueHash
-        : private boost::empty_value <Hash> (boost::empty_init_t{})
+        : private boost::empty_value <Hash>
         , public std::unary_function <element, std::size_t>
     {
     public:
@@ -175,24 +177,24 @@ private:
 
         std::size_t operator() (element const& e) const
         {
-            return this->member() (extract (e.value));
+            return this->get() (extract (e.value));
         }
 
         Hash& hash_function()
         {
-            return this->member();
+            return this->get();
         }
 
         Hash const& hash_function() const
         {
-            return this->member();
+            return this->get();
         }
     };
 
     // Compares value_type against element, used in find/insert_check
     // VFALCO TODO hoist to remove template argument dependencies
     class KeyValueEqual
-        : private boost::empty_value <KeyEqual> (boost::empty_init_t{})
+        : private boost::empty_value <KeyEqual>
         , public std::binary_function <Key, element, bool>
     {
     public:
@@ -211,39 +213,39 @@ private:
         template <class K>
         bool operator() (K const& k, element const& e) const
         {
-            return this->member() (k, extract (e.value));
+            return this->get() (k, extract (e.value));
         }
 
         template <class K>
         bool operator() (element const& e, K const& k) const
         {
-            return this->member() (extract (e.value), k);
+            return this->get() (extract (e.value), k);
         }
 #endif
 
         bool operator() (Key const& k, element const& e) const
         {
-            return this->member() (k, extract (e.value));
+            return this->get() (k, extract (e.value));
         }
 
         bool operator() (element const& e, Key const& k) const
         {
-            return this->member() (extract (e.value), k);
+            return this->get() (extract (e.value), k);
         }
 
         bool operator() (element const& lhs, element const& rhs) const
         {
-            return this->member() (extract (lhs.value), extract (rhs.value));
+            return this->get() (extract (lhs.value), extract (rhs.value));
         }
 
         KeyEqual& key_eq()
         {
-            return this->member();
+            return this->get();
         }
 
         KeyEqual const& key_eq() const
         {
-            return this->member();
+            return this->get();
         }
     };
 
@@ -282,7 +284,7 @@ private:
     class config_t
         : private ValueHash
         , private KeyValueEqual
-        , private boost::empty_value <ElementAllocator> (boost::empty_init_t{})
+        , private boost::empty_value <ElementAllocator>
     {
     public:
         explicit config_t (
@@ -453,12 +455,12 @@ private:
 
         ElementAllocator& alloc()
         {
-            return boost::empty_value <ElementAllocator> (boost::empty_init_t{})::member();
+            return boost::empty_value <ElementAllocator>::get();
         }
 
         ElementAllocator const& alloc() const
         {
-            return boost::empty_value <ElementAllocator> (boost::empty_init_t{})::member();
+            return boost::empty_value <ElementAllocator>::get();
         }
 
         std::reference_wrapper <clock_type> clock;
@@ -615,14 +617,14 @@ public:
 
     // A set iterator (IsMap==false) is always const
     // because the elements of a set are immutable.
-    using iterator= beast::detail::aged_container_iterator <!IsMap,
+    using iterator= boost::beast::detail::aged_container_iterator <!IsMap,
         typename cont_type::iterator>;
-    using const_iterator = beast::detail::aged_container_iterator <true,
+    using const_iterator = boost::beast::detail::aged_container_iterator <true,
         typename cont_type::iterator>;
 
-    using local_iterator = beast::detail::aged_container_iterator <!IsMap,
+    using local_iterator = boost::beast::detail::aged_container_iterator <!IsMap,
         typename cont_type::local_iterator>;
-    using const_local_iterator = beast::detail::aged_container_iterator <true,
+    using const_local_iterator = boost::beast::detail::aged_container_iterator <true,
         typename cont_type::local_iterator>;
 
     //--------------------------------------------------------------------------
@@ -639,13 +641,13 @@ public:
     public:
         // A set iterator (IsMap==false) is always const
         // because the elements of a set are immutable.
-        using iterator = beast::detail::aged_container_iterator <
+        using iterator = boost::beast::detail::aged_container_iterator <
             ! IsMap, typename list_type::iterator>;
-        using const_iterator = beast::detail::aged_container_iterator <
+        using const_iterator = boost::beast::detail::aged_container_iterator <
             true, typename list_type::iterator>;
-        using reverse_iterator = beast::detail::aged_container_iterator <
+        using reverse_iterator = boost::beast::detail::aged_container_iterator <
             ! IsMap, typename list_type::reverse_iterator>;
-        using const_reverse_iterator = beast::detail::aged_container_iterator <
+        using const_reverse_iterator = boost::beast::detail::aged_container_iterator <
             true, typename list_type::reverse_iterator>;
 
         iterator begin ()
@@ -1140,15 +1142,15 @@ public:
     }
 
     template <bool is_const, class Iterator, class Base>
-    beast::detail::aged_container_iterator <false, Iterator, Base>
-    erase (beast::detail::aged_container_iterator <
+    boost::beast::detail::aged_container_iterator <false, Iterator, Base>
+    erase (boost::beast::detail::aged_container_iterator <
         is_const, Iterator, Base> pos);
 
     template <bool is_const, class Iterator, class Base>
-    beast::detail::aged_container_iterator <false, Iterator, Base>
-    erase (beast::detail::aged_container_iterator <
+    boost::beast::detail::aged_container_iterator <false, Iterator, Base>
+    erase (boost::beast::detail::aged_container_iterator <
         is_const, Iterator, Base> first,
-            beast::detail::aged_container_iterator <
+            boost::beast::detail::aged_container_iterator <
                 is_const, Iterator, Base> last);
 
     template <class K>
@@ -1161,7 +1163,7 @@ public:
 
     template <bool is_const, class Iterator, class Base>
     void
-    touch (beast::detail::aged_container_iterator <
+    touch (boost::beast::detail::aged_container_iterator <
         is_const, Iterator, Base> pos)
     {
         touch (pos, clock().now());
@@ -1456,7 +1458,7 @@ private:
 
     template <bool is_const, class Iterator, class Base>
     void
-    touch (beast::detail::aged_container_iterator <
+    touch (boost::beast::detail::aged_container_iterator <
         is_const, Iterator, Base> pos,
             typename clock_type::time_point const& now)
     {
@@ -2297,11 +2299,11 @@ template <bool is_const, class Iterator, class Base>
 beast::detail::aged_container_iterator <false, Iterator, Base>
 aged_unordered_container <IsMulti, IsMap, Key, T, Clock,
     Hash, KeyEqual, Allocator>::
-erase (beast::detail::aged_container_iterator <
+erase (boost::beast::detail::aged_container_iterator <
     is_const, Iterator, Base> pos)
 {
     unlink_and_delete_element(&*((pos++).iterator()));
-    return beast::detail::aged_container_iterator <
+    return boost::beast::detail::aged_container_iterator <
         false, Iterator, Base> (pos.iterator());
 }
 
@@ -2311,15 +2313,15 @@ template <bool is_const, class Iterator, class Base>
 beast::detail::aged_container_iterator <false, Iterator, Base>
 aged_unordered_container <IsMulti, IsMap, Key, T, Clock,
     Hash, KeyEqual, Allocator>::
-erase (beast::detail::aged_container_iterator <
+erase (boost::beast::detail::aged_container_iterator <
     is_const, Iterator, Base> first,
-        beast::detail::aged_container_iterator <
+        boost::beast::detail::aged_container_iterator <
             is_const, Iterator, Base> last)
 {
     for (; first != last;)
         unlink_and_delete_element(&*((first++).iterator()));
 
-    return beast::detail::aged_container_iterator <
+    return boost::beast::detail::aged_container_iterator <
         false, Iterator, Base> (first.iterator());
 }
 
@@ -2507,7 +2509,7 @@ insert_unchecked (value_type const& value) ->
 
 template <bool IsMulti, bool IsMap, class Key, class T,
     class Clock, class Hash, class KeyEqual, class Allocator>
-struct is_aged_container <beast::detail::aged_unordered_container <
+struct is_aged_container <boost::beast::detail::aged_unordered_container <
         IsMulti, IsMap, Key, T, Clock, Hash, KeyEqual, Allocator>>
     : std::true_type
 {
@@ -2518,9 +2520,9 @@ struct is_aged_container <beast::detail::aged_unordered_container <
 template <bool IsMulti, bool IsMap, class Key, class T, class Clock,
     class Hash, class KeyEqual, class Allocator>
 void swap (
-    beast::detail::aged_unordered_container <IsMulti, IsMap,
+    boost::beast::detail::aged_unordered_container <IsMulti, IsMap,
         Key, T, Clock, Hash, KeyEqual, Allocator>& lhs,
-    beast::detail::aged_unordered_container <IsMulti, IsMap,
+    boost::beast::detail::aged_unordered_container <IsMulti, IsMap,
         Key, T, Clock, Hash, KeyEqual, Allocator>& rhs) noexcept
 {
     lhs.swap (rhs);
@@ -2530,7 +2532,7 @@ void swap (
 template <bool IsMulti, bool IsMap, class Key, class T,
     class Clock, class Hash, class KeyEqual, class Allocator,
         class Rep, class Period>
-std::size_t expire (beast::detail::aged_unordered_container <
+std::size_t expire (boost::beast::detail::aged_unordered_container <
     IsMulti, IsMap, Key, T, Clock, Hash, KeyEqual, Allocator>& c,
         std::chrono::duration <Rep, Period> const& age) noexcept
 {
@@ -2546,6 +2548,7 @@ std::size_t expire (beast::detail::aged_unordered_container <
     return n;
 }
 
+}
 }
 
 #endif

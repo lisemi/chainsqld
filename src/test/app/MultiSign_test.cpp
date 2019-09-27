@@ -23,7 +23,7 @@
 namespace ripple {
 namespace test {
 
-class MultiSign_test : public beast::unit_test::suite
+class MultiSign_test : public boost::beast::unit_test::suite
 {
     // Unfunded accounts to use for phantom signing.
     jtx::Account const bogie {"bogie", KeyType::secp256k1};

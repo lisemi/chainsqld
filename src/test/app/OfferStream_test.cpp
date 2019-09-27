@@ -23,7 +23,7 @@
 
 namespace ripple {
 
-class OfferStream_test : public beast::unit_test::suite
+class OfferStream_test : public boost::beast::unit_test::suite
 {
 public:
     void

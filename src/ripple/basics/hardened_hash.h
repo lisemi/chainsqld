@@ -144,7 +144,7 @@ public:
     {
         // hash_append each base and member that should
         //  participate in forming the hash
-        using beast::hash_append;
+        using boost::beast::hash_append;
         hash_append (h, static_cast<T::base1 const&>(t));
         hash_append (h, static_cast<T::base2 const&>(t));
         // ...
@@ -160,10 +160,10 @@ public:
     see https://131002.net/siphash/#at
 */
 #if RIPPLE_NO_HARDENED_HASH_INSTANCE_SEED
-template <class HashAlgorithm = beast::xxhasher>
+template <class HashAlgorithm = boost::beast::xxhasher>
     using hardened_hash = basic_hardened_hash<HashAlgorithm, true>;
 #else
-template <class HashAlgorithm = beast::xxhasher>
+template <class HashAlgorithm = boost::beast::xxhasher>
     using hardened_hash = basic_hardened_hash<HashAlgorithm, false>;
 #endif
 

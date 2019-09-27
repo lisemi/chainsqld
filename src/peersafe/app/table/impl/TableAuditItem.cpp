@@ -84,7 +84,7 @@ bool TableAuditItem::checkSqlValid(std::string sSql)
 std::pair<bool, std::string> TableAuditItem::SetAuditPara(std::string sSql, std::string sPath)
 {
     sDumpPath_ = sPath;
-    beast::rngfill(uNewTableNameInDB_.begin(), uNewTableNameInDB_.size(), crypto_prng());
+    boost::beast::rngfill(uNewTableNameInDB_.begin(), uNewTableNameInDB_.size(), crypto_prng());
     sNickName_ = to_string(uNewTableNameInDB_);
     std::string sRealTableName = "t_" + sNickName_;
 

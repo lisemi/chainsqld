@@ -36,7 +36,7 @@ class Application;
 class InboundTransactions
 {
 public:
-    using clock_type = beast::abstract_clock <std::chrono::steady_clock>;
+    using clock_type = boost::beast::abstract_clock <std::chrono::steady_clock>;
 
     InboundTransactions() = default;
     InboundTransactions(InboundTransactions const&) = delete;
@@ -76,7 +76,7 @@ make_InboundTransactions (
     Application& app,
     InboundTransactions::clock_type& clock,
     Stoppable& parent,
-    beast::insight::Collector::ptr const& collector,
+    boost::beast::insight::Collector::ptr const& collector,
     std::function
         <void (std::shared_ptr <SHAMap> const&,
             bool)> gotSet);

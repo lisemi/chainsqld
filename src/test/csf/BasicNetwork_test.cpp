@@ -26,7 +26,7 @@
 namespace ripple {
 namespace test {
 
-class BasicNetwork_test : public beast::unit_test::suite
+class BasicNetwork_test : public boost::beast::unit_test::suite
 {
 public:
     struct Peer

@@ -29,7 +29,7 @@
 
 namespace ripple {
 
-class Discrepancy_test : public beast::unit_test::suite
+class Discrepancy_test : public boost::beast::unit_test::suite
 {
     // This is a legacy test ported from js/coffee. The ledger
     // state was originally setup via a saved ledger file and the relevant

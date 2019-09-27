@@ -23,7 +23,7 @@
 
 namespace ripple {
 
-class IOUAmount_test : public beast::unit_test::suite
+class IOUAmount_test : public boost::beast::unit_test::suite
 {
 public:
     void testZero ()

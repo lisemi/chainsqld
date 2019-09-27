@@ -39,10 +39,10 @@
 #include <ripple/beast/core/CurrentThreadName.h>
 #include <ripple/beast/core/Time.h>
 #include <ripple/beast/utility/Debug.h>
-#include <beast/unit_test/dstream.hpp>
-#include <beast/unit_test/global_suites.hpp>
-#include <beast/unit_test/match.hpp>
-#include <beast/unit_test/reporter.hpp>
+#include <beast/include/boost/beast/_experimental/unit_test/dstream.hpp>
+#include <beast/include/boost/beast/_experimental/unit_test/global_suites.hpp>
+#include <beast/include/boost/beast/_experimental/unit_test/match.hpp>
+#include <beast/include/boost/beast/_experimental/unit_test/reporter.hpp>
 #include <test/quiet_reporter.h>
 #include <google/protobuf/stubs/common.h>
 #include <boost/program_options.hpp>
@@ -181,9 +181,9 @@ static int runUnitTests(
     bool quiet,
     bool log)
 {
-    using namespace beast::unit_test;
+    using namespace boost::beast::unit_test;
     using namespace ripple::test;
-    beast::unit_test::dstream dout{std::cout};
+    boost::beast::unit_test::dstream dout{std::cout};
 
     std::unique_ptr<runner> r;
     if(quiet)
@@ -438,7 +438,7 @@ int run (int argc, char** argv)
     }
 
     // Construct the logs object at the configured severity
-    using namespace beast::severities;
+    using namespace boost::beast::severities;
     Severity thresh = kInfo;
 
     if (vm.count ("quiet"))
@@ -449,7 +449,7 @@ int run (int argc, char** argv)
     auto logs = std::make_unique<Logs>(thresh);
 #ifdef GM_ALG_PROCESS
 	setDebugLogSink(logs->makeSink(
-		"Debug", beast::severities::kTrace));
+		"Debug", boost::beast::severities::kTrace));
 	auto hardEncryptJournal = logs->journal("HardEncrypt");
 	HardEncrypt* hEObj = HardEncryptObj::getInstance();
 	if (nullptr == hEObj)
@@ -507,7 +507,7 @@ int run (int argc, char** argv)
         if (vm.count ("debug"))
         {
             setDebugLogSink (logs->makeSink (
-                "Debug", beast::severities::kTrace));
+                "Debug", boost::beast::severities::kTrace));
         }
 
         auto timeKeeper = make_TimeKeeper(
@@ -564,7 +564,7 @@ int main (int argc, char** argv)
 {
     // Workaround for Boost.Context / Boost.Coroutine
     // https://svn.boost.org/trac/boost/ticket/10657
-    (void)beast::currentTimeMillis();
+    (void)boost::beast::currentTimeMillis();
 
 #ifdef _MSC_VER
     ripple::sha512_deprecatedMSVCWorkaround();
@@ -588,18 +588,18 @@ int main (int argc, char** argv)
 
     // Checks the heap at every allocation and deallocation (slow).
     //
-    //beast::Debug::setAlwaysCheckHeap (false);
+    //boost::beast::Debug::setAlwaysCheckHeap (false);
 
     // Keeps freed memory blocks and fills them with a guard value.
     //
-    //beast::Debug::setHeapDelayedFree (false);
+    //boost::beast::Debug::setHeapDelayedFree (false);
 
     // At exit, reports all memory blocks which have not been freed.
     //
 #if RIPPLE_DUMP_LEAKS_ON_EXIT
-    beast::Debug::setHeapReportLeaks (true);
+    boost::beast::Debug::setHeapReportLeaks (true);
 #else
-    beast::Debug::setHeapReportLeaks (false);
+    boost::beast::Debug::setHeapReportLeaks (false);
 #endif
 
     atexit(&google::protobuf::ShutdownProtobufLibrary);
@@ -608,7 +608,7 @@ int main (int argc, char** argv)
 
     auto const result (ripple::run (argc, argv));
 
-    beast::basic_seconds_clock_main_hook();
+    boost::beast::basic_seconds_clock_main_hook();
 
     return result;
 }

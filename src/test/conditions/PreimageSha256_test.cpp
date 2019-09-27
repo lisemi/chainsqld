@@ -32,7 +32,7 @@
 namespace ripple {
 namespace cryptoconditions {
 
-class PreimageSha256_test : public beast::unit_test::suite
+class PreimageSha256_test : public boost::beast::unit_test::suite
 {
     inline
     Buffer

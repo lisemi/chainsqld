@@ -27,10 +27,11 @@
 #include <ripple/beast/utility/PropertyStream.h>
 #include <peersafe/gmencrypt/hardencrypt/HardEncryptObj.h>
 #include <ripple/protocol/Protocol.h>
+#include <boost/asio/io_service.hpp>
 #include <memory>
 #include <mutex>
 
-namespace boost { namespace asio { class io_service; } }
+//namespace boost { namespace asio { class io_service; } }
 
 namespace ripple {
 
@@ -90,7 +91,7 @@ class RCLValidationsPolicy;
 using RCLValidations =
     Validations<RCLValidationsPolicy, RCLValidation, std::mutex>;
 
-class Application : public beast::PropertyStream::Source
+class Application : public boost::beast::PropertyStream::Source
 {
 public:
     /* VFALCO NOTE

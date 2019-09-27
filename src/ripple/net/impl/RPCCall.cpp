@@ -102,7 +102,7 @@ private:
         }
         else
         {
-            jvRequest[jss::ledger_index]   = beast::lexicalCast <std::uint32_t> (strLedger);
+            jvRequest[jss::ledger_index]   = boost::beast::lexicalCast <std::uint32_t> (strLedger);
         }
 
         return true;
@@ -583,7 +583,7 @@ private:
         }
         else
         {
-            jvRequest[jss::ledger_index]   = beast::lexicalCast <std::uint32_t> (strLedger);
+            jvRequest[jss::ledger_index]   = boost::beast::lexicalCast <std::uint32_t> (strLedger);
         }
 
         return jvRequest;
@@ -1456,7 +1456,7 @@ rpcClient(std::vector<std::string> const& args,
             {
                 setup = setup_ServerHandler(
                     config,
-                    beast::logstream { logs.journal ("HTTPClient").warn() });
+                    boost::beast::logstream { logs.journal ("HTTPClient").warn() });
             }
             catch (std::exception const&)
             {
@@ -1535,7 +1535,7 @@ rpcClient(std::vector<std::string> const& args,
             jvOutput[jss::status]  = "error";
 
             nRet    = jvOutput.isMember (jss::error_code)
-                      ? beast::lexicalCast <int> (jvOutput[jss::error_code].asString ())
+                      ? boost::beast::lexicalCast <int> (jvOutput[jss::error_code].asString ())
                       : rpcBAD_SYNTAX;
         }
 
@@ -1597,7 +1597,7 @@ void fromNetwork (
     }
 
     // HTTP basic authentication
-    auto const auth = beast::detail::base64_encode(strUsername + ":" + strPassword);
+    auto const auth = boost::beast::detail::base64_encode(strUsername + ":" + strPassword);
 
     std::map<std::string, std::string> mapRequestHeaders;
 

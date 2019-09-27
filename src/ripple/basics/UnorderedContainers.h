@@ -65,7 +65,7 @@ using hash_multiset = std::unordered_multiset <Value, Hash, Pred, Allocator>;
 
 // hardened_hash containers
 
-using strong_hash = beast::xxhasher;
+using strong_hash = boost::beast::xxhasher;
 
 template <class Key, class Value, class Hash = hardened_hash<strong_hash>,
           class Pred = std::equal_to<Key>,

@@ -52,12 +52,12 @@ enum class Role
 */
 Role
 requestRole (Role const& required, Port const& port,
-    Json::Value const& jsonRPC, beast::IP::Endpoint const& remoteIp,
+    Json::Value const& jsonRPC, boost::beast::IP::Endpoint const& remoteIp,
     std::string const& user);
 
 Resource::Consumer
 requestInboundEndpoint (Resource::Manager& manager,
-    beast::IP::Endpoint const& remoteAddress,
+    boost::beast::IP::Endpoint const& remoteAddress,
         Port const& port, std::string const& user);
 
 /**
@@ -71,7 +71,7 @@ isUnlimited (Role const& role);
  * configured as secure_gateway, then the user can be positively identified.
  */
 bool
-isIdentified (Port const& port, beast::IP::Address const& remoteIp,
+isIdentified (Port const& port, boost::beast::IP::Address const& remoteIp,
         std::string const& user);
 
 } // ripple

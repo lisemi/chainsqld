@@ -43,7 +43,7 @@ static auto const token =
     "VUSmEydzBpMjFlcTNNWXl3TFZKWm5GT3I3QzBrdzJBaVR6U0NqSXpkaXRROD0ifQ==\n";
 }
 
-class ServerInfo_test : public beast::unit_test::suite
+class ServerInfo_test : public boost::beast::unit_test::suite
 {
 public:
     static

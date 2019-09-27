@@ -20,9 +20,10 @@
 #include <ripple/beast/utility/weak_fn.h>
 #include <ripple/beast/unit_test.h>
 
+namespace boost {
 namespace beast {
 
-class weak_fn_test : public beast::unit_test::suite
+class weak_fn_test : public boost::beast::unit_test::suite
 {
 public:
     struct T

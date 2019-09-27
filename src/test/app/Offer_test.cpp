@@ -28,7 +28,7 @@
 namespace ripple {
 namespace test {
 
-class Offer_test : public beast::unit_test::suite
+class Offer_test : public boost::beast::unit_test::suite
 {
     static bool hasFeature(uint256 const& feat, std::initializer_list<uint256> args)
     {

@@ -21,10 +21,10 @@
 #define RIPPLE_SERVER_SIMPLEWRITER_H_INCLUDED
 
 #include <ripple/server/Writer.h>
-#include <beast/core/multi_buffer.hpp>
-#include <beast/core/ostream.hpp>
-#include <beast/http/message.hpp>
-#include <beast/http/write.hpp>
+#include <beast/include/boost/beast/core/multi_buffer.hpp>
+#include <beast/include/boost/beast/core/ostream.hpp>
+#include <beast/include/boost/beast/http/message.hpp>
+#include <beast/include/boost/beast/http/write.hpp>
 #include <utility>
 
 namespace ripple {
@@ -32,15 +32,15 @@ namespace ripple {
 /// Deprecated: Writer that serializes a HTTP/1 message
 class SimpleWriter : public Writer
 {
-    beast::multi_buffer sb_;
+    boost::beast::multi_buffer sb_;
 
 public:
     template<bool isRequest, class Body, class Headers>
     explicit
-    SimpleWriter(beast::http::message<
+    SimpleWriter(boost::beast::http::message<
         isRequest, Body, Headers> const& msg)
     {
-        beast::ostream(sb_) << msg;
+        boost::beast::ostream(sb_) << msg;
     }
 
     bool

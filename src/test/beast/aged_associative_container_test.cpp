@@ -48,6 +48,7 @@
 # endif
 #endif
 
+namespace boost {
 namespace beast {
 
 class aged_associative_container_test_base : public unit_test::suite

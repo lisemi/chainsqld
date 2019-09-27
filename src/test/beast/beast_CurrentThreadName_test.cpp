@@ -26,7 +26,7 @@
 namespace ripple {
 namespace test {
 
-class CurrentThreadName_test : public beast::unit_test::suite
+class CurrentThreadName_test : public boost::beast::unit_test::suite
 {
 private:
     static void exerciseName (
