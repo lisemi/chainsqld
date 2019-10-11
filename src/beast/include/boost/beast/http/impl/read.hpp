@@ -164,7 +164,8 @@ template<
 class read_msg_op
     : public beast::stable_async_base<
         Handler, beast::executor_type<Stream>>
-    , public asio::coroutine
+    //, public asio::coroutine
+    , public net::coroutine
 {
     using parser_type =
         parser<isRequest, Body, Allocator>;

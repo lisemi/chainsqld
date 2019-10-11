@@ -166,7 +166,7 @@ template<class Handler>
 class stream<NextLayer, deflateSupported>::response_op
     : public beast::stable_async_base<
         Handler, beast::executor_type<stream>>
-    , public asio::coroutine
+    , public net::coroutine
 {
     boost::weak_ptr<impl_type> wp_;
     error_code result_; // must come before res_
@@ -241,7 +241,7 @@ template<class Handler, class Decorator>
 class stream<NextLayer, deflateSupported>::accept_op
     : public beast::stable_async_base<
         Handler, beast::executor_type<stream>>
-    , public asio::coroutine
+    , public net::coroutine
 {
     boost::weak_ptr<impl_type> wp_;
     http::request_parser<http::empty_body>& p_;

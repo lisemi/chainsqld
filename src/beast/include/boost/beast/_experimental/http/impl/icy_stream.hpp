@@ -57,7 +57,7 @@ template<class Buffers, class Handler>
 class read_op
     : public beast::async_base<Handler,
         beast::executor_type<icy_stream>>
-    , public asio::coroutine
+    , public net::coroutine
 {
     icy_stream& s_;
     Buffers b_;
