@@ -78,7 +78,7 @@ SSLHTTPPeer(Port const& port, Handler& handler,
     boost::beast::Journal journal, endpoint_type remote_address,
         ConstBufferSequence const& buffers, socket_type&& socket)
     : BaseHTTPPeer<Handler, SSLHTTPPeer>(port, handler,
-        socket.get_executor().context(), journal, remote_address, buffers)
+        *((boost::asio::io_context*)&(socket.get_executor().context())), journal, remote_address, buffers)
     , ssl_bundle_(std::make_unique<boost::beast::asio::ssl_bundle>(
         port.context, std::move(socket)))
     , stream_(ssl_bundle_->stream)

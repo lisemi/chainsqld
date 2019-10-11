@@ -60,9 +60,9 @@ isStatusRequest(
     http_request_type const& request)
 {
     return
-        request.version >= 11 &&
+        request.version() >= 11 &&
         request.target() == "/" &&
-        request.body.size() == 0 &&
+        request.body().size() == 0 &&
         request.method() == boost::beast::http::verb::get;
 }
 
@@ -74,12 +74,12 @@ unauthorizedResponse(
     using namespace boost::beast::http;
     Handoff handoff;
     response<string_body> msg;
-    msg.version = request.version;
+    msg.version(request.version());
     msg.result(boost::beast::http::status::unauthorized);
     msg.insert("Server", BuildInfo::getFullVersionString());
     msg.insert("Content-Type", "text/html");
     msg.insert("Connection", "close");
-    msg.body = "Invalid protocol.";
+    msg.body() = "Invalid protocol.";
     msg.prepare_payload();
     handoff.response = std::make_shared<SimpleWriter>(msg);
     return handoff;
@@ -511,7 +511,7 @@ ServerHandlerImp::processSession (std::shared_ptr<Session> const& session,
 {
     processRequest (
         session->port(), buffers_to_string(
-            session->request().body.data()),
+            session->request().body().data()),
                 session->remoteAddress().at_port (0),
                     makeOutput (*session), coro,
         [&]
@@ -784,7 +784,7 @@ ServerHandlerImp::statusResponse(
     if (app_.serverOkay(reason))
     {
         msg.result(boost::beast::http::status::ok);
-        msg.body = "<!DOCTYPE html><html><head><title>" + systemName() +
+        msg.body() = "<!DOCTYPE html><html><head><title>" + systemName() +
             " Test page for rippled</title></head><body><h1>" +
                 systemName() + " Test</h1><p>This page shows rippled http(s) "
                     "connectivity is working.</p></body></html>";
@@ -792,10 +792,10 @@ ServerHandlerImp::statusResponse(
     else
     {
         msg.result(boost::beast::http::status::internal_server_error);
-        msg.body = "<HTML><BODY>Server cannot accept clients: " +
+        msg.body() = "<HTML><BODY>Server cannot accept clients: " +
             reason + "</BODY></HTML>";
     }
-    msg.version = request.version;
+    msg.version(request.version());
     msg.insert("Server", BuildInfo::getFullVersionString());
     msg.insert("Content-Type", "text/html");
     msg.insert("Connection", "close");

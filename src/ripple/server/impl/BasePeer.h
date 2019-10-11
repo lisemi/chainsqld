@@ -100,7 +100,7 @@ close()
         return strand_.post(std::bind(
             &BasePeer::close, impl().shared_from_this()));
     error_code ec;
-    impl().ws_.lowest_layer().close(ec);
+    boost::beast::get_lowest_layer(impl().ws_).close(ec);
 }
 
 } // ripple

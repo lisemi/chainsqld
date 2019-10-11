@@ -191,7 +191,7 @@ private:
                 , test_(server_.test_)
                 , acceptor_(test_.io_service_, endpoint())
                 , socket_(test_.io_service_)
-                , strand_(socket_.get_executor().context())
+                , strand_(*((boost::asio::io_context*)&(socket_.get_executor().context())))
             {
                 acceptor_.listen();
             }
@@ -257,8 +257,8 @@ private:
                 , test_(server_.test_)
                 , socket_(std::move(socket))
                 , stream_(socket_, *test_.context_)
-                , strand_(socket_.get_executor().context())
-                , timer_(socket_.get_executor().context())
+                , strand_(*((boost::asio::io_context*)&(socket_.get_executor().context())))
+                , timer_(*((boost::asio::io_context*)&(socket_.get_executor().context())))
             {
             }
 
@@ -408,8 +408,8 @@ private:
                 , test_(client_.test_)
                 , socket_(test_.io_service_)
                 , stream_(socket_, *test_.context_)
-                , strand_(socket_.get_executor().context())
-                , timer_(socket_.get_executor().context())
+                , strand_(*((boost::asio::io_context*)&(socket_.get_executor().context())))
+                , timer_(*((boost::asio::io_context*)&(socket_.get_executor().context())))
             {
             }
 

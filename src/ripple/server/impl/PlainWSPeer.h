@@ -65,7 +65,7 @@ PlainWSPeer(
     socket_type&& socket,
     boost::beast::Journal journal)
     : BaseWSPeer<Handler, PlainWSPeer>(port, handler, remote_address,
-        std::move(request), socket.get_executor().context()/*get_io_service()*/, journal)
+        std::move(request), *((boost::asio::io_context*)&(socket.get_executor().context()))/*get_io_service()*/, journal)
     , ws_(std::move(socket))
 {
 }

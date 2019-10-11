@@ -73,7 +73,7 @@ SSLWSPeer(
     boost::beast::Journal journal)
     : BaseWSPeer<Handler, SSLWSPeer>(port, handler,
         remote_endpoint, std::move(request),
-            ssl_bundle->socket.get_executor().context(), journal)
+            *((boost::asio::io_context*)&(ssl_bundle->socket.get_executor().context())), journal)
     , ssl_bundle_(std::move(ssl_bundle))
     , ws_(ssl_bundle_->stream)
 {

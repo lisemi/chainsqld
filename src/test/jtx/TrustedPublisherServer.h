@@ -123,7 +123,7 @@ private:
             : id(id_)
             , self(self_)
             , sock(std::move(sock_))
-            , work(sock.get_executor().context())
+            , work(*((boost::asio::io_context*)&(sock.get_executor().context())))
         {
         }
 

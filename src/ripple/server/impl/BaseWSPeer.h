@@ -284,14 +284,22 @@ on_write(error_code const& ec)
         return;
     start_timer();
     if(! result.first)
-        impl().ws_.async_write_frame(
-            result.first, result.second, strand_.wrap(std::bind(
-                &BaseWSPeer::on_write, impl().shared_from_this(),
+        impl().ws_.async_write_some(
+			static_cast<bool>(result.first), result.second,
+			bind_executor(
+				strand_,
+				std::bind(
+					&BaseWSPeer::on_write,
+					impl().shared_from_this(),
                     std::placeholders::_1)));
     else
-        impl().ws_.async_write_frame(
-            result.first, result.second, strand_.wrap(std::bind(
-                &BaseWSPeer::on_write_fin, impl().shared_from_this(),
+        impl().ws_.async_write_some(
+            static_cast<bool>(result.first), result.second,
+			bind_executor(
+				strand_,
+				std::bind(
+                	&BaseWSPeer::on_write_fin,
+					impl().shared_from_this(),
                     std::placeholders::_1)));
 }
 
@@ -462,7 +470,7 @@ fail(error_code ec, String const& what)
         ec_ = ec;
         JLOG(this->j_.trace()) <<
             what << ": " << ec.message();
-        impl().ws_.lowest_layer().close(ec);
+        boost::beast::get_lowest_layer(impl().ws_).close(ec);
     }
 }
 

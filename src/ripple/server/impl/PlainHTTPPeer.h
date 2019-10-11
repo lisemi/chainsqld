@@ -68,7 +68,7 @@ PlainHTTPPeer(Port const& port, Handler& handler,
     boost::beast::Journal journal, endpoint_type remote_endpoint,
         ConstBufferSequence const& buffers, socket_type&& socket)
     : BaseHTTPPeer<Handler, PlainHTTPPeer>(port, handler,
-        socket.get_executor().context(), journal, remote_endpoint, buffers)
+        *((boost::asio::io_context*)&(socket.get_executor().context())), journal, remote_endpoint, buffers)
     , stream_(std::move(socket))
 {
     // Set TCP_NODELAY on loopback interfaces,

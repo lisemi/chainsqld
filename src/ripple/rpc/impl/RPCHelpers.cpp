@@ -740,9 +740,9 @@ chooseLedgerEntryType(Json::Value const& params)
     return result;
 }
 
-beast::SemanticVersion const firstVersion("1.0.0");
-beast::SemanticVersion const goodVersion("1.0.0");
-beast::SemanticVersion const lastVersion("1.0.0");
+boost::beast::SemanticVersion const firstVersion("1.0.0");
+boost::beast::SemanticVersion const goodVersion("1.0.0");
+boost::beast::SemanticVersion const lastVersion("1.0.0");
 
 } // RPC
 } // ripple

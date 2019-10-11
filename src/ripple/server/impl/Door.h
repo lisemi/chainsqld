@@ -172,9 +172,9 @@ Detector(Port const& port,
     : port_(port)
     , handler_(handler)
     , socket_(std::move(socket))
-    , timer_(socket_.get_executor().context())
+    , timer_(*((boost::asio::io_context*)&(socket_.get_executor().context())))
     , remote_address_(remote_address)
-    , strand_(socket_.get_executor().context())
+    , strand_(*((boost::asio::io_context*)&(socket_.get_executor().context())))
     , j_(j)
 {
 }
@@ -368,7 +368,7 @@ do_accept(boost::asio::yield_context do_yield)
     {
         error_code ec;
         endpoint_type remote_address;
-        socket_type socket (acceptor_.get_executor().context());
+        socket_type socket (*((boost::asio::io_context*)&(acceptor_.get_executor().context())));
         acceptor_.async_accept (socket, remote_address, do_yield[ec]);
         if (ec && ec != boost::asio::error::operation_aborted)
         {
