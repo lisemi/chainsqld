@@ -211,5 +211,6 @@ field_t <char> rfield (
 /** @} */
 
 }
+}
 
 #endif

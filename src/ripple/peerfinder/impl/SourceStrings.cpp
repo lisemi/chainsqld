@@ -62,7 +62,7 @@ private:
 
 //------------------------------------------------------------------------------
 
-beast::SharedPtr <Source>
+boost::beast::SharedPtr <Source>
 SourceStrings::New (std::string const& name, Strings const& strings)
 {
     return new SourceStringsImp (name, strings);

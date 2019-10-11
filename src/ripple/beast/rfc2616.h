@@ -471,7 +471,7 @@ template<bool isRequest, class Body, class Fields>
 bool
 is_keep_alive(boost::beast::http::message<isRequest, Body, Fields> const& m)
 {
-    if(m.version <= 10)
+    if(m.version() <= 10)
         return boost::beast::http::token_list{
             m[boost::beast::http::field::connection]}.exists("keep-alive");
     return ! boost::beast::http::token_list{

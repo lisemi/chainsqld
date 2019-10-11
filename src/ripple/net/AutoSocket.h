@@ -65,7 +65,8 @@ public:
 
     boost::asio::io_service& get_io_service () noexcept
     {
-        return mSocket->get_io_service ();
+        return *((boost::asio::io_service*)(&(mSocket->get_executor().context())));
+        //return mSocket->next_layer().get_executor().context();
     }
 
     bool            isSecure ()
@@ -176,8 +177,12 @@ public:
         {
             // must be plain
             mSecure = false;
-            mSocket->get_io_service ().post (
-                boost::beast::bind_handler (cbFunc, error_code()));
+            //mSocket->get_executor().context().post (
+			post(
+                mSocket->get_executor(),
+                boost::beast::bind_handler(cbFunc, error_code()));
+            /*get_io_service().post (
+                boost::beast::bind_handler (cbFunc, error_code()));*/
         }
         else
         {
@@ -209,8 +214,12 @@ public:
             {
                 ec = e.code();
             }
-            mSocket->get_io_service ().post (
-                boost::beast::bind_handler (handler, ec));
+            //mSocket->get_executor().post (
+			post(
+                mSocket->get_executor(),
+                boost::beast::bind_handler(handler, ec));
+			/*get_io_service().post(
+                boost::beast::bind_handler (handler, ec));*/
         }
     }
 

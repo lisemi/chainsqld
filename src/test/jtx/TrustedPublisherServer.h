@@ -123,7 +123,7 @@ private:
             : id(id_)
             , self(self_)
             , sock(std::move(sock_))
-            , work(sock.get_io_service())
+            , work(sock.get_executor().context())
         {
         }
 

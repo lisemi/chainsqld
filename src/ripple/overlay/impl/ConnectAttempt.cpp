@@ -288,7 +288,7 @@ ConnectAttempt::makeRequest (bool crawl,
     request_type m;
     m.method(boost::beast::http::verb::get);
     m.target("/");
-    m.version = 11;
+    m.version(11);
     m.insert ("User-Agent", BuildInfo::getFullVersionString());
     m.insert ("Upgrade", "RTXP/1.2");
         //std::string("RTXP/") + to_string (BuildInfo::getCurrentProtocol()));
@@ -306,8 +306,8 @@ ConnectAttempt::processResponse()
         Json::Value json;
         Json::Reader r;
         std::string s;
-        s.reserve(boost::asio::buffer_size(response_.body.data()));
-        for(auto const& buffer : response_.body.data())
+        s.reserve(boost::asio::buffer_size(response_.body().data()));
+        for(auto const& buffer : response_.body().data())
             s.append(
                 boost::asio::buffer_cast<char const*>(buffer),
                 boost::asio::buffer_size(buffer));

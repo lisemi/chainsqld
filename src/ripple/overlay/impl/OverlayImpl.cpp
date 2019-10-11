@@ -31,6 +31,7 @@
 #include <ripple/peerfinder/make_Manager.h>
 #include <ripple/rpc/json_body.h>
 #include <ripple/server/SimpleWriter.h>
+#include <ripple/beast/core/base64.cpp>
 
 #include <boost/utility/in_place_factory.hpp>
 
@@ -327,16 +328,16 @@ OverlayImpl::makeRedirectResponse (PeerFinder::Slot::ptr const& slot,
     http_request_type const& request, address_type remote_address)
 {
     boost::beast::http::response<json_body> msg;
-    msg.version = request.version;
+    msg.version(request.version());
     msg.result(boost::beast::http::status::service_unavailable);
     msg.insert("Server", BuildInfo::getFullVersionString());
     msg.insert("Remote-Address", remote_address);
     msg.insert("Content-Type", "application/json");
     msg.insert(boost::beast::http::field::connection, "close");
-    msg.body = Json::objectValue;
+    msg.body() = Json::objectValue;
     {
         auto const result = m_peerFinder->redirect(slot);
-        Json::Value& ips = (msg.body["peer-ips"] = Json::arrayValue);
+        Json::Value& ips = (msg.body()["peer-ips"] = Json::arrayValue);
         for (auto const& _ : m_peerFinder->redirect(slot))
             ips.append(_.address.to_string());
     }
@@ -351,12 +352,12 @@ OverlayImpl::makeErrorResponse (PeerFinder::Slot::ptr const& slot,
     std::string text)
 {
     boost::beast::http::response<boost::beast::http::string_body> msg;
-    msg.version = request.version;
+    msg.version(request.version());
     msg.result(boost::beast::http::status::bad_request);
     msg.insert("Server", BuildInfo::getFullVersionString());
     msg.insert("Remote-Address", remote_address.to_string());
     msg.insert(boost::beast::http::field::connection, "close");
-    msg.body = text;
+    msg.body() = text;
     msg.prepare_payload();
     return std::make_shared<SimpleWriter>(msg);
 }
@@ -806,12 +807,12 @@ OverlayImpl::processRequest (http_request_type const& req,
         return false;
 
     boost::beast::http::response<json_body> msg;
-    msg.version = req.version;
+    msg.version(req.version());
     msg.result(boost::beast::http::status::ok);
     msg.insert("Server", BuildInfo::getFullVersionString());
     msg.insert("Content-Type", "application/json");
     msg.insert("Connection", "close");
-    msg.body["overlay"] = crawl();
+    msg.body()["overlay"] = crawl();
     msg.prepare_payload();
     handoff.response = std::make_shared<SimpleWriter>(msg);
     return true;

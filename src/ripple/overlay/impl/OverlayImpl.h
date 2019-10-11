@@ -270,7 +270,7 @@ public:
     bool
     is_upgrade(boost::beast::http::header<true, Fields> const& req)
     {
-        if(req.version < 11)
+        if(req.version() < 11)
             return false;
         if(req.method() != boost::beast::http::verb::get)
             return false;
@@ -284,7 +284,7 @@ public:
     bool
     is_upgrade(boost::beast::http::header<false, Fields> const& req)
     {
-        if(req.version < 11)
+        if(req.version() < 11)
             return false;
         if(! boost::beast::http::token_list{req["Connection"]}.exists("upgrade"))
             return false;

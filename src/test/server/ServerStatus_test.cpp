@@ -149,7 +149,7 @@ class ServerStatus_test :
     {
         using namespace boost::asio;
         using namespace boost::beast::http;
-        io_service& ios = get_io_service();
+        io_service& ios = get_executor().context();
         ip::tcp::resolver r{ios};
         boost::beast::multi_buffer sb;
 
@@ -461,7 +461,7 @@ class ServerStatus_test :
         auto req_string = boost::lexical_cast<std::string>(req);
         req_string.erase(req_string.find_last_of("13"), std::string::npos);
 
-        io_service& ios = get_io_service();
+        io_service& ios = get_executor().context();
         ip::tcp::resolver r{ios};
         boost::beast::multi_buffer sb;
 
@@ -596,7 +596,7 @@ class ServerStatus_test :
             get<std::string>("ip").value();
 
         boost::system::error_code ec;
-        io_service& ios = get_io_service();
+        io_service& ios = get_executor().context();
         ip::tcp::resolver r{ios};
 
         Json::Value jr;
@@ -708,7 +708,7 @@ class ServerStatus_test :
             get<std::string>("ip").value();
         boost::system::error_code ec;
 
-        io_service& ios = get_io_service();
+        io_service& ios = get_executor().context();
         ip::tcp::resolver r{ios};
 
         auto it =

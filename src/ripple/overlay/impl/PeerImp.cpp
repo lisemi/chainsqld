@@ -36,6 +36,7 @@
 #include <ripple/overlay/Cluster.h>
 #include <ripple/protocol/digest.h>
 #include <peersafe/app/table/TableSync.h>
+#include <beast/include/boost/beast/core/ostream.hpp>
 
 #include <boost/algorithm/string/predicate.hpp>
 #include <algorithm>
@@ -62,8 +63,8 @@ PeerImp::PeerImp (Application& app, id_t id, endpoint_type remote_endpoint,
     , ssl_bundle_(std::move(ssl_bundle))
     , socket_ (ssl_bundle_->socket)
     , stream_ (ssl_bundle_->stream)
-    , strand_ (socket_.get_io_service())
-    , timer_ (socket_.get_io_service())
+    , strand_ (*((boost::asio::io_context*)&(socket_.get_executor().context())))
+    , timer_ (*((boost::asio::io_context*)&(socket_.get_executor().context())))
     , remote_address_ (
         boost::beast::IPAddressConversion::from_asio(remote_endpoint))
     , overlay_ (overlay)
@@ -645,7 +646,7 @@ PeerImp::makeResponse (bool crawl,
 {
     http_response_type resp;
     resp.result(boost::beast::http::status::switching_protocols);
-    resp.version = req.version;
+    resp.version(req.version());
     resp.insert("Connection", "Upgrade");
     resp.insert("Upgrade", "RTXP/1.2");
     resp.insert("Connect-As", "Peer");
