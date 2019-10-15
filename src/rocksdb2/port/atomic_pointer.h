@@ -41,6 +41,9 @@
 #define ARCH_CPU_X86_FAMILY 1
 #elif defined(__ARMEL__)
 #define ARCH_CPU_ARM_FAMILY 1
+//#elif defined(__mips__)
+#else
+#define ARCH_CPU_MIPS_FAMILY 1
 #endif
 
 namespace rocksdb {
@@ -93,6 +96,12 @@ typedef void (*LinuxKernelMemoryBarrierFunc)(void);
 //
 inline void MemoryBarrier() {
   (*(LinuxKernelMemoryBarrierFunc)0xffff0fa0)();
+}
+#define ROCKSDB_HAVE_MEMORY_BARRIER
+// MIPS
+#elif defined(ARCH_CPU_MIPS_FAMILY) && defined(__GNUC__)
+inline void MemoryBarrier() {
+  __asm__ __volatile__("sync" : : : "memory");
 }
 #define ROCKSDB_HAVE_MEMORY_BARRIER
 
