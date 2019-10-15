@@ -24,7 +24,7 @@
 #include <ripple/protocol/Sign.h>
 #include <ripple/basics/strHex.h>
 #include <boost/asio.hpp>
-#include <ripple/beast/core/base64.cpp>
+#include <ripple/beast/core/base64.h>
 #include <beast/include/boost/beast/http.hpp>
 
 namespace ripple {

@@ -1,4 +1,4 @@
-#include <beast/include/boost/beast/core/detail/base64.hpp>
+#include <ripple/beast/core/base64.h>
 #include <iostream>
 
 namespace boost {

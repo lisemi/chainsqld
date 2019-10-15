@@ -24,7 +24,7 @@
 #include <ripple/beast/rfc2616.h>
 #include <ripple/beast/core/LexicalCast.h>
 #include <ripple/protocol/digest.h>
-#include <ripple/beast/core/base64.cpp>
+#include <ripple/beast/core/base64.h>
 #include <boost/regex.hpp>
 #include <algorithm>
 

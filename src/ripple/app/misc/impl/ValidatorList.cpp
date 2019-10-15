@@ -22,7 +22,7 @@
 #include <ripple/basics/StringUtilities.h>
 #include <ripple/json/json_reader.h>
 #include <ripple/protocol/JsonFields.h>
-#include <ripple/beast/core/base64.cpp>
+#include <ripple/beast/core/base64.h>
 #include <boost/regex.hpp>
 
 namespace ripple {

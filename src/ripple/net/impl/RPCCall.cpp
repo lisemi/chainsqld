@@ -38,7 +38,7 @@
 #include <peersafe/basics/characterUtilities.h>
 #include <beast/include/boost/beast/core/string.hpp>
 #include <boost/asio/streambuf.hpp>
-#include <ripple/beast/core/base64.cpp>
+#include <ripple/beast/core/base64.h>
 #include <boost/regex.hpp>
 #include <array>
 #include <iostream>

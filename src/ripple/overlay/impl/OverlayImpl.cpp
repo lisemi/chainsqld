@@ -31,7 +31,7 @@
 #include <ripple/peerfinder/make_Manager.h>
 #include <ripple/rpc/json_body.h>
 #include <ripple/server/SimpleWriter.h>
-#include <ripple/beast/core/base64.cpp>
+#include <ripple/beast/core/base64.h>
 
 #include <boost/utility/in_place_factory.hpp>
 

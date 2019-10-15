@@ -42,7 +42,7 @@
 #include <ripple/server/SimpleWriter.h>
 #include <peersafe/rpc/TableUtils.h>
 #include <peersafe/basics/characterUtilities.h>
-#include <ripple/beast/core/base64.cpp>
+#include <ripple/beast/core/base64.h>
 #include <beast/include/boost/beast/http/fields.hpp>
 #include <beast/include/boost/beast/http/string_body.hpp>
 #include <boost/algorithm/string.hpp>

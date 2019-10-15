@@ -21,6 +21,7 @@
 #define BEAST_WEAK_FN_H_INCLUDED
 
 #include <memory>
+#include <boost/core/empty_value.hpp>
 
 // Original version:
 // http://lists.boost.org/Archives/boost/att-189469/weak_fn.hpp
@@ -87,7 +88,7 @@ namespace detail {
 
 template <class T, class R, class Policy, class... Args>
 class weak_binder
-    : private boost::empty_value <Policy> (boost::empty_init_t{})
+    : private boost::empty_value <Policy>
 {
 private:
     using member_type = R (T::*)(Args...);
@@ -110,7 +111,7 @@ public:
     {
         if(auto p = object_.lock())
             return ((*p).*member_)(args...);
-        return this->member()();
+        return this->get()();
     }
 };
 

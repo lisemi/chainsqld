@@ -27,7 +27,7 @@
 #include <ripple/protocol/SecretKey.h>
 #include <ripple/protocol/Sign.h>
 #include <ripple/protocol/STExchange.h>
-#include <ripple/beast/core/base64.cpp>
+#include <ripple/beast/core/base64.h>
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/utility/in_place_factory.hpp>

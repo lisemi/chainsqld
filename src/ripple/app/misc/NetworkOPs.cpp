@@ -68,7 +68,7 @@
 #include <ripple/basics/make_lock.h>
 #include <peersafe/rpc/impl/TableAssistant.h>
 #include <peersafe/rpc/TableUtils.h>
-#include <ripple/beast/core/base64.cpp>
+#include <ripple/beast/core/base64.h>
 #include <boost/asio/steady_timer.hpp>
 
 namespace ripple {

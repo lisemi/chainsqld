@@ -34,6 +34,7 @@
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>
 #include <boost/algorithm/string/predicate.hpp>
+#include <ripple/beast/core/base64.h>
 #include <regex>
 
 namespace ripple {

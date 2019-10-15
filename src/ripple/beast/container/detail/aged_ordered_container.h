@@ -27,6 +27,7 @@
 #include <boost/intrusive/list.hpp>
 #include <boost/intrusive/set.hpp>
 #include <boost/version.hpp>
+#include <boost/core/empty_value.hpp>
 #include <algorithm>
 #include <functional>
 #include <initializer_list>
@@ -177,8 +178,18 @@ private:
         }
 
         pair_value_compare (pair_value_compare const& other)
-            : boost::empty_value <Compare> (boost::empty_init_t{}, other)
+            : boost::empty_value <Compare> (boost::empty_init_t{}, other.alloc())
         {
+        }
+
+		Compare& alloc()
+        {
+            return boost::empty_value <Compare>::get();
+        }
+
+		Compare const& alloc() const
+        {
+            return boost::empty_value <Compare>::get();
         }
 
     private:
@@ -323,7 +334,7 @@ private:
         config_t (config_t&& other)
             : KeyValueCompare (std::move (other.key_compare()))
             , boost::empty_value <ElementAllocator> (boost::empty_init_t{}, (
-                std::move (other)))
+                std::move (other.alloc())))
             , clock (other.clock)
         {
         }

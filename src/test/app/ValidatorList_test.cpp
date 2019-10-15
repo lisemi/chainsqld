@@ -17,7 +17,7 @@
 */
 //==============================================================================
 
-#include <ripple/beast/core/base64.cpp>
+#include <ripple/beast/core/base64.h>
 #include <ripple/basics/Slice.h>
 #include <ripple/basics/strHex.h>
 #include <ripple/app/misc/ValidatorList.h>

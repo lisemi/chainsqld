@@ -27,7 +27,7 @@
 #include <ripple/protocol/PublicKey.h>
 #include <ripple/protocol/Sign.h>
 //#include <beast/include/boost/beast/core/detail/base64.hpp>
-#include <ripple/beast/core/base64.cpp>
+#include <ripple/beast/core/base64.h>
 #include <boost/regex.hpp>
 #include <numeric>
 #include <stdexcept>
