@@ -9,6 +9,10 @@
 #ifndef SOCI_MYSQL_H_INCLUDED
 #define SOCI_MYSQL_H_INCLUDED
 
+#ifndef SOCI_MYSQL_H
+
+#else
+
 #ifdef _WIN32
 # ifdef SOCI_DLL
 #  ifdef SOCI_MYSQL_SOURCE
@@ -288,3 +292,4 @@ SOCI_MYSQL_DECL void register_factory_mysql();
 } // namespace soci
 
 #endif // SOCI_MYSQL_H_INCLUDED
+#endif

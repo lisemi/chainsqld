@@ -138,9 +138,9 @@ include_directories(
   src/beast/extras
   src/nudb/include
   src/soci/src
-  src/soci/include
-  src/evmjit
-  src/evmjit/evmc/include)
+  src/soci/include)
+#  src/evmjit
+#  src/evmjit/evmc/include)
 
 special_build_flags()
 
@@ -578,7 +578,8 @@ set_startup_project(chainsqld)
 
 foreach(target IN LISTS targets)
     target_link_libraries(${target}
-      ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARIES} ${SANITIZER_LIBRARIES} ${MYSQL_LIBRARIES} ${GMALG_LIBRARYS} evmjit)
+      ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARIES} ${SANITIZER_LIBRARIES} ${GMALG_LIBRARYS})
+#      ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARIES} ${SANITIZER_LIBRARIES} ${MYSQL_LIBRARIES} ${GMALG_LIBRARYS} evmjit)
 
     link_common_libraries(${target})
 endforeach()
