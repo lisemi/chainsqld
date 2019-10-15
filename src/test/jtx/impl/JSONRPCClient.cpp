@@ -111,7 +111,7 @@ public:
         request<string_body> req;
         req.method(boost::beast::http::verb::post);
         req.target("/");
-        req.version = 11;
+        req.version(11);
         req.insert("Content-Type", "application/json; charset=UTF-8");
         req.insert("Host", ep_);
         {
@@ -128,7 +128,7 @@ public:
                 Json::Value& ja = jr[jss::params] = Json::arrayValue;
                 ja.append(params);
             }
-            req.body = to_string(jr);
+            req.body() = to_string(jr);
         }
         req.prepare_payload();
         write(stream_, req);
@@ -138,7 +138,7 @@ public:
 
         Json::Reader jr;
         Json::Value jv;
-        jr.parse(buffer_string(res.body.data()), jv);
+        jr.parse(buffer_string(res.body().data()), jv);
         if(jv["result"].isMember("error"))
             jv["error"] = jv["result"]["error"];
         if(jv["result"].isMember("status"))

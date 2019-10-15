@@ -281,3 +281,4 @@ public:
 BEAST_DEFINE_TESTSUITE(LexicalCast,beast_core,beast);
 
 } // beast
+}

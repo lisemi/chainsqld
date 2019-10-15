@@ -490,3 +490,4 @@ public:
 BEAST_DEFINE_TESTSUITE_MANUAL(hash_append,container,beast);
 
 }
+}

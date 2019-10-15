@@ -93,15 +93,25 @@ class ServerStatus_test :
         request<string_body> req;
 
         req.target("/");
-        req.version = 11;
+        req.version(11);
         req.insert("Host", host + ":" + std::to_string(port));
         req.insert("User-Agent", "test");
         req.method(boost::beast::http::verb::get);
         req.insert("Upgrade", "websocket");
-        boost::beast::websocket::detail::maskgen maskgen;
-        boost::beast::websocket::detail::sec_ws_key_type key;
-        boost::beast::websocket::detail::make_sec_ws_key(key, maskgen);
-        req.insert("Sec-WebSocket-Key", key);
+        //boost::beast::websocket::detail::maskgen maskgen;
+        //boost::beast::websocket::detail::sec_ws_key_type key;
+        //boost::beast::websocket::detail::make_sec_ws_key(key, maskgen);
+        //req.insert("Sec-WebSocket-Key", key);
+		{
+            // not secure, but OK for a testing
+            std::random_device rd;
+            std::mt19937 e{rd()};
+            std::uniform_int_distribution<> d(0, 255);
+            std::array<std::uint8_t, 16> key;
+            for(auto& v : key)
+                v = d(e);
+            req.insert("Sec-WebSocket-Key", boost::beast::detail::base64_encode(key.data(), key.size()));
+        };
         req.insert("Sec-WebSocket-Version", "13");
         req.insert(boost::beast::http::field::connection, "upgrade");
         return req;
@@ -118,7 +128,7 @@ class ServerStatus_test :
         request<string_body> req;
 
         req.target("/");
-        req.version = 11;
+        req.version(11);
         for(auto const& f : fields)
             req.insert(f.name(), f.value());
         req.insert("Host", host + ":" + std::to_string(port));
@@ -131,7 +141,7 @@ class ServerStatus_test :
         {
             req.method(boost::beast::http::verb::post);
             req.insert("Content-Type", "application/json; charset=UTF-8");
-            req.body = body;
+            req.body() = body;
         }
         req.prepare_payload();
 
@@ -150,7 +160,7 @@ class ServerStatus_test :
     {
         using namespace boost::asio;
         using namespace boost::beast::http;
-        io_service& ios = get_executor().context();
+        io_service& ios = get_io_service();
         ip::tcp::resolver r{ios};
         boost::beast::multi_buffer sb;
 
@@ -462,7 +472,7 @@ class ServerStatus_test :
         auto req_string = boost::lexical_cast<std::string>(req);
         req_string.erase(req_string.find_last_of("13"), std::string::npos);
 
-        io_service& ios = get_executor().context();
+        io_service& ios = get_io_service();
         ip::tcp::resolver r{ios};
         boost::beast::multi_buffer sb;
 
@@ -574,7 +584,7 @@ class ServerStatus_test :
             boost::beast::detail::base64_encode(user + ":" + pass));
         doHTTPRequest(env, yield, secure, resp, ec, to_string(jr), auth);
         BEAST_EXPECT(resp.result() == boost::beast::http::status::ok);
-        BEAST_EXPECT(! resp.body.empty());
+        BEAST_EXPECT(! resp.body().empty());
     }
 
     void
@@ -597,7 +607,7 @@ class ServerStatus_test :
             get<std::string>("ip").value();
 
         boost::system::error_code ec;
-        io_service& ios = get_executor().context();
+        io_service& ios = get_io_service();
         ip::tcp::resolver r{ios};
 
         Json::Value jr;
@@ -641,7 +651,7 @@ class ServerStatus_test :
             ++readCount;
             // expect the reads to fail for the clients that connected at or
             // above the limit. If limit is 0, all reads should succeed
-            BEAST_EXPECT((limit == 0 || readCount < limit-1) ? (! ec) : ec);
+            BEAST_EXPECT((limit == 0 || readCount < limit-1) ? (! ec) : bool(ec));
         }
     }
 
@@ -690,7 +700,7 @@ class ServerStatus_test :
         doRequest(yield,
             makeHTTPRequest(ip, port, "foo", {}), ip, port, false, resp, ec);
         BEAST_EXPECT(resp.result() == boost::beast::http::status::forbidden);
-        BEAST_EXPECT(resp.body == "Forbidden\r\n");
+        BEAST_EXPECT(resp.body() == "Forbidden\r\n");
     }
 
     void
@@ -709,7 +719,7 @@ class ServerStatus_test :
             get<std::string>("ip").value();
         boost::system::error_code ec;
 
-        io_service& ios = get_executor().context();
+        io_service& ios = get_io_service();
         ip::tcp::resolver r{ios};
 
         auto it =
@@ -729,7 +739,7 @@ class ServerStatus_test :
         // helper lambda, used below
         auto sendAndParse = [&](std::string const& req) -> Json::Value
         {
-            ws.async_write_frame(true, buffer(req), yield[ec]);
+            ws.async_write_some(true, buffer(req), yield[ec]);
             if(! BEAST_EXPECT(! ec))
                 return Json::objectValue;
 
@@ -742,7 +752,7 @@ class ServerStatus_test :
             Json::Reader jr;
             if(! BEAST_EXPECT(jr.parse(
                 boost::lexical_cast<std::string>(
-                    boost::beast::buffers(sb.data())), resp)))
+                    boost::beast::make_printable(sb.data())), resp)))
                 return Json::objectValue;
             sb.consume(sb.size());
             return resp;
@@ -827,7 +837,7 @@ class ServerStatus_test :
             return;
         BEAST_EXPECT(resp.result() == boost::beast::http::status::ok);
         BEAST_EXPECT(
-            resp.body.find("connectivity is working.") != std::string::npos);
+            resp.body().find("connectivity is working.") != std::string::npos);
 
         // mark the Network as Amendment Blocked, but still won't fail until
         // ELB is enabled (next step)
@@ -859,7 +869,7 @@ class ServerStatus_test :
             return;
         BEAST_EXPECT(resp.result() == boost::beast::http::status::ok);
         BEAST_EXPECT(
-            resp.body.find("connectivity is working.") != std::string::npos);
+            resp.body().find("connectivity is working.") != std::string::npos);
 
         env.app().config().ELB_SUPPORT = true;
 
@@ -876,9 +886,9 @@ class ServerStatus_test :
             return;
         BEAST_EXPECT(resp.result() == boost::beast::http::status::internal_server_error);
         BEAST_EXPECT(
-            resp.body.find("cannot accept clients:") != std::string::npos);
+            resp.body().find("cannot accept clients:") != std::string::npos);
         BEAST_EXPECT(
-            resp.body.find("Server version too old") != std::string::npos);
+            resp.body().find("Server version too old") != std::string::npos);
     }
 
     void
@@ -894,7 +904,7 @@ class ServerStatus_test :
             boost::beast::http::response<boost::beast::http::string_body> resp;
             doHTTPRequest(env, yield, false, resp, ec, "{}");
             BEAST_EXPECT(resp.result() == boost::beast::http::status::bad_request);
-            BEAST_EXPECT(resp.body == "Unable to parse request\r\n");
+            BEAST_EXPECT(resp.body() == "Unable to parse request\r\n");
         }
 
         Json::Value jv;
@@ -903,7 +913,7 @@ class ServerStatus_test :
             jv[jss::method] = Json::nullValue;
             doHTTPRequest(env, yield, false, resp, ec, to_string(jv));
             BEAST_EXPECT(resp.result() == boost::beast::http::status::bad_request);
-            BEAST_EXPECT(resp.body == "Null method\r\n");
+            BEAST_EXPECT(resp.body() == "Null method\r\n");
         }
 
         {
@@ -911,7 +921,7 @@ class ServerStatus_test :
             jv[jss::method] = 1;
             doHTTPRequest(env, yield, false, resp, ec, to_string(jv));
             BEAST_EXPECT(resp.result() == boost::beast::http::status::bad_request);
-            BEAST_EXPECT(resp.body == "method is not string\r\n");
+            BEAST_EXPECT(resp.body() == "method is not string\r\n");
         }
 
         {
@@ -919,7 +929,7 @@ class ServerStatus_test :
             jv[jss::method] = "";
             doHTTPRequest(env, yield, false, resp, ec, to_string(jv));
             BEAST_EXPECT(resp.result() == boost::beast::http::status::bad_request);
-            BEAST_EXPECT(resp.body == "method is empty\r\n");
+            BEAST_EXPECT(resp.body() == "method is empty\r\n");
         }
 
         {
@@ -928,7 +938,7 @@ class ServerStatus_test :
             jv[jss::params] = "params";
             doHTTPRequest(env, yield, false, resp, ec, to_string(jv));
             BEAST_EXPECT(resp.result() == boost::beast::http::status::bad_request);
-            BEAST_EXPECT(resp.body == "params unparseable\r\n");
+            BEAST_EXPECT(resp.body() == "params unparseable\r\n");
         }
 
         {
@@ -937,7 +947,7 @@ class ServerStatus_test :
             jv[jss::params][0u] = "not an object";
             doHTTPRequest(env, yield, false, resp, ec, to_string(jv));
             BEAST_EXPECT(resp.result() == boost::beast::http::status::bad_request);
-            BEAST_EXPECT(resp.body == "params unparseable\r\n");
+            BEAST_EXPECT(resp.body() == "params unparseable\r\n");
         }
     }
 
@@ -960,7 +970,7 @@ class ServerStatus_test :
         doHTTPRequest(env, yield, false, resp, ec);
         BEAST_EXPECT(resp.result() == boost::beast::http::status::internal_server_error);
         std::regex body {"Server cannot accept clients"};
-        BEAST_EXPECT(std::regex_search(resp.body, body));
+        BEAST_EXPECT(std::regex_search(resp.body(), body));
     }
 
 public:

@@ -88,3 +88,4 @@ public:
 BEAST_DEFINE_TESTSUITE_MANUAL(abstract_clock,chrono,beast);
 
 }
+}

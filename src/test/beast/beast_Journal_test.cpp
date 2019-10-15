@@ -102,3 +102,4 @@ public:
 BEAST_DEFINE_TESTSUITE(Journal,utility,beast);
 
 } // beast
+}

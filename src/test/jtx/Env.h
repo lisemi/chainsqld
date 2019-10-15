@@ -44,7 +44,7 @@
 #include <ripple/protocol/STAmount.h>
 #include <ripple/protocol/STObject.h>
 #include <ripple/protocol/STTx.h>
-#include <beast/include/boost/beast/core/detail/type_traits.hpp>
+#include <beast/include/boost/beast/core/detail/is_invocable.hpp>
 #include <ripple/beast/unit_test.h>
 #include <functional>
 #include <string>

@@ -146,3 +146,4 @@ public:
 BEAST_DEFINE_TESTSUITE(weak_fn,asio,beast);
 
 }
+}

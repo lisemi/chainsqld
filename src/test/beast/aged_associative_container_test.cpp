@@ -1991,3 +1991,4 @@ BEAST_DEFINE_TESTSUITE(aged_unordered_multiset,container,beast);
 BEAST_DEFINE_TESTSUITE(aged_unordered_multimap,container,beast);
 
 } // namespace beast
+}

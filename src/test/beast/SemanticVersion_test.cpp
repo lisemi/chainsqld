@@ -18,6 +18,8 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 //==============================================================================
 #include <ripple/beast/unit_test.h>
 #include <ripple/beast/core/SemanticVersion.h>
+
+namespace boost {
 namespace beast {
 
 class SemanticVersion_test : public unit_test::suite
@@ -257,4 +259,5 @@ public:
 };
 
 BEAST_DEFINE_TESTSUITE(SemanticVersion, beast_core, beast);
+}
 }

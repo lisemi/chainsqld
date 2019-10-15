@@ -119,3 +119,4 @@ public:
 BEAST_DEFINE_TESTSUITE_MANUAL(hash_speed,container,beast);
 
 } // beast
+}

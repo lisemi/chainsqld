@@ -24,6 +24,7 @@
 #include <ripple/json/to_string.h>
 #include <ripple/protocol/JsonFields.h>
 #include <ripple/server/Port.h>
+#include <boost/asio/strand.hpp>
 #include <beast/include/boost/beast/core/multi_buffer.hpp>
 #include <beast/include/boost/beast/websocket.hpp>
 
@@ -174,7 +175,7 @@ public:
             else
                 jp[jss::command] = cmd;
             auto const s = to_string(jp);
-            ws_.write_frame(true, buffer(s));
+            ws_.write_some(true, buffer(s));
         }
 
         auto jv = findMsg(5s,

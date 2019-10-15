@@ -18,6 +18,8 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 //==============================================================================
 #include <ripple/beast/unit_test.h>
 #include <ripple/beast/utility/PropertyStream.h>
+
+namespace boost {
 namespace beast {
 
 class PropertyStream_test : public unit_test::suite
@@ -215,4 +217,5 @@ public:
 };
 
 BEAST_DEFINE_TESTSUITE(PropertyStream, utility, beast);
+}
 }

@@ -47,3 +47,4 @@ public:
 BEAST_DEFINE_TESTSUITE(error,asio,beast);
 
 } // beast
+}

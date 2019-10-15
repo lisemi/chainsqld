@@ -52,3 +52,4 @@ BEAST_DEFINE_TESTSUITE_MANUAL(print,unit_test,beast);
 
 } // unit_test
 } // beast
+}

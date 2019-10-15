@@ -167,10 +167,10 @@ private:
             {
                 resp_type res;
                 res.result(boost::beast::http::status::not_found);
-                res.version = req.version;
+                res.version(req.version());
                 res.insert("Server", "TrustedPublisherServer");
                 res.insert("Content-Type", "text/html");
-                res.body = "The file '" + path + "' was not found";
+                res.body() = "The file '" + path + "' was not found";
                 res.prepare_payload();
                 write(sock, res, ec);
                 if (ec)
@@ -178,11 +178,11 @@ private:
             }
             resp_type res;
             res.result(boost::beast::http::status::ok);
-            res.version = req.version;
+            res.version(req.version());
             res.insert("Server", "TrustedPublisherServer");
             res.insert("Content-Type", "application/json");
 
-            res.body = list_;
+            res.body() = list_;
             try
             {
                 res.prepare_payload();
@@ -191,10 +191,10 @@ private:
             {
                 res = {};
                 res.result(boost::beast::http::status::internal_server_error);
-                res.version = req.version;
+                res.version(req.version());
                 res.insert("Server", "TrustedPublisherServer");
                 res.insert("Content-Type", "text/html");
-                res.body = std::string{"An internal error occurred"} + e.what();
+                res.body() = std::string{"An internal error occurred"} + e.what();
                 res.prepare_payload();
             }
             write(sock, res, ec);

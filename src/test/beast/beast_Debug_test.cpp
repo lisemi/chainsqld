@@ -18,6 +18,8 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 //==============================================================================
 #include <ripple/beast/unit_test.h>
 #include <ripple/beast/utility/Debug.h>
+
+namespace boost {
 namespace beast {
 
 // A simple unit test to determine the diagnostic settings in a build.
@@ -65,4 +67,5 @@ public:
 
 BEAST_DEFINE_TESTSUITE(Debug, utility, beast);
 
+}
 }

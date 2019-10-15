@@ -352,3 +352,4 @@ BEAST_DEFINE_TESTSUITE(IPEndpoint,net,beast);
 
 }
 }
+}

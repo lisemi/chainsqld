@@ -141,3 +141,4 @@ public:
 BEAST_DEFINE_TESTSUITE(Zero, types, beast);
 
 }
+}

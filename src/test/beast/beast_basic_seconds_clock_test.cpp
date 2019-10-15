@@ -39,3 +39,4 @@ public:
 BEAST_DEFINE_TESTSUITE(basic_seconds_clock,chrono,beast);
 
 }
+}
