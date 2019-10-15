@@ -1,6 +1,6 @@
 #pragma once
 
-#include <evmc/evmc.h>
+#include <evmjit/evmc/include/evmc/evmc.h>
 
 #ifdef _MSC_VER
 #ifdef evmjit_EXPORTS

@@ -17,6 +17,10 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 //==============================================================================
 
+#ifndef DBTEST_MYSQL
+
+#else
+
 #include <iostream>
 #include <memory>
 
@@ -212,3 +216,5 @@ private:
 BEAST_DEFINE_TESTSUITE_MANUAL(DataBaseConn, app, ripple);
 
 }	// namespace ripple
+
+#endif

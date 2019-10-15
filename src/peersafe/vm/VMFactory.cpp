@@ -1,7 +1,7 @@
 #include "VMFactory.h"
 #include "VMC.h"
 
-#include <evmjit.h>
+#include <evmjit/include/evmjit.h>
 
 namespace ripple {
 
