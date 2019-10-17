@@ -514,7 +514,7 @@ macro(use_gmalg)
   set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
   set(GMALG_LIBRARY_DIR "${CMAKE_SOURCE_DIR}/gmAlgLib")
   message(STATUS "GMALG_LIBRARY_DIR: ${GMALG_LIBRARY_DIR}")
-  set(GMALG_LIBRARYS "${GMALG_LIBRARY_DIR}/libswsds.so" "${GMALG_LIBRARY_DIR}/libswsd.so")
+  set(GMALG_LIBRARYS "${GMALG_LIBRARY_DIR}/libswsds.so") 
 endmacro()
 
 macro(use_protobuf)

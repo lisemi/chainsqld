@@ -335,7 +335,8 @@ foreach(curdir
         protocol
         rpc
         vm)
-    file(GLOB_RECURSE cursrcs src/peersafe/${curdir}/*.cpp)
+    file(GLOB_RECURSE cursrcs src/peersafe/${curdir}/*.cpp src/peersafe/${curdir}/*.c)
+	#message(status "${cursrcs}")
     list(APPEND chainsqld_src_nonunity "${cursrcs}")
     list(APPEND non_unity_srcs "${cursrcs}")
 endforeach()
