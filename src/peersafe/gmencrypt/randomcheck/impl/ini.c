@@ -19,8 +19,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <gmencrypt/randomcheck/swsds.h>
-#include <gmencrypt/randomcheck/ini.h>
+#include <peersafe/gmencrypt/randomcheck/swsds.h>
+#include <peersafe/gmencrypt/randomcheck/ini.h>
 
 
 /******************************************************************************
