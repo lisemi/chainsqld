@@ -67,6 +67,7 @@
 #include <peersafe/app/table/TableStatusDBSQLite.h>
 #include <peersafe/app/misc/TxPool.h>
 #include <peersafe/app/misc/StateManager.h>
+#include <openssl/evp.h>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/optional.hpp>
 #include <fstream>
@@ -363,6 +364,7 @@ public:
     boost::asio::steady_timer entropyTimer_;
     bool startTimers_;
 
+
     std::unique_ptr <DatabaseCon> mTxnDB;
     std::unique_ptr <DatabaseCon> mLedgerDB;
     std::unique_ptr <DatabaseCon> mWalletDB;
@@ -658,6 +660,7 @@ public:
 		return *m_pTableTxAccumulator;
 	}
 
+
     TxPool& getTxPool() override
     {
         return *m_pTxPool;
@@ -667,6 +670,7 @@ public:
 	{
 		return *m_pStateManager;
 	}
+
 
     virtual
     PublicKey const &
@@ -1120,6 +1124,8 @@ private:
     void startGenesisLedger ();
     bool setSynTable();
 
+	bool checkCertificate();
+
     std::shared_ptr<Ledger>
     getLastFullLedger();
 
@@ -1144,6 +1150,8 @@ private:
 bool ApplicationImp::setup()
 {
     if (!setSynTable())  return false;
+
+	if (!checkCertificate())  return false;
     
     // VFALCO NOTE: 0 means use heuristics to determine the thread count.
     m_jobQueue->setThreadCount (config_->WORKERS, config_->standalone());
@@ -2210,6 +2218,27 @@ bool ApplicationImp::setSynTable()
     }
     return true;
 }
+
+bool ApplicationImp::checkCertificate()
+{
+	auto const vecCrtPath = config_ ->section("x509_crt_path").values();
+	if (vecCrtPath.empty()) {
+		return true;
+	}
+	else if (!config_->ROOT_CERTIFICATES.empty()) {
+
+		OpenSSL_add_all_algorithms();
+		return true;
+	}	
+	else {
+	
+		std::cerr << "Root certificate configuration error ,please check cfg!" << std::endl;
+		return false;
+	}
+
+
+}
+
 //------------------------------------------------------------------------------
 
 Application::Application ()

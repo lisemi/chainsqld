@@ -22,19 +22,17 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #include <fstream>
 #include <sstream>   
 
-
 #include <openssl/evp.h>
 #include <openssl/rsa.h>
 #include <openssl/pem.h>
-#include "openssl.h"
 #include <openssl/x509_vfy.h>
 #include <openssl/ec.h>
-#include "ripple/crypto/X509.h"
+#include <ripple/crypto/impl/openssl.h>
 #include <ripple/crypto/GenerateDeterministicKey.h>
+#include <peersafe/crypto/X509.h>
 
 
-
-
+#include <boost/format.hpp> // boost::format
 
 namespace ripple {
 
@@ -67,7 +65,11 @@ namespace ripple {
 	//
 	bool verifyCert(std::vector<std::string> const& vecRootCert, std::string const& certStr, std::string & exception)
 	{
-		OpenSSL_add_all_algorithms();
+		//  OpenSSL_add_all_algorithms is not thread safe
+		//static std::mutex m;
+		//std::lock_guard<std::mutex> lock{ m };
+
+		//OpenSSL_add_all_algorithms();
 
 		// verify vecRootCert validation
 		bool bValidation = false;
@@ -96,6 +98,7 @@ namespace ripple {
 
 
 		int ret = 0;
+		int nX509Verify = 1;
 
 		//cert chain context
 		X509_STORE_CTX *ctx = NULL;
@@ -112,7 +115,6 @@ namespace ripple {
 			}
 		}
 
-
 		//x509Client is the certificate to be verified
 		ret = X509_STORE_CTX_init(ctx, certChain, x509Client, NULL);
 		if (1 != ret)
@@ -121,12 +123,12 @@ namespace ripple {
 			goto EXIT;
 		}
 
-		int nX509Verify = X509_verify_cert(ctx);
-		if (1 != nX509Verify)
+		ret = X509_verify_cert(ctx);
+		if (1 != ret)
 		{
 			long nCode = X509_STORE_CTX_get_error(ctx);
 			const char * pChError = X509_verify_cert_error_string(nCode);
-			exception = pChError;
+			exception = (boost::format("X509 err_msg: %s , err_code:  %ld") % pChError %nCode).str();
 			goto EXIT;
 		}
 	EXIT:
@@ -145,8 +147,8 @@ namespace ripple {
 	}
 
 
-	Blob getBlob(const EC_POINT  *  ecPoint) {
-
+	Blob getBlob(const EC_POINT  *  ecPoint) 
+	{
 
 		EC_KEY* key1 = EC_KEY_new_by_curve_name(NID_secp256k1);
 
@@ -172,10 +174,10 @@ namespace ripple {
 
 	}
 
-	PublicKey getPublicKeyFromX509(std::string const& certificate) {
+	PublicKey getPublicKeyFromX509(std::string const& certificate)
+	{
 
 		PublicKey  publicKey;
-
 		EVP_PKEY * pkey = NULL;
 		EC_KEY*   pEcKey = NULL;
 
@@ -183,34 +185,45 @@ namespace ripple {
 		if (x509Ca) {
 
 			pkey = X509_get_pubkey(x509Ca);
+			if (pkey == nullptr) {
+				X509_free(x509Ca);
+				Throw<std::runtime_error>("X509_get_pubkey() failed");
+			}
+
 			pEcKey = EVP_PKEY_get1_EC_KEY(pkey);
+			if (pEcKey == nullptr) {
+
+				EVP_PKEY_free(pkey);
+				X509_free(x509Ca);
+				Throw<std::runtime_error>("EVP_PKEY_get1_EC_KEY() failed");
+			}
 
 			const EC_POINT*  ecPoint = EC_KEY_get0_public_key(pEcKey);
 			Blob blob = getBlob(ecPoint);
 			// PublicKey
 			publicKey = PublicKey(makeSlice(blob));
 
-			std::string    sPublicKey = toBase58(TOKEN_NODE_PUBLIC, publicKey);
-			int test = 9;
 		}
 
 
-
-
-		EVP_PKEY_free(pkey);
 		EC_KEY_free(pEcKey);
+		EVP_PKEY_free(pkey);
 		X509_free(x509Ca);
 
 		return publicKey;
-
 	}
 
 	bool genCsr(Seed const& seed, x509_subject const& sub, std::string const& reqPath, std::string & exception)
 	{
-		/* ---------------------------------------------------------- *
-		* These function calls initialize openssl for correct work.  *
-		* ---------------------------------------------------------- */
-		OpenSSL_add_all_algorithms();
+		//  OpenSSL_add_all_algorithms is not thread safe
+
+		//static std::mutex m;
+		//std::lock_guard<std::mutex> lock{ m };
+
+		///* ---------------------------------------------------------- *
+		//* These function calls initialize openssl for correct work.  *
+		//* ---------------------------------------------------------- */
+		//OpenSSL_add_all_algorithms();
 		ERR_load_BIO_strings();
 		//ERR_load_crypto_strings();
 
@@ -220,7 +233,7 @@ namespace ripple {
 		auto privateKey = generateECPrivateKey(ui);
 		auto publicKey = generateECPublicKey(ui);
 
-		BIO               *outbio = NULL;
+		//BIO               *outbio = NULL;
 		EC_KEY            *myecc = EC_KEY_new();;
 		EVP_PKEY          *pkey = NULL;
 		//int               eccgrp;
@@ -228,8 +241,8 @@ namespace ripple {
 		int             nVersion = 1;
 		X509_REQ        *x509_req = NULL;
 		X509_NAME       *x509_name = NULL;
-		RSA             *tem = NULL;
-		BIO             *out = NULL, *bio_err = NULL;
+	//	RSA             *tem = NULL;
+		BIO             *out = NULL;
 
 
 		EC_GROUP *group = EC_GROUP_new_by_curve_name(NID_secp256k1);

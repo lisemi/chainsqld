@@ -29,9 +29,6 @@
 #include <ripple/protocol/TxFlags.h>
 #include <ripple/protocol/types.h>
 #include <ripple/protocol/STParsedJSON.h>
-
-#include <ripple/crypto/X509.h>
-
 #include <ripple/basics/contract.h>
 #include <ripple/basics/Log.h>
 #include <ripple/basics/StringUtilities.h>
@@ -43,6 +40,7 @@
 #include <utility>
 #include <ripple/json/json_reader.h>
 #include <peersafe/protocol/TableDefines.h>
+#include <peersafe/crypto/X509.h>
 
 namespace ripple {
 
@@ -704,38 +702,32 @@ std::pair<bool, std::string> STTx::checkMultiSign () const
 
 std::pair<bool, std::string> STTx::checkCertSign() const
 {
-
 	bool validSig = false;
 	try
 	{
-		auto const spk = getFieldVL(sfSigningPubKey);
-
-		auto const certificate = getFieldVL(sfCertificate);
-		std::string sCertificate = std::string(certificate.begin(), certificate.end());
-		PublicKey certPublicKey = getPublicKeyFromX509(sCertificate);
+		auto const spk                 = getFieldVL(sfSigningPubKey);
+		auto const certificate       = getFieldVL(sfCertificate);
+		std::string sCertificate      = std::string(certificate.begin(), certificate.end());
+		PublicKey certPublicKey  = getPublicKeyFromX509(sCertificate);
 
 		if (certPublicKey == PublicKey(makeSlice(spk)) ){
-
-			Blob const signature = getFieldVL(sfTxnSignature);
-			Blob const data = getSigningData(*this);
-
 			return{ true, sCertificate };
-
 		}
 
 	}
-	catch (std::exception const&)
+	catch (std::exception const& e)
 	{
-		// Assume it was a signature failure.
-		validSig = false;
+		std::string sExcept(e.what());
+		sExcept = "checkCertSign()  exception :" + sExcept;
+
+		LogicError(sExcept);
+		return{ false," Failed to get the X509 certificate public key" };
 	}
 
 	if (validSig == false)
-		return{ false, "Invalid signature." };
+		return{ false, "Cert signature and Tx signature not match ." };
 
 	return{ true, "" };
-
-
 }
 
 //------------------------------------------------------------------------------

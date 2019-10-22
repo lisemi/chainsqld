@@ -76,6 +76,8 @@ struct ConfigSection
 #define SECTION_WORKERS                 "workers"
 #define SECTION_PCONSENSUS              "pconsensus"
 
+#define SECTION_PATH_X509               "x509_crt_path"
+
 } // ripple
 
 #endif
