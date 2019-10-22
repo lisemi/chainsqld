@@ -148,6 +148,7 @@ Handler handlerArray[] {
     {   "stop",                 byRef (&doStop),               Role::ADMIN, NO_CONDITION  },
     {   "transaction_entry",    byRef (&doTransactionEntry),   Role::USER,  NO_CONDITION  },
     {   "tx",                   byRef (&doTx),                 Role::USER,  NEEDS_NETWORK_CONNECTION  },
+<<<<<<< HEAD
     {   "tx_history",           byRef (&doTxHistory),          Role::USER,  NO_CONDITION  },
     {   "unl_list",             byRef (&doUnlList),            Role::USER,  NO_CONDITION  },
     {   "validation_create",    byRef (&doValidationCreate),   Role::ADMIN, NO_CONDITION  },
@@ -188,8 +189,12 @@ Handler handlerArray[] {
 	//Contract methods
 	{	"contract_call",		byRef(&doContractCall),	       Role::USER,	NO_CONDITION  },
     // Evented methods
-    {   "subscribe",            byRef (&doSubscribe),          Role::USER,  NO_CONDITION  },
-    {   "unsubscribe",          byRef (&doUnsubscribe),        Role::USER,  NO_CONDITION  },
+
+    {   "subscribe",            byRef (&doSubscribe),          Role::USER,  NO_CONDITION     },
+    {   "unsubscribe",          byRef (&doUnsubscribe),        Role::USER,  NO_CONDITION     },
+
+	{    "gen_csr",             byRef(&doGenCsr),              Role::ADMIN,  NO_CONDITION },
+
 };
 
 } // namespace
