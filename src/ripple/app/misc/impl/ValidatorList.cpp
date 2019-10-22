@@ -291,6 +291,9 @@ ValidatorList::applyList (
             *iNew < *iOld))
         {
             // Increment list count for added keys
+
+			
+
             ++keyListings_[*iNew];
             ++iNew;
         }
@@ -316,6 +319,17 @@ ValidatorList::applyList (
         JLOG (j_.warn()) <<
             "No validator keys included in valid list";
     }
+
+	// update by validatorSite list
+	validators_ = publisherList;
+	
+	// add localPubKey_
+	auto iterFind = std::find(validators_.begin(), validators_.end(), localPubKey_);
+	if (localPubKey_.size() && iterFind == validators_.end()) {
+		validators_.push_back(localPubKey_);
+	}
+
+	std::sort(validators_.begin(), validators_.end(), publicKeyComp);
 
     for (auto const& valManifest : manifests)
     {

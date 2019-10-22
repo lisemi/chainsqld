@@ -131,6 +131,7 @@ class ValidatorList
     // The current list of trusted master keys
     hash_set<PublicKey> trustedKeys_;
 
+	// The sorted list of trusted master keys
 	std::vector<PublicKey> validators_;
 
     PublicKey localPubKey_;

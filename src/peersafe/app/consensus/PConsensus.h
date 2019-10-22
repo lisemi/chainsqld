@@ -1345,6 +1345,9 @@ template <class Adaptor>
 void
 PConsensus<Adaptor>::launchViewChange()
 {
+	adaptor_.app_.validators().onConsensusStart(
+		adaptor_.app_.getValidations().getCurrentPublicKeys());
+
 	toView_ = view_ + 1;
 	consensusTime_ = utcTime();
 
