@@ -61,6 +61,7 @@
 #include <peersafe/app/storage/TableStorage.h>
 #include <peersafe/rpc/impl/TableAssistant.h>
 #include <peersafe/app/misc/ContractHelper.h>
+#include <peersafe/app/misc/CACertSite.h>
 #include <peersafe/app/table/TableTxAccumulator.h>
 #include <peersafe/app/table/TableSync.h>
 #include <peersafe/app/table/TableStatusDBMySQL.h>
@@ -342,6 +343,7 @@ public:
     std::unique_ptr <ManifestCache> publisherManifests_;
     std::unique_ptr <ValidatorList> validators_;
     std::unique_ptr <ValidatorSite> validatorSites_;
+	std::unique_ptr <CACertSite>    caCertSites_;
     std::unique_ptr <ServerHandler> serverHandler_;
     std::unique_ptr <AmendmentTable> m_amendmentTable;
     std::unique_ptr <LoadFeeTrack> mFeeTrack;
@@ -492,6 +494,10 @@ public:
 
         , validatorSites_ (std::make_unique<ValidatorSite> (
             get_io_service (), *validators_, logs_->journal("ValidatorSite")))
+
+		, caCertSites_(std::make_unique<CACertSite>(
+			 *validatorManifests_, *publisherManifests_, *timeKeeper_,
+			get_io_service(), config_->ROOT_CERTIFICATES, logs_->journal("CACertSite")))
 
         , serverHandler_ (make_ServerHandler (*this, *m_networkOPs, get_io_service (),
             *m_jobQueue, *m_networkOPs, *m_resourceManager, *m_collectorManager))
@@ -985,6 +991,8 @@ public:
 
         validatorSites_->stop ();
 
+		caCertSites_->stop();
+
         // TODO Store manifests in manifests.sqlite instead of wallet.db
         validatorManifests_->save (getWalletDB (), "ValidatorManifests",
             [this](PublicKey const& pubKey)
@@ -1339,6 +1347,15 @@ bool ApplicationImp::setup()
         return false;
     }
 
+	if (!caCertSites_->load(
+		config().section(SECTION_CACERTS_LIST_KEYS).values(),
+		config().section(SECTION_CACERTS_LIST_SITES).values()))
+	{
+		JLOG(m_journal.fatal()) <<
+			"Invalid entry in [" << SECTION_CACERTS_LIST_SITES << "]";
+		return false;
+	}
+
     m_nodeStore->tune (config_->getSize (siNodeCacheSize), config_->getSize (siNodeCacheAge));
     m_ledgerMaster->tune (config_->getSize (siLedgerSize), config_->getSize (siLedgerAge));
     family().treecache().setTargetSize (config_->getSize (siTreeCacheSize));
@@ -1351,6 +1368,8 @@ bool ApplicationImp::setup()
     //----------------------------------------------------------------------
 
     validatorSites_->start ();
+
+	caCertSites_->start();
 
     // start first consensus round
     if (! m_networkOPs->beginConsensus(m_ledgerMaster->getClosedLedger()->info().hash))
