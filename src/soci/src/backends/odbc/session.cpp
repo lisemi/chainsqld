@@ -333,3 +333,7 @@ odbc_session_backend::get_database_product()
 
     return product_;
 }
+
+bool odbc_session_backend::autocommit(const bool) {
+	return true;
+}

@@ -303,6 +303,7 @@ struct odbc_session_backend : details::session_backend
     virtual odbc_statement_backend * make_statement_backend();
     virtual odbc_rowid_backend * make_rowid_backend();
     virtual odbc_blob_backend * make_blob_backend();
+	virtual bool autocommit(const bool);
 
     enum database_product
     {
