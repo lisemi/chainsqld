@@ -362,7 +362,7 @@ private:
         const char* socierror = NULL;
 
         SQLSMALLINT length, i = 1;
-        switch ( SQLGetDiagRecA(htype, hndl, i, sqlstate_, &sqlcode_,
+        switch ( SQLGetDiagRec(htype, hndl, i, sqlstate_, &sqlcode_,
                                message_, SQL_MAX_MESSAGE_LENGTH + 1,
                                &length) )
         {
