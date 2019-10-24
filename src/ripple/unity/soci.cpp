@@ -51,6 +51,16 @@
 #include <core/blob.cpp>
 #include <backends/sqlite3/blob.cpp>
 
+#include <backends/odbc/factory.cpp>
+#include <backends/odbc/row-id.cpp>
+#include <backends/odbc/session.cpp>
+#include <backends/odbc/standard-into-type.cpp>
+#include <backends/odbc/standard-use-type.cpp>
+#include <backends/odbc/statement.cpp>
+#include <backends/odbc/vector-into-type.cpp>
+#include <backends/odbc/vector-use-type.cpp>
+
+#include <backends/odbc/blob.cpp>
 /*
 #include <backends/mysql/common.cpp>
 #include <backends/mysql/factory.cpp>

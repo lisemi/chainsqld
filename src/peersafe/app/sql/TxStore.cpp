@@ -47,13 +47,16 @@ TxStoreDBConn::TxStoreDBConn(const Config& cfg)
 
 	}
 	else if (result_type.first.compare("sqlite")==0) {
-		std::pair<std::string, bool> database = setup.sync_db.find("db");
 		database_name = "chainsql";
 		if (database.second)
 			database_name = database.first;
-        if (result_type.first.compare("sqlite") == 0)
-            database_name += ".db";
+        database_name += ".db";
         dbType = "sqlite";
+	}
+	else if (result_type.first.compare("odbc")==0) {
+		if (database.second)
+			database_name = database.first;
+		dbType = "odbc";
 	}
     else
     {

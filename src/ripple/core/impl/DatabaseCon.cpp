@@ -45,7 +45,8 @@ DatabaseCon::DatabaseCon (
             ? "" : (setup.dataDir / strName);
 
         open(session_, "sqlite", pPath.string());
-	} else {  
+	}
+	else {  
         //connect to mycat server 
         std::pair<std::string, bool> type = setup.sync_db.find("type");
 		std::string back_end;
@@ -57,43 +58,60 @@ DatabaseCon::DatabaseCon (
 			return;
 		}
 
-        std::pair<std::string, bool> host = setup.sync_db.find("host");
-        std::pair<std::string, bool> port = setup.sync_db.find("port");
-        std::pair<std::string, bool> user = setup.sync_db.find("user");
-        std::pair<std::string, bool> pwd = setup.sync_db.find("pass");
-        std::pair<std::string, bool> db = setup.sync_db.find("db");
-        std::pair<std::string, bool> unix_socket = setup.sync_db.find("unix_socket");
-        std::pair<std::string, bool> ssl_ca = setup.sync_db.find("ssl_ca");
-        std::pair<std::string, bool> ssl_cert = setup.sync_db.find("ssl_cert");
-        std::pair<std::string, bool> ssl_key = setup.sync_db.find("ssl_key");
-        std::pair<std::string, bool> local_infile = setup.sync_db.find("local_infile");
-        std::pair<std::string, bool> charset = setup.sync_db.find("charset");
+		std::pair<std::string, bool> host = setup.sync_db.find("host");
+		std::pair<std::string, bool> port = setup.sync_db.find("port");
+		std::pair<std::string, bool> user = setup.sync_db.find("user");
+		std::pair<std::string, bool> pwd = setup.sync_db.find("pass");
+		std::pair<std::string, bool> db = setup.sync_db.find("db");
+		std::string connectionstring;
 
-        std::string connectionstring;
+		if (sDBType.compare("odbc") == 0) {
+			std::pair<std::string, bool> dsn = setup.sync_db.find("dsn");
+			if (dsn.second)
+				connectionstring += "DSN=" + dsn.first;
+			if (host.second)
+				connectionstring += ";Server=" + host.first;
+			if (port.second)
+				connectionstring += ";Port=" + port.first;
+			if (user.second)
+				connectionstring += ";Uid=" + user.first;
+			if (pwd.second)
+				connectionstring += ";Pwd=" + pwd.first;
+			if (db.second)
+				connectionstring += ";Database=" + db.first;
+		}
+		else {
+			std::pair<std::string, bool> unix_socket = setup.sync_db.find("unix_socket");
+			std::pair<std::string, bool> ssl_ca = setup.sync_db.find("ssl_ca");
+			std::pair<std::string, bool> ssl_cert = setup.sync_db.find("ssl_cert");
+			std::pair<std::string, bool> ssl_key = setup.sync_db.find("ssl_key");
+			std::pair<std::string, bool> local_infile = setup.sync_db.find("local_infile");
+			std::pair<std::string, bool> charset = setup.sync_db.find("charset");
 
-        if (host.second)
-            connectionstring += " host = " + host.first;
-        if (port.second)
-            connectionstring += " port = " + port.first;
-        if (user.second)
-            connectionstring += " user = " + user.first;
-        if (pwd.second)
-            connectionstring += " pass = " + pwd.first;
-        if (db.second)
-            connectionstring += " db = " + db.first;
-        if (unix_socket.second)
-            connectionstring += " unix_socket = " + unix_socket.first;
-        if (ssl_ca.second)
-            connectionstring += " sslca = " + ssl_ca.first;
-        if (ssl_cert.second)
-            connectionstring += " sslcert = " + ssl_cert.first;
-        if (ssl_key.second)
-            connectionstring += " sslkey = " + ssl_key.first;
-        if (local_infile.second)
-            connectionstring += " local_infile = " + local_infile.first;
-        if (charset.second)
-            connectionstring += " charset = " + charset.first;
-		
+			if (host.second)
+				connectionstring += " host = " + host.first;
+			if (port.second)
+				connectionstring += " port = " + port.first;
+			if (user.second)
+				connectionstring += " user = " + user.first;
+			if (pwd.second)
+				connectionstring += " pass = " + pwd.first;
+			if (db.second)
+				connectionstring += " db = " + db.first;
+			if (unix_socket.second)
+				connectionstring += " unix_socket = " + unix_socket.first;
+			if (ssl_ca.second)
+				connectionstring += " sslca = " + ssl_ca.first;
+			if (ssl_cert.second)
+				connectionstring += " sslcert = " + ssl_cert.first;
+			if (ssl_key.second)
+				connectionstring += " sslkey = " + ssl_key.first;
+			if (local_infile.second)
+				connectionstring += " local_infile = " + local_infile.first;
+			if (charset.second)
+				connectionstring += " charset = " + charset.first;
+		}
+
 		if (connectionstring.empty()) {
 			Throw<std::runtime_error>("configuration error: connection string is empty.");
 			return;

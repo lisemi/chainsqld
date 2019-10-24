@@ -182,9 +182,11 @@ use_protobuf()
 setup_build_boilerplate()
 
 if(enableGmalg)
+  use_gbase8s()
   use_gmalg()
 else()
-  set(GMALG_LIBRARYS)
+  set(GMALG_LIBRARIES)
+  set(GBASE_LIBRARY)
 endif()
 
 ############################################################
@@ -579,7 +581,7 @@ set_startup_project(chainsqld)
 
 foreach(target IN LISTS targets)
     target_link_libraries(${target}
-      ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARIES} ${SANITIZER_LIBRARIES} ${GMALG_LIBRARYS})
+      ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARIES} ${SANITIZER_LIBRARIES} ${GMALG_LIBRARIES} ${GBASE_LIBRARY})
 #      ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARIES} ${SANITIZER_LIBRARIES} ${MYSQL_LIBRARIES} ${GMALG_LIBRARYS} evmjit)
 
     link_common_libraries(${target})

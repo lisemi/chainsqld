@@ -507,6 +507,10 @@ macro(use_mysql)
 
 endmacro()
 
+macro(use_gbase8s)
+  set(GBASE_LIBRARY "libgsodbc8.so")
+endmacro()
+
 macro(use_gmalg)
   set(CMAKE_SKIP_BUILD_RPATH  TRUE)
   set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE) 
@@ -514,7 +518,7 @@ macro(use_gmalg)
   set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
   set(GMALG_LIBRARY_DIR "${CMAKE_SOURCE_DIR}/gmAlgLib")
   message(STATUS "GMALG_LIBRARY_DIR: ${GMALG_LIBRARY_DIR}")
-  set(GMALG_LIBRARYS "${GMALG_LIBRARY_DIR}/libswsds.so") 
+  set(GMALG_LIBRARIES "${GMALG_LIBRARY_DIR}/libswsds.so") 
 endmacro()
 
 macro(use_protobuf)
