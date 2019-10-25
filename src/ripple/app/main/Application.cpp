@@ -493,7 +493,7 @@ public:
             logs_->journal("ValidatorList"), config_->VALIDATION_QUORUM))
 
         , validatorSites_ (std::make_unique<ValidatorSite> (
-            get_io_service (), *validators_, logs_->journal("ValidatorSite")))
+			*validatorManifests_, get_io_service (), *validators_, logs_->journal("ValidatorSite")))
 
 		, caCertSites_(std::make_unique<CACertSite>(
 			 *validatorManifests_, *publisherManifests_, *timeKeeper_,
