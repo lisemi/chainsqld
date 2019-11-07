@@ -72,6 +72,7 @@ public:
     closeTime() const override
     {
         std::lock_guard<std::mutex> lock(mutex_);
+		JLOG(j_.debug()) << "[closeTime()] closeOffset_ : " << closeOffset_.count();
         return adjust(clock_->now()) + closeOffset_;
     }
 
@@ -90,6 +91,7 @@ public:
             closeOffset_ += seconds((s - 3) / 4);
         else
             closeOffset_ = (closeOffset_ * 3) / 4;
+		JLOG(j_.debug()) << "[adjustCloseTime()] closeOffset_ : " << closeOffset_.count();
         if (closeOffset_.count() != 0)
         {
             if (std::abs (closeOffset_.count()) < 60)

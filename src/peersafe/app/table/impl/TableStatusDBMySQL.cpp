@@ -168,6 +168,7 @@ namespace ripple {
 			sql += to_string(chainId);
             sql += "');";
 
+			JLOG (debugLog().info()) << "[InsertSyncDB] : insert sql: " << sql;
             soci::statement st = (sql_session->prepare << sql);
 
             st.execute();
@@ -271,6 +272,7 @@ namespace ripple {
 
             boost::optional<std::string> tableNameInDB_;
            
+		    JLOG (debugLog().info()) << "[IsNameInDBExist] : select sql: " << sql;
             soci::statement st = (sql_session->prepare << sql
                 , soci::into(tableNameInDB_));
 
@@ -404,6 +406,7 @@ namespace ripple {
 
             boost::optional<std::string> LedgerSeq;
 
+			JLOG (debugLog().info()) << "[IsExist] : select sql: " << sql;
             soci::statement st = (sql_session->prepare << sql
                 , soci::into(LedgerSeq));
 
@@ -434,6 +437,7 @@ namespace ripple {
                 (R"(UPDATE SyncTableState SET TxnLedgerHash = :TxnLedgerHash, TxnLedgerSeq = :TxnLedgerSeq,LedgerHash = :LedgerHash, LedgerSeq = :LedgerSeq,TxnUpdateHash = :TxnUpdateHash,TxnLedgerTime = :TxnLedgerTime,PreviousCommit = :PreviousCommit
                 WHERE Owner = :Owner AND TableNameInDB = :TableNameInDB;)")));
 
+			JLOG (debugLog().info()) << "[UpdateSyncDB9params] : Update sql: " << sql;
             soci::statement st = (sql_session->prepare << sql,
                 soci::use(TxnLedgerHash),
                 soci::use(TxnLedgerSeq),
