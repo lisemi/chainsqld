@@ -1193,7 +1193,7 @@ void TableSync::TableSyncThread()
 				break;
 			auto stBaseInfo = app_.getLedgerMaster().getTableBaseInfo(app_.getLedgerMaster().getValidLedgerIndex(), stItem.accountID, stItem.sTableName);            
             std::string nameInDB = to_string(stBaseInfo.nameInDB);
-            
+
 			if (stItem.eTargetType == TableSyncItem::SyncTarget_db)
 			{
 				if (stBaseInfo.nameInDB.isNonZero()) //local read nameInDB is not zero
@@ -1247,13 +1247,18 @@ void TableSync::TableSyncThread()
                     }
 					pItem->SetPara(nameInDB, LedgerSeq, LedgerHash, TxnLedgerSeq, TxnLedgerHash, TxnUpdateHash);
 
-					if (pItem->InitPassphrase().first)
+					auto initPassRet = pItem->InitPassphrase();
+					if (initPassRet.first)
 					{
 						pItem->SetSyncState(TableSyncItem::SYNC_BLOCK_STOP);
+						JLOG(journal_.info()) << "InitPassphrase success,tableName=" << stItem.sTableName << ",owner=" << to_string(stItem.accountID);
 					}
 					else
 					{
-						pItem->SetSyncState(TableSyncItem::SYNC_STOP);
+						//pItem->SetSyncState(TableSyncItem::SYNC_STOP);
+						JLOG(journal_.warn()) << "InitPassphrase failed,tableName=" << stItem.sTableName << ",owner=" << to_string(stItem.accountID) 
+												<< ", Fail reason: " << initPassRet.second;
+						break;
 					}
 				}
 				else if(!stItem.isDeleted)
@@ -1318,7 +1323,7 @@ void TableSync::TableSyncThread()
                 pItem->SetSyncState(TableSyncItem::SYNC_WAIT_DATA);
             }
             break;
-        case TableSyncItem::SYNC_WAIT_DATA:            
+        case TableSyncItem::SYNC_WAIT_DATA:    
             if (pItem->IsGetDataExpire() && stItem.lState != TableSyncItem::SYNC_WAIT_LEDGER)
             {
                 TableSyncItem::BaseInfo stRange;
@@ -1389,7 +1394,7 @@ void TableSync::TryLocalSync()
     if (!bLocalSyncThread_)
     {
         bLocalSyncThread_ = true;
-        app_.getJobQueue().addJob(jtTABLELOCALSYNC, "tableSync", [this](Job&) { LocalSyncThread(); });
+        app_.getJobQueue().addJob(jtTABLELOCALSYNC, "tableLocalSync", [this](Job&) { LocalSyncThread(); });
     }
 }
 void TableSync::LocalSyncThread()
