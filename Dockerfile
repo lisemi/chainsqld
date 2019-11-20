@@ -19,6 +19,7 @@ RUN apk add build-base  \
 			mariadb-dev  \
 			libressl-dev
 
+
 #ENV CC /usr/bin/gcc
 #ENV CXX /usr/bin/g++ 
 
@@ -32,11 +33,10 @@ COPY ./CMakeLists.txt CMakeLists.txt
 
 RUN cd Builds; cmake -Dtarget=clang.release.unity  ../; make chainsqld -j2
 
+
 # move to root directory and strip
 RUN cp ./build/clang.release.unity/chainsqld chainsqld
 RUN strip chainsqld
-
-RUN ldd chainsqld
 
 # clean source
 #RUN rm -r src
