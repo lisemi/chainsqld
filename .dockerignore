@@ -10,9 +10,10 @@ appveyor.yml
 circle.yml
 Jamroot
 bin
-build
-Builds
-CMakeLists.txt
+deps
+Builds/Ubuntu
+Builds/VisualStudio2015
+Builds/XCode
 docs
 images
 LICENSE
