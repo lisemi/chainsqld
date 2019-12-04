@@ -1,7 +1,7 @@
 //------------------------------------------------------------------------------
 /*
     This file is part of rippled: https://github.com/ripple/rippled
-	Copyright (c) 2019 Peersafe Technology Co., Ltd.
+	Copyright (c) 2019 ZHSH Technology Co., Ltd.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above

@@ -23,7 +23,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #include <ripple/basics/StringUtilities.h>
 #include <test/jtx/Env.h>
 #include <ripple/app/tx/impl/ApplyContext.h>
-#include <peersafe/app/misc/Executive.h>
+#include <zhsh/app/misc/Executive.h>
 
 /*
 * usage:
@@ -71,7 +71,7 @@ namespace ripple {
 				pEnv = std::make_shared<Env>(*this);
 				auto const alice = Account("alice");
 				auto const bob = Account("bob");
-				pEnv->fund(ZXC(10000), alice, bob);
+				pEnv->fund(ZHG(10000), alice, bob);
 
 				
 			}

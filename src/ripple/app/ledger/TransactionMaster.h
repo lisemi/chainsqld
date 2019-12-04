@@ -22,7 +22,7 @@
 
 #include <ripple/shamap/SHAMapItem.h>
 #include <ripple/shamap/SHAMapTreeNode.h>
-#include <peersafe/app/sql/TxStore.h>
+#include <zhsh/app/sql/TxStore.h>
 
 namespace ripple {
 
@@ -66,12 +66,12 @@ public:
 
 	/*
 		return: txCount(validated)
-		param:	return only chainsql tx if true
+		param:	return only zhshchain tx if true
 	*/
-	int						getTxCount(bool chainsql);
+	int						getTxCount(bool zhshchain);
 
 	/*
-		Get chainsql transactions.
+		Get zhshchain transactions.
 	*/
 	std::vector<STTx>		getTxs(STTx const& tx, 
 								std::string sTableNameInDB = "",

@@ -39,7 +39,7 @@ struct DirectStepInfo
     Currency currency;
 };
 
-struct ZXCEndpointStepInfo
+struct ZHGEndpointStepInfo
 {
     AccountID acc;
 };
@@ -92,11 +92,11 @@ equal(std::unique_ptr<Step> const& s1, DirectStepInfo const& dsi)
 }
 
 bool
-equal(std::unique_ptr<Step> const& s1, ZXCEndpointStepInfo const& zxcsi)
+equal(std::unique_ptr<Step> const& s1, ZHGEndpointStepInfo const& zhgsi)
 {
     if (!s1)
         return false;
-    return test::zxcEndpointStepEqual(*s1, zxcsi.acc);
+    return test::zhgEndpointStepEqual(*s1, zhgsi.acc);
 }
 
 bool
@@ -139,7 +139,7 @@ STPathElement
 ape(AccountID const& a)
 {
     return STPathElement(
-        STPathElement::typeAccount, a, zxcCurrency(), zxcAccount());
+        STPathElement::typeAccount, a, zhgCurrency(), zhgAccount());
 };
 
 // Issue path element
@@ -148,7 +148,7 @@ ipe(Issue const& iss)
 {
     return STPathElement(
         STPathElement::typeCurrency | STPathElement::typeIssuer,
-        zxcAccount(),
+        zhgAccount(),
         iss.currency,
         iss.account);
 };
@@ -158,7 +158,7 @@ STPathElement
 iape(AccountID const& account)
 {
     return STPathElement(
-        STPathElement::typeIssuer, zxcAccount(), zxcCurrency(), account);
+        STPathElement::typeIssuer, zhgAccount(), zhgCurrency(), account);
 };
 
 // Currency path element
@@ -166,7 +166,7 @@ STPathElement
 cpe(Currency const& c)
 {
     return STPathElement(
-        STPathElement::typeCurrency, zxcAccount(), c, zxcAccount());
+        STPathElement::typeCurrency, zhgAccount(), c, zhgAccount());
 };
 
 // All path element
@@ -189,7 +189,7 @@ class ElementComboIter
       cur,
       rootAcc,
       rootIss,
-      zxc,
+      zhg,
       sameAccIss,
       existingAcc,
       existingCur,
@@ -245,9 +245,9 @@ public:
             (!hasAny({SB::prevAcc, SB::prevCur, SB::prevIss}) || prev_) &&
             (!hasAny({SB::rootAcc, SB::sameAccIss, SB::existingAcc, SB::prevAcc}) || has(SB::acc)) &&
             (!hasAny({SB::rootIss, SB::sameAccIss, SB::existingIss, SB::prevIss}) || has(SB::iss)) &&
-            (!hasAny({SB::zxc, SB::existingCur, SB::prevCur}) || has(SB::cur)) &&
+            (!hasAny({SB::zhg, SB::existingCur, SB::prevCur}) || has(SB::cur)) &&
             // These will be duplicates
-            (count({SB::zxc, SB::existingCur, SB::prevCur}) <= 1) &&
+            (count({SB::zhg, SB::existingCur, SB::prevCur}) <= 1) &&
             (count({SB::rootAcc, SB::existingAcc, SB::prevAcc}) <= 1) &&
             (count({SB::rootIss, SB::existingIss, SB::rootIss}) <= 1);
     }
@@ -285,7 +285,7 @@ public:
             if (!has(SB::acc))
                 return boost::none;
             if (has(SB::rootAcc))
-                return zxcAccount();
+                return zhgAccount();
             if (has(SB::existingAcc) && existingAcc)
                 return existingAcc;
             return accF().id();
@@ -294,7 +294,7 @@ public:
             if (!has(SB::iss))
                 return boost::none;
             if (has(SB::rootIss))
-                return zxcAccount();
+                return zhgAccount();
             if (has(SB::sameAccIss))
                 return acc;
             if (has(SB::existingIss) && existingIss)
@@ -304,8 +304,8 @@ public:
         auto const cur = [&]() -> boost::optional<Currency> {
             if (!has(SB::cur))
                 return boost::none;
-            if (has(SB::zxc))
-                return zxcCurrency();
+            if (has(SB::zhg))
+                return zhgCurrency();
             if (has(SB::existingCur) && existingCur)
                 return *existingCur;
             return currencyF();
@@ -418,7 +418,7 @@ struct ExistingElementPool
         }
 
         for (auto const& a : accounts)
-            env.fund(ZXC(100000), a);
+            env.fund(ZHG(100000), a);
 
         // Every account trusts every other account with every currency
         for (auto ai1 = accounts.begin(), aie = accounts.end(); ai1 != aie;
@@ -470,44 +470,44 @@ struct ExistingElementPool
             env.close();
         }
 
-        // create offers to/from zxc to every other ious
+        // create offers to/from zhg to every other ious
         for (auto const& iou : ious)
         {
             auto const owner =
                 offererIndex ? accounts[*offererIndex] : iou.account;
-            env(offer(owner, iou(1000), ZXC(1000)), txflags(tfPassive));
-            env(offer(owner, ZXC(1000), iou(1000)), txflags(tfPassive));
+            env(offer(owner, iou(1000), ZHG(1000)), txflags(tfPassive));
+            env(offer(owner, ZHG(1000), iou(1000)), txflags(tfPassive));
             env.close();
         }
     }
 
     std::int64_t
-    totalZXC(ReadView const& v, bool incRoot)
+    totalZHG(ReadView const& v, bool incRoot)
     {
-        std::uint64_t totalZXC = 0;
+        std::uint64_t totalZHG = 0;
         auto add = [&](auto const& a) {
-            // ZXC balance
+            // ZHG balance
             auto const sle = v.read(keylet::account(a));
             if (!sle)
                 return;
             auto const b = (*sle)[sfBalance];
-            totalZXC += b.mantissa();
+            totalZHG += b.mantissa();
         };
         for (auto const& a : accounts)
             add(a);
         if (incRoot)
-            add(zxcAccount());
-        return totalZXC;
+            add(zhgAccount());
+        return totalZHG;
     }
 
-    // Check that the balances for all accounts for all currencies & ZXC are the
+    // Check that the balances for all accounts for all currencies & ZHG are the
     // same
     bool
     checkBalances(ReadView const& v1, ReadView const& v2)
     {
         std::vector<std::tuple<STAmount, STAmount, AccountID, AccountID>> diffs;
 
-        auto zxcBalance = [](ReadView const& v, ripple::Keylet const& k) {
+        auto zhgBalance = [](ReadView const& v, ripple::Keylet const& k) {
             auto const sle = v.read(k);
             if (!sle)
                 return STAmount{};
@@ -519,19 +519,19 @@ struct ExistingElementPool
                 return STAmount{};
             return (*sle)[sfBalance];
         };
-        std::uint64_t totalZXC[2];
+        std::uint64_t totalZHG[2];
         for (auto ai1 = accounts.begin(), aie = accounts.end(); ai1 != aie;
              ++ai1)
         {
             {
-                // ZXC balance
+                // ZHG balance
                 auto const ak = keylet::account(*ai1);
-                auto const b1 = zxcBalance(v1, ak);
-                auto const b2 = zxcBalance(v2, ak);
-                totalZXC[0] += b1.mantissa();
-                totalZXC[1] += b2.mantissa();
+                auto const b1 = zhgBalance(v1, ak);
+                auto const b2 = zhgBalance(v2, ak);
+                totalZHG[0] += b1.mantissa();
+                totalZHG[1] += b2.mantissa();
                 if (b1 != b2)
-                    diffs.emplace_back(b1, b2, zxcAccount(), *ai1);
+                    diffs.emplace_back(b1, b2, zhgAccount(), *ai1);
             }
             for (auto ai2 = accounts.begin(); ai2 != aie; ++ai2)
             {
@@ -684,7 +684,7 @@ struct PayStrandAllPairs_test : public beast::unit_test::suite
                 }
             }
 
-            // check combinations of src and dst currencies (inc zxc)
+            // check combinations of src and dst currencies (inc zhg)
             // Check the results
             auto const terMatch = [&] {
                 if (rcOutputs[0].result() == rcOutputs[1].result())
@@ -712,10 +712,10 @@ struct PayStrandAllPairs_test : public beast::unit_test::suite
                     }
                 }
 
-                // zxc followed by offer that doesn't specify both currency and
-                // issuer (and currency is not zxc, if specifyed)
-                if (isZXC(sendMax) &&
-                    !(p[0].hasCurrency() && isZXC(p[0].getCurrency())) &&
+                // zhg followed by offer that doesn't specify both currency and
+                // issuer (and currency is not zhg, if specifyed)
+                if (isZHG(sendMax) &&
+                    !(p[0].hasCurrency() && isZHG(p[0].getCurrency())) &&
                     !(p[0].hasCurrency() && p[0].hasIssuer()))
                 {
                     return true;
@@ -726,9 +726,9 @@ struct PayStrandAllPairs_test : public beast::unit_test::suite
                     auto const tCur = p[i].getNodeType();
                     auto const tNext = p[i + 1].getNodeType();
                     if ((tCur & STPathElement::typeCurrency) &&
-                        isZXC(p[i].getCurrency()) &&
+                        isZHG(p[i].getCurrency()) &&
                         (tNext & STPathElement::typeAccount) &&
-                        !isZXC(p[i + 1].getAccountID()))
+                        !isZHG(p[i + 1].getAccountID()))
                     {
                         return true;
                     }
@@ -747,9 +747,9 @@ struct PayStrandAllPairs_test : public beast::unit_test::suite
         std::vector<STPathElement> prefix;
         std::vector<STPathElement> suffix;
 
-        for (auto const srcAmtIsZXC : {false, true})
+        for (auto const srcAmtIsZHG : {false, true})
         {
-            for (auto const dstAmtIsZXC : {false, true})
+            for (auto const dstAmtIsZHG : {false, true})
             {
                 for (auto const hasPrefix : {false, true})
                 {
@@ -758,13 +758,13 @@ struct PayStrandAllPairs_test : public beast::unit_test::suite
                     suffix.clear();
 
                     STAmount const sendMax{
-                        srcAmtIsZXC ? zxcIssue() : Issue{eep.getAvailCurrency(),
+                        srcAmtIsZHG ? zhgIssue() : Issue{eep.getAvailCurrency(),
                                                          eep.getAvailAccount()},
                         -1,  // (-1 == no limit)
                         0};
 
                     STAmount const deliver{
-                        dstAmtIsZXC ? zxcIssue() : Issue{eep.getAvailCurrency(),
+                        dstAmtIsZHG ? zhgIssue() : Issue{eep.getAvailCurrency(),
                                                          eep.getAvailAccount()},
                         1,
                         0};
@@ -883,7 +883,7 @@ struct PayStrand_test : public beast::unit_test::suite
 
         using D = DirectStepInfo;
         using B = ripple::Book;
-        using ZXCS = ZXCEndpointStepInfo;
+        using ZHGS = ZHGEndpointStepInfo;
 
         auto test = [&, this](
             jtx::Env& env,
@@ -911,7 +911,7 @@ struct PayStrand_test : public beast::unit_test::suite
 
         {
             Env env(*this, with_features(fs));
-            env.fund(ZXC(10000), alice, bob, gw);
+            env.fund(ZHG(10000), alice, bob, gw);
             env.trust(USD(1000), alice, bob);
             env.trust(EUR(1000), alice, bob);
             env(pay(gw, alice, EUR(100)));
@@ -923,7 +923,7 @@ struct PayStrand_test : public beast::unit_test::suite
                     *env.current(),
                     alice,
                     alice,
-                    /*deliver*/ zxcIssue(),
+                    /*deliver*/ zhgIssue(),
                     /*limitQuality*/ boost::none,
                     /*sendMaxIssue*/ EUR.issue(),
                     path,
@@ -933,14 +933,14 @@ struct PayStrand_test : public beast::unit_test::suite
                 BEAST_EXPECT(r.first == tesSUCCESS);
             }
             {
-                STPath const path = STPath({ipe(USD), cpe(zxcCurrency())});
+                STPath const path = STPath({ipe(USD), cpe(zhgCurrency())});
                 auto r = toStrand(
                     *env.current(),
                     alice,
                     alice,
-                    /*deliver*/ zxcIssue(),
+                    /*deliver*/ zhgIssue(),
                     /*limitQuality*/ boost::none,
-                    /*sendMaxIssue*/ zxcIssue(),
+                    /*sendMaxIssue*/ zhgIssue(),
                     path,
                     true,
                     false,
@@ -952,7 +952,7 @@ struct PayStrand_test : public beast::unit_test::suite
 
         {
             Env env(*this, with_features(fs));
-            env.fund(ZXC(10000), alice, bob, carol, gw);
+            env.fund(ZHG(10000), alice, bob, carol, gw);
 
             test(env, USD, boost::none, STPath(), terNO_LINE);
 
@@ -1007,42 +1007,42 @@ struct PayStrand_test : public beast::unit_test::suite
                 B{USD, carol["USD"]},
                 D{carol, bob, usdC});
 
-            // Path with ZXC src currency
+            // Path with ZHG src currency
             test(
                 env,
                 USD,
-                zxcIssue(),
+                zhgIssue(),
                 STPath({ipe(USD)}),
                 tesSUCCESS,
-                ZXCS{alice},
-                B{ZXC, USD},
+                ZHGS{alice},
+                B{ZHG, USD},
                 D{gw, bob, usdC});
 
-            // Path with ZXC dst currency
+            // Path with ZHG dst currency
             test(
                 env,
-                zxcIssue(),
+                zhgIssue(),
                 USD.issue(),
-                STPath({ipe(ZXC)}),
+                STPath({ipe(ZHG)}),
                 tesSUCCESS,
                 D{alice, gw, usdC},
-                B{USD, ZXC},
-                ZXCS{bob});
+                B{USD, ZHG},
+                ZHGS{bob});
 
-            // Path with ZXC cross currency bridged payment
+            // Path with ZHG cross currency bridged payment
             test(
                 env,
                 EUR,
                 USD.issue(),
-                STPath({cpe(zxcCurrency())}),
+                STPath({cpe(zhgCurrency())}),
                 tesSUCCESS,
                 D{alice, gw, usdC},
-                B{USD, ZXC},
-                B{ZXC, EUR},
+                B{USD, ZHG},
+                B{ZHG, EUR},
                 D{gw, bob, eurC});
 
-            // ZXC -> ZXC transaction can't include a path
-            test(env, ZXC, boost::none, STPath({ape(carol)}), temBAD_PATH);
+            // ZHG -> ZHG transaction can't include a path
+            test(env, ZHG, boost::none, STPath({ape(carol)}), temBAD_PATH);
 
             {
                 // The root account can't be the src or dst
@@ -1052,8 +1052,8 @@ struct PayStrand_test : public beast::unit_test::suite
                     auto r = toStrand(
                         *env.current(),
                         alice,
-                        zxcAccount(),
-                        ZXC,
+                        zhgAccount(),
+                        ZHG,
                         boost::none,
                         USD.issue(),
                         STPath(),
@@ -1066,9 +1066,9 @@ struct PayStrand_test : public beast::unit_test::suite
                     // The root account can't be the src
                     auto r = toStrand(
                         *env.current(),
-                        zxcAccount(),
+                        zhgAccount(),
                         alice,
-                        ZXC,
+                        ZHG,
                         boost::none,
                         boost::none,
                         STPath(),
@@ -1108,7 +1108,7 @@ struct PayStrand_test : public beast::unit_test::suite
                 USD,
                 boost::none,
                 STPath({STPathElement(
-                    0, zxcAccount(), zxcCurrency(), zxcAccount())}),
+                    0, zhgAccount(), zhgCurrency(), zhgAccount())}),
                 temBAD_PATH);
 
             // The same account can't appear more than once on a path
@@ -1136,28 +1136,28 @@ struct PayStrand_test : public beast::unit_test::suite
             using namespace jtx;
             Env env(*this, with_features(fs));
 
-            env.fund(ZXC(10000), alice, bob, carol, gw);
+            env.fund(ZHG(10000), alice, bob, carol, gw);
             env.trust(USD(10000), alice, bob, carol);
             env.trust(EUR(10000), alice, bob, carol);
 
             env(pay(gw, bob, USD(100)));
             env(pay(gw, bob, EUR(100)));
 
-            env(offer(bob, ZXC(100), USD(100)));
+            env(offer(bob, ZHG(100), USD(100)));
             env(offer(bob, USD(100), EUR(100)), txflags(tfPassive));
             env(offer(bob, EUR(100), USD(100)), txflags(tfPassive));
 
-            // payment path: ZXC -> ZXC/USD -> USD/EUR -> EUR/USD
+            // payment path: ZHG -> ZHG/USD -> USD/EUR -> EUR/USD
             env(pay(alice, carol, USD(100)),
                 path(~USD, ~EUR, ~USD),
-                sendmax(ZXC(200)),
+                sendmax(ZHG(200)),
                 txflags(tfNoRippleDirect),
                 ter(temBAD_PATH_LOOP));
         }
 
         {
             Env env(*this, with_features(fs));
-            env.fund(ZXC(10000), alice, bob, noripple(gw));
+            env.fund(ZHG(10000), alice, bob, noripple(gw));
             env.trust(USD(1000), alice, bob);
             env(pay(gw, alice, USD(100)));
             test(env, USD, boost::none, STPath(), terNO_RIPPLE);
@@ -1166,7 +1166,7 @@ struct PayStrand_test : public beast::unit_test::suite
         {
             // check global freeze
             Env env(*this, with_features(fs));
-            env.fund(ZXC(10000), alice, bob, gw);
+            env.fund(ZHG(10000), alice, bob, gw);
             env.trust(USD(1000), alice, bob);
             env(pay(gw, alice, USD(100)));
 
@@ -1191,7 +1191,7 @@ struct PayStrand_test : public beast::unit_test::suite
         {
             // Freeze between gw and alice
             Env env(*this, with_features(fs));
-            env.fund(ZXC(10000), alice, bob, gw);
+            env.fund(ZHG(10000), alice, bob, gw);
             env.trust(USD(1000), alice, bob);
             env(pay(gw, alice, USD(100)));
             test(env, USD, boost::none, STPath(), tesSUCCESS);
@@ -1204,7 +1204,7 @@ struct PayStrand_test : public beast::unit_test::suite
             // An account may require authorization to receive IOUs from an
             // issuer
             Env env(*this, with_features(fs));
-            env.fund(ZXC(10000), alice, bob, gw);
+            env.fund(ZHG(10000), alice, bob, gw);
             env(fset(gw, asfRequireAuth));
             env.trust(USD(1000), alice, bob);
             // Authorize alice but not bob
@@ -1232,7 +1232,7 @@ struct PayStrand_test : public beast::unit_test::suite
         {
             // Check path with sendMax and node with correct sendMax already set
             Env env(*this, with_features(fs));
-            env.fund(ZXC(10000), alice, bob, gw);
+            env.fund(ZHG(10000), alice, bob, gw);
             env.trust(USD(1000), alice, bob);
             env.trust(EUR(1000), alice, bob);
             env(pay(gw, alice, EUR(100)));
@@ -1245,22 +1245,22 @@ struct PayStrand_test : public beast::unit_test::suite
         }
 
         {
-            // last step zxc from offer
+            // last step zhg from offer
             Env env(*this, with_features(fs));
-            env.fund(ZXC(10000), alice, bob, gw);
+            env.fund(ZHG(10000), alice, bob, gw);
             env.trust(USD(1000), alice, bob);
             env(pay(gw, alice, USD(100)));
 
-            // alice -> USD/ZXC -> bob
+            // alice -> USD/ZHG -> bob
             STPath path;
             path.emplace_back(boost::none, USD.currency, USD.account.id());
-            path.emplace_back(boost::none, zxcCurrency(), boost::none);
+            path.emplace_back(boost::none, zhgCurrency(), boost::none);
 
             auto r = toStrand(
                 *env.current(),
                 alice,
                 bob,
-                ZXC,
+                ZHG,
                 boost::none,
                 USD.issue(),
                 path,
@@ -1268,7 +1268,7 @@ struct PayStrand_test : public beast::unit_test::suite
                 false,
                 env.app().logs().journal("Flow"));
             BEAST_EXPECT(r.first == tesSUCCESS);
-            BEAST_EXPECT(equal(r.second, D{alice, gw, usdC}, B{USD.issue(), zxcIssue()}, ZXCS{bob}));
+            BEAST_EXPECT(equal(r.second, D{alice, gw, usdC}, B{USD.issue(), zhgIssue()}, ZHGS{bob}));
         }
     }
 
@@ -1288,15 +1288,15 @@ struct PayStrand_test : public beast::unit_test::suite
         if (hasFeature(fix1373, fs))
         {
             Env env(*this, with_features(fs));
-            env.fund(ZXC(10000), alice, bob, gw);
+            env.fund(ZHG(10000), alice, bob, gw);
 
             env.trust(USD(1000), alice, bob);
             env.trust(EUR(1000), alice, bob);
             env.trust(bob["USD"](1000), alice, gw);
             env.trust(bob["EUR"](1000), alice, gw);
 
-            env(offer(bob, ZXC(100), bob["USD"](100)), txflags(tfPassive));
-            env(offer(gw, ZXC(100), USD(100)), txflags(tfPassive));
+            env(offer(bob, ZHG(100), bob["USD"](100)), txflags(tfPassive));
+            env(offer(gw, ZHG(100), USD(100)), txflags(tfPassive));
 
             env(offer(bob, bob["USD"](100), bob["EUR"](100)),
                 txflags(tfPassive));
@@ -1313,7 +1313,7 @@ struct PayStrand_test : public beast::unit_test::suite
 
             env(pay(alice, alice, EUR(1)),
                 json(paths.json()),
-                sendmax(ZXC(10)),
+                sendmax(ZHG(10)),
                 txflags(tfNoRippleDirect | tfPartialPayment),
                 ter(temBAD_PATH));
         }
@@ -1321,38 +1321,38 @@ struct PayStrand_test : public beast::unit_test::suite
         {
             Env env(*this, with_features(fs));
 
-            env.fund(ZXC(10000), alice, bob, carol, gw);
+            env.fund(ZHG(10000), alice, bob, carol, gw);
             env.trust(USD(10000), alice, bob, carol);
 
             env(pay(gw, bob, USD(100)));
 
-            env(offer(bob, ZXC(100), USD(100)), txflags(tfPassive));
-            env(offer(bob, USD(100), ZXC(100)), txflags(tfPassive));
+            env(offer(bob, ZHG(100), USD(100)), txflags(tfPassive));
+            env(offer(bob, USD(100), ZHG(100)), txflags(tfPassive));
 
-            // payment path: ZXC -> ZXC/USD -> USD/ZXC
-            env(pay(alice, carol, ZXC(100)),
-                path(~USD, ~ZXC),
+            // payment path: ZHG -> ZHG/USD -> USD/ZHG
+            env(pay(alice, carol, ZHG(100)),
+                path(~USD, ~ZHG),
                 txflags(tfNoRippleDirect),
-                ter(temBAD_SEND_ZXC_PATHS));
+                ter(temBAD_SEND_ZHG_PATHS));
         }
 
         {
             Env env(*this, with_features(fs));
 
-            env.fund(ZXC(10000), alice, bob, carol, gw);
+            env.fund(ZHG(10000), alice, bob, carol, gw);
             env.trust(USD(10000), alice, bob, carol);
 
             env(pay(gw, bob, USD(100)));
 
-            env(offer(bob, ZXC(100), USD(100)), txflags(tfPassive));
-            env(offer(bob, USD(100), ZXC(100)), txflags(tfPassive));
+            env(offer(bob, ZHG(100), USD(100)), txflags(tfPassive));
+            env(offer(bob, USD(100), ZHG(100)), txflags(tfPassive));
 
-            // payment path: ZXC -> ZXC/USD -> USD/ZXC
-            env(pay(alice, carol, ZXC(100)),
-                path(~USD, ~ZXC),
-                sendmax(ZXC(200)),
+            // payment path: ZHG -> ZHG/USD -> USD/ZHG
+            env(pay(alice, carol, ZHG(100)),
+                path(~USD, ~ZHG),
+                sendmax(ZHG(200)),
                 txflags(tfNoRippleDirect),
-                ter(temBAD_SEND_ZXC_MAX));
+                ter(temBAD_SEND_ZHG_MAX));
         }
     }
 
@@ -1373,14 +1373,14 @@ struct PayStrand_test : public beast::unit_test::suite
         {
             Env env(*this, with_features(fs));
 
-            env.fund(ZXC(10000), alice, bob, carol, gw);
+            env.fund(ZHG(10000), alice, bob, carol, gw);
             env.trust(USD(10000), alice, bob, carol);
 
             env(pay(gw, bob, USD(100)));
             env(pay(gw, alice, USD(100)));
 
-            env(offer(bob, ZXC(100), USD(100)), txflags(tfPassive));
-            env(offer(bob, USD(100), ZXC(100)), txflags(tfPassive));
+            env(offer(bob, ZHG(100), USD(100)), txflags(tfPassive));
+            env(offer(bob, USD(100), ZHG(100)), txflags(tfPassive));
 
             auto const expectedResult = [&] {
                 if (hasFeature(featureFlow, fs) &&
@@ -1388,17 +1388,17 @@ struct PayStrand_test : public beast::unit_test::suite
                     return tesSUCCESS;
                 return temBAD_PATH_LOOP;
             }();
-            // payment path: USD -> USD/ZXC -> ZXC/USD
+            // payment path: USD -> USD/ZHG -> ZHG/USD
             env(pay(alice, carol, USD(100)),
                 sendmax(USD(100)),
-                path(~ZXC, ~USD),
+                path(~ZHG, ~USD),
                 txflags(tfNoRippleDirect),
                 ter(expectedResult));
         }
         {
             Env env(*this, with_features(fs));
 
-            env.fund(ZXC(10000), alice, bob, carol, gw);
+            env.fund(ZHG(10000), alice, bob, carol, gw);
             env.trust(USD(10000), alice, bob, carol);
             env.trust(EUR(10000), alice, bob, carol);
             env.trust(CNY(10000), alice, bob, carol);
@@ -1407,13 +1407,13 @@ struct PayStrand_test : public beast::unit_test::suite
             env(pay(gw, bob, EUR(100)));
             env(pay(gw, bob, CNY(100)));
 
-            env(offer(bob, ZXC(100), USD(100)), txflags(tfPassive));
+            env(offer(bob, ZHG(100), USD(100)), txflags(tfPassive));
             env(offer(bob, USD(100), EUR(100)), txflags(tfPassive));
             env(offer(bob, EUR(100), CNY(100)), txflags(tfPassive));
 
-            // payment path: ZXC->ZXC/USD->USD/EUR->USD/CNY
+            // payment path: ZHG->ZHG/USD->USD/EUR->USD/CNY
             env(pay(alice, carol, CNY(100)),
-                sendmax(ZXC(100)),
+                sendmax(ZHG(100)),
                 path(~USD, ~EUR, ~USD, ~CNY),
                 txflags(tfNoRippleDirect),
                 ter(temBAD_PATH_LOOP));
@@ -1432,7 +1432,7 @@ struct PayStrand_test : public beast::unit_test::suite
         auto const USD = gw["USD"];
 
         Env env(*this, with_features(fs));
-        env.fund(ZXC(10000), alice, bob, gw);
+        env.fund(ZHG(10000), alice, bob, gw);
 
         STAmount sendMax{USD.issue(), 100, 1};
         STAmount noAccountAmount{Issue{USD.currency, noAccount()}, 100, 1};

@@ -60,11 +60,11 @@
 #include <ripple/protocol/impl/STValidation.cpp>
 #include <ripple/protocol/impl/STVar.cpp>
 #include <ripple/protocol/impl/STVector256.cpp>
-#include <peersafe/protocol/impl/STMap256.cpp>
+#include <zhsh/protocol/impl/STMap256.cpp>
 #include <ripple/protocol/impl/IOUAmount.cpp>
 #include <ripple/protocol/impl/RippleAddress.cpp>
-#include <peersafe/protocol/impl/STEntry.cpp>
-#include <peersafe/protocol/impl/Contract.cpp>
+#include <zhsh/protocol/impl/STEntry.cpp>
+#include <zhsh/protocol/impl/Contract.cpp>
 
 #if DOXYGEN
 #include <ripple/protocol/README.md>

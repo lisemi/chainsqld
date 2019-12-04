@@ -191,10 +191,10 @@ ApplyViewBase::rawReplace(
 }
 
 void
-ApplyViewBase::rawDestroyZXC(
-    ZXCAmount const& fee)
+ApplyViewBase::rawDestroyZHG(
+    ZHGAmount const& fee)
 {
-    items_.destroyZXC(fee);
+    items_.destroyZHG(fee);
 }
 
 //---

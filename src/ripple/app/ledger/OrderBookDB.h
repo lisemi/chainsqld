@@ -48,7 +48,7 @@ public:
         currencyID. */
     int getBookSize(Issue const&);
 
-    bool isBookToZXC (Issue const&);
+    bool isBookToZHG (Issue const&);
 
     BookListeners::pointer getBookListeners (Book const&);
     BookListeners::pointer makeBookListeners (Book const&);
@@ -73,8 +73,8 @@ private:
     // by co/io
     IssueToOrderBook mDestMap;
 
-    // does an order book to ZXC exist
-    hash_set <Issue> mZXCBooks;
+    // does an order book to ZHG exist
+    hash_set <Issue> mZHGBooks;
 
     std::recursive_mutex mLock;
 

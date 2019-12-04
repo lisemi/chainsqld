@@ -102,12 +102,12 @@ SetAccount::preflight (PreflightContext const& ctx)
     }
 
     //
-    // DisallowZXC
+    // DisallowZHG
     //
-    bool bSetDisallowZXC   = (uTxFlags & tfDisallowZXC) || (uSetFlag == asfDisallowZXC);
-    bool bClearDisallowZXC = (uTxFlags & tfAllowZXC) || (uClearFlag == asfDisallowZXC);
+    bool bSetDisallowZHG   = (uTxFlags & tfDisallowZHG) || (uSetFlag == asfDisallowZHG);
+    bool bClearDisallowZHG = (uTxFlags & tfAllowZHG) || (uClearFlag == asfDisallowZHG);
 
-    if (bSetDisallowZXC && bClearDisallowZXC)
+    if (bSetDisallowZHG && bClearDisallowZHG)
     {
         JLOG(j.trace()) << "Malformed transaction: Contradictory flags set.";
         return temINVALID_FLAG;
@@ -314,8 +314,8 @@ SetAccount::doApply ()
     bool bClearRequireDest = (uTxFlags & tfOptionalDestTag) || (uClearFlag == asfRequireDest);
     bool bSetRequireAuth   = (uTxFlags & tfRequireAuth) || (uSetFlag == asfRequireAuth);
     bool bClearRequireAuth = (uTxFlags & tfOptionalAuth) || (uClearFlag == asfRequireAuth);
-    bool bSetDisallowZXC   = (uTxFlags & tfDisallowZXC) || (uSetFlag == asfDisallowZXC);
-    bool bClearDisallowZXC = (uTxFlags & tfAllowZXC) || (uClearFlag == asfDisallowZXC);
+    bool bSetDisallowZHG   = (uTxFlags & tfDisallowZHG) || (uSetFlag == asfDisallowZHG);
+    bool bClearDisallowZHG = (uTxFlags & tfAllowZHG) || (uClearFlag == asfDisallowZHG);
 
     bool sigWithMaster = false;
 
@@ -362,18 +362,18 @@ SetAccount::doApply ()
     }
 
     //
-    // DisallowZXC
+    // DisallowZHG
     //
-    if (bSetDisallowZXC && !(uFlagsIn & lsfDisallowZXC))
+    if (bSetDisallowZHG && !(uFlagsIn & lsfDisallowZHG))
     {
-        JLOG(j_.trace()) << "Set lsfDisallowZXC.";
-        uFlagsOut |= lsfDisallowZXC;
+        JLOG(j_.trace()) << "Set lsfDisallowZHG.";
+        uFlagsOut |= lsfDisallowZHG;
     }
 
-    if (bClearDisallowZXC && (uFlagsIn & lsfDisallowZXC))
+    if (bClearDisallowZHG && (uFlagsIn & lsfDisallowZHG))
     {
-        JLOG(j_.trace()) << "Clear lsfDisallowZXC.";
-        uFlagsOut &= ~lsfDisallowZXC;
+        JLOG(j_.trace()) << "Clear lsfDisallowZHG.";
+        uFlagsOut &= ~lsfDisallowZHG;
     }
 
     //

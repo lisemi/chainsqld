@@ -157,7 +157,7 @@ private:
 void
 RawStateTable::apply (RawView& to) const
 {
-    to.rawDestroyZXC(dropsDestroyed_);
+    to.rawDestroyZHG(dropsDestroyed_);
     for (auto const& elem : items_)
     {
         auto const& item = elem.second;
@@ -333,7 +333,7 @@ RawStateTable::read (ReadView const& base,
 }
 
 void
-RawStateTable::destroyZXC(ZXCAmount const& fee)
+RawStateTable::destroyZHG(ZHGAmount const& fee)
 {
     dropsDestroyed_ += fee;
 }

@@ -131,10 +131,10 @@ private:
         return issue;
     }
 
-    Issue const& zxc () const
+    Issue const& zhg () const
     {
         static Issue const issue (
-            zxcCurrency (), zxcAccount ());
+            zhgCurrency (), zhgAccount ());
         return issue;
     }
 
@@ -202,10 +202,10 @@ private:
 
         CrossType cross_type;
 
-        if (isZXC (issue_out))
-            cross_type = CrossType::IouToZxc;
-        else if (isZXC (issue_in))
-            cross_type = CrossType::ZxcToIou;
+        if (isZHG (issue_out))
+            cross_type = CrossType::IouToZhg;
+        else if (isZHG (issue_in))
+            cross_type = CrossType::ZhgToIou;
         else
             cross_type = CrossType::IouToIou;
 
@@ -237,7 +237,7 @@ private:
 
     Quality get_quality(std::string in, std::string out)
     {
-        return Quality (parse_amounts (in, zxc(), out, zxc ()));
+        return Quality (parse_amounts (in, zhg(), out, zhg ()));
     }
 
 public:
@@ -255,85 +255,85 @@ public:
     // NIKB TODO: Augment TestTaker so currencies and rates can be specified
     //            once without need for repetition.
     void
-    test_zxc_to_iou ()
+    test_zhg_to_iou ()
     {
-        testcase ("ZXC Quantization: input");
+        testcase ("ZHG Quantization: input");
 
         Quality q1 = get_quality ("1", "1");
 
         //                             TAKER                    OWNER
         //                     QUAL    OFFER     FUNDS  QUAL    OFFER     FUNDS     EXPECTED
-        //                                        ZXC                      USD
-        attempt (Sell, "N:N",   q1, { "2", "2" },  "2",  q1, { "2", "2" }, "2",   { "2", "2" },   zxc(), usd());
-        attempt (Sell, "N:B",   q1, { "2", "2" },  "2",  q1, { "2", "2" }, "1.8", { "1", "1.8" }, zxc(), usd());
-        attempt (Buy,  "N:T",   q1, { "1", "1" },  "2",  q1, { "2", "2" }, "2",   { "1", "1" },   zxc(), usd());
-        attempt (Buy,  "N:BT",  q1, { "1", "1" },  "2",  q1, { "2", "2" }, "1.8", { "1", "1" },   zxc(), usd());
-        attempt (Buy,  "N:TB",  q1, { "1", "1" },  "2",  q1, { "2", "2" }, "0.8", { "0", "0.8" }, zxc(), usd());
+        //                                        ZHG                      USD
+        attempt (Sell, "N:N",   q1, { "2", "2" },  "2",  q1, { "2", "2" }, "2",   { "2", "2" },   zhg(), usd());
+        attempt (Sell, "N:B",   q1, { "2", "2" },  "2",  q1, { "2", "2" }, "1.8", { "1", "1.8" }, zhg(), usd());
+        attempt (Buy,  "N:T",   q1, { "1", "1" },  "2",  q1, { "2", "2" }, "2",   { "1", "1" },   zhg(), usd());
+        attempt (Buy,  "N:BT",  q1, { "1", "1" },  "2",  q1, { "2", "2" }, "1.8", { "1", "1" },   zhg(), usd());
+        attempt (Buy,  "N:TB",  q1, { "1", "1" },  "2",  q1, { "2", "2" }, "0.8", { "0", "0.8" }, zhg(), usd());
 
-        attempt (Sell, "T:N",   q1, { "1", "1" },  "2",  q1, { "2", "2" }, "2",   { "1", "1" },   zxc(), usd());
-        attempt (Sell, "T:B",   q1, { "1", "1" },  "2",  q1, { "2", "2" }, "1.8", { "1", "1.8" }, zxc(), usd());
-        attempt (Buy,  "T:T",   q1, { "1", "1" },  "2",  q1, { "2", "2" }, "2",   { "1", "1" },   zxc(), usd());
-        attempt (Buy,  "T:BT",  q1, { "1", "1" },  "2",  q1, { "2", "2" }, "1.8", { "1", "1" },   zxc(), usd());
-        attempt (Buy,  "T:TB",  q1, { "1", "1" },  "2",  q1, { "2", "2" }, "0.8", { "0", "0.8" }, zxc(), usd());
+        attempt (Sell, "T:N",   q1, { "1", "1" },  "2",  q1, { "2", "2" }, "2",   { "1", "1" },   zhg(), usd());
+        attempt (Sell, "T:B",   q1, { "1", "1" },  "2",  q1, { "2", "2" }, "1.8", { "1", "1.8" }, zhg(), usd());
+        attempt (Buy,  "T:T",   q1, { "1", "1" },  "2",  q1, { "2", "2" }, "2",   { "1", "1" },   zhg(), usd());
+        attempt (Buy,  "T:BT",  q1, { "1", "1" },  "2",  q1, { "2", "2" }, "1.8", { "1", "1" },   zhg(), usd());
+        attempt (Buy,  "T:TB",  q1, { "1", "1" },  "2",  q1, { "2", "2" }, "0.8", { "0", "0.8" }, zhg(), usd());
 
-        attempt (Sell, "A:N",   q1, { "2", "2" },  "1",  q1, { "2", "2" }, "2",   { "1", "1" },   zxc(), usd());
-        attempt (Sell, "A:B",   q1, { "2", "2" },  "1",  q1, { "2", "2" }, "1.8", { "1", "1.8" }, zxc(), usd());
-        attempt (Buy,  "A:T",   q1, { "2", "2" },  "1",  q1, { "3", "3" }, "3",   { "1", "1" },   zxc(), usd());
-        attempt (Buy,  "A:BT",  q1, { "2", "2" },  "1",  q1, { "3", "3" }, "2.4", { "1", "1" },   zxc(), usd());
-        attempt (Buy,  "A:TB",  q1, { "2", "2" },  "1",  q1, { "3", "3" }, "0.8", { "0", "0.8" }, zxc(), usd());
+        attempt (Sell, "A:N",   q1, { "2", "2" },  "1",  q1, { "2", "2" }, "2",   { "1", "1" },   zhg(), usd());
+        attempt (Sell, "A:B",   q1, { "2", "2" },  "1",  q1, { "2", "2" }, "1.8", { "1", "1.8" }, zhg(), usd());
+        attempt (Buy,  "A:T",   q1, { "2", "2" },  "1",  q1, { "3", "3" }, "3",   { "1", "1" },   zhg(), usd());
+        attempt (Buy,  "A:BT",  q1, { "2", "2" },  "1",  q1, { "3", "3" }, "2.4", { "1", "1" },   zhg(), usd());
+        attempt (Buy,  "A:TB",  q1, { "2", "2" },  "1",  q1, { "3", "3" }, "0.8", { "0", "0.8" }, zhg(), usd());
 
-        attempt (Sell, "TA:N",  q1, { "2", "2" },  "1",  q1, { "2", "2" }, "2",   { "1", "1" },   zxc(), usd());
-        attempt (Sell, "TA:B",  q1, { "2", "2" },  "1",  q1, { "3", "3" }, "1.8", { "1", "1.8" }, zxc(), usd());
-        attempt (Buy,  "TA:T",  q1, { "2", "2" },  "1",  q1, { "3", "3" }, "3",   { "1", "1" },   zxc(), usd());
-        attempt (Buy,  "TA:BT", q1, { "2", "2" },  "1",  q1, { "3", "3" }, "1.8", { "1", "1.8" }, zxc(), usd());
-        attempt (Buy,  "TA:TB", q1, { "2", "2" },  "1",  q1, { "3", "3" }, "1.8", { "1", "1.8" }, zxc(), usd());
+        attempt (Sell, "TA:N",  q1, { "2", "2" },  "1",  q1, { "2", "2" }, "2",   { "1", "1" },   zhg(), usd());
+        attempt (Sell, "TA:B",  q1, { "2", "2" },  "1",  q1, { "3", "3" }, "1.8", { "1", "1.8" }, zhg(), usd());
+        attempt (Buy,  "TA:T",  q1, { "2", "2" },  "1",  q1, { "3", "3" }, "3",   { "1", "1" },   zhg(), usd());
+        attempt (Buy,  "TA:BT", q1, { "2", "2" },  "1",  q1, { "3", "3" }, "1.8", { "1", "1.8" }, zhg(), usd());
+        attempt (Buy,  "TA:TB", q1, { "2", "2" },  "1",  q1, { "3", "3" }, "1.8", { "1", "1.8" }, zhg(), usd());
 
-        attempt (Sell, "AT:N",  q1, { "2", "2" },  "1",  q1, { "3", "3" }, "3",   { "1", "1" },   zxc(), usd());
-        attempt (Sell, "AT:B",  q1, { "2", "2" },  "1",  q1, { "3", "3" }, "1.8", { "1", "1.8" }, zxc(), usd());
-        attempt (Buy,  "AT:T",  q1, { "2", "2" },  "1",  q1, { "3", "3" }, "3",   { "1", "1" },   zxc(), usd());
-        attempt (Buy,  "AT:BT", q1, { "2", "2" },  "1",  q1, { "3", "3" }, "1.8", { "1", "1.8" }, zxc(), usd());
-        attempt (Buy,  "AT:TB", q1, { "2", "2" },  "1",  q1, { "3", "3" }, "0.8", { "0", "0.8" }, zxc(), usd());
+        attempt (Sell, "AT:N",  q1, { "2", "2" },  "1",  q1, { "3", "3" }, "3",   { "1", "1" },   zhg(), usd());
+        attempt (Sell, "AT:B",  q1, { "2", "2" },  "1",  q1, { "3", "3" }, "1.8", { "1", "1.8" }, zhg(), usd());
+        attempt (Buy,  "AT:T",  q1, { "2", "2" },  "1",  q1, { "3", "3" }, "3",   { "1", "1" },   zhg(), usd());
+        attempt (Buy,  "AT:BT", q1, { "2", "2" },  "1",  q1, { "3", "3" }, "1.8", { "1", "1.8" }, zhg(), usd());
+        attempt (Buy,  "AT:TB", q1, { "2", "2" },  "1",  q1, { "3", "3" }, "0.8", { "0", "0.8" }, zhg(), usd());
     }
 
     void
-    test_iou_to_zxc ()
+    test_iou_to_zhg ()
     {
-        testcase ("ZXC Quantization: output");
+        testcase ("ZHG Quantization: output");
 
         Quality q1 = get_quality ("1", "1");
 
         //                             TAKER                     OWNER
         //                     QUAL    OFFER     FUNDS   QUAL    OFFER     FUNDS    EXPECTED
-        //                                        USD                       ZXC
-        attempt (Sell, "N:N",   q1, { "3", "3" }, "3",   q1, { "3", "3" }, "3",  { "3",   "3" }, usd(), zxc());
-        attempt (Sell, "N:B",   q1, { "3", "3" }, "3",   q1, { "3", "3" }, "2",  { "2",   "2" }, usd(), zxc());
-        attempt (Buy,  "N:T",   q1, { "3", "3" }, "2.5", q1, { "5", "5" }, "5",  { "2.5", "2" }, usd(), zxc());
-        attempt (Buy,  "N:BT",  q1, { "3", "3" }, "1.5", q1, { "5", "5" }, "4",  { "1.5", "1" }, usd(), zxc());
-        attempt (Buy,  "N:TB",  q1, { "3", "3" }, "2.2", q1, { "5", "5" }, "1",  { "1",   "1" }, usd(), zxc());
+        //                                        USD                       ZHG
+        attempt (Sell, "N:N",   q1, { "3", "3" }, "3",   q1, { "3", "3" }, "3",  { "3",   "3" }, usd(), zhg());
+        attempt (Sell, "N:B",   q1, { "3", "3" }, "3",   q1, { "3", "3" }, "2",  { "2",   "2" }, usd(), zhg());
+        attempt (Buy,  "N:T",   q1, { "3", "3" }, "2.5", q1, { "5", "5" }, "5",  { "2.5", "2" }, usd(), zhg());
+        attempt (Buy,  "N:BT",  q1, { "3", "3" }, "1.5", q1, { "5", "5" }, "4",  { "1.5", "1" }, usd(), zhg());
+        attempt (Buy,  "N:TB",  q1, { "3", "3" }, "2.2", q1, { "5", "5" }, "1",  { "1",   "1" }, usd(), zhg());
 
-        attempt (Sell, "T:N",   q1, { "1", "1" }, "2",   q1, { "2", "2" }, "2",  { "1",   "1" }, usd(), zxc());
-        attempt (Sell, "T:B",   q1, { "2", "2" }, "2",   q1, { "3", "3" }, "1",  { "1",   "1" }, usd(), zxc());
-        attempt (Buy,  "T:T",   q1, { "1", "1" }, "2",   q1, { "2", "2" }, "2",  { "1",   "1" }, usd(), zxc());
-        attempt (Buy,  "T:BT",  q1, { "1", "1" }, "2",   q1, { "3", "3" }, "2",  { "1",   "1" }, usd(), zxc());
-        attempt (Buy,  "T:TB",  q1, { "2", "2" }, "2",   q1, { "3", "3" }, "1",  { "1",   "1" }, usd(), zxc());
+        attempt (Sell, "T:N",   q1, { "1", "1" }, "2",   q1, { "2", "2" }, "2",  { "1",   "1" }, usd(), zhg());
+        attempt (Sell, "T:B",   q1, { "2", "2" }, "2",   q1, { "3", "3" }, "1",  { "1",   "1" }, usd(), zhg());
+        attempt (Buy,  "T:T",   q1, { "1", "1" }, "2",   q1, { "2", "2" }, "2",  { "1",   "1" }, usd(), zhg());
+        attempt (Buy,  "T:BT",  q1, { "1", "1" }, "2",   q1, { "3", "3" }, "2",  { "1",   "1" }, usd(), zhg());
+        attempt (Buy,  "T:TB",  q1, { "2", "2" }, "2",   q1, { "3", "3" }, "1",  { "1",   "1" }, usd(), zhg());
 
-        attempt (Sell, "A:N",   q1, { "2", "2" }, "1.5", q1, { "2", "2" }, "2",  { "1.5", "1" }, usd(), zxc());
-        attempt (Sell, "A:B",   q1, { "2", "2" }, "1.8", q1, { "3", "3" }, "2",  { "1.8", "1" }, usd(), zxc());
-        attempt (Buy,  "A:T",   q1, { "2", "2" }, "1.2", q1, { "3", "3" }, "3",  { "1.2", "1" }, usd(), zxc());
-        attempt (Buy,  "A:BT",  q1, { "2", "2" }, "1.5", q1, { "4", "4" }, "3",  { "1.5", "1" }, usd(), zxc());
-        attempt (Buy,  "A:TB",  q1, { "2", "2" }, "1.5", q1, { "4", "4" }, "1",  { "1",   "1" }, usd(), zxc());
+        attempt (Sell, "A:N",   q1, { "2", "2" }, "1.5", q1, { "2", "2" }, "2",  { "1.5", "1" }, usd(), zhg());
+        attempt (Sell, "A:B",   q1, { "2", "2" }, "1.8", q1, { "3", "3" }, "2",  { "1.8", "1" }, usd(), zhg());
+        attempt (Buy,  "A:T",   q1, { "2", "2" }, "1.2", q1, { "3", "3" }, "3",  { "1.2", "1" }, usd(), zhg());
+        attempt (Buy,  "A:BT",  q1, { "2", "2" }, "1.5", q1, { "4", "4" }, "3",  { "1.5", "1" }, usd(), zhg());
+        attempt (Buy,  "A:TB",  q1, { "2", "2" }, "1.5", q1, { "4", "4" }, "1",  { "1",   "1" }, usd(), zhg());
 
-        attempt (Sell, "TA:N",  q1, { "2", "2" }, "1.5", q1, { "2", "2" }, "2",  { "1.5", "1" }, usd(), zxc());
-        attempt (Sell, "TA:B",  q1, { "2", "2" }, "1.5", q1, { "3", "3" }, "1",  { "1",   "1" }, usd(), zxc());
-        attempt (Buy,  "TA:T",  q1, { "2", "2" }, "1.5", q1, { "3", "3" }, "3",  { "1.5", "1" }, usd(), zxc());
-        attempt (Buy,  "TA:BT", q1, { "2", "2" }, "1.8", q1, { "4", "4" }, "3",  { "1.8", "1" }, usd(), zxc());
-        attempt (Buy,  "TA:TB", q1, { "2", "2" }, "1.2", q1, { "3", "3" }, "1",  { "1",   "1" }, usd(), zxc());
+        attempt (Sell, "TA:N",  q1, { "2", "2" }, "1.5", q1, { "2", "2" }, "2",  { "1.5", "1" }, usd(), zhg());
+        attempt (Sell, "TA:B",  q1, { "2", "2" }, "1.5", q1, { "3", "3" }, "1",  { "1",   "1" }, usd(), zhg());
+        attempt (Buy,  "TA:T",  q1, { "2", "2" }, "1.5", q1, { "3", "3" }, "3",  { "1.5", "1" }, usd(), zhg());
+        attempt (Buy,  "TA:BT", q1, { "2", "2" }, "1.8", q1, { "4", "4" }, "3",  { "1.8", "1" }, usd(), zhg());
+        attempt (Buy,  "TA:TB", q1, { "2", "2" }, "1.2", q1, { "3", "3" }, "1",  { "1",   "1" }, usd(), zhg());
 
-        attempt (Sell, "AT:N",  q1, { "2", "2" }, "2.5", q1, { "4", "4" }, "4",  { "2",   "2" }, usd(), zxc());
-        attempt (Sell, "AT:B",  q1, { "2", "2" }, "2.5", q1, { "3", "3" }, "1",  { "1",   "1" }, usd(), zxc());
-        attempt (Buy,  "AT:T",  q1, { "2", "2" }, "2.5", q1, { "3", "3" }, "3",  { "2",   "2" }, usd(), zxc());
-        attempt (Buy,  "AT:BT", q1, { "2", "2" }, "2.5", q1, { "4", "4" }, "3",  { "2",   "2" }, usd(), zxc());
-        attempt (Buy,  "AT:TB", q1, { "2", "2" }, "2.5", q1, { "3", "3" }, "1",  { "1",   "1" }, usd(), zxc());
+        attempt (Sell, "AT:N",  q1, { "2", "2" }, "2.5", q1, { "4", "4" }, "4",  { "2",   "2" }, usd(), zhg());
+        attempt (Sell, "AT:B",  q1, { "2", "2" }, "2.5", q1, { "3", "3" }, "1",  { "1",   "1" }, usd(), zhg());
+        attempt (Buy,  "AT:T",  q1, { "2", "2" }, "2.5", q1, { "3", "3" }, "3",  { "2",   "2" }, usd(), zhg());
+        attempt (Buy,  "AT:BT", q1, { "2", "2" }, "2.5", q1, { "4", "4" }, "3",  { "2",   "2" }, usd(), zhg());
+        attempt (Buy,  "AT:TB", q1, { "2", "2" }, "2.5", q1, { "3", "3" }, "1",  { "1",   "1" }, usd(), zhg());
     }
 
     void
@@ -360,8 +360,8 @@ public:
     void
     run()
     {
-        test_zxc_to_iou ();
-        test_iou_to_zxc ();
+        test_zhg_to_iou ();
+        test_iou_to_zhg ();
         test_iou_to_iou ();
     }
 };

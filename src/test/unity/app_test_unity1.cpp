@@ -20,7 +20,7 @@
 
 #include <test/app/AccountTxPaging_test.cpp>
 #include <test/app/AmendmentTable_test.cpp>
-#include <test/app/ChainSql_test.cpp>
+#include <test/app/ZHSHChain_test.cpp>
 #include <test/app/CrossingLimits_test.cpp>
 #include <test/app/DeliverMin_test.cpp>
 #include <test/app/Discrepancy_test.cpp>

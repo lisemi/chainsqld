@@ -48,8 +48,8 @@
 #include <ripple/protocol/HashPrefix.h>
 #include <ripple/protocol/types.h>
 #include <ripple/beast/core/LexicalCast.h>
-#include <peersafe/protocol/ContractDefines.h>
-#include <peersafe/protocol/Contract.h>
+#include <zhsh/protocol/ContractDefines.h>
+#include <zhsh/protocol/Contract.h>
 #include <boost/optional.hpp>
 #include <cassert>
 #include <utility>
@@ -57,7 +57,7 @@
 namespace ripple {
 
 create_genesis_t const create_genesis {};
-bool storePeersafeSql(LockedSociSession &db, std::shared_ptr<const ripple::STTx> pTx, std::uint64_t SeqInLedger, std::uint32_t inLedger,Application& app);
+bool storeZHSHSql(LockedSociSession &db, std::shared_ptr<const ripple::STTx> pTx, std::uint64_t SeqInLedger, std::uint32_t inLedger,Application& app);
 
 static
 uint256
@@ -978,7 +978,7 @@ static bool saveValidatedLedger (
                 vt.second->getTxn ()->getMetaSQL (
                     seq, vt.second->getEscMeta ()) + ";");
                         
-            storePeersafeSql(db, vt.second->getTxn(), iTxSeq, seq,app);
+            storeZHSHSql(db, vt.second->getTxn(), iTxSeq, seq,app);
 
             iTxSeq++;
         }
@@ -1387,12 +1387,12 @@ getHashesByIndex (std::uint32_t minSeq, std::uint32_t maxSeq,
     return ret;
 }
 
-bool storePeersafeSql(LockedSociSession &db, std::shared_ptr<const ripple::STTx> pTx, std::uint64_t SeqInLedger, std::uint32_t inLedger,Application& app)
+bool storeZHSHSql(LockedSociSession &db, std::shared_ptr<const ripple::STTx> pTx, std::uint64_t SeqInLedger, std::uint32_t inLedger,Application& app)
 {
     std::string retSql = "";
     if (pTx == nullptr)  return false;
     TxType txType = pTx->getTxnType();
-    if (!pTx->isChainSqlTableType() && txType != ttCONTRACT)    return false;
+    if (!pTx->isZHSHChainTableType() && txType != ttCONTRACT)    return false;
 
     static std::string const sqlHeader = "INSERT OR REPLACE INTO TraceTransactions "
         "(TransID, TransType, TxSeq, LedgerSeq, Owner, Name)"

@@ -141,34 +141,34 @@ public:
         {
             testcase ("set value (native)");
 
-            Issue const zxc (zxcIssue ());
+            Issue const zhg (zhgIssue ());
 
-            // fractional ZXC (i.e. drops)
-            testSetValue ("1", zxc);
-            testSetValue ("22", zxc);
-            testSetValue ("333", zxc);
-            testSetValue ("4444", zxc);
-            testSetValue ("55555", zxc);
-            testSetValue ("666666", zxc);
+            // fractional ZHG (i.e. drops)
+            testSetValue ("1", zhg);
+            testSetValue ("22", zhg);
+            testSetValue ("333", zhg);
+            testSetValue ("4444", zhg);
+            testSetValue ("55555", zhg);
+            testSetValue ("666666", zhg);
 
-            // 1 ZXC up to 100 billion, in powers of 10 (in drops)
-            testSetValue ("1000000", zxc);
-            testSetValue ("10000000", zxc);
-            testSetValue ("100000000", zxc);
-            testSetValue ("1000000000", zxc);
-            testSetValue ("10000000000", zxc);
-            testSetValue ("100000000000", zxc);
-            testSetValue ("1000000000000", zxc);
-            testSetValue ("10000000000000", zxc);
-            testSetValue ("100000000000000", zxc);
-            testSetValue ("1000000000000000", zxc);
-            testSetValue ("10000000000000000", zxc);
-            testSetValue ("100000000000000000", zxc);
+            // 1 ZHG up to 100 billion, in powers of 10 (in drops)
+            testSetValue ("1000000", zhg);
+            testSetValue ("10000000", zhg);
+            testSetValue ("100000000", zhg);
+            testSetValue ("1000000000", zhg);
+            testSetValue ("10000000000", zhg);
+            testSetValue ("100000000000", zhg);
+            testSetValue ("1000000000000", zhg);
+            testSetValue ("10000000000000", zhg);
+            testSetValue ("100000000000000", zhg);
+            testSetValue ("1000000000000000", zhg);
+            testSetValue ("10000000000000000", zhg);
+            testSetValue ("100000000000000000", zhg);
 
             // Invalid native values:
-            testSetValue ("1.1", zxc, false);
-            testSetValue ("100000000000000001", zxc, false);
-            testSetValue ("1000000000000000000", zxc, false);
+            testSetValue ("1.1", zhg, false);
+            testSetValue ("100000000000000001", zhg, false);
+            testSetValue ("1000000000000000000", zhg, false);
         }
 
         {
@@ -272,7 +272,7 @@ public:
         unexpected (STAmount ().getText () != "0", "STAmount fail");
         unexpected (STAmount (31).getText () != "31", "STAmount fail");
         unexpected (STAmount (310).getText () != "310", "STAmount fail");
-        unexpected (to_string (Currency ()) != "ZXC", "cHC(ZXC)");
+        unexpected (to_string (Currency ()) != "ZHG", "cHC(ZHG)");
         Currency c;
         unexpected (!to_currency (c, "USD"), "create USD currency");
         unexpected (to_string (c) != "USD", "check USD currency");
@@ -359,11 +359,11 @@ public:
         unexpected (STAmount (noIssue(), 31, -2).getText () != "0.31", "STAmount fail");
         unexpected (multiply (STAmount (noIssue(), 20), STAmount (3), noIssue()).getText () != "60",
             "STAmount multiply fail 1");
-        unexpected (multiply (STAmount (noIssue(), 20), STAmount (3), zxcIssue ()).getText () != "60",
+        unexpected (multiply (STAmount (noIssue(), 20), STAmount (3), zhgIssue ()).getText () != "60",
             "STAmount multiply fail 2");
         unexpected (multiply (STAmount (20), STAmount (3), noIssue()).getText () != "60",
             "STAmount multiply fail 3");
-        unexpected (multiply (STAmount (20), STAmount (3), zxcIssue ()).getText () != "60",
+        unexpected (multiply (STAmount (20), STAmount (3), zhgIssue ()).getText () != "60",
             "STAmount multiply fail 4");
 
         if (divide (STAmount (noIssue(), 60), STAmount (3), noIssue()).getText () != "20")
@@ -378,13 +378,13 @@ public:
             pass ();
         }
 
-        unexpected (divide (STAmount (noIssue(), 60), STAmount (3), zxcIssue ()).getText () != "20",
+        unexpected (divide (STAmount (noIssue(), 60), STAmount (3), zhgIssue ()).getText () != "20",
             "STAmount divide fail");
 
         unexpected (divide (STAmount (noIssue(), 60), STAmount (noIssue(), 3), noIssue()).getText () != "20",
             "STAmount divide fail");
 
-        unexpected (divide (STAmount (noIssue(), 60), STAmount (noIssue(), 3), zxcIssue ()).getText () != "20",
+        unexpected (divide (STAmount (noIssue(), 60), STAmount (noIssue(), 3), zhgIssue ()).getText () != "20",
             "STAmount divide fail");
 
         STAmount a1 (noIssue(), 60), a2 (noIssue(), 10, -1);
@@ -469,11 +469,11 @@ public:
 
         BEAST_EXPECT(bigDsmall == zero);
 
-        bigDsmall = divide (smallValue, bigValue, zxcIssue ());
+        bigDsmall = divide (smallValue, bigValue, zhgIssue ());
 
         BEAST_EXPECT(bigDsmall == zero);
 
-        bigDsmall = divide (smallValue, bigNative, zxcIssue ());
+        bigDsmall = divide (smallValue, bigNative, zhgIssue ());
 
         BEAST_EXPECT(bigDsmall == zero);
 
@@ -532,9 +532,9 @@ public:
         log << fourThirdsB;
         log << fourThirdsC;
 
-        STAmount dripTest1 = mulRound (twoThird2, two, zxcIssue (), false);
-        STAmount dripTest2 = multiply (twoThird2, two, zxcIssue ());
-        STAmount dripTest3 = mulRound (twoThird2, two, zxcIssue (), true);
+        STAmount dripTest1 = mulRound (twoThird2, two, zhgIssue (), false);
+        STAmount dripTest2 = multiply (twoThird2, two, zhgIssue ());
+        STAmount dripTest3 = mulRound (twoThird2, two, zhgIssue (), true);
         log << dripTest1;
         log << dripTest2;
         log << dripTest3;
@@ -542,26 +542,26 @@ public:
     }
 
     void
-    testConvertZXC ()
+    testConvertZHG ()
     {
-        testcase ("STAmount to ZXCAmount conversions");
+        testcase ("STAmount to ZHGAmount conversions");
 
         Issue const usd { Currency (0x5553440000000000), AccountID (0x4985601) };
-        Issue const zxc { zxcIssue () };
+        Issue const zhg { zhgIssue () };
 
         for (std::uint64_t drops = 100000000000000000; drops != 1; drops = drops / 10)
         {
-            auto const t = amountFromString (zxc, std::to_string (drops));
-            auto const s = t.zxc ();
+            auto const t = amountFromString (zhg, std::to_string (drops));
+            auto const s = t.zhg ();
             BEAST_EXPECT(s.drops() == drops);
-            BEAST_EXPECT(t == STAmount (ZXCAmount (drops)));
-            BEAST_EXPECT(s == ZXCAmount (drops));
+            BEAST_EXPECT(t == STAmount (ZHGAmount (drops)));
+            BEAST_EXPECT(s == ZHGAmount (drops));
         }
 
         try
         {
             auto const t = amountFromString (usd, "136500");
-            fail (to_string (t.zxc ()));
+            fail (to_string (t.zhg ()));
         }
         catch (std::logic_error const&)
         {
@@ -579,7 +579,7 @@ public:
         testcase ("STAmount to IOUAmount conversions");
 
         Issue const usd { Currency (0x5553440000000000), AccountID (0x4985601) };
-        Issue const zxc { zxcIssue () };
+        Issue const zhg { zhgIssue () };
 
         for (std::uint64_t dollars = 10000000000; dollars != 1; dollars = dollars / 10)
         {
@@ -592,7 +592,7 @@ public:
 
         try
         {
-            auto const t = amountFromString (zxc, "136500");
+            auto const t = amountFromString (zhg, "136500");
             fail (to_string (t.iou ()));
         }
         catch (std::logic_error const&)
@@ -615,7 +615,7 @@ public:
         testArithmetic ();
         testUnderflow ();
         testRounding ();
-        testConvertZXC ();
+        testConvertZHG ();
         testConvertIOU ();
     }
 };

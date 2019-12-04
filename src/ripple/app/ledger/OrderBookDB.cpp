@@ -84,7 +84,7 @@ void OrderBookDB::update(
     hash_set< uint256 > seen;
     OrderBookDB::IssueToOrderBook destMap;
     OrderBookDB::IssueToOrderBook sourceMap;
-    hash_set< Issue > ZXCBooks;
+    hash_set< Issue > ZHGBooks;
 
     JLOG (j_.debug()) << "OrderBookDB::update>";
 
@@ -130,8 +130,8 @@ void OrderBookDB::update(
                     auto orderBook = std::make_shared<OrderBook> (index, book);
                     sourceMap[book.in].push_back (orderBook);
                     destMap[book.out].push_back (orderBook);
-                    if (isZXC(book.out))
-                        ZXCBooks.insert(book.in);
+                    if (isZHG(book.out))
+                        ZHGBooks.insert(book.in);
                     ++books;
                 }
             }
@@ -151,7 +151,7 @@ void OrderBookDB::update(
     {
         std::lock_guard <std::recursive_mutex> sl (mLock);
 
-        mZXCBooks.swap(ZXCBooks);
+        mZHGBooks.swap(ZHGBooks);
         mSourceMap.swap(sourceMap);
         mDestMap.swap(destMap);
     }
@@ -160,16 +160,16 @@ void OrderBookDB::update(
 
 void OrderBookDB::addOrderBook(Book const& book)
 {
-    bool toZXC = isZXC (book.out);
+    bool toZHG = isZHG (book.out);
     std::lock_guard <std::recursive_mutex> sl (mLock);
 
-    if (toZXC)
+    if (toZHG)
     {
-        // We don't want to search through all the to-ZXC or from-ZXC order
+        // We don't want to search through all the to-ZHG or from-ZHG order
         // books!
         for (auto ob: mSourceMap[book.in])
         {
-            if (isZXC (ob->getCurrencyOut ())) // also to ZXC
+            if (isZHG (ob->getCurrencyOut ())) // also to ZHG
                 return;
         }
     }
@@ -189,8 +189,8 @@ void OrderBookDB::addOrderBook(Book const& book)
 
     mSourceMap[book.in].push_back (orderBook);
     mDestMap[book.out].push_back (orderBook);
-    if (toZXC)
-        mZXCBooks.insert(book.in);
+    if (toZHG)
+        mZHGBooks.insert(book.in);
 }
 
 // return list of all orderbooks that want this issuerID and currencyID
@@ -207,10 +207,10 @@ int OrderBookDB::getBookSize(Issue const& issue) {
     return it == mSourceMap.end () ? 0 : it->second.size();
 }
 
-bool OrderBookDB::isBookToZXC(Issue const& issue)
+bool OrderBookDB::isBookToZHG(Issue const& issue)
 {
     std::lock_guard <std::recursive_mutex> sl (mLock);
-    return mZXCBooks.count(issue) > 0;
+    return mZHGBooks.count(issue) > 0;
 }
 
 BookListeners::pointer OrderBookDB::makeBookListeners (Book const& book)

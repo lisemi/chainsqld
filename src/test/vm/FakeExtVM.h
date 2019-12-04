@@ -4,7 +4,7 @@
 #include <string>
 #include <map>
 #include <functional>
-#include <peersafe/vm/ExtVMFace.h>
+#include <zhsh/vm/ExtVMFace.h>
 #include <ripple/protocol/AccountID.h>
 
 #include <boost/multiprecision/cpp_int.hpp>

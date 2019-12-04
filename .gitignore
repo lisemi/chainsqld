@@ -25,7 +25,7 @@ build
 !src/tbb-2019_U8/build
 tags
 TAGS
-bin/chainsqld
+bin/zhshchaind
 Debug/*.*
 Release/*.*
 
@@ -49,7 +49,7 @@ db/*.db-*
 debug_log.txt
 
 # Ignore customized configs
-chainsqld.cfg
+zhshchaind.cfg
 validators.txt
 
 # Doxygen generated documentation output
@@ -81,7 +81,7 @@ DerivedData
 gmon.out
 
 # Build Log
-chainsqld-build.log
+zhshchaind-build.log
 
 /Builds/XCode/*
 !/Builds/XCode/README.md

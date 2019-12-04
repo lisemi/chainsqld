@@ -391,7 +391,7 @@ R"({
 "Missing field 'tx_json.Sequence'.",
 "Missing field 'tx_json.Sequence'."}},
 
-{ "Cannot create ZXC to ZXC paths.",
+{ "Cannot create ZHG to ZHG paths.",
 R"({
     "command": "doesnt_matter",
     "account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
@@ -405,8 +405,8 @@ R"({
     }
 })",
 {
-"Cannot build ZXC to ZXC paths.",
-"Cannot build ZXC to ZXC paths.",
+"Cannot build ZHG to ZHG paths.",
+"Cannot build ZHG to ZHG paths.",
 "Missing field 'tx_json.Sequence'.",
 "Missing field 'tx_json.Sequence'."}},
 
@@ -485,7 +485,7 @@ R"({
 "Missing field 'tx_json.Sequence'.",
 "Missing field 'tx_json.Sequence'."}},
 
-{ "Even though 'Amount' may not be ZXC for pathfinding, 'SendMax' may be ZXC.",
+{ "Even though 'Amount' may not be ZHG for pathfinding, 'SendMax' may be ZHG.",
 R"({
     "command": "doesnt_matter",
     "account": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
@@ -2255,7 +2255,7 @@ public:
         // "c" (phantom signer) is rPcNzota6B8YBokhYtcTNqQVCngtbnWfux.
 
         test::jtx::Env env(*this, test::jtx::with_features(featureMultiSign));
-        env.fund(test::jtx::ZXC(100000), a, ed, g);
+        env.fund(test::jtx::ZHG(100000), a, ed, g);
         env.close();
 
         env(trust(a, USD(1000)));

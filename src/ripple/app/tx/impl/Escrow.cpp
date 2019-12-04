@@ -29,7 +29,7 @@
 #include <ripple/protocol/Feature.h>
 #include <ripple/protocol/Indexes.h>
 #include <ripple/protocol/TxFlags.h>
-#include <ripple/protocol/ZXCAmount.h>
+#include <ripple/protocol/ZHGAmount.h>
 #include <ripple/ledger/View.h>
 #include <ripple/app/paths/RippleState.h>
 #include <ripple/protocol/Quality.h>
@@ -44,14 +44,14 @@ namespace ripple {
 
 /*
     Escrow allows an account holder to sequester any amount
-    of ZXC in its own ledger entry, until the escrow process
+    of ZHG in its own ledger entry, until the escrow process
     either finishes or is canceled.
 
     If the escrow process finishes successfully, then the
     destination account (which must exist) will receives the
-    sequestered ZXC. If the escrow is, instead, canceled,
+    sequestered ZHG. If the escrow is, instead, canceled,
     the account which created the escrow will receive the
-    sequestered ZXC back instead.
+    sequestered ZHG back instead.
 
     EscrowCreate
 
@@ -130,16 +130,16 @@ namespace ripple {
     By careful selection of fields in each transaction,
     these operations may be achieved:
 
-        * Lock up ZXC for a time period
+        * Lock up ZHG for a time period
         * Execute a payment conditionally
 */
 
 //------------------------------------------------------------------------------
 
-ZXCAmount
+ZHGAmount
 EscrowCreate::calculateMaxSpend(STTx const& tx)
 {
-    return tx[sfAmount].zxc();
+    return tx[sfAmount].zhg();
 }
 
 TER
@@ -152,7 +152,7 @@ EscrowCreate::preflight (PreflightContext const& ctx)
     if (!isTesSuccess (ret))
         return ret;
 
-    //if (! isZXC(ctx.tx[sfAmount]))
+    //if (! isZHG(ctx.tx[sfAmount]))
     //    return temBAD_AMOUNT;
 
     if (ctx.tx[sfAmount] <= beast::zero)
@@ -217,19 +217,19 @@ EscrowCreate::doApply()
 
 
 	auto const& amount = ctx_.tx[sfAmount];
-	bool isZxc = isZXC(amount);
+	bool isZhg = isZHG(amount);
     // Check reserve and funds availability
     {
-		auto const balance = STAmount((*sle)[sfBalance]).zxc();
+		auto const balance = STAmount((*sle)[sfBalance]).zhg();
 		auto const reserve = ctx_.view().fees().accountReserve(
 			(*sle)[sfOwnerCount] + 1);
 
 		if (balance < reserve)
 			return tecINSUFFICIENT_RESERVE;
 
-		if (isZxc)
+		if (isZhg)
 		{
-			if (balance < reserve + STAmount(ctx_.tx[sfAmount]).zxc())
+			if (balance < reserve + STAmount(ctx_.tx[sfAmount]).zhg())
 				return tecUNFUNDED;
 		}// if src is not issuer
 		else if(account_ != amount.getIssuer())
@@ -267,9 +267,9 @@ EscrowCreate::doApply()
         if (((*sled)[sfFlags] & lsfRequireDestTag) &&
                 ! ctx_.tx[~sfDestinationTag])
             return tecDST_TAG_NEEDED;
-		if (isZxc)
+		if (isZhg)
 		{
-			if ((*sled)[sfFlags] & lsfDisallowZXC)
+			if ((*sled)[sfFlags] & lsfDisallowZHG)
 				return tecNO_TARGET;
 		}
 		else
@@ -335,7 +335,7 @@ EscrowCreate::doApply()
 	}
 
     // Deduct owner's balance, increment owner count
-	if (isZxc)
+	if (isZhg)
 	{
 		(*sle)[sfBalance] = (*sle)[sfBalance] - ctx_.tx[sfAmount];
 	}		
@@ -546,11 +546,11 @@ EscrowFinish::doApply()
 	}
 
     // NOTE: These payments cannot be used to fund accounts
-	bool isZxc = isZXC(amount);
+	bool isZhg = isZHG(amount);
 
 	AccountID const& dest = (*slep)[sfDestination];
 	// Fetch Destination SLE,transfer amount to destination
-	if (isZxc)
+	if (isZhg)
 	{
 		SLE::pointer sled = ctx_.view().peek(
 			keylet::account((*slep)[sfDestination]));
@@ -680,9 +680,9 @@ EscrowCancel::doApply()
 	}
 
     // Transfer amount back to owner
-	bool isZxc = isZXC(amount);
+	bool isZhg = isZHG(amount);
 	// Fetch Destination SLE,transfer amount to src
-	if (isZxc)
+	if (isZhg)
 	{
 		SLE::pointer sled = ctx_.view().peek(
 			keylet::account(account));

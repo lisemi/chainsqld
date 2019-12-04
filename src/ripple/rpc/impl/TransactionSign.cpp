@@ -41,8 +41,8 @@
 #include <ripple/rpc/impl/RPCHelpers.h>
 #include <ripple/rpc/impl/Tuning.h>
 #include <ripple/ledger/impl/Tuning.h>
-#include <peersafe/rpc/TableUtils.h>
-#include <peersafe/app/misc/StateManager.h>
+#include <zhsh/rpc/TableUtils.h>
+#include <zhsh/app/misc/StateManager.h>
 #include <algorithm>
 #include <iterator>
 
@@ -200,7 +200,7 @@ static Json::Value checkPayment(
 
         if (sendMax.native () && amount.native ())
             return RPC::make_error (rpcINVALID_PARAMS,
-                "Cannot build ZXC to ZXC paths.");
+                "Cannot build ZHG to ZHG paths.");
 
         {
             LegacyPathFind lpf (isUnlimited (role), app);
@@ -780,7 +780,7 @@ Json::Value checkFee (
     }
 
 	std::string txType = tx[jss::TransactionType].asString();
-	if (isChainSqlTableType(txType))
+	if (isZHSHChainTableType(txType))
 	{
 
 		int extraAmount = 1000;
@@ -1201,14 +1201,14 @@ Json::Value transactionSubmitMultiSigned (
             return RPC::make_error (rpcINVALID_PARAMS, err.str ());
         }
 
-        // The Fee field must be in ZXC and greater than zero.
+        // The Fee field must be in ZHG and greater than zero.
         auto const fee = stpTrans->getFieldAmount (sfFee);
 
         if (!isLegalNet (fee))
         {
             std::ostringstream err;
             err << "Invalid " << sfFee.fieldName
-                << " field.  Fees must be specified in ZXC.";
+                << " field.  Fees must be specified in ZHG.";
             return RPC::make_error (rpcINVALID_PARAMS, err.str ());
         }
         if (fee <= 0)

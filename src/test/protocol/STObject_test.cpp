@@ -25,7 +25,7 @@
 #include <ripple/json/json_reader.h>
 #include <ripple/json/to_string.h>
 #include <ripple/beast/unit_test.h>
-#include <peersafe/protocol/STMap256.h>
+#include <zhsh/protocol/STMap256.h>
 #include <test/jtx.h>
 
 #include <memory>

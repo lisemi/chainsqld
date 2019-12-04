@@ -120,7 +120,7 @@ public:
 
 /** Structure describing the consequences to the account
     of applying a transaction if the transaction consumes
-    the maximum ZXC allowed.
+    the maximum ZHG allowed.
 
     @see calculateConsequences
 */
@@ -141,13 +141,13 @@ struct TxConsequences
     /// transactions
     ConsequenceCategory const category;
     /// Transaction fee
-    ZXCAmount const fee;
+    ZHGAmount const fee;
     /// Does NOT include the fee.
-    ZXCAmount const potentialSpend;
+    ZHGAmount const potentialSpend;
 
     /// Constructor
     TxConsequences(ConsequenceCategory const category_,
-        ZXCAmount const fee_, ZXCAmount const spend_)
+        ZHGAmount const fee_, ZHGAmount const spend_)
         : category(category_)
         , fee(fee_)
         , potentialSpend(spend_)
@@ -240,8 +240,8 @@ std::uint64_t
 calculateBaseFee(Application& app, ReadView const& view,
     STTx const& tx, beast::Journal j);
 
-/** Determine the ZXC balance consequences if a transaction
-    consumes the maximum ZXC allowed.
+/** Determine the ZHG balance consequences if a transaction
+    consumes the maximum ZHG allowed.
 
     @pre The transaction has been checked
     and validated using `preflight`

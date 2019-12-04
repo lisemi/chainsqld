@@ -42,7 +42,7 @@
 #include <ripple/protocol/Feature.h>
 #include <ripple/protocol/digest.h>
 #include <ripple/app/misc/Transaction.h>
-#include <peersafe/app/misc/StateManager.h>
+#include <zhsh/app/misc/StateManager.h>
 #if USE_TBB
 #ifdef _CRTDBG_MAP_ALLOC
 #pragma push_macro("free")
@@ -54,7 +54,7 @@
 #endif
 #include <tbb/concurrent_vector.h>
 #include <tbb/blocked_range.h>
-#include <peersafe/app/tx/ParallelApply.h>
+#include <zhsh/app/tx/ParallelApply.h>
 #endif
 
 namespace ripple {
@@ -77,12 +77,12 @@ RCLConsensus::RCLConsensus(
           validatorKeys,
           journal)
     , consensus_ripple_(std::make_shared<Consensus<Adaptor>>(clock, adaptor_, journal))
-	, consensus_peersafe_(std::make_shared<PConsensus<Adaptor>>(clock, adaptor_, journal))
+	, consensus_zhsh_(std::make_shared<PConsensus<Adaptor>>(clock, adaptor_, journal))
     , j_(journal)
 
 {
 	//consensus_ = consensus_ripple_;
-	consensus_ = consensus_peersafe_;
+	consensus_ = consensus_zhsh_;
 }
 
 RCLConsensus::Adaptor::Adaptor(

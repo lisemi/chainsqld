@@ -103,9 +103,9 @@ public:
         return tx_type_;
     }
 
-	bool isChainSqlTableType() const
+	bool isZHSHChainTableType() const
 	{
-        return checkChainsqlTableType(tx_type_);
+        return checkZHSHChainTableType(tx_type_);
 	}
 
 	void addSubTx(STTx const& tx) const
@@ -128,12 +128,12 @@ public:
         return *paJsonLog_;
     }
 
-    static bool checkChainsqlTableType(TxType txType)
+    static bool checkZHSHChainTableType(TxType txType)
     {
         return txType == ttTABLELISTSET || txType == ttSQLSTATEMENT || txType == ttSQLTRANSACTION;
     }
 
-    static bool checkChainsqlContractType(TxType txType)
+    static bool checkZHSHChainContractType(TxType txType)
     {
         return txType == ttCONTRACT;
     }

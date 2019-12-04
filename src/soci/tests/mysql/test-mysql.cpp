@@ -390,8 +390,8 @@ TEST_CASE("MySQL text and blob", "[mysql][text][blob]")
         "blob_value blob, longblob_value longblob)";
     sql << "insert into soci_test values (1, \'foo\', \'bar\', \'baz\')";
     sql << "insert into soci_test "
-        << "values (2, \'qwerty\\0uiop\', \'zxcv\\0bnm\', "
-        << "\'qwerty\\0uiop\\0zxcvbnm\\0\')";
+        << "values (2, \'qwerty\\0uiop\', \'zhgv\\0bnm\', "
+        << "\'qwerty\\0uiop\\0zhgvbnm\\0\')";
     sql << "insert into soci_test values (3, :a, :b, :c)",
            use(a), use(b), use(c);
     sql << "insert into soci_test values (4, :x, :y, :z)",
@@ -410,8 +410,8 @@ TEST_CASE("MySQL text and blob", "[mysql][text][blob]")
     CHECK(blob_vec[0] == "bar");
     CHECK(longblob_vec[0] == "baz");
     CHECK(text_vec[1] == std::string("qwerty\0uiop", 11));
-    CHECK(blob_vec[1] == std::string("zxcv\0bnm", 8));
-    CHECK(longblob_vec[1] == std::string("qwerty\0uiop\0zxcvbnm\0", 20));
+    CHECK(blob_vec[1] == std::string("zhgv\0bnm", 8));
+    CHECK(longblob_vec[1] == std::string("qwerty\0uiop\0zhgvbnm\0", 20));
     CHECK(text_vec[2] == a);
     CHECK(blob_vec[2] == b);
     CHECK(longblob_vec[2] == c);
@@ -430,8 +430,8 @@ TEST_CASE("MySQL text and blob", "[mysql][text][blob]")
         << "from soci_test where id = 2",
            into(text), into(blob), into(longblob);
     CHECK(text == std::string("qwerty\0uiop", 11));
-    CHECK(blob == std::string("zxcv\0bnm", 8));
-    CHECK(longblob == std::string("qwerty\0uiop\0zxcvbnm\0", 20));
+    CHECK(blob == std::string("zhgv\0bnm", 8));
+    CHECK(longblob == std::string("qwerty\0uiop\0zhgvbnm\0", 20));
     sql << "select text_value, blob_value, longblob_value "
         << "from soci_test where id = 3",
            into(text), into(blob), into(longblob);
@@ -459,10 +459,10 @@ TEST_CASE("MySQL text and blob", "[mysql][text][blob]")
     CHECK(r->get_properties(0).get_data_type() == dt_string);
     CHECK(r->get<std::string>(0) == std::string("qwerty\0uiop", 11));
     CHECK(r->get_properties(1).get_data_type() == dt_string);
-    CHECK(r->get<std::string>(1) == std::string("zxcv\0bnm", 8));
+    CHECK(r->get<std::string>(1) == std::string("zhgv\0bnm", 8));
     CHECK(r->get_properties(2).get_data_type() == dt_string);
     CHECK(r->get<std::string>(2) ==
-           std::string("qwerty\0uiop\0zxcvbnm\0", 20));
+           std::string("qwerty\0uiop\0zhgvbnm\0", 20));
     ++r;
     CHECK(r->get_properties(0).get_data_type() == dt_string);
     CHECK(r->get<std::string>(0) == a);

@@ -78,7 +78,7 @@ operator<< (std::ostream& os,
     {
         // measure in hundredths
         auto const c =
-            dropsPerZXC<int>::value / 100;
+            dropsPerZHG<int>::value / 100;
         auto const n = amount.value().mantissa();
         if(n < c)
         {
@@ -89,11 +89,11 @@ operator<< (std::ostream& os,
             return os;
         }
         auto const d = double(n) /
-            dropsPerZXC<int>::value;
+            dropsPerZHG<int>::value;
         if (amount.value().negative())
             os << "-";
 
-        os << to_places(d, 6) << " ZXC";
+        os << to_places(d, 6) << " ZHG";
     }
     else
     {
@@ -107,7 +107,7 @@ operator<< (std::ostream& os,
 
 //------------------------------------------------------------------------------
 
-ZXC_t const ZXC {};
+ZHG_t const ZHG {};
 
 PrettyAmount
 IOU::operator()(epsilon_t) const

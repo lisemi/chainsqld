@@ -8,7 +8,7 @@
 
 #include "FakeExtVM.h"
 
-#include <peersafe/vm/VMFactory.h>
+#include <zhsh/vm/VMFactory.h>
 
 namespace ripple {
 

@@ -32,10 +32,10 @@
 #include <ripple/app/tx/impl/SetSignerList.h>
 #include <ripple/app/tx/impl/SetTrust.h>
 #include <ripple/app/tx/impl/PayChan.h>
-#include <peersafe/app/tx/TableListSet.h>
-#include <peersafe/app/tx/SqlStatement.h>
-#include <peersafe/app/tx/SqlTransaction.h>
-#include <peersafe/app/tx/SmartContract.h>
+#include <zhsh/app/tx/TableListSet.h>
+#include <zhsh/app/tx/SqlStatement.h>
+#include <zhsh/app/tx/SqlTransaction.h>
+#include <zhsh/app/tx/SmartContract.h>
 
 namespace ripple {
 

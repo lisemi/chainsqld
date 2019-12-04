@@ -25,9 +25,9 @@
 #include <ripple/rpc/impl/RPCHelpers.h>
 #include <ripple/app/ledger/TransactionMaster.h>
 #include <ripple/app/misc/Transaction.h>
-#include <peersafe/rpc/impl/TableAssistant.h>
-#include <peersafe/protocol/STEntry.h>
-#include <peersafe/rpc/TableUtils.h>
+#include <zhsh/rpc/impl/TableAssistant.h>
+#include <zhsh/protocol/STEntry.h>
+#include <zhsh/rpc/TableUtils.h>
 
 namespace ripple {
 Json::Value doGetAccountTables(RPC::Context&  context)

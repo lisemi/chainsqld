@@ -66,7 +66,7 @@ class TxFormats : public KnownFormats <TxType>
 {
 private:
     void addCommonFields (Item& item);
-    void addChainSqlCommondFields(Item& item);
+    void addZHSHChainCommondFields(Item& item);
 
 public:
     /** Create the object.

@@ -25,7 +25,7 @@
 #include <ripple/app/paths/impl/Steps.h>
 #include <ripple/basics/Log.h>
 #include <ripple/protocol/IOUAmount.h>
-#include <ripple/protocol/ZXCAmount.h>
+#include <ripple/protocol/ZHGAmount.h>
 
 #include <boost/container/flat_set.hpp>
 
@@ -72,9 +72,9 @@ flow (
     Issue const srcIssue = [&] {
         if (sendMax)
             return sendMax->issue ();
-        if (!isZXC (deliver.issue ().currency))
+        if (!isZHG (deliver.issue ().currency))
             return Issue (deliver.issue ().currency, src);
-        return zxcIssue ();
+        return zhgIssue ();
     }();
 
     Issue const dstIssue = deliver.issue ();
@@ -112,39 +112,39 @@ flow (
         }
     }
 
-    const bool srcIsZXC = isZXC (srcIssue.currency);
-    const bool dstIsZXC = isZXC (dstIssue.currency);
+    const bool srcIsZHG = isZHG (srcIssue.currency);
+    const bool dstIsZHG = isZHG (dstIssue.currency);
 
     auto const asDeliver = toAmountSpec (deliver);
 
-    // The src account may send either zxc or iou. The dst account may receive
-    // either zxc or iou. Since ZXC and IOU amounts are represented by different
+    // The src account may send either zhg or iou. The dst account may receive
+    // either zhg or iou. Since ZHG and IOU amounts are represented by different
     // types, use templates to tell `flow` about the amount types.
-    if (srcIsZXC && dstIsZXC)
+    if (srcIsZHG && dstIsZHG)
     {
         return finishFlow (sb, srcIssue, dstIssue,
-            flow<ZXCAmount, ZXCAmount> (
-                sb, strands, asDeliver.zxc, partialPayment, offerCrossing,
+            flow<ZHGAmount, ZHGAmount> (
+                sb, strands, asDeliver.zhg, partialPayment, offerCrossing,
                 limitQuality, sendMax, j, flowDebugInfo));
     }
 
-    if (srcIsZXC && !dstIsZXC)
+    if (srcIsZHG && !dstIsZHG)
     {
         return finishFlow (sb, srcIssue, dstIssue,
-            flow<ZXCAmount, IOUAmount> (
+            flow<ZHGAmount, IOUAmount> (
                 sb, strands, asDeliver.iou, partialPayment, offerCrossing,
                 limitQuality, sendMax, j, flowDebugInfo));
     }
 
-    if (!srcIsZXC && dstIsZXC)
+    if (!srcIsZHG && dstIsZHG)
     {
         return finishFlow (sb, srcIssue, dstIssue,
-            flow<IOUAmount, ZXCAmount> (
-                sb, strands, asDeliver.zxc, partialPayment, offerCrossing,
+            flow<IOUAmount, ZHGAmount> (
+                sb, strands, asDeliver.zhg, partialPayment, offerCrossing,
                 limitQuality, sendMax, j, flowDebugInfo));
     }
 
-    assert (!srcIsZXC && !dstIsZXC);
+    assert (!srcIsZHG && !dstIsZHG);
     return finishFlow (sb, srcIssue, dstIssue,
         flow<IOUAmount, IOUAmount> (
             sb, strands, asDeliver.iou, partialPayment, offerCrossing,

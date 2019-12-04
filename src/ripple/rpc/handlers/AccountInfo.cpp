@@ -30,7 +30,7 @@
 #include <ripple/rpc/Context.h>
 #include <ripple/rpc/impl/RPCHelpers.h>
 #include <ripple/basics/StringUtilities.h>
-#include <peersafe/app/misc/StateManager.h>
+#include <zhsh/app/misc/StateManager.h>
 
 namespace ripple {
 
@@ -139,7 +139,7 @@ Json::Value doAccountInfo (RPC::Context& context)
                 jvQueueTx = Json::arrayValue;
 
                 boost::optional<bool> anyAuthChanged(false);
-                boost::optional<ZXCAmount> totalSpend(0);
+                boost::optional<ZHGAmount> totalSpend(0);
 
                 for (auto const& tx : txs)
                 {

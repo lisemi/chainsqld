@@ -29,7 +29,7 @@
 #include <ripple/consensus/LedgerTiming.h>
 #include <ripple/consensus/DisputedTx.h>
 #include <ripple/json/json_writer.h>
-#include <peersafe/app/consensus/ConsensusBase.h>
+#include <zhsh/app/consensus/ConsensusBase.h>
 
 namespace ripple {
 

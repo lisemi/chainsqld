@@ -29,8 +29,8 @@
 #include <ripple/basics/Log.h>
 #include <ripple/beast/utility/Journal.h>
 #include <ripple/consensus/Consensus.h>
-#include <peersafe/app/consensus/PConsensus.h>
-#include <peersafe/app/consensus/ConsensusBase.h>
+#include <zhsh/app/consensus/PConsensus.h>
+#include <zhsh/app/consensus/ConsensusBase.h>
 #include <ripple/core/JobQueue.h>
 #include <ripple/overlay/Message.h>
 #include <ripple/protocol/RippleLedgerHash.h>
@@ -510,7 +510,7 @@ private:
 
     Adaptor adaptor_;
     std::shared_ptr<Consensus<Adaptor>> consensus_ripple_;
-	std::shared_ptr<PConsensus<Adaptor>> consensus_peersafe_;
+	std::shared_ptr<PConsensus<Adaptor>> consensus_zhsh_;
 	std::shared_ptr<ConsensusBase<Adaptor>> consensus_;
 	
     beast::Journal j_;

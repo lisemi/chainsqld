@@ -30,7 +30,7 @@ namespace detail {
 void
 ApplyStateTable::apply (RawView& to) const
 {
-    to.rawDestroyZXC(dropsDestroyed_);
+    to.rawDestroyZHG(dropsDestroyed_);
     for (auto const& item : items_)
     {
         auto const& sle =
@@ -522,7 +522,7 @@ ApplyStateTable::update (ReadView const& base,
 }
 
 void
-ApplyStateTable::destroyZXC(ZXCAmount const& fee)
+ApplyStateTable::destroyZHG(ZHGAmount const& fee)
 {
     dropsDestroyed_ += fee;
 }

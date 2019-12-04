@@ -32,13 +32,13 @@
 #include <ripple/protocol/Indexes.h>
 #include <ripple/protocol/types.h>
 #include <ripple/app/ledger/LedgerMaster.h>
-#include <peersafe/app/storage/TableStorageItem.h>
-#include <peersafe/app/storage/TableStorage.h>
-#include <peersafe/app/sql/TxStore.h>
+#include <zhsh/app/storage/TableStorageItem.h>
+#include <zhsh/app/storage/TableStorage.h>
+#include <zhsh/app/sql/TxStore.h>
 #include <ripple/protocol/Protocol.h>
 #include <ripple/protocol/digest.h>
-#include <peersafe/app/misc/StateManager.h>
-#include <peersafe/app/misc/TxPool.h>
+#include <zhsh/app/misc/StateManager.h>
+#include <zhsh/app/misc/TxPool.h>
 
 
 namespace ripple {
@@ -76,7 +76,7 @@ preflight1 (PreflightContext const& ctx)
 
     // No point in going any further if the transaction fee is malformed.
     auto const fee = ctx.tx.getFieldAmount (sfFee);
-    if (!fee.native () || fee.negative () || !isLegalAmount (fee.zxc ()))
+    if (!fee.native () || fee.negative () || !isLegalAmount (fee.zhg ()))
     {
         JLOG(ctx.j.debug()) << "preflight1: invalid fee";
         return temBAD_FEE;
@@ -112,7 +112,7 @@ preflight2 (PreflightContext const& ctx)
 }
 
 static
-ZXCAmount
+ZHGAmount
 calculateFee(Application& app, std::uint64_t const baseFee,
     Fees const& fees, ApplyFlags flags)
 {
@@ -161,13 +161,13 @@ std::uint64_t Transactor::calculateBaseFee (
     return baseFee + (signerCount * baseFee);
 }
 
-ZXCAmount
+ZHGAmount
 Transactor::calculateFeePaid(STTx const& tx)
 {
-    return tx[sfFee].zxc();
+    return tx[sfFee].zhg();
 }
 
-ZXCAmount
+ZHGAmount
 Transactor::calculateMaxSpend(STTx const& tx)
 {
     return beast::zero;
@@ -183,22 +183,22 @@ Transactor::checkFee (PreclaimContext const& ctx, std::uint64_t baseFee)
     auto feeDue = ripple::calculateFee(ctx.app,
         baseFee, ctx.view.fees(), ctx.flags);
 	
-	if (ctx.tx.isChainSqlTableType())
+	if (ctx.tx.isZHSHChainTableType())
 	{
-		int zxcDrops = 1000;
+		int zhgDrops = 1000;
 		std::uint64_t   dropsPerByte = ctx.view.fees().drops_per_byte;
 
 		if (ctx.tx.isFieldPresent(sfRaw))
 		{
 			auto raw = ctx.tx.getFieldVL(sfRaw);
-			zxcDrops += raw.size() * dropsPerByte;
+			zhgDrops += raw.size() * dropsPerByte;
 		}
 		else if (ctx.tx.isFieldPresent(sfStatements))
 		{
 			auto statements = ctx.tx.getFieldVL(sfStatements);
-			zxcDrops += statements.size() * dropsPerByte;
+			zhgDrops += statements.size() * dropsPerByte;
 		}
-		auto extraAmount = new ZXCAmount(zxcDrops);
+		auto extraAmount = new ZHGAmount(zhgDrops);
 		feeDue += *extraAmount;
 	}
 
@@ -216,7 +216,7 @@ Transactor::checkFee (PreclaimContext const& ctx, std::uint64_t baseFee)
     auto const id = ctx.tx.getAccountID(sfAccount);
     auto const sle = ctx.view.read(
         keylet::account(id));
-    auto const balance = (*sle)[sfBalance].zxc();
+    auto const balance = (*sle)[sfBalance].zhg();
 
     if (balance < feePaid)
     {
@@ -249,7 +249,7 @@ TER Transactor::payFee ()
     mSourceBalance -= feePaid;
     sle->setFieldAmount (sfBalance, mSourceBalance);
 
-    // VFALCO Should we call view().rawDestroyZXC() here as well?
+    // VFALCO Should we call view().rawDestroyZHG() here as well?
 
     return tesSUCCESS;
 }
@@ -399,14 +399,14 @@ void Transactor::preCompute ()
     assert(account_ != zero);
 }
 
-TER Transactor::preChainsql()
+TER Transactor::preZHSHChain()
 {
-	if (ctx_.tx.isChainSqlTableType())
+	if (ctx_.tx.isZHSHChainTableType())
 	{
 		checkAddChainIDSle();
 		if ((ctx_.view().flags() & tapFromClient) 
 			&& !ctx_.tx.isSubTransaction() 
-			&& !STTx::checkChainsqlContractType(ctx_.tx.getTxnType()))
+			&& !STTx::checkZHSHChainContractType(ctx_.tx.getTxnType()))
 		{
 			return ctx_.app.getTableStorage().InitItem(ctx_.tx, *this);
 		}
@@ -423,13 +423,13 @@ TER Transactor::applyDirect()
 	auto const sle = view().peek(keylet::account(account_));
 	if (sle)
 	{
-		mPriorBalance = STAmount((*sle)[sfBalance]).zxc();
+		mPriorBalance = STAmount((*sle)[sfBalance]).zhg();
 		mSourceBalance = mPriorBalance;
 
 		view().update(sle);
 	}
 
-	TER res = preChainsql();
+	TER res = preZHSHChain();
 	if (res != tesSUCCESS && res != tefTABLE_STORAGENORMALERROR)
 		return res;
 
@@ -453,7 +453,7 @@ STer Transactor::apply()
 
     if (sle)
     {
-        mPriorBalance   = STAmount ((*sle)[sfBalance]).zxc ();
+        mPriorBalance   = STAmount ((*sle)[sfBalance]).zhg ();
         mSourceBalance  = mPriorBalance;
 
         setSeq();
@@ -465,7 +465,7 @@ STer Transactor::apply()
         view().update (sle);
     }
 
-	TER res = preChainsql();
+	TER res = preZHSHChain();
 	if (res != tesSUCCESS && res != tefTABLE_STORAGENORMALERROR)
 		return STer(res, mDetailMsg);
 
@@ -729,14 +729,14 @@ void removeUnfundedOffers (ApplyView& view, std::vector<uint256> const& offers, 
 }
 
 void
-Transactor::claimFee (ZXCAmount& fee, TER terResult, std::vector<uint256> const& removedOffers)
+Transactor::claimFee (ZHGAmount& fee, TER terResult, std::vector<uint256> const& removedOffers)
 {
     ctx_.discard();
 
     auto const txnAcct = view().peek(
         keylet::account(ctx_.tx.getAccountID(sfAccount)));
 
-    auto const balance = txnAcct->getFieldAmount (sfBalance).zxc ();
+    auto const balance = txnAcct->getFieldAmount (sfBalance).zhg ();
 
     // balance should have already been
     // checked in checkFee / preFlight.
@@ -818,7 +818,7 @@ Transactor::operator()()
     }
 
     bool didApply = isTesSuccess (terResult);
-    auto fee = ctx_.tx.getFieldAmount(sfFee).zxc ();
+    auto fee = ctx_.tx.getFieldAmount(sfFee).zhg ();
 
     if (ctx_.size() > oversizeMetaDataCap)
         terResult = tecOVERSIZE;
@@ -896,7 +896,7 @@ Transactor::operator()()
             }
 
             if (fee != zero)
-                ctx_.destroyZXC (fee);
+                ctx_.destroyZHG (fee);
         }
 
         ctx_.apply(terResult);

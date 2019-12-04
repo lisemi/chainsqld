@@ -105,7 +105,7 @@ Currency to_currency(std::string const& code)
     return currency;
 }
 
-Currency const& zxcCurrency()
+Currency const& zhgCurrency()
 {
     static Currency const currency(0);
     return currency;
@@ -119,7 +119,7 @@ Currency const& noCurrency()
 
 Currency const& badCurrency()
 {
-	//0x5852500000000000 ZXC
+	//0x5852500000000000 ZHG
     static Currency const currency(0x5A58430000000000);
     return currency;
 }

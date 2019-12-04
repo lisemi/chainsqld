@@ -38,9 +38,9 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #include <ripple/basics/base_uint.h>
 #include <ripple/basics/Log.h>
 #include <ripple/beast/unit_test.h>
-#include <peersafe/app/sql/SQLConditionTree.h>
-#include <peersafe/app/sql/STTx2SQL.h>
-#include <peersafe/app/sql/TxStore.h>
+#include <zhsh/app/sql/SQLConditionTree.h>
+#include <zhsh/app/sql/STTx2SQL.h>
+#include <zhsh/app/sql/TxStore.h>
 #include <test/jtx.h>
 #include <test/app/SuitLogs.h>
 
@@ -544,7 +544,7 @@ public:
 			set_OwnerID(obj);
 			obj.setFieldU16(sfOpType, 6); // insert one record 
 			set_tables(obj);
-			std::string raw = "[{\"id\":1,\"name\":\"test1\",\"cash\":100.00,\"comment\":\"zxc\",\"deci\":200.00000,\"datetime\":\"2017/1/11 9:42:54\"},\
+			std::string raw = "[{\"id\":1,\"name\":\"test1\",\"cash\":100.00,\"comment\":\"zhg\",\"deci\":200.00000,\"datetime\":\"2017/1/11 9:42:54\"},\
 {\"id\":2,\"name\":\"test2\",\"cash\":200.00,\"comment\":\"u.s\", \"deci\":300.00000,\"datetime\":\"2017/1/11 9:42:54\"},\
 {\"id\":3,\"name\":\"test3\",\"cash\":300.00,\"comment\":\"u.s\", \"deci\":300.01,\"datetime\":\"2017/06/19 20:42:54\",\"ch\":\"testchar\",\"date_field\":\"2017/06/19\"}]";
 			ripple::Blob blob;
@@ -565,7 +565,7 @@ public:
 		}
 		*/
 
-		std::string raw = "[{\"id\":1,\"name\":\"test1\",\"cash\":100.00,\"comment\":\"zxc\",\"deci\":200.00000,\"datetime\":\"2017/1/11 9:42:54\"},\
+		std::string raw = "[{\"id\":1,\"name\":\"test1\",\"cash\":100.00,\"comment\":\"zhg\",\"deci\":200.00000,\"datetime\":\"2017/1/11 9:42:54\"},\
 {\"id\":2,\"name\":\"test2\",\"cash\":200.00,\"comment\":\"u.s\", \"deci\":300.00000,\"datetime\":\"2017/1/11 9:42:54\"},\
 {\"id\":3,\"name\":\"test3\",\"cash\":300.00,\"comment\":\"u.s\", \"deci\":300.01,\"datetime\":\"2017/06/19 20:42:54\",\"ch\":\"testchar\",\"date_field\":\"2017/06/19\"}]";
 		int ret = insert_Records(raw);
@@ -669,7 +669,7 @@ public:
 
 		{
 
-			std::string field_str = "[[\"id\",\"name\"],{\"id\":{\"$ne\":peersafe}}]";
+			std::string field_str = "[[\"id\",\"name\"],{\"id\":{\"$ne\":zhsh}}]";
 			Json::Value result = getRecords(field_str);
 			std::string result_sql = Json::jsonAsString(result);
 			std::string expected_sql = "{\"lines\":[{\"id\":1,\"name\":\"test1\"},{\"id\":2,\"name\":\"test2\"}],\"status\":\"success\"}";
@@ -784,7 +784,7 @@ public:
 			// insert records
 			s << "insert into t_user (uid, username, password) values(1,'jingtian','123')";
 			s << "insert into t_user (uid, username, password) values(2,'wangxiaoer','123')";
-			s << "insert into t_user (uid, username, password) values(3,'peersafe','123')";
+			s << "insert into t_user (uid, username, password) values(3,'zhsh','123')";
 
 			s << "insert into t_order_goods (oid, uid, name, buytime) values(1,2,'apple',12333222)";
 			s << "insert into t_order_goods (oid, uid, name, buytime) values(2,3,'iphone',12333222)";
@@ -837,7 +837,7 @@ public:
 			std::string str_json = Json::jsonAsString(context.params);
 			Json::Value result = txstore_->txHistory(context);
 			std::string real_result = Json::jsonAsString(result);
-			std::string expected_resul = "{\"lines\":[{\"buytime\":12333222,\"name\":\"apple\",\"password\":\"123\",\"uid\":2,\"username\":\"wangxiaoer\"},{\"buytime\":12333222,\"name\":\"iphone\",\"password\":\"123\",\"uid\":3,\"username\":\"peersafe\"}],\"status\":\"success\"}";
+			std::string expected_resul = "{\"lines\":[{\"buytime\":12333222,\"name\":\"apple\",\"password\":\"123\",\"uid\":2,\"username\":\"wangxiaoer\"},{\"buytime\":12333222,\"name\":\"iphone\",\"password\":\"123\",\"uid\":3,\"username\":\"zhsh\"}],\"status\":\"success\"}";
 			BEAST_EXPECT(boost::iequals(expected_resul, real_result));
 		}
 
@@ -888,7 +888,7 @@ public:
 			std::string str_json = Json::jsonAsString(context.params);
 			Json::Value result = txstore_->txHistory(context);
 			std::string real_result = Json::jsonAsString(result);
-			std::string expected_resul = "{\"lines\":[{\"buytime\":12333222,\"name\":\"apple\",\"password\":\"123\",\"uid\":2,\"username\":\"wangxiaoer\"},{\"buytime\":12333222,\"name\":\"iphone\",\"password\":\"123\",\"uid\":3,\"username\":\"peersafe\"},{\"buytime\":0,\"name\":\"null\",\"password\":\"123\",\"uid\":1,\"username\":\"jingtian\"}],\"status\":\"success\"}";
+			std::string expected_resul = "{\"lines\":[{\"buytime\":12333222,\"name\":\"apple\",\"password\":\"123\",\"uid\":2,\"username\":\"wangxiaoer\"},{\"buytime\":12333222,\"name\":\"iphone\",\"password\":\"123\",\"uid\":3,\"username\":\"zhsh\"},{\"buytime\":0,\"name\":\"null\",\"password\":\"123\",\"uid\":1,\"username\":\"jingtian\"}],\"status\":\"success\"}";
 			BEAST_EXPECT(boost::iequals(expected_resul, real_result));
 		}
 
@@ -939,7 +939,7 @@ public:
 			std::string str_json = Json::jsonAsString(context.params);
 			Json::Value result = txstore_->txHistory(context);
 			std::string real_result = Json::jsonAsString(result);
-			std::string expected_resul = "{\"lines\":[{\"buytime\":12333222,\"name\":\"apple\",\"password\":\"123\",\"uid\":2,\"username\":\"wangxiaoer\"},{\"buytime\":12333222,\"name\":\"iphone\",\"password\":\"123\",\"uid\":3,\"username\":\"peersafe\"}],\"status\":\"success\"}";
+			std::string expected_resul = "{\"lines\":[{\"buytime\":12333222,\"name\":\"apple\",\"password\":\"123\",\"uid\":2,\"username\":\"wangxiaoer\"},{\"buytime\":12333222,\"name\":\"iphone\",\"password\":\"123\",\"uid\":3,\"username\":\"zhsh\"}],\"status\":\"success\"}";
 			BEAST_EXPECT(boost::iequals(expected_resul, real_result));
 		}
 
@@ -1094,9 +1094,9 @@ public:
 				obj.setFieldU16(sfOpType, 10); // assert one record 
 				set_tables(obj);
 				std::string raw = "[{\"id\":1}, {\"id\":{\"$eq\":1}}]";
-				//std::string raw = "[{\"$or\":[{\"name\":\"peersafe\"},{\"id\":1}]}, {\"id\":{\"$ge\":1}}]";
-				//std::string raw = "[{\"$and\":[{\"name\":\"peersafe\"},{\"id\":1}]}, {\"id\":{\"$ge\":1}}]";
-				//std::string raw = "[{\"$and\":[{\"$or\":[{\"name\":\"peersafe\"},{\"id\":1}]},{\"id\":10}]}, {\"id\":{\"$ge\":1}}]";
+				//std::string raw = "[{\"$or\":[{\"name\":\"zhsh\"},{\"id\":1}]}, {\"id\":{\"$ge\":1}}]";
+				//std::string raw = "[{\"$and\":[{\"name\":\"zhsh\"},{\"id\":1}]}, {\"id\":{\"$ge\":1}}]";
+				//std::string raw = "[{\"$and\":[{\"$or\":[{\"name\":\"zhsh\"},{\"id\":1}]},{\"id\":10}]}, {\"id\":{\"$ge\":1}}]";
 				ripple::Blob blob;
 				blob.assign(raw.begin(), raw.end());
 				obj.setFieldVL(sfRaw, blob);
@@ -1422,7 +1422,7 @@ public:
 		}
 
 		{
-			std::string raw_string = "[{\"name\":{\"$nin\":[\"peersafe\",\"zongxiang\"]}}]";
+			std::string raw_string = "[{\"name\":{\"$nin\":[\"zhsh\",\"zongxiang\"]}}]";
 			Json::Reader reader = Json::Reader();
 			Json::Value conditions;
 			if (reader.parse(raw_string, conditions) == false) {
@@ -1436,12 +1436,12 @@ public:
 			//BEAST_EXPECT(result2.first == 0);
 
 			std::string result_conditions = result.second.asString();
-			std::string expect_conditions = "name not in ('peersafe','zongxiang')";
+			std::string expect_conditions = "name not in ('zhsh','zongxiang')";
 			BEAST_EXPECT(result_conditions == expect_conditions);
 		}
 
 		{
-			std::string raw_string = "[{\"name\":{\"$nin\":[\"peersafe\"]}}]";
+			std::string raw_string = "[{\"name\":{\"$nin\":[\"zhsh\"]}}]";
 			Json::Reader reader = Json::Reader();
 			Json::Value conditions;
 			if (reader.parse(raw_string, conditions) == false) {
@@ -1455,7 +1455,7 @@ public:
 			//BEAST_EXPECT(result2.first == 0);
 
 			std::string result_conditions = result.second.asString();
-			std::string expect_conditions = "name not in ('peersafe')";
+			std::string expect_conditions = "name not in ('zhsh')";
 			BEAST_EXPECT(result_conditions == expect_conditions);
 		}
 
@@ -1479,7 +1479,7 @@ public:
 		}
 
 		{
-			std::string raw_string = "[{\"name\":\"peersafe\"}]";
+			std::string raw_string = "[{\"name\":\"zhsh\"}]";
 			Json::Reader reader = Json::Reader();
 			Json::Value conditions;
 			if (reader.parse(raw_string, conditions) == false) {
@@ -1493,12 +1493,12 @@ public:
 			//BEAST_EXPECT(result2.first == 0);
 
 			std::string result_conditions = result.second.asString();
-			std::string expect_conditions = "name = 'peersafe'";
+			std::string expect_conditions = "name = 'zhsh'";
 			BEAST_EXPECT(result_conditions == expect_conditions);
 		}
 
 		{
-			std::string raw_string = "[{\"name\":{\"$regex\":\"/^peersafe/\"}}]";
+			std::string raw_string = "[{\"name\":{\"$regex\":\"/^zhsh/\"}}]";
 			Json::Reader reader = Json::Reader();
 			Json::Value conditions;
 			if (reader.parse(raw_string, conditions) == false) {
@@ -1512,12 +1512,12 @@ public:
 			//BEAST_EXPECT(result2.first == 0);
 
 			std::string result_conditions = result.second.asString();
-			std::string expect_conditions = "name like '%peersafe'";
+			std::string expect_conditions = "name like '%zhsh'";
 			BEAST_EXPECT(result_conditions == expect_conditions);
 		}
 
 		{
-			std::string raw_string = "[{\"name\":{\"$regex\":\"/peersafe/\"}}]";
+			std::string raw_string = "[{\"name\":{\"$regex\":\"/zhsh/\"}}]";
 			Json::Reader reader = Json::Reader();
 			Json::Value conditions;
 			if (reader.parse(raw_string, conditions) == false) {
@@ -1531,7 +1531,7 @@ public:
 			//BEAST_EXPECT(result2.first == 0);
 
 			std::string result_conditions = result.second.asString();
-			std::string expect_conditions = "name like '%peersafe%'";
+			std::string expect_conditions = "name like '%zhsh%'";
 			BEAST_EXPECT(result_conditions == expect_conditions);
 		}
 
@@ -1554,7 +1554,7 @@ public:
 		}
 
 		{
-			std::string raw_string = "[{\"$and\":[{\"age\":{\"ge\":20}},{\"name\":\"peersafe\"}]}]";
+			std::string raw_string = "[{\"$and\":[{\"age\":{\"ge\":20}},{\"name\":\"zhsh\"}]}]";
 			Json::Reader reader = Json::Reader();
 			Json::Value conditions;
 			if (reader.parse(raw_string, conditions) == false) {
@@ -1569,7 +1569,7 @@ public:
 		}
 
 		{
-			std::string raw_string = "[{\"and\":[{\"age\":{\"$ge\":20}},{\"name\":\"peersafe\"}]}]";
+			std::string raw_string = "[{\"and\":[{\"age\":{\"$ge\":20}},{\"name\":\"zhsh\"}]}]";
 			Json::Reader reader = Json::Reader();
 			Json::Value conditions;
 			if (reader.parse(raw_string, conditions) == false) {
@@ -1581,7 +1581,7 @@ public:
 		}
 
 		{
-			std::string raw_string = "[{\"or\":[{\"age\":{\"$ge\":20}},{\"name\":\"peersafe\"}]}]";
+			std::string raw_string = "[{\"or\":[{\"age\":{\"$ge\":20}},{\"name\":\"zhsh\"}]}]";
 			Json::Reader reader = Json::Reader();
 			Json::Value conditions;
 			if (reader.parse(raw_string, conditions) == false) {
@@ -1658,7 +1658,7 @@ public:
 		std::string ops[] = { "$eq","$ne","$lt","$le","$gt","$ge" };
 		std::string expect_ops[] = {"=", "!=", "<", "<=", ">", ">="};
 		for (size_t i = 0; i < 6; i++) {
-			std::string raw_string = (boost::format("[{\"age\":{\"%1%\":20}, \"name\":{\"%1%\":\"peersafe\"}}]") 
+			std::string raw_string = (boost::format("[{\"age\":{\"%1%\":20}, \"name\":{\"%1%\":\"zhsh\"}}]") 
 				%ops[i]).str();
 			Json::Reader reader = Json::Reader();
 			Json::Value conditions;
@@ -1673,7 +1673,7 @@ public:
 			//BEAST_EXPECT(result2.first == 0);
 
 			std::string result_conditions = result.second.asString();
-			std::string expect_conditions = (boost::format("age %1% 20 and name %1% 'peersafe'") %expect_ops[i]).str();
+			std::string expect_conditions = (boost::format("age %1% 20 and name %1% 'zhsh'") %expect_ops[i]).str();
 			BEAST_EXPECT(result_conditions == expect_conditions);
 		}
 
@@ -1716,7 +1716,7 @@ public:
 		}
 
 		{
-			std::string raw_string = "[{\"$and\":[{\"age\":{\"$ge\":20}},{\"name\":\"peersafe\"}]}]";
+			std::string raw_string = "[{\"$and\":[{\"age\":{\"$ge\":20}},{\"name\":\"zhsh\"}]}]";
 			Json::Reader reader = Json::Reader();
 			Json::Value conditions;
 			if (reader.parse(raw_string, conditions) == false) {
@@ -1730,7 +1730,7 @@ public:
 			//BEAST_EXPECT(result2.first == 0);
 
 			std::string result_conditions = result.second.asString();
-			std::string expect_conditions = "age >= 20 and name = 'peersafe'";
+			std::string expect_conditions = "age >= 20 and name = 'zhsh'";
 			BEAST_EXPECT(result_conditions == expect_conditions);	
 		}
 
@@ -1754,7 +1754,7 @@ public:
 		}
 
 		{
-			std::string raw_string = "[{\"$and\":[{\"$or\":[{\"name\":\"peersafe\"},{\"id\":{\"$ge\":20}}]},{\"age\":20}]}]";
+			std::string raw_string = "[{\"$and\":[{\"$or\":[{\"name\":\"zhsh\"},{\"id\":{\"$ge\":20}}]},{\"age\":20}]}]";
 			Json::Reader reader = Json::Reader();
 			Json::Value conditions;
 			if (reader.parse(raw_string, conditions) == false) {
@@ -1769,7 +1769,7 @@ public:
 
 			if(result2.first == 0) {
 				std::string result_conditions = result.second.asString();
-				std::string expect_conditions = "(name = 'peersafe' or id >= 20) and age = 20";
+				std::string expect_conditions = "(name = 'zhsh' or id >= 20) and age = 20";
 				BEAST_EXPECT(result_conditions == expect_conditions);
 			}
 			else {
@@ -1782,7 +1782,7 @@ public:
 		std::string ops[] = { "$eq","$ne","$lt","$le","$gt","$ge" };
 		std::string expect_ops[] = { "=", "!=", "<", "<=", ">", ">=" };
 		for (size_t i = 0; i < 6; i++) {
-			std::string raw_string = (boost::format("[{\"$or\":[{\"age\":{\"%1%\":20}}, {\"name\":{\"%1%\":\"peersafe\"}}]}]")
+			std::string raw_string = (boost::format("[{\"$or\":[{\"age\":{\"%1%\":20}}, {\"name\":{\"%1%\":\"zhsh\"}}]}]")
 				% ops[i]).str();
 			Json::Reader reader = Json::Reader();
 			Json::Value conditions;
@@ -1798,7 +1798,7 @@ public:
 			
 			if (result2.first == 0) {
 				std::string result_conditions = result.second.asString();
-				std::string expect_conditions = (boost::format("age %1% 20 or name %1% 'peersafe'") % expect_ops[i]).str();
+				std::string expect_conditions = (boost::format("age %1% 20 or name %1% 'zhsh'") % expect_ops[i]).str();
 				BEAST_EXPECT(result_conditions == expect_conditions);
 			}
 			else {
@@ -1903,7 +1903,7 @@ public:
 		}
 
 		{
-			std::string raw_string = "[{\"age\":{\"$ge\":20}},{\"name\":\"peersafe\"}]";
+			std::string raw_string = "[{\"age\":{\"$ge\":20}},{\"name\":\"zhsh\"}]";
 			Json::Reader reader = Json::Reader();
 			Json::Value conditions;
 			if (reader.parse(raw_string, conditions) == false) {
@@ -1918,7 +1918,7 @@ public:
 
 			if (result2.first == 0) {
 				std::string result_conditions = result.second.asString();
-				std::string expect_conditions = "age >= 20 or name = 'peersafe'";
+				std::string expect_conditions = "age >= 20 or name = 'zhsh'";
 				BEAST_EXPECT(result_conditions == expect_conditions);
 			}
 			else {
@@ -1927,7 +1927,7 @@ public:
 		}
 
 		{
-			std::string raw_string = "[{\"age\":{\"$ge\":20}},{\"name\":{\"$eq\":\"peersafe\"}}]";
+			std::string raw_string = "[{\"age\":{\"$ge\":20}},{\"name\":{\"$eq\":\"zhsh\"}}]";
 			Json::Reader reader = Json::Reader();
 			Json::Value conditions;
 			if (reader.parse(raw_string, conditions) == false) {
@@ -1942,7 +1942,7 @@ public:
 
 			if (result2.first == 0) {
 				std::string result_conditions = result.second.asString();
-				std::string expect_conditions = "age >= 20 or name = 'peersafe'";
+				std::string expect_conditions = "age >= 20 or name = 'zhsh'";
 				BEAST_EXPECT(result_conditions == expect_conditions);
 			}
 			else {
@@ -1951,7 +1951,7 @@ public:
 		}
 
 		{
-			std::string raw_string = "[{\"age\":{\"$ge\":20,\"$le\":100}},{\"name\":{\"$eq\":\"peersafe\"}}]";
+			std::string raw_string = "[{\"age\":{\"$ge\":20,\"$le\":100}},{\"name\":{\"$eq\":\"zhsh\"}}]";
 			Json::Reader reader = Json::Reader();
 			Json::Value conditions;
 			if (reader.parse(raw_string, conditions) == false) {
@@ -1966,7 +1966,7 @@ public:
 
 			if (result2.first == 0) {
 				std::string result_conditions = result.second.asString();
-				std::string expect_conditions = "(age >= 20 and age <= 100) or name = 'peersafe'";
+				std::string expect_conditions = "(age >= 20 and age <= 100) or name = 'zhsh'";
 				BEAST_EXPECT(result_conditions == expect_conditions);
 			}
 			else {
@@ -1975,7 +1975,7 @@ public:
 		}
 
 		{
-			std::string raw_string = "[{\"age\":{\"$ge\":20},\"id\":{\"$ge\":10}},{\"name\":{\"$eq\":\"peersafe\"}}]";
+			std::string raw_string = "[{\"age\":{\"$ge\":20},\"id\":{\"$ge\":10}},{\"name\":{\"$eq\":\"zhsh\"}}]";
 			Json::Reader reader = Json::Reader();
 			Json::Value conditions;
 			if (reader.parse(raw_string, conditions) == false) {
@@ -1990,7 +1990,7 @@ public:
 
 			if (result2.first == 0) {
 				std::string result_conditions = result.second.asString();
-				std::string expect_conditions = "(age >= 20 and id >= 10) or name = 'peersafe'";
+				std::string expect_conditions = "(age >= 20 and id >= 10) or name = 'zhsh'";
 				BEAST_EXPECT(result_conditions == expect_conditions);
 			}
 			else {
@@ -2002,7 +2002,7 @@ public:
 
 	void test_logicRecursion() {
 		{
-			std::string raw_string = "[{\"$or\":[{\"$and\":[{\"$or\":[{\"age\":10},{\"name\": \"3kx\"}]},{\"name\": \"peersafe\"}]},{\"id\": 1000}]}]";
+			std::string raw_string = "[{\"$or\":[{\"$and\":[{\"$or\":[{\"age\":10},{\"name\": \"3kx\"}]},{\"name\": \"zhsh\"}]},{\"id\": 1000}]}]";
 			Json::Reader reader = Json::Reader();
 			Json::Value conditions;
 			if (reader.parse(raw_string, conditions) == false) {
@@ -2017,7 +2017,7 @@ public:
 
 			if (result2.first == 0) {
 				std::string result_conditions = result.second.asString();
-				std::string expect_conditions = "((age = 10 or name = '3kx') and name = 'peersafe') or id = 1000";
+				std::string expect_conditions = "((age = 10 or name = '3kx') and name = 'zhsh') or id = 1000";
 				BEAST_EXPECT(result_conditions == expect_conditions);
 			}
 			else {
@@ -2027,7 +2027,7 @@ public:
 
 		{
 			// Ç¶Ì× 2 ²ã
-			std::string raw_string = "[{\"$or\": [{\"$or\": [{\"$or\": [{\"age\":10},{\"name\": \"3kx\"}]},{\"name\": \"peersafe\"}]},{\"$and\": [{\"$or\": [{\"age\":30},{\"name\": \"xxxkkk\"}]},{\"name\": \"zxxx\"}]}]}]";
+			std::string raw_string = "[{\"$or\": [{\"$or\": [{\"$or\": [{\"age\":10},{\"name\": \"3kx\"}]},{\"name\": \"zhsh\"}]},{\"$and\": [{\"$or\": [{\"age\":30},{\"name\": \"xxxkkk\"}]},{\"name\": \"zxxx\"}]}]}]";
 			Json::Reader reader = Json::Reader();
 			Json::Value conditions;
 			if (reader.parse(raw_string, conditions) == false) {
@@ -2042,7 +2042,7 @@ public:
 
 			if (result2.first == 0) {
 				std::string result_conditions = result.second.asString();
-				std::string expect_conditions = "((age = 10 or name = '3kx') or name = 'peersafe') or ((age = 30 or name = 'xxxkkk') and name = 'zxxx')";
+				std::string expect_conditions = "((age = 10 or name = '3kx') or name = 'zhsh') or ((age = 30 or name = 'xxxkkk') and name = 'zxxx')";
 				BEAST_EXPECT(result_conditions == expect_conditions);
 			}
 			else {
@@ -2052,7 +2052,7 @@ public:
 
 		{
 			// Ç¶Ì× 2 ²ã
-			std::string raw_string = "[{\"$or\": [{\"$and\": [{\"$or\": [{\"age\":10},{\"name\": \"3kx\"}]},{\"name\": \"peersafe\"}]},{\"$and\": [{\"$or\": [{\"age\":30},{\"name\": \"xxxkkk\"}]},{\"name\": \"zxxx\"}]}]}]";
+			std::string raw_string = "[{\"$or\": [{\"$and\": [{\"$or\": [{\"age\":10},{\"name\": \"3kx\"}]},{\"name\": \"zhsh\"}]},{\"$and\": [{\"$or\": [{\"age\":30},{\"name\": \"xxxkkk\"}]},{\"name\": \"zxxx\"}]}]}]";
 			Json::Reader reader = Json::Reader();
 			Json::Value conditions;
 			if (reader.parse(raw_string, conditions) == false) {
@@ -2067,7 +2067,7 @@ public:
 
 			if (result2.first == 0) {
 				std::string result_conditions = result.second.asString();
-				std::string expect_conditions = "((age = 10 or name = '3kx') and name = 'peersafe') or ((age = 30 or name = 'xxxkkk') and name = 'zxxx')";
+				std::string expect_conditions = "((age = 10 or name = '3kx') and name = 'zhsh') or ((age = 30 or name = 'xxxkkk') and name = 'zxxx')";
 				BEAST_EXPECT(result_conditions == expect_conditions);
 			}
 			else {
@@ -2077,7 +2077,7 @@ public:
 
 		{
 			// Ç¶Ì× 3 ²ã
-			std::string raw_string = "[{\"$or\": [{\"$and\": [{\"$or\": [{\"$or\":[{\"id\":100},{\"age\":20},{\"name\":\"ll\"}]},{\"name\": \"3kx\"}]},{\"name\": \"peersafe\"}]},{\"id\":10}]}]";
+			std::string raw_string = "[{\"$or\": [{\"$and\": [{\"$or\": [{\"$or\":[{\"id\":100},{\"age\":20},{\"name\":\"ll\"}]},{\"name\": \"3kx\"}]},{\"name\": \"zhsh\"}]},{\"id\":10}]}]";
 			Json::Reader reader = Json::Reader();
 			Json::Value conditions;
 			if (reader.parse(raw_string, conditions) == false) {
@@ -2092,7 +2092,7 @@ public:
 
 			if (result2.first == 0) {
 				std::string result_conditions = result.second.asString();
-				std::string expect_conditions = "(((id = 100 or age = 20 or name = 'll') or name = '3kx') and name = 'peersafe') or id = 10";
+				std::string expect_conditions = "(((id = 100 or age = 20 or name = 'll') or name = '3kx') and name = 'zhsh') or id = 10";
 				BEAST_EXPECT(result_conditions == expect_conditions);
 			}
 			else {
@@ -2102,7 +2102,7 @@ public:
 
 		{
 			// Ç¶Ì× 3 ²ã
-			std::string raw_string = "[{\"$or\": [{\"$and\": [{\"$or\": [{\"$and\":[{\"id\":100},{\"age\":20},{\"name\":\"ll\"}]},{\"name\": \"3kx\"}]},{\"name\": \"peersafe\"}]},{\"id\":10}]}]";
+			std::string raw_string = "[{\"$or\": [{\"$and\": [{\"$or\": [{\"$and\":[{\"id\":100},{\"age\":20},{\"name\":\"ll\"}]},{\"name\": \"3kx\"}]},{\"name\": \"zhsh\"}]},{\"id\":10}]}]";
 			Json::Reader reader = Json::Reader();
 			Json::Value conditions;
 			if (reader.parse(raw_string, conditions) == false) {
@@ -2117,7 +2117,7 @@ public:
 
 			if (result2.first == 0) {
 				std::string result_conditions = result.second.asString();
-				std::string expect_conditions = "(((id = 100 and age = 20 and name = 'll') or name = '3kx') and name = 'peersafe') or id = 10";
+				std::string expect_conditions = "(((id = 100 and age = 20 and name = 'll') or name = '3kx') and name = 'zhsh') or id = 10";
 				BEAST_EXPECT(result_conditions == expect_conditions);
 			}
 			else {
@@ -2126,7 +2126,7 @@ public:
 		}
 
 		{
-			std::string raw_string = "[{\"$or\": [{\"$and\": [{\"$and\": [{\"$or\":[{\"id\":100},{\"age\":20},{\"name\":\"ll\"}]},{\"name\": \"3kx\"}]},{\"name\": \"peersafe\"}]},{\"id\":10}]}]";
+			std::string raw_string = "[{\"$or\": [{\"$and\": [{\"$and\": [{\"$or\":[{\"id\":100},{\"age\":20},{\"name\":\"ll\"}]},{\"name\": \"3kx\"}]},{\"name\": \"zhsh\"}]},{\"id\":10}]}]";
 			Json::Reader reader = Json::Reader();
 			Json::Value conditions;
 			if (reader.parse(raw_string, conditions) == false) {
@@ -2141,7 +2141,7 @@ public:
 
 			if (result2.first == 0) {
 				std::string result_conditions = result.second.asString();
-				std::string expect_conditions = "(((id = 100 or age = 20 or name = 'll') and name = '3kx') and name = 'peersafe') or id = 10";
+				std::string expect_conditions = "(((id = 100 or age = 20 or name = 'll') and name = '3kx') and name = 'zhsh') or id = 10";
 				BEAST_EXPECT(result_conditions == expect_conditions);
 			}
 			else {
@@ -2152,7 +2152,7 @@ public:
 
 		{
 			// Ç¶Ì× 5 ²ã
-			std::string raw_string = "[{\"$or\": [{\"$and\": [{\"$or\": [{\"$or\":[{\"$and\":[{\"age\":36},{\"name\":\"zx\"}]},{\"id\":100},{\"age\":20},{\"name\":\"ll\"}]},{\"name\": \"3kx\"}]},{\"name\": \"peersafe\"}]},{\"id\":10}]}]";
+			std::string raw_string = "[{\"$or\": [{\"$and\": [{\"$or\": [{\"$or\":[{\"$and\":[{\"age\":36},{\"name\":\"zx\"}]},{\"id\":100},{\"age\":20},{\"name\":\"ll\"}]},{\"name\": \"3kx\"}]},{\"name\": \"zhsh\"}]},{\"id\":10}]}]";
 			Json::Reader reader = Json::Reader();
 			Json::Value conditions;
 			if (reader.parse(raw_string, conditions) == false) {
@@ -2167,7 +2167,7 @@ public:
 
 			if (result2.first == 0) {
 				std::string result_conditions = result.second.asString();
-				std::string expect_conditions = "((((age = 36 and name = 'zx') or id = 100 or age = 20 or name = 'll') or name = '3kx') and name = 'peersafe') or id = 10";
+				std::string expect_conditions = "((((age = 36 and name = 'zx') or id = 100 or age = 20 or name = 'll') or name = '3kx') and name = 'zhsh') or id = 10";
 				BEAST_EXPECT(result_conditions == expect_conditions);
 			}
 			else {
@@ -2177,7 +2177,7 @@ public:
 
 		{
 			// Ç¶Ì× 5 ²ã
-			std::string raw_string = "[{\"$or\": [{\"$and\": [{\"$or\": [{\"$or\":[{\"$and\":[{\"age\":36},{\"name\":\"zx\"}]},{\"id\":100},{\"age\":20},{\"name\":\"ll\"}]},{\"name\": \"3kx\"}]},{\"name\": \"peersafe\"}]},{\"$and\": [{\"$or\": [{\"$or\":[{\"$and\":[{\"age\":36},{\"name\":\"zx\"}]},{\"id\":100},{\"age\":20},{\"name\":\"ll\"}]},{\"name\": \"3kx\"}]},{\"name\": \"peersafe\"}]}]}]";
+			std::string raw_string = "[{\"$or\": [{\"$and\": [{\"$or\": [{\"$or\":[{\"$and\":[{\"age\":36},{\"name\":\"zx\"}]},{\"id\":100},{\"age\":20},{\"name\":\"ll\"}]},{\"name\": \"3kx\"}]},{\"name\": \"zhsh\"}]},{\"$and\": [{\"$or\": [{\"$or\":[{\"$and\":[{\"age\":36},{\"name\":\"zx\"}]},{\"id\":100},{\"age\":20},{\"name\":\"ll\"}]},{\"name\": \"3kx\"}]},{\"name\": \"zhsh\"}]}]}]";
 			Json::Reader reader = Json::Reader();
 			Json::Value conditions;
 			if (reader.parse(raw_string, conditions) == false) {
@@ -2192,7 +2192,7 @@ public:
 
 			if (result2.first == 0) {
 				std::string result_conditions = result.second.asString();
-				std::string expect_conditions = "((((age = 36 and name = 'zx') or id = 100 or age = 20 or name = 'll') or name = '3kx') and name = 'peersafe') or ((((age = 36 and name = 'zx') or id = 100 or age = 20 or name = 'll') or name = '3kx') and name = 'peersafe')";
+				std::string expect_conditions = "((((age = 36 and name = 'zx') or id = 100 or age = 20 or name = 'll') or name = '3kx') and name = 'zhsh') or ((((age = 36 and name = 'zx') or id = 100 or age = 20 or name = 'll') or name = '3kx') and name = 'zhsh')";
 				BEAST_EXPECT(result_conditions == expect_conditions);
 			}
 			else {
@@ -2234,7 +2234,7 @@ public:
 		}
 
 		for (size_t i = 0; i < 6; i++) {
-			std::string raw_string = (boost::format("[{\"age\":{\"%1%\":20}, \"name\":{\"%1%\":\"peersafe\"}}]")
+			std::string raw_string = (boost::format("[{\"age\":{\"%1%\":20}, \"name\":{\"%1%\":\"zhsh\"}}]")
 				% ops[i]).str();
 			Json::Reader reader = Json::Reader();
 			Json::Value conditions;
@@ -2264,7 +2264,7 @@ public:
 
 
 		for (size_t i = 0; i < 6; i++) {
-			std::string raw_string = (boost::format("[{\"$or\":[{\"age\":{\"%1%\":20}}, {\"name\":{\"%1%\":\"peersafe\"}}]}]")
+			std::string raw_string = (boost::format("[{\"$or\":[{\"age\":{\"%1%\":20}}, {\"name\":{\"%1%\":\"zhsh\"}}]}]")
 				% ops[i]).str();
 			Json::Reader reader = Json::Reader();
 			Json::Value conditions;
@@ -2368,13 +2368,13 @@ public:
 
 			if (result2.first == 0) {
 				std::string result_conditions = result.second.asString();
-				std::string expect_conditions = "((age = 10 or name = '3kx') and name = 'peersafe') or id = 1000";
+				std::string expect_conditions = "((age = 10 or name = '3kx') and name = 'zhsh') or id = 1000";
 				BEAST_EXPECT(result_conditions == expect_conditions);
 			}
 		}
 
 		{
-			std::string raw_string = "[{\"$and\":[{\"$or\":[]}, {\"name\":\"peersafe\"}]}]";
+			std::string raw_string = "[{\"$and\":[{\"$or\":[]}, {\"name\":\"zhsh\"}]}]";
 			Json::Reader reader = Json::Reader();
 			Json::Value conditions;
 			if (reader.parse(raw_string, conditions) == false) {
@@ -2389,7 +2389,7 @@ public:
 
 			if (result2.first == 0) {
 				std::string result_conditions = result.second.asString();
-				std::string expect_conditions = "((age = 10 or name = '3kx') and name = 'peersafe') or id = 1000";
+				std::string expect_conditions = "((age = 10 or name = '3kx') and name = 'zhsh') or id = 1000";
 				BEAST_EXPECT(result_conditions == expect_conditions);
 			}
 		}

@@ -30,18 +30,18 @@ namespace ripple {
 
 // See https://ripple.com/wiki/Transaction_Format#Payment_.280.29
 
-ZXCAmount
+ZHGAmount
 Payment::calculateMaxSpend(STTx const& tx)
 {
     if (tx.isFieldPresent(sfSendMax))
     {
         auto const& sendMax = tx[sfSendMax];
-        return sendMax.native() ? sendMax.zxc() : beast::zero;
+        return sendMax.native() ? sendMax.zhg() : beast::zero;
     }
-    /* If there's no sfSendMax in ZXC, and the sfAmount isn't
-    in ZXC, then the transaction can not send ZXC. */
+    /* If there's no sfSendMax in ZHG, and the sfAmount isn't
+    in ZHG, then the transaction can not send ZHG. */
     auto const& saDstAmount = tx.getFieldAmount(sfAmount);
-    return saDstAmount.native() ? saDstAmount.zxc() : beast::zero;
+    return saDstAmount.native() ? saDstAmount.zhg() : beast::zero;
 }
 
 TER
@@ -87,8 +87,8 @@ Payment::preflight (PreflightContext const& ctx)
     auto const& uSrcCurrency = maxSourceAmount.getCurrency ();
     auto const& uDstCurrency = saDstAmount.getCurrency ();
 
-    // isZero() is ZXC.  FIX!
-    bool const bZXCDirect = uSrcCurrency.isZero () && uDstCurrency.isZero ();
+    // isZero() is ZHG.  FIX!
+    bool const bZHGDirect = uSrcCurrency.isZero () && uDstCurrency.isZero ();
 
     if (!isLegalNet (saDstAmount) || !isLegalNet (maxSourceAmount))
         return temBAD_AMOUNT;
@@ -128,40 +128,40 @@ Payment::preflight (PreflightContext const& ctx)
             " to self without path for " << to_string (uDstCurrency);
         return temREDUNDANT;
     }
-    if (bZXCDirect && bMax)
+    if (bZHGDirect && bMax)
     {
         // Consistent but redundant transaction.
         JLOG(j.trace()) << "Malformed transaction: " <<
-            "SendMax specified for ZXC to ZXC.";
-        return temBAD_SEND_ZXC_MAX;
+            "SendMax specified for ZHG to ZHG.";
+        return temBAD_SEND_ZHG_MAX;
     }
-    if (bZXCDirect && bPaths)
+    if (bZHGDirect && bPaths)
     {
-        // ZXC is sent without paths.
+        // ZHG is sent without paths.
         JLOG(j.trace()) << "Malformed transaction: " <<
-            "Paths specified for ZXC to ZXC.";
-        return temBAD_SEND_ZXC_PATHS;
+            "Paths specified for ZHG to ZHG.";
+        return temBAD_SEND_ZHG_PATHS;
     }
-    if (bZXCDirect && partialPaymentAllowed)
-    {
-        // Consistent but redundant transaction.
-        JLOG(j.trace()) << "Malformed transaction: " <<
-            "Partial payment specified for ZXC to ZXC.";
-        return temBAD_SEND_ZXC_PARTIAL;
-    }
-    if (bZXCDirect && limitQuality)
+    if (bZHGDirect && partialPaymentAllowed)
     {
         // Consistent but redundant transaction.
         JLOG(j.trace()) << "Malformed transaction: " <<
-            "Limit quality specified for ZXC to ZXC.";
-        return temBAD_SEND_ZXC_LIMIT;
+            "Partial payment specified for ZHG to ZHG.";
+        return temBAD_SEND_ZHG_PARTIAL;
     }
-    if (bZXCDirect && !defaultPathsAllowed)
+    if (bZHGDirect && limitQuality)
     {
         // Consistent but redundant transaction.
         JLOG(j.trace()) << "Malformed transaction: " <<
-            "No ripple direct specified for ZXC to ZXC.";
-        return temBAD_SEND_ZXC_NO_DIRECT;
+            "Limit quality specified for ZHG to ZHG.";
+        return temBAD_SEND_ZHG_LIMIT;
+    }
+    if (bZHGDirect && !defaultPathsAllowed)
+    {
+        // Consistent but redundant transaction.
+        JLOG(j.trace()) << "Malformed transaction: " <<
+            "No ripple direct specified for ZHG to ZHG.";
+        return temBAD_SEND_ZHG_NO_DIRECT;
     }
 
     auto const deliverMin = tx[~sfDeliverMin];
@@ -254,7 +254,7 @@ Payment::preclaim(PreclaimContext const& ctx)
             // TODO: dedupe
             // Another transaction could create the account and then this
             // transaction would succeed.
-            return tecNO_DST_INSUF_ZXC;
+            return tecNO_DST_INSUF_ZHG;
         }
     }
     else if ((sleDst->getFlags() & lsfRequireDestTag) &&
@@ -271,7 +271,7 @@ Payment::preclaim(PreclaimContext const& ctx)
 	}
 	else if (sleDst->isFieldPresent(sfContractCode) && !bRipple)
 	{
-		// In ZXC payment, the destination cannot be a contract address
+		// In ZHG payment, the destination cannot be a contract address
 		return tefCONTRACT_CANNOT_BEPAYED;
 	}
 
@@ -417,7 +417,7 @@ Payment::doApply ()
     {
         assert (saDstAmount.native ());
 
-        // Direct ZXC payment.
+        // Direct ZHG payment.
 
         // uOwnerCount is the number of entries in this legder for this
         // account that require a reserve.
@@ -431,19 +431,19 @@ Payment::doApply ()
         // fees were charged. We want to make sure we have enough reserve
         // to send. Allow final spend to use reserve for fee.
         auto const mmm = std::max(reserve,
-            ctx_.tx.getFieldAmount (sfFee).zxc ());
+            ctx_.tx.getFieldAmount (sfFee).zhg ());
 
 		//is src account a contract?
 		bool isContractSrc = view().read(
 			keylet::account(account_))->isFieldPresent(sfContractCode);
-        if ((!isContractSrc && mPriorBalance < saDstAmount.zxc () + mmm ) || 
-			(isContractSrc && mPriorBalance < saDstAmount.zxc()))
+        if ((!isContractSrc && mPriorBalance < saDstAmount.zhg () + mmm ) || 
+			(isContractSrc && mPriorBalance < saDstAmount.zhg()))
         {
             // Vote no. However the transaction might succeed, if applied in
             // a different order.
             JLOG(j_.trace()) << "Delay transaction: Insufficient funds: " <<
                 " " <<   to_string (mPriorBalance) <<
-                " / " << to_string (saDstAmount.zxc () + mmm) <<
+                " / " << to_string (saDstAmount.zhg () + mmm) <<
                 " (" <<  to_string (reserve) << ")";
 
             terResult = tecUNFUNDED_PAYMENT;

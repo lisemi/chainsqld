@@ -35,8 +35,8 @@
 #include <ripple/beast/core/SemanticVersion.h>
 #include <ripple/overlay/Cluster.h>
 #include <ripple/protocol/digest.h>
-#include <peersafe/app/table/TableSync.h>
-#include <peersafe/app/misc/TxPool.h>
+#include <zhsh/app/table/TableSync.h>
+#include <zhsh/app/misc/TxPool.h>
 
 #include <boost/algorithm/string/predicate.hpp>
 #include <algorithm>
@@ -103,7 +103,7 @@ PeerImp::run()
             &PeerImp::run, shared_from_this()));
     {
         auto s = getVersion();
-        if (boost::starts_with(s, "chainsqld-"))
+        if (boost::starts_with(s, "zhshchaind-"))
         {
             s.erase(s.begin(), s.begin() + 8);
             beast::SemanticVersion v;

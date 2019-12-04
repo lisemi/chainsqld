@@ -41,7 +41,7 @@ struct LedgerFill
     }
 
     enum Options {
-        dumpTzxc = 1,
+        dumpTzhg = 1,
         dumpState = 2,
         expand = 4,
         full = 8,

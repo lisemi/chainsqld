@@ -90,8 +90,8 @@ public:
         computed from the string "masterpassphrase" and ordinal
         zero.
 
-        The account has an ZXC balance equal to the total amount
-        of ZXC in the system. No more ZXC than the amount which
+        The account has an ZHG balance equal to the total amount
+        of ZHG in the system. No more ZHG than the amount which
         starts in this account can ever exist, with amounts
         used to pay fees being destroyed.
 
@@ -215,7 +215,7 @@ public:
         SLE> const& sle) override;
 
     void
-    rawDestroyZXC (ZXCAmount const& fee) override
+    rawDestroyZHG (ZHGAmount const& fee) override
     {
         info_.drops -= fee;
     }

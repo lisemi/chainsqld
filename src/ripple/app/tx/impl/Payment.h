@@ -45,7 +45,7 @@ public:
     }
 
     static
-    ZXCAmount
+    ZHGAmount
     calculateMaxSpend(STTx const& tx);
 
     static

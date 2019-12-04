@@ -1,6 +1,6 @@
 before_script:
   - echo "add remote repository of github"
-  - git remote add -f github git@github.com:ChainSQL/chainsqld.git
+  - git remote add -f github git@github.com:ChainSQL/zhshchaind.git
   
 after_script:
   - echo "remove remote repository of github"
@@ -14,7 +14,7 @@ deployToGithub:
     - git push github HEAD:$CI_COMMIT_REF_NAME
   environment:
     name: github
-    url: https://github.com/ChainSQL/chainsqld
+    url: https://github.com/ChainSQL/zhshchaind
   tags:
-    - chainsqld
+    - zhshchaind
 

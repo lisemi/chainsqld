@@ -26,7 +26,7 @@
 #include <ripple/protocol/Feature.h>
 #include <ripple/protocol/JsonFields.h>
 #include <ripple/basics/mulDiv.h>
-#include <peersafe/core/Tuning.h>
+#include <zhsh/core/Tuning.h>
 #include <boost/algorithm/clamp.hpp>
 #include <limits>
 #include <numeric>
@@ -52,7 +52,7 @@ getFeeLevelPaid(
     // If the math overflows, return the clipped
     // result blindly. This is very unlikely to ever
     // happen.
-    return mulDiv(tx[sfFee].zxc().drops(),
+    return mulDiv(tx[sfFee].zhg().drops(),
         baseRefLevel,
             refTxnCostDrops).second;
 }
@@ -630,8 +630,8 @@ TxQ::apply(Application& app, OpenView& view,
 
         TxQAccount::TxMap::iterator nextTxIter;
 
-        ZXCAmount fee = beast::zero;
-        ZXCAmount potentialSpend = beast::zero;
+        ZHGAmount fee = beast::zero;
+        ZHGAmount potentialSpend = beast::zero;
         bool includeCurrentFee = false;
     };
 
@@ -873,34 +873,34 @@ TxQ::apply(Application& app, OpenView& view,
                         this account. Currently, it will not count,
                         for the same reason that it is not checked on
                         the first transaction.
-                    Assume: Minimum account reserve is 20 ZXC.
-                    Example 1: If I have 1,000,000 ZXC, I can queue
-                        a transaction with a 1,000,000 ZXC fee. In
+                    Assume: Minimum account reserve is 20 ZHG.
+                    Example 1: If I have 1,000,000 ZHG, I can queue
+                        a transaction with a 1,000,000 ZHG fee. In
                         the meantime, some other transaction may
                         lower my balance (eg. taking an offer). When
                         the transaction executes, I will either
-                        spend the 1,000,000 ZXC, or the transaction
+                        spend the 1,000,000 ZHG, or the transaction
                         will get stuck in the queue with a
                         `terINSUF_FEE_B`.
-                    Example 2: If I have 1,000,000 ZXC, and I queue
-                        10 transactions with 0.1 ZXC fee, I have 1 ZXC
+                    Example 2: If I have 1,000,000 ZHG, and I queue
+                        10 transactions with 0.1 ZHG fee, I have 1 ZHG
                         in flight. I can now queue another tx with a
-                        999,999 ZXC fee. When the first 10 execute,
+                        999,999 ZHG fee. When the first 10 execute,
                         they're guaranteed to pay their fee, because
                         nothing can eat into my reserve. The last
                         transaction, again, will either spend the
-                        999,999 ZXC, or get stuck in the queue.
-                    Example 3: If I have 1,000,000 ZXC, and I queue
-                        7 transactions with 3 ZXC fee, I have 21 ZXC
+                        999,999 ZHG, or get stuck in the queue.
+                    Example 3: If I have 1,000,000 ZHG, and I queue
+                        7 transactions with 3 ZHG fee, I have 21 ZHG
                         in flight. I can not queue any more transactions,
                         no matter how small or large the fee.
                     Transactions stuck in the queue are mitigated by
                     LastLedgerSeq and MaybeTx::retriesRemaining.
                 */
-                auto const balance = (*sle)[sfBalance].zxc();
+                auto const balance = (*sle)[sfBalance].zhg();
                 auto totalFee = multiTxn->fee;
                 if (multiTxn->includeCurrentFee)
-                    totalFee += (*tx)[sfFee].zxc();
+                    totalFee += (*tx)[sfFee].zhg();
                 if (totalFee >= balance ||
                     totalFee >= view.fees().accountReserve(0))
                 {

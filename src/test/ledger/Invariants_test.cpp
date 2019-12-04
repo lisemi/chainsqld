@@ -75,7 +75,7 @@ class Invariants_test : public beast::unit_test::suite
 
         Account A1 {"A1"};
         Account A2 {"A2"};
-        env.fund (ZXC (1000), A1, A2);
+        env.fund (ZHG (1000), A1, A2);
         env.close();
 
         // dummy/empty tx to setup the AccountContext
@@ -138,16 +138,16 @@ class Invariants_test : public beast::unit_test::suite
     }
 
     void
-    testZXCNotCreated (bool enabled)
+    testZHGNotCreated (bool enabled)
     {
         using namespace test::jtx;
         testcase << "checks " << (enabled ? "enabled" : "disabled") <<
-            " - ZXC created";
+            " - ZHG created";
         doInvariantCheck (enabled,
-            {{ "ZXC net change was 500 on a fee of 0" }},
+            {{ "ZHG net change was 500 on a fee of 0" }},
             [](Account const& A1, Account const&, ApplyContext& ac)
             {
-                // put a single account in the view and "manufacture" some ZXC
+                // put a single account in the view and "manufacture" some ZHG
                 auto const sle = ac.view().peek (keylet::account(A1.id()));
                 if(! sle)
                     return false;
@@ -185,7 +185,7 @@ class Invariants_test : public beast::unit_test::suite
             " - LE types don't match";
         doInvariantCheck (enabled,
             {{ "ledger entry type mismatch" },
-             { "ZXC net change was -1000000000 on a fee of 0" }},
+             { "ZHG net change was -1000000000 on a fee of 0" }},
             [](Account const& A1, Account const&, ApplyContext& ac)
             {
                 // replace an entry in the table with an SLE of a different type
@@ -217,17 +217,17 @@ class Invariants_test : public beast::unit_test::suite
     }
 
     void
-    testNoZXCTrustLine(bool enabled)
+    testNoZHGTrustLine(bool enabled)
     {
         using namespace test::jtx;
         testcase << "checks " << (enabled ? "enabled" : "disabled") <<
-            " - trust lines with ZXC not allowed";
+            " - trust lines with ZHG not allowed";
         doInvariantCheck (enabled,
-            {{ "an ZXC trust line was created" }},
+            {{ "an ZHG trust line was created" }},
             [](Account const& A1, Account const& A2, ApplyContext& ac)
             {
-                // create simple trust SLE with zxc currency
-                auto index = getRippleStateIndex (A1, A2, zxcIssue().currency);
+                // create simple trust SLE with zhg currency
+                auto index = getRippleStateIndex (A1, A2, zhgIssue().currency);
                 auto const sleNew = std::make_shared<SLE>(
                     ltRIPPLE_STATE, index);
                 ac.view().insert (sleNew);
@@ -236,14 +236,14 @@ class Invariants_test : public beast::unit_test::suite
     }
 
     void
-    testZXCBalanceCheck(bool enabled)
+    testZHGBalanceCheck(bool enabled)
     {
         using namespace test::jtx;
         testcase << "checks " << (enabled ? "enabled" : "disabled") <<
-            " - ZXC balance checks";
+            " - ZHG balance checks";
 
         doInvariantCheck (enabled,
-            {{ "Cannot return non-native STAmount as ZXCAmount" }},
+            {{ "Cannot return non-native STAmount as ZHGAmount" }},
             [](Account const& A1, Account const& A2, ApplyContext& ac)
             {
                 //non-native balance
@@ -257,8 +257,8 @@ class Invariants_test : public beast::unit_test::suite
             });
 
         doInvariantCheck (enabled,
-            {{ "incorrect account ZXC balance" },
-             {  "ZXC net change was 99999999000000001 on a fee of 0" }},
+            {{ "incorrect account ZHG balance" },
+             {  "ZHG net change was 99999999000000001 on a fee of 0" }},
             [](Account const& A1, Account const&, ApplyContext& ac)
             {
                 // balance exceeds genesis amount
@@ -271,8 +271,8 @@ class Invariants_test : public beast::unit_test::suite
             });
 
         doInvariantCheck (enabled,
-            {{ "incorrect account ZXC balance" },
-             { "ZXC net change was -1000000001 on a fee of 0" }},
+            {{ "incorrect account ZHG balance" },
+             { "ZHG net change was -1000000001 on a fee of 0" }},
             [](Account const& A1, Account const&, ApplyContext& ac)
             {
                 // balance is negative
@@ -305,7 +305,7 @@ class Invariants_test : public beast::unit_test::suite
                 auto sleNew = std::make_shared<SLE> (ltOFFER, offer_index);
                 sleNew->setAccountID (sfAccount, A1.id());
                 sleNew->setFieldU32 (sfSequence, (*sle)[sfSequence]);
-                sleNew->setFieldAmount (sfTakerPays, ZXC(-1));
+                sleNew->setFieldAmount (sfTakerPays, ZHG(-1));
                 ac.view().insert (sleNew);
                 return true;
             });
@@ -324,7 +324,7 @@ class Invariants_test : public beast::unit_test::suite
                 sleNew->setAccountID (sfAccount, A1.id());
                 sleNew->setFieldU32 (sfSequence, (*sle)[sfSequence]);
                 sleNew->setFieldAmount (sfTakerPays, A1["USD"](10));
-                sleNew->setFieldAmount (sfTakerGets, ZXC(-1));
+                sleNew->setFieldAmount (sfTakerGets, ZHG(-1));
                 ac.view().insert (sleNew);
                 return true;
             });
@@ -333,7 +333,7 @@ class Invariants_test : public beast::unit_test::suite
             {{ "offer with a bad amount" }},
             [](Account const& A1, Account const&, ApplyContext& ac)
             {
-                // offer ZXC to ZXC
+                // offer ZHG to ZHG
                 auto const sle = ac.view().peek (keylet::account(A1.id()));
                 if(! sle)
                     return false;
@@ -342,8 +342,8 @@ class Invariants_test : public beast::unit_test::suite
                 auto sleNew = std::make_shared<SLE> (ltOFFER, offer_index);
                 sleNew->setAccountID (sfAccount, A1.id());
                 sleNew->setFieldU32 (sfSequence, (*sle)[sfSequence]);
-                sleNew->setFieldAmount (sfTakerPays, ZXC(10));
-                sleNew->setFieldAmount (sfTakerGets, ZXC(11));
+                sleNew->setFieldAmount (sfTakerPays, ZHG(10));
+                sleNew->setFieldAmount (sfTakerGets, ZHG(11));
                 ac.view().insert (sleNew);
                 return true;
             });
@@ -357,7 +357,7 @@ class Invariants_test : public beast::unit_test::suite
             " - no zero escrow";
 
         doInvariantCheck (enabled,
-            {{ "Cannot return non-native STAmount as ZXCAmount" }},
+            {{ "Cannot return non-native STAmount as ZHGAmount" }},
             [](Account const& A1, Account const& A2, ApplyContext& ac)
             {
                 // escrow with nonnative amount
@@ -373,7 +373,7 @@ class Invariants_test : public beast::unit_test::suite
             });
 
         doInvariantCheck (enabled,
-            {{ "ZXC net change was -1000000 on a fee of 0"},
+            {{ "ZHG net change was -1000000 on a fee of 0"},
              {  "escrow specifies invalid amount" }},
             [](Account const& A1, Account const&, ApplyContext& ac)
             {
@@ -383,13 +383,13 @@ class Invariants_test : public beast::unit_test::suite
                     return false;
                 auto sleNew = std::make_shared<SLE> (
                     keylet::escrow(A1, (*sle)[sfSequence] + 2));
-                sleNew->setFieldAmount (sfAmount, ZXC(-1));
+                sleNew->setFieldAmount (sfAmount, ZHG(-1));
                 ac.view().insert (sleNew);
                 return true;
             });
 
         doInvariantCheck (enabled,
-            {{ "ZXC net change was 100000000000000001 on a fee of 0" },
+            {{ "ZHG net change was 100000000000000001 on a fee of 0" },
              {  "escrow specifies invalid amount" }},
             [](Account const& A1, Account const&, ApplyContext& ac)
             {
@@ -414,11 +414,11 @@ public:
         // the feature enabled and disabled
         for(auto const& b : {false, true})
         {
-            testZXCNotCreated (b);
+            testZHGNotCreated (b);
             testAccountsNotRemoved (b);
             testTypesMatch (b);
-            testNoZXCTrustLine (b);
-            testZXCBalanceCheck (b);
+            testNoZHGTrustLine (b);
+            testZHGBalanceCheck (b);
             testNoBadOffers (b);
             testNoZeroEscrow (b);
         }

@@ -21,7 +21,7 @@
 #define RIPPLE_APP_TX_TRANSACTOR_H_INCLUDED
 
 #include <ripple/app/tx/impl/ApplyContext.h>
-#include <ripple/protocol/ZXCAmount.h>
+#include <ripple/protocol/ZHGAmount.h>
 #include <ripple/beast/utility/Journal.h>
 #include <boost/optional.hpp>
 
@@ -80,9 +80,9 @@ protected:
     beast::Journal j_;
 
     AccountID     account_;
-    ZXCAmount     mFeeDue;
-    ZXCAmount     mPriorBalance;  // Balance before fees.
-    ZXCAmount     mSourceBalance; // Balance after fees.
+    ZHGAmount     mFeeDue;
+    ZHGAmount     mPriorBalance;  // Balance before fees.
+    ZHGAmount     mSourceBalance; // Balance after fees.
 
 	std::string	  mDetailMsg;
 
@@ -147,11 +147,11 @@ public:
     }
 
     static
-    ZXCAmount
+    ZHGAmount
     calculateFeePaid(STTx const& tx);
 
     static
-    ZXCAmount
+    ZHGAmount
     calculateMaxSpend(STTx const& tx);
 
     static
@@ -172,8 +172,8 @@ public:
 protected:
 	STer apply();
 
-	//pre-apply for chainsql
-	TER preChainsql();
+	//pre-apply for zhshchain
+	TER preZHSHChain();
 
     explicit
     Transactor (ApplyContext& ctx);
@@ -185,7 +185,7 @@ protected:
 private:
     void setSeq ();
     TER payFee ();
-    void claimFee (ZXCAmount& fee, TER terResult, std::vector<uint256> const& removedOffers);
+    void claimFee (ZHGAmount& fee, TER terResult, std::vector<uint256> const& removedOffers);
     static TER checkSingleSign (PreclaimContext const& ctx);
     static TER checkMultiSign (PreclaimContext const& ctx);
 	void checkAddChainIDSle();

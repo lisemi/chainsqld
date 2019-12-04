@@ -7,7 +7,7 @@
 - cmake
 
 ## 下载源码
-- git clone git@github.com:ChainSQL/chainsqld.git chainsqld
+- git clone git@github.com:ChainSQL/zhshchaind.git zhshchaind
 
 ## 安装开发环境依赖
 - 进入编译目录
@@ -22,17 +22,17 @@
 - 在 ~/.bashrc 文件中保存 BOOST_ROOT 环境变量
 
 ```bash
-export BOOST_ROOT=/home/dbliu/work/chainSQL/Builds/Ubuntu/boost_1_63_0
+export BOOST_ROOT=/home/dbliu/work/zhshchain/Builds/Ubuntu/boost_1_63_0
 ```
 - 让 BOOST_ROOT 环境变量生效
 ```bash
 > source ~/.bashrc
 ```
 
-## 编译 chainsqld
+## 编译 zhshchaind
 - 重新进入源码根目录
 ```bash
-> cd ~/work/chainsqld
+> cd ~/work/zhshchaind
 ```
 - 创建并进入编译目录 build
 ```bash
@@ -52,5 +52,5 @@ export BOOST_ROOT=/home/dbliu/work/chainSQL/Builds/Ubuntu/boost_1_63_0
 - 编译
 
 ```base
-> make chainsqld -j2
+> make zhshchaind -j2
 ```

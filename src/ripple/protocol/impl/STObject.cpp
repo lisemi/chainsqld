@@ -23,7 +23,7 @@
 #include <ripple/protocol/STAccount.h>
 #include <ripple/protocol/STArray.h>
 #include <ripple/protocol/STBlob.h>
-#include <peersafe/protocol/STMap256.h>
+#include <zhsh/protocol/STMap256.h>
 #include <ripple/basics/Log.h>
 
 namespace ripple {

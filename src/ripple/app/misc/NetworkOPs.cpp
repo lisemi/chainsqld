@@ -66,14 +66,14 @@
 #include <ripple/beast/core/SystemStats.h>
 #include <ripple/beast/utility/rngfill.h>
 #include <ripple/basics/make_lock.h>
-#include <peersafe/rpc/impl/TableAssistant.h>
-#include <peersafe/rpc/TableUtils.h>
-#include <peersafe/app/misc/TxPool.h>
+#include <zhsh/rpc/impl/TableAssistant.h>
+#include <zhsh/rpc/TableUtils.h>
+#include <zhsh/app/misc/TxPool.h>
 #include <beast/core/detail/base64.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <ripple/app/tx/impl/Transactor.h>
-#include <peersafe/app/misc/StateManager.h>
-#include <peersafe/app/consensus/ViewChange.h>
+#include <zhsh/app/misc/StateManager.h>
+#include <zhsh/app/consensus/ViewChange.h>
 
 namespace ripple {
 
@@ -466,7 +466,7 @@ public:
 	//publish results for chain-sql txs
 	void pubTxResult(const STTx& stTxn,
 		const std::tuple<std::string, std::string, std::string>& disposRes,bool validated,bool bForTableTx);
-	void pubChainSqlTableTxs(const AccountID& ownerId, const std::string& sTableName, 
+	void pubZHSHChainTableTxs(const AccountID& ownerId, const std::string& sTableName, 
 		const STTx& stTxn, const std::tuple<std::string, std::string, std::string>& disposRes);
 
     void PubContractEvents(const AccountID& contractID, uint256 const * aTopic, int iTopicNum, const Blob& byValue);
@@ -1188,7 +1188,7 @@ void NetworkOPsImp::doTransactionSync (std::shared_ptr<Transaction> transaction,
         bool bUnlimited, FailHard failType)
 {
     auto stTx = *transaction->getSTransaction();
-    if (stTx.isChainSqlTableType())
+    if (stTx.isZHSHChainTableType())
     {
         bool ret = app_.getTableAssistant().Put(stTx);
         if (!ret)
@@ -1384,7 +1384,7 @@ void NetworkOPsImp::apply (std::unique_lock<std::mutex>& batchLock)
             }
             else
             {
-                if (e.transaction->getSTransaction()->isChainSqlTableType())
+                if (e.transaction->getSTransaction()->isZHSHChainTableType())
                 {
                     addLocal = false;
                 }
@@ -1393,8 +1393,8 @@ void NetworkOPsImp::apply (std::unique_lock<std::mutex>& batchLock)
                 e.transaction->setStatus (INVALID);
             }
 
-			//chainsql type tx will not retry.
-            if (addLocal && !e.transaction->getSTransaction()->isChainSqlTableType())
+			//zhshchain type tx will not retry.
+            if (addLocal && !e.transaction->getSTransaction()->isZHSHChainTableType())
             {
 				//m_localTX->push_back(
 				//	m_ledgerMaster.getCurrentLedgerIndex(),
@@ -2544,7 +2544,7 @@ Json::Value NetworkOPsImp::getServerInfo (bool human, bool admin)
 
             /* Json::Value doesn't support uint64, so clamp to max
                 uint32 value. This is mostly theoretical, since there
-                probably isn't enough extant ZXC to drive the factor
+                probably isn't enough extant ZHG to drive the factor
                 that high.
             */
             info[jss::load_factor_fee_escalation] =
@@ -2628,13 +2628,13 @@ Json::Value NetworkOPsImp::getServerInfo (bool human, bool admin)
         {
 			l[jss::drops_per_byte] = Json::Value::UInt(drops_per_byte);
 
-            l[jss::base_fee_zxc] = static_cast<double> (baseFee) /
+            l[jss::base_fee_zhg] = static_cast<double> (baseFee) /
                     SYSTEM_CURRENCY_PARTS;
-            l[jss::reserve_base_zxc]   =
+            l[jss::reserve_base_zhg]   =
                 static_cast<double> (Json::UInt (
                     lpClosed->fees().accountReserve(0).drops() * baseFee / baseRef))
                     / SYSTEM_CURRENCY_PARTS;
-            l[jss::reserve_inc_zxc]    =
+            l[jss::reserve_inc_zhg]    =
                 static_cast<double> (Json::UInt (
                     lpClosed->fees().increment * baseFee / baseRef))
                     / SYSTEM_CURRENCY_PARTS;
@@ -3008,7 +3008,7 @@ void NetworkOPsImp::PubValidatedTxForTable(const AcceptedLedgerTx& alTx)
 		}
 		for (auto item : listPair)
 		{
-			pubChainSqlTableTxs(item.first, item.second, tx, res);
+			pubZHSHChainTableTxs(item.first, item.second, tx, res);
 		}
 		if (listPair.size() > 0)
 		{
@@ -3173,7 +3173,7 @@ void NetworkOPsImp::pubTableTxs(const AccountID& owner, const std::string& sTabl
 	}
 
 	pubTxResult(stTxn, res, bValidated, true);
-	pubChainSqlTableTxs(owner, sTableName, stTxn, res);
+	pubZHSHChainTableTxs(owner, sTableName, stTxn, res);
 }
 
 //publish results for chain-sql txs
@@ -3209,7 +3209,7 @@ void NetworkOPsImp::pubTxResult(const STTx& stTxn,
 
 				//for table-related tx and validation event
 				if (bValidated && bForTableTx) {
-					//for chainsql type, subscribe db event
+					//for zhshchain type, subscribe db event
 					mValidatedSubTx[simiIt->first] = make_pair(p, std::chrono::system_clock::now());
 				}
 				subTx.erase(simiIt);
@@ -3235,7 +3235,7 @@ void NetworkOPsImp::pubTxResult(const STTx& stTxn,
 	}
 }
 
-void NetworkOPsImp::pubChainSqlTableTxs(const AccountID& ownerId, const std::string& sTableName, 
+void NetworkOPsImp::pubZHSHChainTableTxs(const AccountID& ownerId, const std::string& sTableName, 
 	const STTx& stTxn,const std::tuple<std::string, std::string, std::string>& disposRes)
 {
 	ScopedLockType sl(mSubLock);

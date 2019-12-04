@@ -283,7 +283,7 @@ void TxMeta::addRaw (Serializer& s, TER result, std::uint32_t index)
 
 void TxMeta::setContractFieldData(STTx const& tx)
 {
-    if (!tx.checkChainsqlContractType(tx.getTxnType()))  return;
+    if (!tx.checkZHSHChainContractType(tx.getTxnType()))  return;
 
     //set sub tx info
     auto vecTxs = tx.getSubTxs();

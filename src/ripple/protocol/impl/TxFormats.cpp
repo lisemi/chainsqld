@@ -155,7 +155,7 @@ TxFormats::TxFormats ()
 		<< SOElement(sfTxCheckHash,         SOE_OPTIONAL)
 		<< SOElement(sfOperationRule,		SOE_OPTIONAL)
         ;
-    addChainSqlCommondFields(itemTableListSet);
+    addZHSHChainCommondFields(itemTableListSet);
 
     Item &itemSqlStatement = add("SQLStatement", ttSQLSTATEMENT)
 		<< SOElement(sfOwner,               SOE_REQUIRED)
@@ -165,13 +165,13 @@ TxFormats::TxFormats ()
         << SOElement(sfAutoFillField,       SOE_OPTIONAL)
 		<< SOElement(sfTxCheckHash,         SOE_OPTIONAL)
         ;
-    addChainSqlCommondFields(itemSqlStatement);
+    addZHSHChainCommondFields(itemSqlStatement);
 
     Item &itemSqlTransaction = add("SQLTransaction", ttSQLTRANSACTION)
         << SOElement(sfStatements,          SOE_REQUIRED)
         << SOElement(sfNeedVerify,          SOE_REQUIRED)
         ;
-    addChainSqlCommondFields(itemSqlTransaction);
+    addZHSHChainCommondFields(itemSqlTransaction);
 }
 
 void TxFormats::addCommonFields (Item& item)
@@ -194,7 +194,7 @@ void TxFormats::addCommonFields (Item& item)
         ;
 }
 
-void TxFormats::addChainSqlCommondFields(Item& item)
+void TxFormats::addZHSHChainCommondFields(Item& item)
 {
     item
         << SOElement(sfOriginalAddress,     SOE_OPTIONAL)

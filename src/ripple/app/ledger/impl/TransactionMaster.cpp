@@ -51,10 +51,10 @@ bool TransactionMaster::inLedger (uint256 const& hash, std::uint32_t ledger)
     return true;
 }
 
-int TransactionMaster::getTxCount(bool chainsql)
+int TransactionMaster::getTxCount(bool zhshchain)
 {
 	std::string sql = "SELECT COUNT(*) FROM Transactions WHERE Status='V'";
-	if (chainsql)
+	if (zhshchain)
 	{
 		sql += " AND (TransType = 'SQLTransaction' or TransType = 'TableListSet' or TransType = 'SQLStatement')";
 	}

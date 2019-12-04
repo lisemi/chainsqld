@@ -31,7 +31,7 @@
 #include <ripple/rpc/impl/RPCHelpers.h>
 #include <ripple/rpc/Context.h>
 #include <ripple/rpc/Role.h>
-#include <peersafe/core/Tuning.h>
+#include <zhsh/core/Tuning.h>
 
 namespace ripple {
 

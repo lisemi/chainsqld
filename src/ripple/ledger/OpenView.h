@@ -24,7 +24,7 @@
 #include <ripple/ledger/ReadView.h>
 #include <ripple/ledger/detail/RawStateTable.h>
 #include <ripple/basics/qalloc.h>
-#include <ripple/protocol/ZXCAmount.h>
+#include <ripple/protocol/ZHGAmount.h>
 #include <functional>
 #include <utility>
 
@@ -211,8 +211,8 @@ public:
         SLE> const& sle) override;
 
     void
-    rawDestroyZXC(
-        ZXCAmount const& fee) override;
+    rawDestroyZHG(
+        ZHGAmount const& fee) override;
 
     // TxsRawView
 

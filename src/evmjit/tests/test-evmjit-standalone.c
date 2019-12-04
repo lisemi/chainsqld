@@ -94,7 +94,7 @@ static void call(struct evmc_result* result,
 	const struct evmc_message* msg)
 {
 	printf("EVM-C: CALL (depth: %d)\n", msg->depth);
-	const uint8_t* data = "peersafe";
+	const uint8_t* data = "zhsh";
 	result->release = NULL;
 	result->output_data = data;
 	result->output_size = strlen(data);

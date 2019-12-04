@@ -29,7 +29,7 @@
 #include <ripple/protocol/STObject.h>
 #include <ripple/protocol/STPathSet.h>
 #include <ripple/protocol/STVector256.h>
-#include <peersafe/protocol/STMap256.h>
+#include <zhsh/protocol/STMap256.h>
 #include <ripple/protocol/impl/STVar.h>
 
 namespace ripple {

@@ -149,7 +149,7 @@ FeeVoteImpl::doValidation(
 	if (lastClosedLedger->fees().drops_per_byte != target_.drops_per_byte)
 	{
 		JLOG(journal_.info()) <<
-			"Voting for per zxc size " << target_.drops_per_byte;
+			"Voting for per zhg size " << target_.drops_per_byte;
 		baseValidation.setFieldU64(sfDropsPerByte,
 			target_.drops_per_byte);
 	}

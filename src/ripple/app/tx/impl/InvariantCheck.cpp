@@ -19,12 +19,12 @@
 
 #include <ripple/app/tx/impl/InvariantCheck.h>
 #include <ripple/basics/Log.h>
-#include <peersafe/core/Tuning.h>
+#include <zhsh/core/Tuning.h>
 
 namespace ripple {
 
 void
-ZXCNotCreated::visitEntry(
+ZHGNotCreated::visitEntry(
     uint256 const&,
     bool isDelete,
     std::shared_ptr <SLE const> const& before,
@@ -35,14 +35,14 @@ ZXCNotCreated::visitEntry(
         switch (before->getType())
         {
         case ltACCOUNT_ROOT:
-            drops_ -= (*before)[sfBalance].zxc().drops();
+            drops_ -= (*before)[sfBalance].zhg().drops();
             break;
         case ltPAYCHAN:
-            drops_ -= ((*before)[sfAmount] - (*before)[sfBalance]).zxc().drops();
+            drops_ -= ((*before)[sfAmount] - (*before)[sfBalance]).zhg().drops();
             break;
         case ltESCROW:
-			if (isZXC((*before)[sfAmount]))
-				drops_ -= (*before)[sfAmount].zxc().drops();
+			if (isZHG((*before)[sfAmount]))
+				drops_ -= (*before)[sfAmount].zhg().drops();
             break;
         default:
             break;
@@ -54,16 +54,16 @@ ZXCNotCreated::visitEntry(
         switch (after->getType())
         {
         case ltACCOUNT_ROOT:
-            drops_ += (*after)[sfBalance].zxc().drops();
+            drops_ += (*after)[sfBalance].zhg().drops();
             break;
         case ltPAYCHAN:
             if (! isDelete)
-                drops_ += ((*after)[sfAmount] - (*after)[sfBalance]).zxc().drops();
+                drops_ += ((*after)[sfAmount] - (*after)[sfBalance]).zhg().drops();
             break;
         case ltESCROW:
 			if (!isDelete)
-				if(isZXC((*after)[sfAmount]))
-					drops_ += (*after)[sfAmount].zxc().drops();             
+				if(isZHG((*after)[sfAmount]))
+					drops_ += (*after)[sfAmount].zhg().drops();             
             break;
         default:
             break;
@@ -72,9 +72,9 @@ ZXCNotCreated::visitEntry(
 }
 
 bool
-ZXCNotCreated::finalize(STTx const& tx, TER /*tec*/, beast::Journal const& j)
+ZHGNotCreated::finalize(STTx const& tx, TER /*tec*/, beast::Journal const& j)
 {
-	auto fee = tx.getFieldAmount(sfFee).zxc().drops();
+	auto fee = tx.getFieldAmount(sfFee).zhg().drops();
 	// contract have extra fee
 	if (tx.getFieldU16(sfTransactionType) == ttCONTRACT)
 	{
@@ -87,7 +87,7 @@ ZXCNotCreated::finalize(STTx const& tx, TER /*tec*/, beast::Journal const& j)
 	if (-1 * fee <= drops_ && drops_ <= 0)
 		return true;
 
-    JLOG(j.fatal()) << "Invariant failed: ZXC net change was " << drops_ <<
+    JLOG(j.fatal()) << "Invariant failed: ZHG net change was " << drops_ <<
         " on a fee of " << fee;
     return false;
 }
@@ -95,7 +95,7 @@ ZXCNotCreated::finalize(STTx const& tx, TER /*tec*/, beast::Journal const& j)
 //------------------------------------------------------------------------------
 
 void
-ZXCBalanceChecks::visitEntry(
+ZHGBalanceChecks::visitEntry(
     uint256 const&,
     bool,
     std::shared_ptr <SLE const> const& before,
@@ -106,7 +106,7 @@ ZXCBalanceChecks::visitEntry(
         if (!balance.native())
             return true;
 
-        auto const drops = balance.zxc().drops();
+        auto const drops = balance.zhg().drops();
 
         // Can't have more than the number of drops instantiated
         // in the genesis ledger.
@@ -128,11 +128,11 @@ ZXCBalanceChecks::visitEntry(
 }
 
 bool
-ZXCBalanceChecks::finalize(STTx const&, TER, beast::Journal const& j)
+ZHGBalanceChecks::finalize(STTx const&, TER, beast::Journal const& j)
 {
     if (bad_)
     {
-        JLOG(j.fatal()) << "Invariant failed: incorrect account ZXC balance";
+        JLOG(j.fatal()) << "Invariant failed: incorrect account ZHG balance";
         return false;
     }
 
@@ -157,7 +157,7 @@ NoBadOffers::visitEntry(
         if (gets < beast::zero)
             return true;
 
-        // Can't have an ZXC to ZXC offer:
+        // Can't have an ZHG to ZHG offer:
         return pays.native() && gets.native();
     };
 
@@ -191,15 +191,15 @@ NoZeroEscrow::visitEntry(
 {
     auto isBad = [](STAmount const& amount)
     {
-		if (isZXC(amount))
+		if (isZHG(amount))
 		{
 			if (!amount.native())
 				return true;
 
-			if (amount.zxc().drops() <= 0)
+			if (amount.zhg().drops() <= 0)
 				return true;
 
-			if (amount.zxc().drops() >= SYSTEM_CURRENCY_START)
+			if (amount.zhg().drops() >= SYSTEM_CURRENCY_START)
 				return true;
 		}
 
@@ -311,7 +311,7 @@ LedgerEntryTypesMatch::finalize(STTx const&, TER, beast::Journal const& j)
 //------------------------------------------------------------------------------
 
 void
-NoZXCTrustLines::visitEntry(
+NoZHGTrustLines::visitEntry(
     uint256 const&,
     bool,
     std::shared_ptr <SLE const> const&,
@@ -322,19 +322,19 @@ NoZXCTrustLines::visitEntry(
         // checking the issue directly here instead of
         // relying on .native() just in case native somehow
         // were systematically incorrect
-        zxcTrustLine_ =
-            after->getFieldAmount (sfLowLimit).issue() == zxcIssue() ||
-            after->getFieldAmount (sfHighLimit).issue() == zxcIssue();
+        zhgTrustLine_ =
+            after->getFieldAmount (sfLowLimit).issue() == zhgIssue() ||
+            after->getFieldAmount (sfHighLimit).issue() == zhgIssue();
     }
 }
 
 bool
-NoZXCTrustLines::finalize(STTx const&, TER, beast::Journal const& j)
+NoZHGTrustLines::finalize(STTx const&, TER, beast::Journal const& j)
 {
-    if (! zxcTrustLine_)
+    if (! zhgTrustLine_)
         return true;
 
-    JLOG(j.fatal()) << "Invariant failed: an ZXC trust line was created";
+    JLOG(j.fatal()) << "Invariant failed: an ZHG trust line was created";
     return false;
 }
 

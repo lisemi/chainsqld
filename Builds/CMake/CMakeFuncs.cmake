@@ -1,4 +1,4 @@
-# This is a set of common functions and settings for chainsqld
+# This is a set of common functions and settings for zhshchaind
 # and derived products.
 
 ############################################################

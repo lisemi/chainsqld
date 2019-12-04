@@ -40,8 +40,8 @@
 #include <ripple/rpc/impl/Tuning.h>
 #include <ripple/rpc/RPCHandler.h>
 #include <ripple/server/SimpleWriter.h>
-#include <peersafe/rpc/TableUtils.h>
-#include <peersafe/basics/characterUtilities.h>
+#include <zhsh/rpc/TableUtils.h>
+#include <zhsh/basics/characterUtilities.h>
 #include <beast/core/detail/base64.hpp>
 #include <beast/http/fields.hpp>
 #include <beast/http/string_body.hpp>
@@ -704,7 +704,7 @@ ServerHandlerImp::processRequest (Port const& port,
 		&& !result[jss::tx_json].isMember("Signers"))
 	{
 		std::string txType = result[jss::tx_json][jss::TransactionType].asString();
-		if (isChainSqlTableType(txType))
+		if (isZHSHChainTableType(txType))
 		{
 			tx_id = std::move(result[jss::tx_json][jss::hash]);
 

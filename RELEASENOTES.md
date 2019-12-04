@@ -1,25 +1,25 @@
 <<<<<<< HEAD
-![Chainsql](/images/logo.png)
+![ZHSHChain](/images/logo.png)
 
 
-本文档包含了chainsql的各个版本的注释。
+本文档包含了zhshchain的各个版本的注释。
 
-关于chainsql的编译方法，请参考 [编译](./Builds)。
-关于如果运行chainsql服务，请参考 [网络架设](http://www.chainsql.net/setup.html)。
+关于zhshchain的编译方法，请参考 [编译](./Builds)。
+关于如果运行zhshchain服务，请参考 [网络架设](http://www.zhshchain.net/setup.html)。
 
-关于chainsql的其它详细介绍，请访问 [www.chainsql.net](http://www.chainsql.net)。
+关于zhshchain的其它详细介绍，请访问 [www.zhshchain.net](http://www.zhshchain.net)。
 
 # 发布
 
 ## 版本 0.20.1
 
-chainsql的主要功能：
+zhshchain的主要功能：
 
 - **数据库基础功能**：支持增删改查等基本数据库功能。
 
 - **事务支持**：可同时对多张表进行多项操作。
 
-- **表同步**：节点加入chainsql链后可同步链上存在的数据库表，可同步加密（不加密）表到指定的时间、ledger或交易hash。
+- **表同步**：节点加入zhshchain链后可同步链上存在的数据库表，可同步加密（不加密）表到指定的时间、ledger或交易hash。
 
 - **权限控制**：创建表的用户拥有此表的增删改查权限，并可将这些权限授权给其他用户。
 

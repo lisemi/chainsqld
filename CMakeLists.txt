@@ -1,7 +1,7 @@
 # !!! The official build system is SConstruct !!!
-# This is an experimental cmake build file for chainsqld
+# This is an experimental cmake build file for zhshchaind
 #
-# cmake support in chainsqld. Currently supports:
+# cmake support in zhshchaind. Currently supports:
 #
 #  * unity/nounity debug/release
 #  * running protobuf
@@ -34,9 +34,9 @@
 #
 #  * The Visual Studio solution will be generated with two projects, one
 #    unity, one non-unity. Which is default depends on the nounity flag in
-#    -Dtarget. Unity targets will create `chainsqld` and `chainsqld_classic`.
-#    Non-unity targets will create `chainsqld` and `chainsqld_unity`. In either
-#    case, only the `chainsqld` build will be enabled by default. It does
+#    -Dtarget. Unity targets will create `zhshchaind` and `zhshchaind_classic`.
+#    Non-unity targets will create `zhshchaind` and `zhshchaind_unity`. In either
+#    case, only the `zhshchaind` build will be enabled by default. It does
 #    not appear possible to include both unity and non-unity configs in one
 #    project and disable compilation based on configuration.
 #
@@ -72,7 +72,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/Builds/CMake")
 include(CMakeFuncs)
 set(openssl_min 1.0.2)
 parse_target()
-project(chainsqld)
+project(zhshchaind)
 #########################################################
 
 if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
@@ -252,8 +252,8 @@ jtx_unity2.cpp
 csf_unity.cpp
 vm_test_unity.cpp)
 
-prepend(peersafe_unity_srcs
-src/peersafe/unity/
+prepend(zhsh_unity_srcs
+src/zhsh/unity/
 gm_encrypt.cpp
 app_table.cpp
 app_contract.cpp
@@ -261,7 +261,7 @@ app_sql.cpp)
 
 
 
-list(APPEND chainsqld_src_unity ${beast_unity_srcs} ${ripple_unity_srcs} ${peersafe_unity_srcs} ${test_unity_srcs})
+list(APPEND zhshchaind_src_unity ${beast_unity_srcs} ${ripple_unity_srcs} ${zhsh_unity_srcs} ${test_unity_srcs})
 
 add_with_props(rippled_src_unity src/test/unity/nodestore_test_unity.cpp
 -I"${CMAKE_SOURCE_DIR}/"src/rocksdb2/include
@@ -269,13 +269,13 @@ add_with_props(rippled_src_unity src/test/unity/nodestore_test_unity.cpp
 -I"${CMAKE_SOURCE_DIR}/"src/snappy/config
 ${rocks_db_system_header})
 
-add_with_props(chainsqld_src_unity src/ripple/unity/nodestore.cpp
+add_with_props(zhshchaind_src_unity src/ripple/unity/nodestore.cpp
 -I"${CMAKE_SOURCE_DIR}"/src/rocksdb2/include
 -I"${CMAKE_SOURCE_DIR}"/src/snappy/snappy
 -I"${CMAKE_SOURCE_DIR}"/src/snappy/config
 ${rocks_db_system_header})
 
-add_with_props(chainsqld_src_unity src/ripple/unity/soci_ripple.cpp ${soci_extra_includes})
+add_with_props(zhshchaind_src_unity src/ripple/unity/soci_ripple.cpp ${soci_extra_includes})
 
 list(APPEND ripple_unity_srcs ${beast_unity_srcs} ${test_unity_srcs}
 src/ripple/unity/nodestore.cpp
@@ -286,7 +286,7 @@ src/test/unity/nodestore_test_unity.cpp)
 
 # Non-unity sources
 file(GLOB_RECURSE core_srcs src/ripple/core/*.cpp)
-add_with_props(chainsqld_src_nonunity "${core_srcs}"
+add_with_props(zhshchaind_src_nonunity "${core_srcs}"
     -I"${CMAKE_SOURCE_DIR}"/src/soci/src/core
     -I"${CMAKE_SOURCE_DIR}"/src/sqlite)
 
@@ -316,7 +316,7 @@ foreach(curdir
         server
         shamap)
     file(GLOB_RECURSE cursrcs src/ripple/${curdir}/*.cpp)
-    list(APPEND chainsqld_src_nonunity "${cursrcs}")
+    list(APPEND zhshchaind_src_nonunity "${cursrcs}")
     list(APPEND non_unity_srcs "${cursrcs}")
 endforeach()
 
@@ -328,15 +328,15 @@ foreach(curdir
         protocol
         rpc
         vm)
-    file(GLOB_RECURSE cursrcs src/peersafe/${curdir}/*.cpp)
-    list(APPEND chainsqld_src_nonunity "${cursrcs}")
+    file(GLOB_RECURSE cursrcs src/zhsh/${curdir}/*.cpp)
+    list(APPEND zhshchaind_src_nonunity "${cursrcs}")
     list(APPEND non_unity_srcs "${cursrcs}")
 endforeach()
 
 file(GLOB_RECURSE nodestore_srcs src/ripple/nodestore/*.cpp
     src/test/nodestore/*.cpp)
 
-add_with_props(chainsqld_src_nonunity "${nodestore_srcs}"
+add_with_props(zhshchaind_src_nonunity "${nodestore_srcs}"
     -I"${CMAKE_SOURCE_DIR}"/src/rocksdb2/include
     -I"${CMAKE_SOURCE_DIR}"/src/snappy/snappy
     -I"${CMAKE_SOURCE_DIR}"/src/snappy/config
@@ -369,7 +369,7 @@ foreach(curdir
     list(APPEND test_srcs "${cursrcs}")
 endforeach()
 
-add_with_props(chainsqld_src_nonunity "${test_srcs}"
+add_with_props(zhshchaind_src_nonunity "${test_srcs}"
     -I"${CMAKE_SOURCE_DIR}"/src/rocksdb2/include
     -I"${CMAKE_SOURCE_DIR}"/src/snappy/snappy
     -I"${CMAKE_SOURCE_DIR}"/src/snappy/config
@@ -378,9 +378,9 @@ add_with_props(chainsqld_src_nonunity "${test_srcs}"
 list(APPEND non_unity_srcs "${test_srcs}")
 
 if(WIN32 OR is_xcode)
-    # chainsqld headers. Only needed for IDEs.
-    file(GLOB_RECURSE chainsqld_headers src/*.h src/*.hpp)
-    list(APPEND chainsqld_headers Builds/CMake/CMakeFuncs.cmake)
+    # zhshchaind headers. Only needed for IDEs.
+    file(GLOB_RECURSE zhshchaind_headers src/*.h src/*.hpp)
+    list(APPEND zhshchaind_headers Builds/CMake/CMakeFuncs.cmake)
     foreach(curdir
             beast/asio
             beast/core
@@ -392,12 +392,12 @@ if(WIN32 OR is_xcode)
             validators
             websocket)
         file(GLOB_RECURSE cursrcs src/ripple/${curdir}/*.cpp)
-        list(APPEND chainsqld_headers "${cursrcs}")
+        list(APPEND zhshchaind_headers "${cursrcs}")
     endforeach()
-    list(APPEND chainsqld_src_nonunity "${chainsqld_headers}")
+    list(APPEND zhshchaind_src_nonunity "${zhshchaind_headers}")
 
     set_property(
-        SOURCE ${chainsqld_headers}
+        SOURCE ${zhshchaind_headers}
         APPEND
         PROPERTY HEADER_FILE_ONLY
         true)
@@ -429,7 +429,7 @@ endif()
 
 ############################################################
 
-add_with_props(chainsqld_src_all src/ripple/unity/soci.cpp
+add_with_props(zhshchaind_src_all src/ripple/unity/soci.cpp
   ${soci_extra_includes})
 
 if (NOT is_msvc)
@@ -438,7 +438,7 @@ else()
   unset(no_unused_w)
 endif()
 
-add_with_props(chainsqld_src_all src/ripple/unity/secp256k1.cpp
+add_with_props(zhshchaind_src_all src/ripple/unity/secp256k1.cpp
   -I"${CMAKE_SOURCE_DIR}"/src/secp256k1
   ${no_unused_w}
   )
@@ -451,7 +451,7 @@ foreach(cursrc
     src/ripple/unity/ripple.proto.cpp
     src/ripple/unity/resource.cpp)
 
-  add_with_props(chainsqld_src_all ${cursrc}
+  add_with_props(zhshchaind_src_all ${cursrc}
     ${rocks_db_system_header}
     )
 
@@ -463,10 +463,10 @@ else()
   unset(extra_props)
 endif()
 
-add_with_props(chainsqld_src_all src/sqlite/sqlite_unity.c
+add_with_props(zhshchaind_src_all src/sqlite/sqlite_unity.c
   ${extra_props})
 
-add_with_props(chainsqld_src_all src/ripple/unity/ed25519_donna.c
+add_with_props(zhshchaind_src_all src/ripple/unity/ed25519_donna.c
   -I"${CMAKE_SOURCE_DIR}"/src/ed25519-donna)
 
 if (is_gcc)
@@ -475,7 +475,7 @@ else()
   unset(no_init_w)
 endif()
 
-add_with_props(chainsqld_src_all src/ripple/unity/rocksdb.cpp
+add_with_props(zhshchaind_src_all src/ripple/unity/rocksdb.cpp
   -I"${CMAKE_SOURCE_DIR}"/src/rocksdb2
   -I"${CMAKE_SOURCE_DIR}"/src/rocksdb2/include
   -I"${CMAKE_SOURCE_DIR}"/src/snappy/snappy
@@ -486,17 +486,17 @@ if (NOT is_msvc)
   set(no_unused_w -Wno-unused-function)
 endif()
 
-add_with_props(chainsqld_src_all src/ripple/unity/snappy.cpp
+add_with_props(zhshchaind_src_all src/ripple/unity/snappy.cpp
   -I"${CMAKE_SOURCE_DIR}"/src/snappy/snappy
   -I"${CMAKE_SOURCE_DIR}"/src/snappy/config
   ${no_unused_w})
 
 if (APPLE AND is_clang)
-  list(APPEND chainsqld_src_all src/ripple/unity/beastobjc.mm)
+  list(APPEND zhshchaind_src_all src/ripple/unity/beastobjc.mm)
 endif()
 
-list(APPEND chainsqld_src_unity "${chainsqld_src_all}")
-list(APPEND chainsqld_src_nonunity "${chainsqld_src_all}")
+list(APPEND zhshchaind_src_unity "${zhshchaind_src_all}")
+list(APPEND zhshchaind_src_nonunity "${zhshchaind_src_all}")
 
 ############################################################
 
@@ -507,15 +507,15 @@ if (WIN32 OR is_xcode)
 endif()
 
 if(unity)
-    add_executable(chainsqld ${chainsqld_src_unity} ${PROTO_HDRS})
-    add_executable(chainsqld_classic EXCLUDE_FROM_ALL ${chainsqld_src_nonunity} ${PROTO_HDRS})
-    set(other_target chainsqld_classic)
+    add_executable(zhshchaind ${zhshchaind_src_unity} ${PROTO_HDRS})
+    add_executable(zhshchaind_classic EXCLUDE_FROM_ALL ${zhshchaind_src_nonunity} ${PROTO_HDRS})
+    set(other_target zhshchaind_classic)
 else()
-    add_executable(chainsqld ${chainsqld_src_nonunity} ${PROTO_HDRS})
-    add_executable(chainsqld_unity EXCLUDE_FROM_ALL ${chainsqld_src_unity} ${PROTO_HDRS})
-    set(other_target chainsqld_unity)
+    add_executable(zhshchaind ${zhshchaind_src_nonunity} ${PROTO_HDRS})
+    add_executable(zhshchaind_unity EXCLUDE_FROM_ALL ${zhshchaind_src_unity} ${PROTO_HDRS})
+    set(other_target zhshchaind_unity)
 endif()
-list(APPEND targets "chainsqld")
+list(APPEND targets "zhshchaind")
 list(APPEND targets ${other_target})
 # Not the same as EXCLUDE_FROM_ALL. Prevents Visual Studio from building the
 # other_target when the user builds the solution (default when pressing <F7>)
@@ -567,7 +567,7 @@ add_custom_target(docs
   WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/docs"
   SOURCES "${doc_srcs}"
   )
-set_startup_project(chainsqld)
+set_startup_project(zhshchaind)
 
 foreach(target IN LISTS targets)
     target_link_libraries(${target}
@@ -577,6 +577,6 @@ foreach(target IN LISTS targets)
 endforeach()
 
 if (NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
-  message(WARNING "chainsqld requires a 64 bit target architecture.\n"
-    "The most likely cause of this warning is trying to build chainsqld with a 32-bit OS.")
+  message(WARNING "zhshchaind requires a 64 bit target architecture.\n"
+    "The most likely cause of this warning is trying to build zhshchaind with a 32-bit OS.")
 endif()

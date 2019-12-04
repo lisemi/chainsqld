@@ -53,9 +53,9 @@ public:
     fee (STAmount const& amount)
         : amount_(amount)
     {
-        if (! isZXC(*amount_))
+        if (! isZHG(*amount_))
             Throw<std::runtime_error> (
-                "fee: not ZXC");
+                "fee: not ZHG");
     }
 
     void

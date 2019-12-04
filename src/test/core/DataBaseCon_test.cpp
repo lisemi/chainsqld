@@ -35,17 +35,17 @@ public:
 		std::string args = arg();
 		size_t npos = args.find("conf=");
 		if (npos == std::string::npos) {
-			std::cout << "usage: chainsqld.exe --unittest=\"DataBaseConn\""
-				<< "--unittest-arg=\"conf = chainsqld.cfg\"" << std::endl;
+			std::cout << "usage: zhshchaind.exe --unittest=\"DataBaseConn\""
+				<< "--unittest-arg=\"conf = zhshchaind.cfg\"" << std::endl;
 			exit(-1);
 		}
 
 		try {
-			chainsql_conf_ = args.substr(npos + 4 + 1);
-			std::cout << "conf = " << chainsql_conf_ << std::endl;
+			zhshchain_conf_ = args.substr(npos + 4 + 1);
+			std::cout << "conf = " << zhshchain_conf_ << std::endl;
 
 			ripple::Config config;
-			config.setup(chainsql_conf_, true, false, false);
+			config.setup(zhshchain_conf_, true, false, false);
 			setup_ = ripple::setup_SyncDatabaseCon(config);
 
 			db_type_ = setup_.sync_db.find("type").first;
@@ -72,7 +72,7 @@ public:
 	void test_InsertRecord() {
 		ripple::DatabaseCon database(setup_, "ripple", NULL, 0, db_type_);
 		soci::session& session = database.getSession();
-		session << "insert into user (id,name) values (1,'peersafe')";
+		session << "insert into user (id,name) values (1,'zhsh')";
 		session << "insert into user (id,name) values (2,'ripple')";
 
 		int count = 0;
@@ -83,7 +83,7 @@ public:
 	void test_UpdateRecord() {
 		ripple::DatabaseCon database(setup_, "ripple", NULL, 0, db_type_);
 		soci::session& session = database.getSession();
-		std::string new_name = "new peersafe";
+		std::string new_name = "new zhsh";
 		int update_id = 1;
 		//session << "update user set name = :name where id = :id",
 		//		soci::use(new_name), soci::use(update_id);
@@ -104,7 +104,7 @@ public:
 		ripple::DatabaseCon database(setup_, "ripple", NULL, 0, db_type_);
 		soci::session& session = database.getSession();
 		
-		std::string expected_name[] = {"new peersafe", "ripple"};
+		std::string expected_name[] = {"new zhsh", "ripple"};
 		soci::rowset<soci::row> rs = (session.prepare << "select * from user");
 		int id = 1;
 		for (auto it = rs.begin(); it != rs.end(); it++) {
@@ -133,7 +133,7 @@ public:
 		{
 			soci::transaction tr(session);
 			try {
-				session << "insert into user (id,name) values (1,'peersafe')";
+				session << "insert into user (id,name) values (1,'zhsh')";
 				tr.rollback();
 			}
 			catch (const soci::soci_error &e) {
@@ -205,7 +205,7 @@ public:
 	}
 private:
 	ripple::DatabaseCon::Setup setup_;
-	std::string chainsql_conf_;
+	std::string zhshchain_conf_;
 	std::string db_type_;
 }; // class DataBaseConn_test
 

@@ -30,7 +30,7 @@
 #include <ripple/rpc/impl/RPCHelpers.h>
 #include <ripple/beast/core/LexicalCast.h>
 #include <boost/optional/optional_io.hpp>
-#include <peersafe/rpc/TableUtils.h>
+#include <zhsh/rpc/TableUtils.h>
 #include <chrono>
 
 namespace ripple {
@@ -92,7 +92,7 @@ namespace ripple {
 
     bool doTxChain(TxType txType, const RPC::Context& context, Json::Value& retJson)
     {
-        if (!STTx::checkChainsqlTableType(txType) && !STTx::checkChainsqlContractType(txType))  return false;
+        if (!STTx::checkZHSHChainTableType(txType) && !STTx::checkZHSHChainContractType(txType))  return false;
 
         auto const txid = context.params[jss::transaction].asString();
 
@@ -129,7 +129,7 @@ namespace ripple {
                 // get previous hash
                 *db << sSqlPrevious, soci::into(previousTxid);
 
-                if (isChainsqlContractType(*typeRead))
+                if (isZHSHChainContractType(*typeRead))
                 {
                     jsonContractChain[jss::PreviousHash] = db->got_data() ? *previousTxid : "";
                 }
@@ -140,7 +140,7 @@ namespace ripple {
 
                 //get next hash
                 *db << sSqlNext, soci::into(nextTxid);
-                if (isChainsqlContractType(*typeRead))
+                if (isZHSHChainContractType(*typeRead))
                 {
                     jsonContractChain[jss::NextHash] = db->got_data() ? *nextTxid : "";
                 }
@@ -149,7 +149,7 @@ namespace ripple {
                     jsonTableItem[jss::NextHash] = db->got_data() ? *nextTxid : "";
                 }
 
-                if (!isChainsqlContractType(*typeRead))
+                if (!isZHSHChainContractType(*typeRead))
                 {
                     jsonTableItem[jss::NameInDB] = *nameRead;
                     jsonTableChain.append(jsonTableItem);                    
@@ -228,7 +228,7 @@ Json::Value doTx (RPC::Context& context)
 Json::Value doTxCount(RPC::Context& context)
 {
 	Json::Value ret(Json::objectValue);
-	ret["chainsql"] = context.app.getMasterTransaction().getTxCount(true);
+	ret["zhshchain"] = context.app.getMasterTransaction().getTxCount(true);
 	ret["all"] = context.app.getMasterTransaction().getTxCount(false);
 
 	return ret;
@@ -364,7 +364,7 @@ std::pair<std::vector<std::shared_ptr<STTx>>,std::string> getLedgerTxs(RPC::Cont
 		{
 			auto blob = SerialIter{ item.data(), item.size() }.getVL();
 			std::shared_ptr<STTx> pSTTX = std::make_shared<STTx>(SerialIter{ blob.data(), blob.size() });
-			if (pSTTX->isChainSqlTableType())
+			if (pSTTX->isZHSHChainTableType())
 			{
 				if (startHash != beast::zero && !bFound)
 				{

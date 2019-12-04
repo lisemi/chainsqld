@@ -105,7 +105,7 @@ bool PathState::lessPriority (PathState const& lhs, PathState const& rhs)
 //   account.
 // - Offers can only go directly to another offer if the currency and issuer are
 //   an exact match.
-// - Real issuers must be specified for non-ZXC.
+// - Real issuers must be specified for non-ZHG.
 TER PathState::pushImpliedNodes (
     AccountID const& account,    // --> Delivering to this account.
     Currency const& currency,  // --> Delivering this currency.
@@ -121,25 +121,25 @@ TER PathState::pushImpliedNodes (
     if (nodes_.back ().issue_.currency != currency)
     {
         // Currency is different, need to convert via an offer from an order
-        // book.  zxcAccount() does double duty as signaling "this is an order
+        // book.  zhgAccount() does double duty as signaling "this is an order
         // book".
 
         // Corresponds to "Implies an offer directory" in the diagram, currently
         // at http://goo.gl/Uj3HAB.
 
-        auto type = isZXC(currency) ? STPathElement::typeCurrency
+        auto type = isZHG(currency) ? STPathElement::typeCurrency
             : STPathElement::typeCurrency | STPathElement::typeIssuer;
 
         // The offer's output is what is now wanted.
-        // zxcAccount() is a placeholder for offers.
-        resultCode = pushNode (type, zxcAccount(), currency, issuer);
+        // zhgAccount() is a placeholder for offers.
+        resultCode = pushNode (type, zhgAccount(), currency, issuer);
     }
 
 
-    // For ripple, non-ZXC, ensure the issuer is on at least one side of the
+    // For ripple, non-ZHG, ensure the issuer is on at least one side of the
     // transaction.
     if (resultCode == tesSUCCESS
-        && !isZXC(currency)
+        && !isZHG(currency)
         && nodes_.back ().account_ != issuer
         // Previous is not issuing own IOUs.
         && account != issuer)
@@ -209,9 +209,9 @@ TER PathState::pushNode (
         JLOG (j_.debug()) << "pushNode: bad bits.";
         resultCode = temBAD_PATH;
     }
-    else if (hasIssuer && isZXC (node.issue_))
+    else if (hasIssuer && isZHG (node.issue_))
     {
-        JLOG (j_.debug()) << "pushNode: issuer specified for ZXC.";
+        JLOG (j_.debug()) << "pushNode: issuer specified for ZHG.";
 
         resultCode = temBAD_PATH;
     }
@@ -234,7 +234,7 @@ TER PathState::pushNode (
         // Account link
         node.account_ = account;
         node.issue_.account = hasIssuer ? issuer :
-                (isZXC (node.issue_) ? zxcAccount() : account);
+                (isZHG (node.issue_) ? zhgAccount() : account);
         // Zero value - for accounts.
         node.saRevRedeem = STAmount ({node.issue_.currency, account});
         node.saRevIssue = node.saRevRedeem;
@@ -262,7 +262,7 @@ TER PathState::pushNode (
             resultCode = pushImpliedNodes (
                 node.account_,
                 node.issue_.currency,
-                isZXC(node.issue_.currency) ? zxcAccount() : account);
+                isZHG(node.issue_.currency) ? zhgAccount() : account);
 
             // Note: backNode may no longer be the immediately previous node.
         }
@@ -359,9 +359,9 @@ TER PathState::pushNode (
         // issuer.
         if (hasIssuer)
             node.issue_.account = issuer;
-        else if (isZXC (node.issue_.currency))
-            node.issue_.account = zxcAccount();
-        else if (isZXC (backNode.issue_.account))
+        else if (isZHG (node.issue_.currency))
+            node.issue_.account = zhgAccount();
+        else if (isZHG (backNode.issue_.account))
             node.issue_.account = backNode.account_;
         else
             node.issue_.account = backNode.issue_.account;
@@ -387,7 +387,7 @@ TER PathState::pushNode (
 
             // Insert intermediary issuer account if needed.
             resultCode   = pushImpliedNodes (
-                zxcAccount(), // Rippling, but offers don't have an account.
+                zhgAccount(), // Rippling, but offers don't have an account.
                 backNode.issue_.currency,
                 backNode.issue_.account);
         }
@@ -429,31 +429,31 @@ TER PathState::expandPath (
     Currency const& currencyOutID = saOutReq.getCurrency ();
     AccountID const& issuerOutID = saOutReq.getIssuer ();
     AccountID const& uSenderIssuerID
-        = isZXC(uMaxCurrencyID) ? zxcAccount() : uSenderID;
-    // Sender is always issuer for non-ZXC.
+        = isZHG(uMaxCurrencyID) ? zhgAccount() : uSenderID;
+    // Sender is always issuer for non-ZHG.
 
     JLOG (j_.trace())
         << "expandPath> " << spSourcePath.getJson (0);
 
     terStatus = tesSUCCESS;
 
-    // ZXC with issuer is malformed.
-    if ((isZXC (uMaxCurrencyID) && !isZXC (uMaxIssuerID))
-        || (isZXC (currencyOutID) && !isZXC (issuerOutID)))
+    // ZHG with issuer is malformed.
+    if ((isZHG (uMaxCurrencyID) && !isZHG (uMaxIssuerID))
+        || (isZHG (currencyOutID) && !isZHG (issuerOutID)))
     {
         JLOG (j_.debug())
-            << "expandPath> issuer with ZXC";
+            << "expandPath> issuer with ZHG";
         terStatus   = temBAD_PATH;
     }
 
     // Push sending node.
-    // For non-ZXC, issuer is always sending account.
+    // For non-ZHG, issuer is always sending account.
     // - Trying to expand, not-compact.
     // - Every issuer will be traversed through.
     if (terStatus == tesSUCCESS)
     {
         terStatus   = pushNode (
-            !isZXC(uMaxCurrencyID)
+            !isZHG(uMaxCurrencyID)
             ? STPathElement::typeAccount | STPathElement::typeCurrency |
               STPathElement::typeIssuer
             : STPathElement::typeAccount | STPathElement::typeCurrency,
@@ -472,7 +472,7 @@ TER PathState::expandPath (
     if (tesSUCCESS == terStatus && uMaxIssuerID != uSenderIssuerID)
     {
         // May have an implied account node.
-        // - If it was ZXC, then issuers would have matched.
+        // - If it was ZHG, then issuers would have matched.
 
         // Figure out next node properties for implied node.
         const auto uNxtCurrencyID  = spSourcePath.size ()
@@ -485,11 +485,11 @@ TER PathState::expandPath (
         // understands it.
         const auto nextAccountID   = spSourcePath.size ()
                 ? AccountID(spSourcePath. front ().getAccountID ())
-                : !isZXC(currencyOutID)
+                : !isZHG(currencyOutID)
                 ? (issuerOutID == uReceiverID)
                 ? AccountID(uReceiverID)
                 : AccountID(issuerOutID)                      // Use implied node.
-                : zxcAccount();
+                : zhgAccount();
 
         JLOG (j_.debug())
             << "expandPath: implied check:"
@@ -501,7 +501,7 @@ TER PathState::expandPath (
         // Can't just use push implied, because it can't compensate for next
         // account.
         if (!uNxtCurrencyID
-            // Next is ZXC, offer next. Must go through issuer.
+            // Next is ZHG, offer next. Must go through issuer.
             || uMaxCurrencyID != uNxtCurrencyID
             // Next is different currency, offer next...
             || uMaxIssuerID != nextAccountID)
@@ -515,7 +515,7 @@ TER PathState::expandPath (
 
             // Add account implied by SendMax.
             terStatus = pushNode (
-                !isZXC(uMaxCurrencyID)
+                !isZHG(uMaxCurrencyID)
                     ? STPathElement::typeAccount | STPathElement::typeCurrency |
                       STPathElement::typeIssuer
                     : STPathElement::typeAccount | STPathElement::typeCurrency,
@@ -537,7 +537,7 @@ TER PathState::expandPath (
     }
 
     if (terStatus == tesSUCCESS
-        && !isZXC(currencyOutID)               // Next is not ZXC
+        && !isZHG(currencyOutID)               // Next is not ZHG
         && issuerOutID != uReceiverID)         // Out issuer is not receiver
     {
         assert (!nodes_.empty ());
@@ -555,7 +555,7 @@ TER PathState::expandPath (
                 << " issuer=" << issuerOutID;
 
             terStatus   = pushNode (
-                !isZXC(currencyOutID)
+                !isZHG(currencyOutID)
                     ? STPathElement::typeAccount | STPathElement::typeCurrency |
                       STPathElement::typeIssuer
                     : STPathElement::typeAccount | STPathElement::typeCurrency,
@@ -571,7 +571,7 @@ TER PathState::expandPath (
         // Last node is always an account.
 
         terStatus   = pushNode (
-            !isZXC(currencyOutID)
+            !isZHG(currencyOutID)
                 ? STPathElement::typeAccount | STPathElement::typeCurrency |
                    STPathElement::typeIssuer
                : STPathElement::typeAccount | STPathElement::typeCurrency,

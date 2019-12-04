@@ -196,7 +196,7 @@ bool PathRequest::isValid (std::shared_ptr<RippleLineCache> const& crCache)
         jvDestCur.append (Json::Value (systemCurrencyCode()));
         if (! saDstAmount.native ())
         {
-            // Only ZXC can be send to a non-existent account.
+            // Only ZHG can be send to a non-existent account.
             jvStatus = rpcError (rpcACT_NOT_FOUND);
             return false;
         }
@@ -211,11 +211,11 @@ bool PathRequest::isValid (std::shared_ptr<RippleLineCache> const& crCache)
     }
     else
     {
-        bool const disallowZXC (
-            sleDest->getFlags() & lsfDisallowZXC);
+        bool const disallowZHG (
+            sleDest->getFlags() & lsfDisallowZHG);
 
         auto usDestCurrID = accountDestCurrencies (
-                *raDstAccount, crCache, ! disallowZXC);
+                *raDstAccount, crCache, ! disallowZHG);
 
         for (auto const& currency : usDestCurrID)
             jvDestCur.append (to_string (currency));
@@ -490,7 +490,7 @@ PathRequest::findPaths (std::shared_ptr<RippleLineCache> const& cache,
                 if (sourceCurrencies.size() >= RPC::Tuning::max_auto_src_cur)
                     return false;
                 sourceCurrencies.insert(
-                    {c, c.isZero() ? zxcAccount() : *raSrcAccount});
+                    {c, c.isZero() ? zhgAccount() : *raSrcAccount});
             }
         }
     }
@@ -520,10 +520,10 @@ PathRequest::findPaths (std::shared_ptr<RippleLineCache> const& cache,
             fullLiquidityPath, mContext[issue], issue.account);
         mContext[issue] = ps;
 
-        auto& sourceAccount = ! isZXC(issue.account)
+        auto& sourceAccount = ! isZHG(issue.account)
             ? issue.account
-            : isZXC(issue.currency)
-            ? zxcAccount()
+            : isZHG(issue.currency)
+            ? zhgAccount()
             : *raSrcAccount;
         STAmount saMaxAmount = saSendMax.value_or(
             STAmount({issue.currency, sourceAccount}, 1u, 0, true));
